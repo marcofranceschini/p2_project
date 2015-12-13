@@ -2,7 +2,7 @@
 using namespace std;
 //using namespace std::string;
 //#include <QDate>
-#include <ctime>
+#include <ctime> // Usato per birth
 #include <string>
 
 
@@ -14,7 +14,5 @@ Utente::Utente() {
         string address;
         int telephone;
         string code; // Codice fiscale è univoco
-    public:
-        int prova;
 }
 
