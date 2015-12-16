@@ -1,7 +1,7 @@
-#include "utentebronze.h"
-#include "utente.h"
+#include "bronzeuser.h"
+#include "user.h"
 
-UtenteBronze::UtenteBronze(): public Utente {
+BronzeUser::BronzeUser(): public User {
 
 }
 

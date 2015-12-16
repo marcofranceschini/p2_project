@@ -1,5 +1,5 @@
-#include "utente.h"
+#include "user.h"
 
-Utente::Utente() {
+User::User() {
 }
 

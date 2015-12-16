@@ -1,5 +1,5 @@
-#ifndef UTENTE_H
-#define UTENTE_H
+#ifndef USER_H
+#define USER_H
 
 using namespace std;
 //using namespace std::string;
@@ -7,7 +7,7 @@ using namespace std;
 #include <ctime> // Usato per birth
 #include <string>
 
-class Utente {
+class User {
     private:
         string name;
         string surname;
@@ -17,4 +17,4 @@ class Utente {
         string code; // Codice fiscale è univoco
 };
 
-#endif // UTENTE_H
+#endif // USER_H

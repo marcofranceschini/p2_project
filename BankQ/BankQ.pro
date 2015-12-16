@@ -4,10 +4,12 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    utente.cpp \
-    utentebronze.cpp
+    user.cpp \
+    bronzeuser.cpp \
+    silveruser.cpp
 
 HEADERS += \
-    utente.h \
-    utentebronze.h
+    bronzeuser.h \
+    user.h \
+    silveruser.h
 
