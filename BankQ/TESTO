@@ -1,0 +1,24 @@
+3 tipi di utenti:
+- bronze
+- silver
+- gold
+
+Tutti e 3 pagano una retta fissa (bronze e silver stessa rata) ed hanno un bonus annuale.
+Un utente bronze può diventare silver se il saldo del suo conto supera 50.000€, inoltre ottiene un ulteriore bonus (bonus standard + bonus silver).
+Si può diventare utenti gold solamente pagando una retta maggiorata e si ottiene, inoltre, un ulteriore bonus (bonus standard + bonus silver + bonus gold). 
+---- se utente arriva da bronze niente bonus silver?? ----
+
+Operazioni svolgibili lato utente:
+- visualizzare saldo conto
+- aggiungere sul conto
+- prelevare dal conto
+- fare richiesta per diventare utente gold
+- ??????? togliere gold???????
+- fare richiesta per chiudere conto
+
+Operazioni svolgibili lato amministratore:
+- aggiungere nuovo utente
+- aggiornare tipo di utente (da bronze,silver->gold, ???gold->?????)
+- chiudere conto (su richiesta)
+- aggiungere rata annuale (mettere limite????)
+

@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = BankQ1.0.0
-DISTDIR = /home/marco/Documents/p2_project/build-BankQ-Desktop_Qt_5_5_1_GCC_64bit-Debug/.tmp/BankQ1.0.0
+DISTDIR = /home/marco/build-BankQ-Desktop_Qt_5_5_1_GCC_64bit-Debug/.tmp/BankQ1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt5.5.1/5.5/gcc_64
 LIBS          = $(SUBLIBS)  
@@ -49,11 +49,15 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../BankQ/main.cpp \
-		../BankQ/utente.cpp \
-		../BankQ/utentebronze.cpp 
+		../BankQ/bronzeuser.cpp \
+		../BankQ/silveruser.cpp \
+		../BankQ/user.cpp \
+		../BankQ/golduser.cpp 
 OBJECTS       = main.o \
-		utente.o \
-		utentebronze.o
+		bronzeuser.o \
+		silveruser.o \
+		user.o \
+		golduser.o
 DIST          = /opt/Qt5.5.1/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.5.1/5.5/gcc_64/mkspecs/common/unix.conf \
 		/opt/Qt5.5.1/5.5/gcc_64/mkspecs/common/linux.conf \
@@ -183,10 +187,14 @@ DIST          = /opt/Qt5.5.1/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.5.1/5.5/gcc_64/mkspecs/features/exceptions.prf \
 		/opt/Qt5.5.1/5.5/gcc_64/mkspecs/features/yacc.prf \
 		/opt/Qt5.5.1/5.5/gcc_64/mkspecs/features/lex.prf \
-		../BankQ/BankQ.pro utente.h \
-		utentebronze.h ../BankQ/main.cpp \
-		../BankQ/utente.cpp \
-		../BankQ/utentebronze.cpp
+		../BankQ/BankQ.pro bronzeuser.h \
+		silveruser.h \
+		user.h \
+		golduser.h ../BankQ/main.cpp \
+		../BankQ/bronzeuser.cpp \
+		../BankQ/silveruser.cpp \
+		../BankQ/user.cpp \
+		../BankQ/golduser.cpp
 QMAKE_TARGET  = BankQ
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = BankQ
@@ -521,12 +529,18 @@ compiler_clean:
 main.o: ../BankQ/main.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../BankQ/main.cpp
 
-utente.o: ../BankQ/utente.cpp ../BankQ/utente.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o utente.o ../BankQ/utente.cpp
+bronzeuser.o: ../BankQ/bronzeuser.cpp ../BankQ/bronzeuser.h \
+		../BankQ/user.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bronzeuser.o ../BankQ/bronzeuser.cpp
 
-utentebronze.o: ../BankQ/utentebronze.cpp ../BankQ/utentebronze.h \
-		../BankQ/utente.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o utentebronze.o ../BankQ/utentebronze.cpp
+silveruser.o: ../BankQ/silveruser.cpp ../BankQ/silveruser.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o silveruser.o ../BankQ/silveruser.cpp
+
+user.o: ../BankQ/user.cpp ../BankQ/user.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o user.o ../BankQ/user.cpp
+
+golduser.o: ../BankQ/golduser.cpp ../BankQ/golduser.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o golduser.o ../BankQ/golduser.cpp
 
 ####### Install
 
