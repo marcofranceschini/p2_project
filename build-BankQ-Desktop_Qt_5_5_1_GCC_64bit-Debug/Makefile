@@ -52,12 +52,14 @@ SOURCES       = ../BankQ/main.cpp \
 		../BankQ/bronzeuser.cpp \
 		../BankQ/silveruser.cpp \
 		../BankQ/user.cpp \
-		../BankQ/golduser.cpp 
+		../BankQ/golduser.cpp \
+		../BankQ/window.cpp 
 OBJECTS       = main.o \
 		bronzeuser.o \
 		silveruser.o \
 		user.o \
-		golduser.o
+		golduser.o \
+		window.o
 DIST          = /opt/Qt5.5.1/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.5.1/5.5/gcc_64/mkspecs/common/unix.conf \
 		/opt/Qt5.5.1/5.5/gcc_64/mkspecs/common/linux.conf \
@@ -190,11 +192,13 @@ DIST          = /opt/Qt5.5.1/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		../BankQ/BankQ.pro bronzeuser.h \
 		silveruser.h \
 		user.h \
-		golduser.h ../BankQ/main.cpp \
+		golduser.h \
+		window.h ../BankQ/main.cpp \
 		../BankQ/bronzeuser.cpp \
 		../BankQ/silveruser.cpp \
 		../BankQ/user.cpp \
-		../BankQ/golduser.cpp
+		../BankQ/golduser.cpp \
+		../BankQ/window.cpp
 QMAKE_TARGET  = BankQ
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = BankQ
@@ -526,21 +530,26 @@ compiler_clean:
 
 ####### Compile
 
-main.o: ../BankQ/main.cpp 
+main.o: ../BankQ/main.cpp ../BankQ/user.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../BankQ/main.cpp
 
 bronzeuser.o: ../BankQ/bronzeuser.cpp ../BankQ/bronzeuser.h \
 		../BankQ/user.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bronzeuser.o ../BankQ/bronzeuser.cpp
 
-silveruser.o: ../BankQ/silveruser.cpp ../BankQ/silveruser.h
+silveruser.o: ../BankQ/silveruser.cpp ../BankQ/silveruser.h \
+		../BankQ/user.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o silveruser.o ../BankQ/silveruser.cpp
 
 user.o: ../BankQ/user.cpp ../BankQ/user.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o user.o ../BankQ/user.cpp
 
-golduser.o: ../BankQ/golduser.cpp ../BankQ/golduser.h
+golduser.o: ../BankQ/golduser.cpp ../BankQ/golduser.h \
+		../BankQ/user.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o golduser.o ../BankQ/golduser.cpp
+
+window.o: ../BankQ/window.cpp ../BankQ/window.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window.o ../BankQ/window.cpp
 
 ####### Install
 

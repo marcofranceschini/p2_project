@@ -1,8 +1,8 @@
 #ifndef GOLDUSER_H
 #define GOLDUSER_H
+#include "user.h"
 
-
-class GoldUser {
+class GoldUser: public User {
     private:
         float bonusExtra;
         int surcharge; //  L'utente gold ha tasse aggiuntive da pagare

@@ -14,9 +14,20 @@ class User {
         //Qdate birth;
         string address;
         int telephone;
-        string code; // Codice fiscale è univoco
+        string code; // Codice fiscale è univoco        
+        string username;
+        string pin;
     public:
+        /*User(string n, string s, string a, int t, string c) {
+            name=n;
+            surname=s;
+            address=a;
+            telephone=t;
+            code=c;
+        }*/
         User();
+
+        ~User();
 
 
     string getName () {

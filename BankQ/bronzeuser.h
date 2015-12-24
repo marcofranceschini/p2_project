@@ -1,8 +1,8 @@
 #ifndef BRONZEUSER_H
 #define BRONZEUSER_H
+#include "user.h"
 
-
-class BronzeUser {
+class BronzeUser: public User {
     private:
         float tax;
     public:
