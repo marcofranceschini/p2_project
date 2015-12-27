@@ -1,25 +1,28 @@
+#-------------------------------------------------
+#
+# Project created by QtCreator 2015-12-27T18:22:10
+#
+#-------------------------------------------------
+
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = BankQ
 TEMPLATE = app
-CONFIG += console c++11
-CONFIG -= app_bundle
-CONFIG -= qt
-#@QT += widgets@
 
 
-
-SOURCES += main.cpp \
+SOURCES += main.cpp\
+        mainwindow.cpp \
     bronzeuser.cpp \
-    silveruser.cpp \
-    user.cpp \
     golduser.cpp \
-    window.cpp
+    silveruser.cpp \
+    user.cpp
 
-HEADERS += \
+HEADERS  += mainwindow.h \
     bronzeuser.h \
-    silveruser.h \
-    user.h \
     golduser.h \
-    window.h
+    silveruser.h \
+    user.h
 
-FORMS += \
-    window.ui
-
+FORMS    += mainwindow.ui

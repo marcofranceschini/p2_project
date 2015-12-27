@@ -1,12 +1,11 @@
-#include <iostream>
+#include "mainwindow.h"
+#include <QApplication>
 
-using namespace std;
-#include "user.h"
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
 
-int main() {
-
-    //User prova("marco", "f", "via prova", 000, "11df3");
-    cout << "Hello World!" << endl;
-    return 0;
+    return a.exec();
 }
-

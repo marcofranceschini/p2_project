@@ -1,22 +1,21 @@
 #ifndef USER_H
 #define USER_H
 
-using namespace std;
 //using namespace std::string;
 //#include <QDate>
 #include <ctime> // Usato per birth
-#include <string>
+#include <QString>
 
 class User {
     private:
-        string name;
-        string surname;
+        QString name;
+        QString surname;
         //Qdate birth;
-        string address;
+        QString address;
         int telephone;
-        string code; // Codice fiscale è univoco        
-        string username;
-        string pin;
+        QString code; // Codice fiscale è univoco
+        QString username;
+        QString pin;
     public:
         /*User(string n, string s, string a, int t, string c) {
             name=n;
@@ -30,15 +29,15 @@ class User {
         ~User();
 
 
-    string getName () {
+    QString getName () {
         return name;
     }
 
-    string getSurname () {
+    QString getSurname () {
         return surname;
     }
 
-    string getAddress () {
+    QString getAddress () {
         return address;
     }
 
@@ -46,7 +45,7 @@ class User {
         return telephone;
     }
 
-    string getCode () {
+    QString getCode () {
         return code;
     }
 };
