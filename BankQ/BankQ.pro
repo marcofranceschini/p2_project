@@ -17,12 +17,15 @@ SOURCES += main.cpp\
     bronzeuser.cpp \
     golduser.cpp \
     silveruser.cpp \
-    user.cpp
+    user.cpp \
+    userinfo.cpp
 
 HEADERS  += mainwindow.h \
     bronzeuser.h \
     golduser.h \
     silveruser.h \
-    user.h
+    user.h \
+    userinfo.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    userinfo.ui

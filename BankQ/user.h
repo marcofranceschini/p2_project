@@ -15,7 +15,7 @@ class User {
         int telephone;
         QString code; // Codice fiscale è univoco
         QString username;
-        QString pin;
+        int pin;
     public:
         /*User(string n, string s, string a, int t, string c) {
             name=n;
@@ -28,25 +28,32 @@ class User {
 
         ~User();
 
+        QString getName () {
+            return name;
+        }
 
-    QString getName () {
-        return name;
-    }
+        QString getSurname () {
+            return surname;
+        }
 
-    QString getSurname () {
-        return surname;
-    }
+        QString getAddress () {
+            return address;
+        }
 
-    QString getAddress () {
-        return address;
-    }
+        int getTelephone () {
+            return telephone;
+        }
 
-    int getTelephone () {
-        return telephone;
-    }
+        QString getCode () {
+            return code;
+        }
 
-    QString getCode () {
-        return code;
-    }
+        QString getUsername () {
+            return username;
+        }
+
+        int getPin () {
+            return pin;
+        }
 };
 #endif // USER_H

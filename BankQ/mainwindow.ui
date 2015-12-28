@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>50</y>
+      <y>70</y>
       <width>71</width>
       <height>17</height>
      </rect>
@@ -30,14 +30,14 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>190</x>
       <y>130</y>
-      <width>67</width>
+      <width>31</width>
       <height>17</height>
      </rect>
     </property>
     <property name="text">
-     <string>Password</string>
+     <string>PIN</string>
     </property>
    </widget>
    <widget class="QToolButton" name="toolButton">
@@ -57,7 +57,7 @@
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>50</y>
+      <y>70</y>
       <width>113</width>
       <height>27</height>
      </rect>
@@ -99,37 +99,6 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>574</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuConto">
-    <property name="title">
-     <string>Conto bancario</string>
-    </property>
-    <addaction name="actionInfo"/>
-    <addaction name="separator"/>
-    <addaction name="actionPreleva"/>
-    <addaction name="actionCarica"/>
-    <addaction name="separator"/>
-    <addaction name="actionPromuovi"/>
-    <addaction name="separator"/>
-    <addaction name="actionChiudi"/>
-   </widget>
-   <widget class="QMenu" name="menuAmministratore">
-    <property name="title">
-     <string>Amministratore</string>
-    </property>
-    <addaction name="actionRichieste"/>
-   </widget>
-   <addaction name="menuConto"/>
-   <addaction name="menuAmministratore"/>
-  </widget>
   <action name="actionPreleva">
    <property name="text">
     <string>Preleva</string>
@@ -141,6 +110,9 @@
    </property>
   </action>
   <action name="actionInfo">
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Info</string>
    </property>
@@ -158,6 +130,21 @@
   <action name="actionRichieste">
    <property name="text">
     <string>Richieste</string>
+   </property>
+  </action>
+  <action name="actionRiconoscimenti">
+   <property name="text">
+    <string>Riconoscimenti</string>
+   </property>
+  </action>
+  <action name="actionLogout">
+   <property name="text">
+    <string>Logout</string>
+   </property>
+  </action>
+  <action name="actionLogout_2">
+   <property name="text">
+    <string>Logout</string>
    </property>
   </action>
  </widget>

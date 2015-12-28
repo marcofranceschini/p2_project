@@ -1,0 +1,39 @@
+#include "userinfo.h"
+#include "ui_userinfo.h"
+#include "QMessageBox"
+
+UserInfo::UserInfo(QWidget *parent):QDialog(parent), ui(new Ui::UserInfo) {
+    ui->setupUi(this);
+    ui->label_4->setText("Marco");
+    ui->label_5->setText("Fr");
+    ui->label_6->setText("Silver");
+    ui->label_10->setText("11 €");
+    ui->label_11->setText("15 €");
+    ui->label_12->setText("1.000 €");
+    ui->label_19->setText("1.000 €");
+}
+
+UserInfo::~UserInfo() {
+    delete ui;
+}
+
+void UserInfo::on_toolButton_3_clicked() {
+    QString app = ui->lineEdit->text();
+    float withdraw = app.toFloat();
+    //qDebug()  << withdraw << QString("float %1").arg(f, 20, 'f', 20);
+    // Verifico se prelevo oltre il limite del conto
+    //if....
+    //Messaggio di errore
+    /*QMessageBox::warning(
+        this,
+        tr("BankQ - Errore"),
+        tr("Credito non sufficente")
+    );*/
+    //Messaggio di avvenuto prelievo
+    QMessageBox::information(
+        this,
+        tr("BankQ - Prelievo"),
+        tr("Prelievo avvenuto correttamente")
+    );
+
+}

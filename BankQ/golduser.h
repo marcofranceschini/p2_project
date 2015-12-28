@@ -9,6 +9,7 @@ class GoldUser: public User {
         // Tassa int e normalmente (bronze e silver) è float per usare Template
     public:
         GoldUser();
+        ~GoldUser();
 
         float getBonusExtra () {
             return bonusExtra;
