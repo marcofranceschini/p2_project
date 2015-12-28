@@ -19,9 +19,9 @@ Operazioni svolgibili lato utente:
 
 Operazioni svolgibili lato amministratore:
 - aggiungere nuovo utente
-- aggiornare tipo di utente (da bronze,silver->gold, ???gold->?????)
+(NO!aggiornare tipo di utente (da bronze,silver->gold, ???gold->?????))
 - chiudere conto (su richiesta)
-- aggiungere rata annuale (mettere limite????)
+- ricerca di utenti con vari filtri
 
 Per l'accesso alla banca sono necessari un username ed un pin di 5 cifre.
 

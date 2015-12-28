@@ -43,6 +43,12 @@ public:
     QLabel *label_11;
     QLabel *label_12;
     QLabel *label_13;
+    QLabel *label_74;
+    QLabel *label_75;
+    QLabel *label_76;
+    QLabel *label_77;
+    QLabel *label_78;
+    QLabel *label_79;
     QWidget *tab_2;
     QLabel *label_14;
     QLabel *label_17;
@@ -124,6 +130,24 @@ public:
         label_13 = new QLabel(tab);
         label_13->setObjectName(QStringLiteral("label_13"));
         label_13->setGeometry(QRect(10, 10, 67, 21));
+        label_74 = new QLabel(tab);
+        label_74->setObjectName(QStringLiteral("label_74"));
+        label_74->setGeometry(QRect(320, 40, 81, 17));
+        label_75 = new QLabel(tab);
+        label_75->setObjectName(QStringLiteral("label_75"));
+        label_75->setGeometry(QRect(440, 40, 111, 17));
+        label_76 = new QLabel(tab);
+        label_76->setObjectName(QStringLiteral("label_76"));
+        label_76->setGeometry(QRect(320, 80, 81, 17));
+        label_77 = new QLabel(tab);
+        label_77->setObjectName(QStringLiteral("label_77"));
+        label_77->setGeometry(QRect(440, 80, 111, 17));
+        label_78 = new QLabel(tab);
+        label_78->setObjectName(QStringLiteral("label_78"));
+        label_78->setGeometry(QRect(440, 120, 111, 17));
+        label_79 = new QLabel(tab);
+        label_79->setObjectName(QStringLiteral("label_79"));
+        label_79->setGeometry(QRect(320, 120, 81, 17));
         tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
@@ -203,7 +227,7 @@ public:
 
         retranslateUi(UserInfo);
 
-        tabWidget->setCurrentIndex(3);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(UserInfo);
@@ -227,6 +251,12 @@ public:
         label_11->setText(QString());
         label_12->setText(QString());
         label_13->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
+        label_74->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Cod. fiscale</span></p></body></html>", 0));
+        label_75->setText(QApplication::translate("UserInfo", "<html><head/><body><p><br/></p></body></html>", 0));
+        label_76->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Telefono</span></p></body></html>", 0));
+        label_77->setText(QApplication::translate("UserInfo", "<html><head/><body><p><br/></p></body></html>", 0));
+        label_78->setText(QApplication::translate("UserInfo", "<html><head/><body><p><br/></p></body></html>", 0));
+        label_79->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Username</span></p></body></html>", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("UserInfo", "Info", 0));
         label_14->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         label_17->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Saldo attuale</span></p></body></html>", 0));

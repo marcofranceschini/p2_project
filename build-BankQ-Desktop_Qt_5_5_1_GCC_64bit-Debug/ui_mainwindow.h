@@ -43,6 +43,7 @@ public:
     QLineEdit *lineEdit;
     QLineEdit *lineEdit_2;
     QLabel *label_3;
+    QLabel *label_4;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -74,23 +75,26 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(150, 70, 71, 17));
+        label->setGeometry(QRect(130, 110, 71, 17));
         label_2 = new QLabel(centralWidget);
         label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setGeometry(QRect(190, 130, 31, 17));
+        label_2->setGeometry(QRect(170, 180, 31, 17));
         toolButton = new QToolButton(centralWidget);
         toolButton->setObjectName(QStringLiteral("toolButton"));
-        toolButton->setGeometry(QRect(240, 200, 81, 25));
+        toolButton->setGeometry(QRect(240, 250, 81, 25));
         lineEdit = new QLineEdit(centralWidget);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setGeometry(QRect(230, 70, 113, 27));
+        lineEdit->setGeometry(QRect(220, 110, 113, 27));
         lineEdit_2 = new QLineEdit(centralWidget);
         lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
-        lineEdit_2->setGeometry(QRect(230, 130, 113, 27));
+        lineEdit_2->setGeometry(QRect(220, 180, 113, 27));
         lineEdit_2->setEchoMode(QLineEdit::Password);
         label_3 = new QLabel(centralWidget);
         label_3->setObjectName(QStringLiteral("label_3"));
         label_3->setGeometry(QRect(20, -10, 111, 51));
+        label_4 = new QLabel(centralWidget);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setGeometry(QRect(110, 50, 341, 17));
         MainWindow->setCentralWidget(centralWidget);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -120,6 +124,7 @@ public:
         label_2->setText(QApplication::translate("MainWindow", "PIN", 0));
         toolButton->setText(QApplication::translate("MainWindow", "Accedi", 0));
         label_3->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:22pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
+        label_4->setText(QApplication::translate("MainWindow", "Benvenuto, accedi per avere accesso al tuo conto", 0));
     } // retranslateUi
 
 };

@@ -22,6 +22,8 @@ private slots:
 
     void on_toolButton_13_clicked();
 
+    void on_toolButton_clicked();
+
 private:
     Ui::UserInfo *ui;
 };

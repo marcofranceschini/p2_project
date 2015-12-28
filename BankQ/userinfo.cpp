@@ -1,5 +1,6 @@
 #include "userinfo.h"
 #include "ui_userinfo.h"
+#include "mainwindow.h"
 #include "QMessageBox"
 
 UserInfo::UserInfo(QWidget *parent):QDialog(parent), ui(new Ui::UserInfo) {
@@ -16,6 +17,9 @@ UserInfo::UserInfo(QWidget *parent):QDialog(parent), ui(new Ui::UserInfo) {
     ui->label_70->setText("3% = 30 €"); // Costo per diventare gold in base alla percentuale sul saldo
     ui->label_71->setText("+ 5 %"); // Aumento tasse gold fisse
     ui->label_73->setText("+ 5.5 %"); // Aumento bonus gold fisso
+    ui->label_75->setText("MNRC..."); // Codice fiscale
+    ui->label_77->setText("040421"); // Numero di telefono
+    ui->label_78->setText("marco"); // Username
 }
 
 UserInfo::~UserInfo() {
@@ -81,4 +85,11 @@ void UserInfo::on_toolButton_13_clicked() {
         tr("Upgrade corretto, ora sei un utente gold")
     );
     // Verifico se l'utente scende ad utente bronze + messaggio
+}
+
+void UserInfo::on_toolButton_clicked() {
+    this->close();
+    MainWindow newLoginWindow;
+    //newLoginWindow.setModal(true);
+    //newLoginWindow.exec();
 }

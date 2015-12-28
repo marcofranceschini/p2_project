@@ -1,10 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "userinfo.h"
+#include "admininfo.h"
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::MainWindow) {
         ui->setupUi(this);
+        on_centralWidget_windowTitleChanged("BankQ"); // Cambio il titolo della finestra
         // Funzioni utente
         //connect(ui->actionInfo, SIGNAL(clicked()), this, SLOT(showInfo())); // Aggiungo chiamata ad una funzione quando schiaccio "info" nella toolBar
         //connect(ui->actionPreleva, SIGNAL(clicked()), this, SLOT(showInfo())); // Aggiungo chiamata ad una funzione quando schiaccio "preleva" nella toolBar
@@ -17,7 +19,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_centralWidget_windowTitleChanged(const QString &title) {
-
+    this->setWindowTitle(title);
 }
 
 void MainWindow::on_toolButton_clicked() {
@@ -28,17 +30,24 @@ void MainWindow::on_toolButton_clicked() {
         //ui->menuAmministratore->setEnabled(1);
         // Se si è loggato un utente apro una nuova finistra relativa ad esso
         this->close(); // Chiuso la finistra di login
-        UserInfo newWidow;
-        newWidow.setModal(true);
-        newWidow.exec();
+        UserInfo newUserWidow;
+        newUserWidow.setModal(true);
+        newUserWidow.exec();
 
 
     }else{ // Login errato, visualizzo un messaggio di errore
-        QMessageBox::warning(
-            this,
-            tr("BankQ - Errore"),
-            tr("Dati non corretti")
-        );
+        if(usr == "marco" && pass == "123") {
+            this->close(); // Chiuso la finistra di login
+            AdminInfo newAdminWindow;
+            newAdminWindow.setModal(true);
+            newAdminWindow.exec();
+        }else{
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("Dati non corretti")
+            );
+        }
     }
 }
 

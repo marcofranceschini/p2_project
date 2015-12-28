@@ -18,14 +18,17 @@ SOURCES += main.cpp\
     golduser.cpp \
     silveruser.cpp \
     user.cpp \
-    userinfo.cpp
+    userinfo.cpp \
+    admininfo.cpp
 
 HEADERS  += mainwindow.h \
     bronzeuser.h \
     golduser.h \
     silveruser.h \
     user.h \
-    userinfo.h
+    userinfo.h \
+    admininfo.h
 
 FORMS    += mainwindow.ui \
-    userinfo.ui
+    userinfo.ui \
+    admininfo.ui
