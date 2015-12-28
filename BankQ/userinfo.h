@@ -18,6 +18,10 @@ public:
 private slots:
     void on_toolButton_3_clicked();
 
+    void on_toolButton_4_clicked();
+
+    void on_toolButton_13_clicked();
+
 private:
     Ui::UserInfo *ui;
 };
