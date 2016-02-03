@@ -11,7 +11,7 @@ class GoldUser: public User {
         GoldUser();
         ~GoldUser();
 
-        float getBonusExtra () {
+        float getBonusExtra () const {
             return bonusExtra;
         }
 };

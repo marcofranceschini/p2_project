@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     silveruser.cpp \
     user.cpp \
     userinfo.cpp \
-    admininfo.cpp
+    admininfo.cpp \
+    container.cpp
 
 HEADERS  += mainwindow.h \
     bronzeuser.h \
@@ -27,7 +28,8 @@ HEADERS  += mainwindow.h \
     silveruser.h \
     user.h \
     userinfo.h \
-    admininfo.h
+    admininfo.h \
+    container.h
 
 FORMS    += mainwindow.ui \
     userinfo.ui \

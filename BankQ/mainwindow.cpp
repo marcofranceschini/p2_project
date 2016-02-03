@@ -29,7 +29,7 @@ void MainWindow::on_toolButton_clicked() {
         // Se si è loggato l' amministratore apro una nuova finistra relativa ad esso
         //ui->menuAmministratore->setEnabled(1);
         // Se si è loggato un utente apro una nuova finistra relativa ad esso
-        this->close(); // Chiuso la finistra di login
+        this->setVisible(false); // Nascondo la finistra di login
         UserInfo newUserWidow;
         newUserWidow.setModal(true);
         newUserWidow.exec();
@@ -37,7 +37,7 @@ void MainWindow::on_toolButton_clicked() {
 
     }else{ // Login errato, visualizzo un messaggio di errore
         if(usr == "marco" && pass == "123") {
-            this->close(); // Chiuso la finistra di login
+            this->setVisible(false); // Nascondo la finistra di login
             AdminInfo newAdminWindow;
             newAdminWindow.setModal(true);
             newAdminWindow.exec();

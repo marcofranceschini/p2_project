@@ -32,23 +32,23 @@ class User {
             return name;
         }
 
-        QString getSurname () {
+        QString getSurname () const {
             return surname;
         }
 
-        QString getAddress () {
+        QString getAddress () const {
             return address;
         }
 
-        int getTelephone () {
+        int getTelephone () const {
             return telephone;
         }
 
-        QString getCode () {
+        QString getCode () const {
             return code;
         }
 
-        QString getUsername () {
+        QString getUsername () const {
             return username;
         }
 

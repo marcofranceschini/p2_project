@@ -53,9 +53,10 @@ void AdminInfo::on_toolButton_2_clicked() {
 }
 
 void AdminInfo::on_toolButton_clicked() {
-    MainWindow *newLoginWindow;
-    newLoginWindow->setWindowTitle("BankQ");
-    newLoginWindow->show();
+    MainWindow newLoginWindow;
+    newLoginWindow.setWindowTitle("BankQ - Benvenuto");
+    //newLoginWindow->show();
+    newLoginWindow.setVisible(true);
     this->close();
     //newLoginWindow.setModal(true);
     //newLoginWindow.exec();
