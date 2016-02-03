@@ -21,9 +21,6 @@ AdminInfo::~AdminInfo() {
     delete ui;
 }
 
-
-
-
 void AdminInfo::on_toolButton_2_clicked() {
     QString n = ui->lineEdit->text(); // Nome
     QString c = ui->lineEdit_2->text(); // Cognome
@@ -53,13 +50,9 @@ void AdminInfo::on_toolButton_2_clicked() {
 }
 
 void AdminInfo::on_toolButton_clicked() {
-    MainWindow newLoginWindow;
-    newLoginWindow.setWindowTitle("BankQ - Benvenuto");
-    //newLoginWindow->show();
-    newLoginWindow.setVisible(true);
-    this->close();
-    //newLoginWindow.setModal(true);
-    //newLoginWindow.exec();
+    MainWindow* w = new MainWindow(); // Dichiaro una nuova MainWindow
+    w->show();
+    this->close(); // Chiudo la finestra corrente
 }
 
 void AdminInfo::on_toolButton_3_clicked() {

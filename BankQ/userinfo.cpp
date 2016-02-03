@@ -88,11 +88,7 @@ void UserInfo::on_toolButton_13_clicked() {
 }
 
 void UserInfo::on_toolButton_clicked() {
-    MainWindow* newLoginWindow;
-    //newLoginWindow.setModal(true);
-    //newLoginWindow.exec();
-    newLoginWindow->setWindowTitle("BankQ - Benvenuto");
-    newLoginWindow->show();
-    //newLoginWindow->setVisible(true);
-    this->close();
+    MainWindow* w = new MainWindow(); // Dichiaro una nuova MainWindow
+    w->show();
+    this->close(); // Chiudo la finestra corrente
 }
