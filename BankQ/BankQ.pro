@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     user.cpp \
     userinfo.cpp \
     admininfo.cpp \
-    container.cpp
+    container.cpp \
+    admin.cpp
 
 HEADERS  += mainwindow.h \
     bronzeuser.h \
@@ -29,7 +30,8 @@ HEADERS  += mainwindow.h \
     user.h \
     userinfo.h \
     admininfo.h \
-    container.h
+    container.h \
+    admin.h
 
 FORMS    += mainwindow.ui \
     userinfo.ui \

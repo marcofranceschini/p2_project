@@ -19,7 +19,6 @@ class SilverUser: public BronzeUser {
             return this->BronzeUser::getTotalTax();
         }
 
-
         virtual float getTotalBonus() const {
             return this->BronzeUser::getTotalBonus() + bonusS;
         }

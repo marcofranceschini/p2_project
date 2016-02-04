@@ -4,22 +4,23 @@
 
 class BronzeUser: public User {
     private:
-        float tax;
-        float cheking;
+        static float tax;
+        static float bonusB;
     public:
-        BronzeUser();
+        /*BronzeUser(string n, string s, string a, int t, string cod, string u, int p, bool ad):
+            User(n, s, a, t, cod, u, p, ad) {}*/
          // float surcharge; L'utente bronzo non ha tasse aggiuntive da pagare a differenza degli altri tipi di utente
-        float getTax () const {
+        BronzeUser();
+
+        virtual float getTotalTax() const {
             return tax;
         }
 
-        float getCheking () const {
-            return cheking;
-        }
-
-        void setCheking (float c) {
-            cheking=cheking+c;
+        virtual float getTotalBonus() const {
+            return bonusB;
         }
 };
+float BronzeUser::tax = 1;
+float BronzeUser::bonusB = 1.5;
 
 #endif // BRONZEUSER_H

@@ -5,8 +5,7 @@
 
 Tutti e 3 pagano una retta fissa (bronze e silver stessa rata) ed hanno un bonus annuale.
 Un utente bronze può diventare silver se il saldo del suo conto supera 50.000€, inoltre ottiene un ulteriore bonus (bonus standard + bonus silver).
-Si può diventare utenti gold solamente pagando una retta maggiorata (percentuale in base al saldo) e si ottiene, inoltre, un ulteriore bonus (bonus standard + bonus silver + bonus gold). 
----- se utente arriva da bronze niente bonus silver?? ----
+Si può diventare utenti gold solamente pagando una retta maggiorata (percentuale fissa sul saldo) e arrivando dal silver, così si ottiene, inoltre, un ulteriore bonus (bonus standard + bonus silver + bonus gold). 
 
 Operazioni svolgibili lato utente:
 - visualizzare saldo conto
