@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bank>
+    <user>
+        <name>Admin</name>
+        <suername>Admin</suername>
+        <username>admin</username>
+        <password>admin</password>
+    </user>
+    
+    <user>
+        <name>Marco</name>
+        <suername>M</suername>
+        <username>marco</username>
+        <password>123</password>
+    </user>
+</bank>

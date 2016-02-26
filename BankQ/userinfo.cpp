@@ -1,7 +1,9 @@
+using namespace std;
 #include "userinfo.h"
 #include "ui_userinfo.h"
 #include "mainwindow.h"
 #include "QMessageBox"
+#include "bronzeuser.h"
 
 UserInfo::UserInfo(QWidget *parent):QDialog(parent), ui(new Ui::UserInfo) {
     ui->setupUi(this);
@@ -87,8 +89,17 @@ void UserInfo::on_toolButton_13_clicked() {
     // Verifico se l'utente scende ad utente bronze + messaggio
 }
 
-void UserInfo::on_toolButton_clicked() {
+void UserInfo::on_toolButton_clicked() { // Logout
     MainWindow* w = new MainWindow(); // Dichiaro una nuova MainWindow
     w->show();
     this->close(); // Chiudo la finestra corrente
+}
+
+void UserInfo::on_toolButton_2_clicked() { // Chiusura conto
+    // Chiamo la funzione per inviare una notifica all'admin
+    QString app = ui->label_78->text();
+    string usr = app.toUtf8().constData(); // Conversione da QString a string
+    string mex = "L'utente "+usr+" desidera chiudere il proprio conto.";
+    //User::closeAccount(username);
+    //string username = static_cast<string*>(usr);
 }

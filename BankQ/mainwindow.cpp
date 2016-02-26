@@ -2,7 +2,17 @@
 #include "ui_mainwindow.h"
 #include "userinfo.h"
 #include "admininfo.h"
+using namespace std;
+#include <iostream>
+
+// Per la finestra di errore
 #include <QMessageBox>
+
+// Per lavorare sul DB
+#include <QXmlStreamReader>
+#include <QFile>
+#include <QFileDialog>
+
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::MainWindow) {
         ui->setupUi(this);
@@ -24,6 +34,29 @@ void MainWindow::on_centralWidget_windowTitleChanged(const QString &title) {
 void MainWindow::on_toolButton_clicked() {
     QString usr = ui->lineEdit->text();
     QString pass = ui->lineEdit_2->text();
+
+    /*QString filename = QFileDialog::getOpenFileName(this, tr("Open Xml"), ".", tr("Xml files (*.xml)"));
+    QFile file("/db.xml");
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        cerr << "Error: Cannot read file " << qPrintable(filename)
+                  << ": " << qPrintable(file.errorString())
+                  << std::endl;
+
+    }
+    QXmlStreamReader xmlReader;
+    xmlReader.setDevice(&file);
+    xmlReader.readNext();
+    // Inizio la lettura del file
+    while (!xmlReader.isEndDocument()) {
+        if (xmlReader.isStartElement()) {
+            QString name = xmlReader.name().toString();
+            if (name == "username") {
+                QMessageBox::information(this,name,xmlReader.readElementText());
+            }
+        }else if (xmlReader.isEndElement()) {
+                    xmlReader.readNext();
+        }
+    }*/
 
     if (usr == "admin" && pass == "admin") { // Verifico che un utente o l' amministratore sia prensente nel DB
         this->close(); // Chiudo la finistra di login

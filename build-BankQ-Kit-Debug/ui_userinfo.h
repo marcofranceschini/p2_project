@@ -9,6 +9,7 @@
 #ifndef UI_USERINFO_H
 #define UI_USERINFO_H
 
+#include <QtCore/QLocale>
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
@@ -82,7 +83,8 @@ public:
         UserInfo->resize(574, 362);
         tabWidget = new QTabWidget(UserInfo);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
-        tabWidget->setGeometry(QRect(0, 0, 581, 371));
+        tabWidget->setGeometry(QRect(0, 0, 800, 600));
+        tabWidget->setLocale(QLocale(QLocale::Italian, QLocale::Italy));
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
         label = new QLabel(tab);
@@ -132,7 +134,7 @@ public:
         label_13->setGeometry(QRect(10, 10, 67, 21));
         label_74 = new QLabel(tab);
         label_74->setObjectName(QString::fromUtf8("label_74"));
-        label_74->setGeometry(QRect(320, 40, 81, 17));
+        label_74->setGeometry(QRect(320, 40, 91, 17));
         label_75 = new QLabel(tab);
         label_75->setObjectName(QString::fromUtf8("label_75"));
         label_75->setGeometry(QRect(440, 40, 111, 17));

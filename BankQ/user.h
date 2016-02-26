@@ -59,5 +59,9 @@ class User {
         int getPin () const {
             return pin;
         }
+
+        void closeAccount (const string usr) {
+
+        }
 };
 #endif // USER_H

@@ -4,27 +4,21 @@
 
 class SilverUser: public BronzeUser {
     private:
-        static float bonusS; // L'utente silver ha un bonus aggiuntivo rispetto a quello standard
+        /*static float bonusS; */// L'utente silver ha un bonus aggiuntivo rispetto a quello standard
+        float bonusSilver;
     public:
         SilverUser();
+        ~SilverUser();
 
-        float getBonusS () {
-            return bonusS;
-        }
-
-       /* virtual float getTotalTax() const {
-            getTax();
-        }*/ // Le tasse tra silver e bronze sono ugali, se devo farle ritornare uso il getTax di BronzeUser
-        virtual float getTotalTax() const {
-            return this->BronzeUser::getTotalTax();
-        }
-
+        /*virtual float getTotalTax() const {
+            return SilverUser::getTotalTax();
+        }L'utente silver non tasse aggiuntive, serve quinid il get?? */
 
         virtual float getTotalBonus() const {
-            return this->BronzeUser::getTotalBonus() + bonusS;
+            return bonusSilver + BronzeUser::getTotalBonus();
         }
 };
 
-float SilverUser::bonusS = 1;
+/*float SilverUser::bonusSilver = 1;*/
 
 #endif // SILVERUSER_H
