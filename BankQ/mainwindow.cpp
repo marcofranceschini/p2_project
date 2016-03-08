@@ -1,9 +1,14 @@
+using namespace std;
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
+#include <iostream>
+
 #include "userinfo.h"
 #include "admininfo.h"
-using namespace std;
-#include <iostream>
+#include "user.h"
+#include "database.h"
+
 
 // Per la finestra di errore
 #include <QMessageBox>
@@ -58,7 +63,27 @@ void MainWindow::on_toolButton_clicked() {
         }
     }*/
 
-    if (usr == "admin" && pass == "admin") { // Verifico che un utente o l' amministratore sia prensente nel DB
+    string *vet = verifyLogin(usr, pass);
+    if(vet[0] == usr.toUtf8().constData()) {
+        if(vet[1] == "1") {
+            this->close(); // Chiudo la finistra di login
+            AdminInfo newAdminWindow;
+            newAdminWindow.setModal(true);
+            newAdminWindow.exec();
+        }else{
+            this->close(); // Chiudo la finistra di login
+            UserInfo newUserWidow;
+            newUserWidow.setModal(true);
+            newUserWidow.exec();
+        }
+    }else{ // Login errato, visualizzo un messaggio di errore
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Dati non corretti")
+        );
+    }
+    /*if (usr == "admin" && pass == "admin") { // Verifico che un utente o l' amministratore sia prensente nel DB
         this->close(); // Chiudo la finistra di login
         AdminInfo newAdminWindow;
         newAdminWindow.setModal(true);
@@ -68,13 +93,13 @@ void MainWindow::on_toolButton_clicked() {
             UserInfo newUserWidow;
             newUserWidow.setModal(true);
             newUserWidow.exec();
-          } else { // Login errato, visualizzo un messaggio di errore
+    } else { // Login errato, visualizzo un messaggio di errore
             QMessageBox::warning(
                 this,
                 tr("BankQ - Errore"),
                 tr("Dati non corretti")
             );
-          }
+    }*/
 }
 
 void showInfo () {

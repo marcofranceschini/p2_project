@@ -17,7 +17,7 @@ class User {
         string code; // Codice fiscale è univoco
         string username;
         int pin;
-        bool admin; // 0 se non è amministratore, 1 altrimenti
+       // bool admin; // 0 se non è amministratore, 1 altrimenti --> NO USO IL DYANMIC CAST
     public:
         /*User(string n, string s, string a, int t, string c) {
             name=n;
@@ -61,9 +61,9 @@ class User {
             return pin;
         }
 
-        int getAdmin () const {
+        /*int getAdmin () const {
             return admin;
-        }
+        }*/
 
         // Metodi set
         void setName (string n) {
@@ -94,9 +94,9 @@ class User {
             pin=p;
         }
 
-        void setAdmin (int a) {
+        /*void setAdmin (int a) {
             admin=a;
-        }
+        }*/
 
 
         void closeAccount (const string usr) {

@@ -1,11 +1,14 @@
-3 tipi di utenti:
+4 tipi di utenti:
 - bronze
 - silver
 - gold
+- amministratore
 
-Tutti e 3 pagano una retta fissa (bronze e silver stessa rata) ed hanno un bonus annuale.
+Tutti gli utenti hanno dei dati personali.
+I primi 3 pagano una retta fissa (bronze e silver stessa rata) ed hanno un bonus annuale ed hanno un conto.
 Un utente bronze può diventare silver se il saldo del suo conto supera 50.000€, inoltre ottiene un ulteriore bonus (bonus standard + bonus silver).
-Si può diventare utenti gold solamente pagando una retta maggiorata (percentuale fissa sul saldo) e arrivando dal silver, così si ottiene, inoltre, un ulteriore bonus (bonus standard + bonus silver + bonus gold). 
+Si può diventare utenti gold solamente pagando una retta maggiorata (percentuale fissa sul saldo) e arrivando dal silver, così si ottiene, inoltre, un ulteriore bonus (bonus standard + bonus silver + bonus gold).
+L'amministratore ha come unico campo il salario, oltre a quelli di un utente.
 
 Operazioni svolgibili lato utente:
 - visualizzare saldo conto
