@@ -32,7 +32,8 @@ class User {
 
         ~User();
 
-        string getName () {
+        // Metodi get
+        string getName () const {
             return name;
         }
 
@@ -59,6 +60,44 @@ class User {
         int getPin () const {
             return pin;
         }
+
+        int getAdmin () const {
+            return admin;
+        }
+
+        // Metodi set
+        void setName (string n) {
+            name=n;
+        }
+
+        void setSurname (string s) {
+            surname=s;
+        }
+
+        void setAddress (string a) {
+            address=a;
+        }
+
+        void setTelephone (int t) {
+            telephone=t;
+        }
+
+        void setCode (string c) {
+            code=c;
+        }
+
+        void setUsername (string u) {
+            username=u;
+        }
+
+        void setPin (int p) {
+            pin=p;
+        }
+
+        void setAdmin (int a) {
+            admin=a;
+        }
+
 
         void closeAccount (const string usr) {
 
