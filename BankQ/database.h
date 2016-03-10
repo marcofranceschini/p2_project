@@ -11,8 +11,10 @@ class DataBase {
         T* utenti;  // Array di utenti
     public:
         DataBase();
+
         bool loadDB(); // Funzione per caricare gli utenti del DB nel contenitore
-        string* verifyLogin(QString, QString) const; // Sse i dati di login sono corretti ritorna i dati dell'utente, altrimenti è vuoto
+
+        string* verifyLogin(string, string) const; // Sse i dati di login sono corretti ritorna i dati dell'utente, altrimenti è vuoto
 };
 
 #endif // DATABASE_H

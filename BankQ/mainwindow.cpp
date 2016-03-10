@@ -1,4 +1,5 @@
 using namespace std;
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -62,25 +63,33 @@ void MainWindow::on_toolButton_clicked() {
                     xmlReader.readNext();
         }
     }*/
-
-    string *vet = verifyLogin(usr, pass);
-    if(vet[0] == usr.toUtf8().constData()) {
-        if(vet[1] == "1") {
-            this->close(); // Chiudo la finistra di login
-            AdminInfo newAdminWindow;
-            newAdminWindow.setModal(true);
-            newAdminWindow.exec();
-        }else{
-            this->close(); // Chiudo la finistra di login
-            UserInfo newUserWidow;
-            newUserWidow.setModal(true);
-            newUserWidow.exec();
+    DataBase <User> *db;
+    if(db->loadDB()) {
+        string *vet = db->verifyLogin(usr.toUtf8().constData(), pass.toUtf8().constData());
+        if(vet[0] == usr.toUtf8().constData()) {
+            if(vet[1] == "1") {
+                this->close(); // Chiudo la finistra di login
+                AdminInfo newAdminWindow;
+                newAdminWindow.setModal(true);
+                newAdminWindow.exec();
+            }else{
+                this->close(); // Chiudo la finistra di login
+                UserInfo newUserWidow;
+                newUserWidow.setModal(true);
+                newUserWidow.exec();
+            }
+        }else{ // Login errato, visualizzo un messaggio di errore
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("Dati non corretti")
+            );
         }
-    }else{ // Login errato, visualizzo un messaggio di errore
+    }else{ // Creazione del contenitore errata o errore di accesso al DB
         QMessageBox::warning(
             this,
             tr("BankQ - Errore"),
-            tr("Dati non corretti")
+            tr("Errore di caricamento")
         );
     }
     /*if (usr == "admin" && pass == "admin") { // Verifico che un utente o l' amministratore sia prensente nel DB
