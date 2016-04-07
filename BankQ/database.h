@@ -8,11 +8,11 @@ template <class T>
 class DataBase {
     private:
         QFile* file;
-        T* utenti;  // Array di utenti
+        //T* utenti;  // Array di utenti - spostato tutto nella classe container
     public:
         DataBase();
 
-        bool loadDB(); // Funzione per caricare gli utenti del DB nel contenitore
+        bool loadDB(T & ); // Funzione per caricare gli utenti del DB nel contenitore (vector)
 
         string* verifyLogin(string, string) const; // Sse i dati di login sono corretti ritorna i dati dell'utente, altrimenti è vuoto
 };

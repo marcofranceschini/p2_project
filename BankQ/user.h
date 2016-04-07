@@ -30,7 +30,7 @@ class User {
             name(n), surname(s), address(a), telephone(t), code(c), username(u), pin(p), admin(ad) {}*/
         User();
 
-        ~User();
+        virtual ~User();
 
         // Metodi get
         string getName () const {
@@ -99,7 +99,7 @@ class User {
         }*/
 
 
-        void closeAccount (const string usr) {
+        virtual void closeAccount (const string usr) {
 
         }
 };

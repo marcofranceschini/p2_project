@@ -1,6 +1,7 @@
-#include "container.h"
+/*#include "container.h"
 
-Container::Container() {
+template <class T>
+Container<T>::Container() {
 
-}
+}*/
 

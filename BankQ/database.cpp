@@ -15,7 +15,7 @@ DataBase<T>::DataBase() {
 }
 
 template <class T>
-bool DataBase<T>::loadDB() { // Carico il DB nel contenitore
+bool DataBase<T>::loadDB(T& utenti) { // Carico il DB nel contenitore
     if (DataBase::file->exists()) {
         DataBase::file->open(QIODevice::ReadOnly);
 

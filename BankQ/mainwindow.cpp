@@ -8,7 +8,9 @@ using namespace std;
 #include "userinfo.h"
 #include "admininfo.h"
 #include "user.h"
+#include "admin.h"
 #include "database.h"
+#include "container.h"
 
 
 // Per la finestra di errore
@@ -63,16 +65,28 @@ void MainWindow::on_toolButton_clicked() {
                     xmlReader.readNext();
         }
     }*/
-    DataBase <User> *db;
-    if(db->loadDB()) {
-        string *vet = db->verifyLogin(usr.toUtf8().constData(), pass.toUtf8().constData());
-        if(vet[0] == usr.toUtf8().constData()) {
-            if(vet[1] == "1") {
+    Container <User> utenti;
+    if(loadDB(utenti)) {
+        //string *vet = verifyLogin(usr.toUtf8().constData(), pass.toUtf8().constData());
+        bool flag = false;
+        bool admin = false;
+        string pin = pass.toUtf8().constData();
+        int int_pin = atoi(pin.c_str());
+        for(int i = 0; i < utenti.getSize(); ++i) { // Verifico che le credenziali siano corrette
+            if(utenti[i].getUsername() == usr.toUtf8().constData() && utenti[i].getPin() == int_pin) {
+                flag = true;
+                if(dynamic_cast<Admin>(utenti[i])) // Verifico che l'utente sia un amministratore
+                    admin = true;
+                break;
+            }
+        }
+        if(flag) {
+            if(admin) { // Verifico se e' un amministratore e apro la relativa finestra
                 this->close(); // Chiudo la finistra di login
                 AdminInfo newAdminWindow;
                 newAdminWindow.setModal(true);
                 newAdminWindow.exec();
-            }else{
+            }else{ // Utente "normale"
                 this->close(); // Chiudo la finistra di login
                 UserInfo newUserWidow;
                 newUserWidow.setModal(true);
