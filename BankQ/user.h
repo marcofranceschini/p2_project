@@ -14,11 +14,13 @@ class User {
         //Qdate birth;
         string address;
         int telephone;
-        string code; // Codice fiscale è univoco
+        string code; // Codice fiscale - univoco
         string username;
         int pin;
        // bool admin; // 0 se non è amministratore, 1 altrimenti --> NO USO IL DYANMIC CAST
+
     public:
+
         /*User(string n, string s, string a, int t, string c) {
             name=n;
             surname=s;
@@ -99,7 +101,7 @@ class User {
         }*/
 
 
-        virtual void closeAccount (const string usr) {
+       virtual void closeAccount (const string usr) {
 
         }
 };

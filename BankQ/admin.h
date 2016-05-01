@@ -7,13 +7,13 @@ class Admin: public User {
         double salary;
     public:
         Admin();
-        //virtual ~Admin();
+        ~Admin();
 
         double getSalary () const {
             return salary;
         }
 
-        virtual void closeAccount();
+        void closeAccount();
 };
 
 #endif // ADMIN_H

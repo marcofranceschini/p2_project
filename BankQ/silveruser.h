@@ -9,6 +9,7 @@ class SilverUser: public BronzeUser {
     public:
         SilverUser();
         ~SilverUser();
+        ~User();
 
         /*virtual float getTotalTax() const {
             return SilverUser::getTotalTax();

@@ -12,6 +12,7 @@ class BronzeUser: public User {
          // float surcharge; L'utente bronzo non ha tasse aggiuntive da pagare a differenza degli altri tipi di utente
         BronzeUser();
         ~BronzeUser();
+        ~User();
 
         virtual float getTotalTax() const {
             return tax;

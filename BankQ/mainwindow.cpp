@@ -66,21 +66,33 @@ void MainWindow::on_toolButton_clicked() {
         }
     }*/
     Container <User> utenti;
-    if(loadDB(utenti)) {
+    DataBase <User> d;
+    if(d.loadDB(utenti)) {          // UTENTI NON È PIÙ UN VETTORE
         //string *vet = verifyLogin(usr.toUtf8().constData(), pass.toUtf8().constData());
         bool flag = false;
         bool admin = false;
         string pin = pass.toUtf8().constData();
         int int_pin = atoi(pin.c_str());
-        for(int i = 0; i < utenti.getSize(); ++i) { // Verifico che le credenziali siano corrette
+        /*for(int i = 0; i < utenti.getSize(); ++i) { // Verifico che le credenziali siano corrette
             if(utenti[i].getUsername() == usr.toUtf8().constData() && utenti[i].getPin() == int_pin) {
-                flag = true;
-                if(dynamic_cast<Admin>(utenti[i])) // Verifico che l'utente sia un amministratore
+                flag = true; // Dati del login verificati
+                User a = utenti[i]; // Ritorna l'utente nella i-esima posizione
+                if(dynamic_cast<Admin>(a)) // Verifico che l'utente sia un amministratore
+                    admin = true;
+                break;
+            }
+        }*/
+        for(Container<User>::Iteratore it = utenti.begin(); it != utenti.end(); ++it) { // Verifico che le credenziali siano corrette
+            if(utenti[it].getUsername() == usr.toUtf8().constData() && utenti[it].getPin() == int_pin) {
+                flag = true; // Dati del login verificati
+                User a = utenti[it]; // Ritorna l'utente nella i-esima posizione
+                if(dynamic_cast<Admin>(a)) // Verifico che l'utente sia un amministratore
                     admin = true;
                 break;
             }
         }
-        if(flag) {
+
+        if(flag) {  // Login corretto
             if(admin) { // Verifico se e' un amministratore e apro la relativa finestra
                 this->close(); // Chiudo la finistra di login
                 AdminInfo newAdminWindow;

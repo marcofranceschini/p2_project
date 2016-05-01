@@ -10,6 +10,7 @@ class GoldUser: public SilverUser {
     public:
         GoldUser();
         ~GoldUser();
+        ~User();
 
         float getTotalTax() const {
              return surcharge + BronzeUser::getTotalTax();

@@ -15,7 +15,7 @@ DataBase<T>::DataBase() {
 }
 
 template <class T>
-bool DataBase<T>::loadDB(T& utenti) { // Carico il DB nel contenitore
+bool DataBase<T>::loadDB(Container <T>& utenti) { // Carico il DB nel contenitore
     if (DataBase::file->exists()) {
         DataBase::file->open(QIODevice::ReadOnly);
 
@@ -32,7 +32,7 @@ bool DataBase<T>::loadDB(T& utenti) { // Carico il DB nel contenitore
                         if (xmlReader.name().toString() == "salary")
                             flag = true;
                     }
-                    if(flag) { // Utente con conto - VERIFICARE CHE UTENTE È (bronze, silver, gold) [dynamic cast]
+                    if(flag) {  // Amministratore
                         Admin utente;
                         while (xmlReader.name().toString() != "user") {
                             if (xmlReader.name().toString() == "nome")
@@ -51,8 +51,8 @@ bool DataBase<T>::loadDB(T& utenti) { // Carico il DB nel contenitore
                                 utente.setPin(xmlReader.readElementText().toInt(false, 10)); // INT
                             xmlReader.readNext();
                         }
-                        DataBase::utenti.push_back(utente);
-                    }else{ // Amministratore
+                        utenti = new Container(utente);
+                    }else{  // Utente con conto - VERIFICARE CHE UTENTE È (bronze, silver, gold) [dynamic cast]
                         User utente;
                         while (xmlReader.name().toString() != "user") {
                             if (xmlReader.name().toString() == "nome")
@@ -71,7 +71,7 @@ bool DataBase<T>::loadDB(T& utenti) { // Carico il DB nel contenitore
                                 utente.setPin(xmlReader.readElementText().toInt(false, 10)); // INT
                             xmlReader.readNext();
                         }
-                        DataBase::utenti.push_back(utente);
+                        utenti = new Container(utente);
                     }
                 }
             }
