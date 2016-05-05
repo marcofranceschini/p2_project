@@ -7,13 +7,10 @@ class Admin: public User {
         double salary;
     public:
         Admin();
-        ~Admin();
 
         double getSalary () const {
             return salary;
         }
-
-        void closeAccount();
 };
 
 #endif // ADMIN_H

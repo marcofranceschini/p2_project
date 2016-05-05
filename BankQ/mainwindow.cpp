@@ -5,8 +5,8 @@ using namespace std;
 
 #include <iostream>
 
-#include "userinfo.h"
-#include "admininfo.h"
+#include "userinfo.h"   // GUI
+#include "admininfo.h"  // GUI
 #include "user.h"
 #include "admin.h"
 #include "database.h"
@@ -66,12 +66,13 @@ void MainWindow::on_toolButton_clicked() {
         }
     }*/
     Container <User> utenti;
-    DataBase <User> d;
-    if(d.loadDB(utenti)) {          // UTENTI NON È PIÙ UN VETTORE
+    DataBase d;
+    bool flag = d.loadDB(utenti);
+    if(flag) {  // Entro sse non ho avuto problemi nel riempire la lista
         //string *vet = verifyLogin(usr.toUtf8().constData(), pass.toUtf8().constData());
-        bool flag = false;
         bool admin = false;
         string pin = pass.toUtf8().constData();
+        string user = usr.toUtf8().constData();
         int int_pin = atoi(pin.c_str());
         /*for(int i = 0; i < utenti.getSize(); ++i) { // Verifico che le credenziali siano corrette
             if(utenti[i].getUsername() == usr.toUtf8().constData() && utenti[i].getPin() == int_pin) {
@@ -82,35 +83,34 @@ void MainWindow::on_toolButton_clicked() {
                 break;
             }
         }*/
+
         for(Container<User>::Iteratore it = utenti.begin(); it != utenti.end(); ++it) { // Verifico che le credenziali siano corrette
-            if(utenti[it].getUsername() == usr.toUtf8().constData() && utenti[it].getPin() == int_pin) {
-                flag = true; // Dati del login verificati
-                User a = utenti[it]; // Ritorna l'utente nella i-esima posizione
-                if(dynamic_cast<Admin>(a)) // Verifico che l'utente sia un amministratore
-                    admin = true;
-                break;
+            //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
+
+            if(utenti[it].verifyLogin(user, int_pin)) {  // Login corretto
+                if(admin) { // Verifico se e' un amministratore e apro la relativa finestra
+                    this->close(); // Chiudo la finistra di login
+                    AdminInfo newAdminWindow;
+                    newAdminWindow.setModal(true);
+                    newAdminWindow.exec();
+                    break;
+                }else{ // Utente "normale"
+                    this->close(); // Chiudo la finistra di login
+                    UserInfo newUserWidow;
+                    newUserWidow.setModal(true);
+                    newUserWidow.exec();
+                    break;
+                }
+            }else{ // Login errato, visualizzo un messaggio di errore
+                QMessageBox::warning(
+                    this,
+                    tr("BankQ - Errore"),
+                    tr("Dati non corretti")
+                );
             }
         }
 
-        if(flag) {  // Login corretto
-            if(admin) { // Verifico se e' un amministratore e apro la relativa finestra
-                this->close(); // Chiudo la finistra di login
-                AdminInfo newAdminWindow;
-                newAdminWindow.setModal(true);
-                newAdminWindow.exec();
-            }else{ // Utente "normale"
-                this->close(); // Chiudo la finistra di login
-                UserInfo newUserWidow;
-                newUserWidow.setModal(true);
-                newUserWidow.exec();
-            }
-        }else{ // Login errato, visualizzo un messaggio di errore
-            QMessageBox::warning(
-                this,
-                tr("BankQ - Errore"),
-                tr("Dati non corretti")
-            );
-        }
+
     }else{ // Creazione del contenitore errata o errore di accesso al DB
         QMessageBox::warning(
             this,

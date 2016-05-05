@@ -3,6 +3,7 @@
 
 using namespace std;
 #include <string>
+#include "container.h"
 //#include <QDate>
 //#include <ctime> // Usato per birth
 
@@ -32,7 +33,8 @@ class User {
             name(n), surname(s), address(a), telephone(t), code(c), username(u), pin(p), admin(ad) {}*/
         User();
 
-        virtual ~User();
+        virtual ~User() {}
+
 
         // Metodi get
         string getName () const {
@@ -100,8 +102,28 @@ class User {
             admin=a;
         }*/
 
+        bool verifyLogin(string usr, int pass) const {
+            if(username == usr && pin == pass)
+                //return true; // Dati del login verificati
+                //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
+                  //  admin = true;
+                return true;
+            else
+                return false;
 
-       virtual void closeAccount (const string usr) {
+            /*string vet = new string[2];
+            bool flag = false;
+            for (int i=0; utenti.size() && !flag; ++i) {
+                if(utenti[i].getUsername() == usr && utenti[i].getUsername() == pass) {
+                    flag = true;
+                    vet[0] = usr;
+                    if(dynamic_cast<Admin>(utenti[i])) // Verifico se l'utente è un amministratore
+                        vet[1] = "1";
+                    else
+                        vet[1] = "0";
+                }
+            }
+            return vet;*/
 
         }
 };

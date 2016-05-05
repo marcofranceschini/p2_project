@@ -4,19 +4,18 @@
 
 class GoldUser: public SilverUser {
     private:
-        float bonusGold;
-        int surcharge; //  L'utente gold ha tasse aggiuntive da pagare
+        double bonusGold;
+        double surcharge; //  L'utente gold ha tasse aggiuntive da pagare
         // Tassa int e normalmente (bronze e silver) è float per usare Template
     public:
         GoldUser();
         ~GoldUser();
-        ~User();
 
-        float getTotalTax() const {
+        double getTotalTax() const {
              return surcharge + BronzeUser::getTotalTax();
         } // Le tasse tra silver e bronze sono ugali, se devo farle ritornare uso il getTax di BronzeUser
 
-        float getTotalBonus() const {
+        double getTotalBonus() const {
             return bonusGold + SilverUser::getTotalBonus();
         }
 

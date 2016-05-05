@@ -5,7 +5,6 @@ using namespace std;
 #include "container.h"
 #include <QFile>
 
-template <class T>
 class DataBase {
     private:
         QFile* file;
@@ -13,9 +12,8 @@ class DataBase {
     public:
         DataBase();
 
+        template <class T>
         bool loadDB(Container <T> & ); // Funzione per caricare gli utenti del DB nel contenitore (vector)
-
-        string* verifyLogin(string, string) const; // Sse i dati di login sono corretti ritorna i dati dell'utente, altrimenti è vuoto
 };
 
 #endif // DATABASE_H

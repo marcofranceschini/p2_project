@@ -8,18 +8,19 @@ using namespace std;
 #include <QXmlStreamWriter>
 #include <QDebug>
 
-template <class T>
-DataBase<T>::DataBase() {
+//template <class T>
+DataBase/*<T>*/::DataBase() {
     DataBase::file = new QFile("/home/marco/Documents/p2_project/Database/db.xml");
-    loadDB();
+    //loadDB();
 }
 
 template <class T>
-bool DataBase<T>::loadDB(Container <T>& utenti) { // Carico il DB nel contenitore
+bool DataBase::loadDB(Container <T>& utenti) { // Carico il DB nel contenitore
     if (DataBase::file->exists()) {
-        DataBase::file->open(QIODevice::ReadOnly);
 
+        DataBase::file->open(QIODevice::ReadOnly);
         QXmlStreamReader xmlReader(DataBase::file);
+
         while (!xmlReader.atEnd()) {
             xmlReader.readNext();
             if (xmlReader.isStartElement()) {
@@ -28,10 +29,12 @@ bool DataBase<T>::loadDB(Container <T>& utenti) { // Carico il DB nel contenitor
                     //User utente;
                     QXmlStreamReader app = xmlReader;
                     bool flag; // true se ho un utente normale
+
                     while (app.name().toString() != "user" && !flag) {
                         if (xmlReader.name().toString() == "salary")
                             flag = true;
                     }
+
                     if(flag) {  // Amministratore
                         Admin utente;
                         while (xmlReader.name().toString() != "user") {
@@ -51,7 +54,7 @@ bool DataBase<T>::loadDB(Container <T>& utenti) { // Carico il DB nel contenitor
                                 utente.setPin(xmlReader.readElementText().toInt(false, 10)); // INT
                             xmlReader.readNext();
                         }
-                        utenti = new Container(utente);
+                        utenti = utente;
                     }else{  // Utente con conto - VERIFICARE CHE UTENTE È (bronze, silver, gold) [dynamic cast]
                         User utente;
                         while (xmlReader.name().toString() != "user") {
@@ -71,31 +74,17 @@ bool DataBase<T>::loadDB(Container <T>& utenti) { // Carico il DB nel contenitor
                                 utente.setPin(xmlReader.readElementText().toInt(false, 10)); // INT
                             xmlReader.readNext();
                         }
-                        utenti = new Container(utente);
+                        utenti = utente;
                     }
                 }
             }
         }
+
         DataBase::file->close();
+
         if (xmlReader.hasError()) return false;
     }
     return true;
 }
 
-template <class T>
-string* DataBase<T>::verifyLogin(string usr, string pass) const {
-    string vet = new string[2];
-    bool flag = false;
-    for (int i=0; utenti.size() && !flag; ++i) {
-        if(utenti[i].getUsername() == usr && utenti[i].getUsername() == pass) {
-            flag = true;
-            vet[0] = usr;
-            if(dynamic_cast<Admin>(utenti[i])) // Verifico se l'utente è un amministratore
-                vet[1] = "1";
-            else
-                vet[1] = "0";
-        }
-    }
-    return vet;
 
-}
