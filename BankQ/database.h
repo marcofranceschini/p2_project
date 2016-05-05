@@ -8,12 +8,12 @@ using namespace std;
 class DataBase {
     private:
         QFile* file;
-        //T* utenti;  // Array di utenti - spostato tutto nella classe container
+
     public:
         DataBase();
 
         template <class T>
-        bool loadDB(Container <T> & ); // Funzione per caricare gli utenti del DB nel contenitore (vector)
+        bool loadDB(Container <T> & ); // Funzione per caricare gli utenti del DB nel contenitore (lista)
 };
 
 #endif // DATABASE_H
