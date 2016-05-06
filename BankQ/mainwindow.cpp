@@ -7,11 +7,12 @@ using namespace std;
 
 #include "userinfo.h"   // GUI
 #include "admininfo.h"  // GUI
+
 #include "user.h"
 #include "admin.h"
+
 #include "database.h"
 #include "container.h"
-
 
 // Per la finestra di errore
 #include <QMessageBox>
@@ -67,8 +68,8 @@ void MainWindow::on_toolButton_clicked() {
     }*/
     Container <User> utenti;
     DataBase d;
-    bool flag = d.loadDB(utenti);
-    if(flag) {  // Entro sse non ho avuto problemi nel riempire la lista
+
+    if(d.loadDB(utenti)) {  // Entro sse non ho avuto problemi nel riempire la lista
         //string *vet = verifyLogin(usr.toUtf8().constData(), pass.toUtf8().constData());
         bool admin = false;
         string pin = pass.toUtf8().constData();

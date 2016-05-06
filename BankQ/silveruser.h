@@ -1,11 +1,12 @@
 #ifndef SILVERUSER_H
 #define SILVERUSER_H
+
 #include "bronzeuser.h"
 
 class SilverUser: public BronzeUser {
     private:
         /*static float bonusS; */// L'utente silver ha un bonus aggiuntivo rispetto a quello standard
-        double extraBonus;
+        static double extraBonus;
     public:
         SilverUser();
 
@@ -13,7 +14,7 @@ class SilverUser: public BronzeUser {
             return SilverUser::getTotalTax();
         }L'utente silver non tasse aggiuntive, serve quinid il get?? */
 
-        virtual double getTotalBonus() const {
+        double getTotalBonus () const {
             return extraBonus + BronzeUser::getTotalBonus();
         }
 
@@ -22,6 +23,6 @@ class SilverUser: public BronzeUser {
         }*/
 };
 
-/*float SilverUser::bonusSilver = 1;*/
+//double SilverUser::extraBonus = 1.5;
 
 #endif // SILVERUSER_H

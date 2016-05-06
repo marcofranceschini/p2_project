@@ -33,7 +33,7 @@ class User {
             name(n), surname(s), address(a), telephone(t), code(c), username(u), pin(p), admin(ad) {}*/
         User();
 
-        virtual ~User() {}
+        ~User() {}
 
 
         // Metodi get
@@ -102,7 +102,7 @@ class User {
             admin=a;
         }*/
 
-        bool verifyLogin(string usr, int pass) const {
+        bool verifyLogin (string usr, int pass) const {
             if(username == usr && pin == pass)
                 //return true; // Dati del login verificati
                 //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
