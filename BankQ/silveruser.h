@@ -5,7 +5,7 @@
 
 class SilverUser: public BronzeUser {
     private:
-        static double extraBonus;   // Bonus aggiuntivo rispetto all'utente Bronze
+        /*static*/ double extraBonus;   // Bonus aggiuntivo rispetto all'utente Bronze
 
     public:
         SilverUser();
@@ -23,6 +23,6 @@ class SilverUser: public BronzeUser {
         }*/
 };
 
-double SilverUser::extraBonus = 1.5;
+//double SilverUser::extraBonus = 1.5;
 
 #endif // SILVERUSER_H

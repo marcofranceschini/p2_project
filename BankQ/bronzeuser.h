@@ -5,8 +5,8 @@
 
 class BronzeUser: public User {
     protected:
-        double tax;     // Tasse
-        double bonus;   // Bonus
+        /*static*/ double tax;     // Tasse
+        /*static*/ double bonus;   // Bonus
 
     private:
         double count;   // Conto corrente

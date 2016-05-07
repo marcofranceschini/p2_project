@@ -3,6 +3,11 @@
 
 #include <QMainWindow>
 
+
+#include <QMessageBox>
+using namespace std;
+#include <string>
+
 namespace Ui {
 class MainWindow;
 }
@@ -14,6 +19,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void boom() {
+        QMessageBox::warning(
+            this,
+            tr("BOOM"),
+            tr("BOOM")
+        );
+    }
 
 private slots:
     void on_centralWidget_windowTitleChanged(const QString &title);

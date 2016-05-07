@@ -1,5 +1,3 @@
-using namespace std;
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -21,7 +19,6 @@ using namespace std;
 #include <QXmlStreamReader>
 #include <QFile>
 #include <QFileDialog>
-
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::MainWindow) {
         ui->setupUi(this);
@@ -68,49 +65,63 @@ void MainWindow::on_toolButton_clicked() {
     }*/
     Container <User> utenti;
     DataBase d;
+    MainWindow u;
+
+
 
     if(d.loadDB(utenti)) {  // Entro sse non ho avuto problemi nel riempire la lista
         //string *vet = verifyLogin(usr.toUtf8().constData(), pass.toUtf8().constData());
+        //u.boom();
+
         bool admin = false;
+
         string pin = pass.toUtf8().constData();
         string user = usr.toUtf8().constData();
-        int int_pin = atoi(pin.c_str());
-        /*for(int i = 0; i < utenti.getSize(); ++i) { // Verifico che le credenziali siano corrette
-            if(utenti[i].getUsername() == usr.toUtf8().constData() && utenti[i].getPin() == int_pin) {
-                flag = true; // Dati del login verificati
-                User a = utenti[i]; // Ritorna l'utente nella i-esima posizione
-                if(dynamic_cast<Admin>(a)) // Verifico che l'utente sia un amministratore
-                    admin = true;
-                break;
-            }
-        }*/
 
-        for(Container<User>::Iteratore it = utenti.begin(); it != utenti.end(); ++it) { // Verifico che le credenziali siano corrette
-            //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
-
-            if(utenti[it].verifyLogin(user, int_pin)) {  // Login corretto
-                if(admin) { // Verifico se e' un amministratore e apro la relativa finestra
-                    this->close(); // Chiudo la finistra di login
-                    AdminInfo newAdminWindow;
-                    newAdminWindow.setModal(true);
-                    newAdminWindow.exec();
-                    break;
-                }else{ // Utente "normale"
-                    this->close(); // Chiudo la finistra di login
-                    UserInfo newUserWidow;
-                    newUserWidow.setModal(true);
-                    newUserWidow.exec();
+        if (isdigit(atoi(pin.c_str()))) {
+            int int_pin = atoi(pin.c_str());
+            /*for(int i = 0; i < utenti.getSize(); ++i) { // Verifico che le credenziali siano corrette
+                if(utenti[i].getUsername() == usr.toUtf8().constData() && utenti[i].getPin() == int_pin) {
+                    flag = true; // Dati del login verificati
+                    User a = utenti[i]; // Ritorna l'utente nella i-esima posizione
+                    if(dynamic_cast<Admin>(a)) // Verifico che l'utente sia un amministratore
+                        admin = true;
                     break;
                 }
-            }else{ // Login errato, visualizzo un messaggio di errore
-                QMessageBox::warning(
-                    this,
-                    tr("BankQ - Errore"),
-                    tr("Dati non corretti")
-                );
-            }
-        }
+            }*/
+            for(Container<User>::Iteratore it = utenti.begin(); it != utenti.end(); ++it) { // Verifico che le credenziali siano corrette
+                //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
 
+                if(utenti[it].verifyLogin(user, int_pin)) {  // Login corretto
+                    //Admin* ad = dynamic_cast<Admin*>(&(utenti[it]));
+                    if(true) { // Verifico se e' un amministratore e apro la relativa finestra
+                        this->close(); // Chiudo la finistra di login
+                        AdminInfo newAdminWindow;
+                        newAdminWindow.setModal(true);
+                        newAdminWindow.exec();
+                        break;
+                    }else{ // Utente "normale"
+                        this->close(); // Chiudo la finistra di login
+                        UserInfo newUserWidow;
+                        newUserWidow.setModal(true);
+                        newUserWidow.exec();
+                        break;
+                    }
+                }else{ // Login errato, visualizzo un messaggio di errore
+                    QMessageBox::warning(
+                        this,
+                        tr("BankQ - Errore"),
+                        tr("Dati non corretti")
+                    );
+                }
+            }
+        }else{
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("PIN non numerico")
+            );
+        }
 
     }else{ // Creazione del contenitore errata o errore di accesso al DB
         QMessageBox::warning(

@@ -2,15 +2,23 @@
 <bank>
     <user>
         <name>Admin</name>
-        <suername>Admin</suername>
+        <surname>admin</surname>
+        <address>Via Prova</address>
+        <telephone>111111</telephone>
+        <code>AA111ad1l</code>
         <username>admin</username>
-        <password>admin</password>
+        <pin>111</pin>
+        <salary>10</salary>
     </user>
     
     <user>
         <name>Marco</name>
-        <suername>M</suername>
+        <surname>m</surname>
+        <address>Via Prova</address>
+        <telephone>111111</telephone>
+        <code>AA111ad1l</code>
         <username>marco</username>
-        <password>123</password>
+        <pin>123</pin>
+        <count>100</count>
     </user>
 </bank>
