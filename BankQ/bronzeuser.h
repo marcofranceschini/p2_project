@@ -4,10 +4,12 @@
 #include "user.h"
 
 class BronzeUser: public User {
+    protected:
+        double tax;     // Tasse
+        double bonus;   // Bonus
+
     private:
-        static double tax;
-        static double bonus;
-        double count;
+        double count;   // Conto corrente
 
     public:
         /*BronzeUser(string n, string s, string a, int t, string cod, string u, int p, bool ad):
@@ -23,11 +25,11 @@ class BronzeUser: public User {
             return bonus;
         }
 
-        virtual double getCount () const {
+        double getCount () const {
             return count;
         }
 
-        virtual void setCount (double c) {
+        void setCount (double c) {
             count = c;
         }
 };

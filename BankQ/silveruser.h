@@ -5,8 +5,8 @@
 
 class SilverUser: public BronzeUser {
     private:
-        /*static float bonusS; */// L'utente silver ha un bonus aggiuntivo rispetto a quello standard
-        static double extraBonus;
+        static double extraBonus;   // Bonus aggiuntivo rispetto all'utente Bronze
+
     public:
         SilverUser();
 
@@ -15,7 +15,7 @@ class SilverUser: public BronzeUser {
         }L'utente silver non tasse aggiuntive, serve quinid il get?? */
 
         double getTotalBonus () const {
-            return extraBonus + BronzeUser::getTotalBonus();
+            return extraBonus + tax;
         }
 
         /*double getCount () const {
@@ -23,6 +23,6 @@ class SilverUser: public BronzeUser {
         }*/
 };
 
-//double SilverUser::extraBonus = 1.5;
+double SilverUser::extraBonus = 1.5;
 
 #endif // SILVERUSER_H

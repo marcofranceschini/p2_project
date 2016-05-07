@@ -3,5 +3,5 @@
 
 
 SilverUser::SilverUser() {
-    SilverUser::extraBonus = 1.5;
+    //SilverUser::extraBonus = 1.5;
 }
