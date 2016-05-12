@@ -6,16 +6,41 @@ class Container {
     friend class Iteratore;
 
     private:
+
+        class SmartPointer;
+
         class Nodo {
             public:
-                T info;
-                Nodo* next;
+                T* info;
+                SmartPointer next;
                 Nodo();
-                Nodo (const T& u, Nodo* p): info(u), next(p) {}
+                Nodo (T* u, const SmartPointer& p): info(u), next(p) {}
                 ~Nodo();
         };
 
-        Nodo* first;
+        class SmartPointer{
+            public:
+                SmartPointer(Nodo* = 0);							//costruttore 0~1 parametro + convertitore implicito nodo*->smartp
+                ~SmartPointer();									//distruttore
+                SmartPointer(const SmartPointer&);						//costruttore di copia
+                SmartPointer& operator=(const SmartPointer&);			//operatore di assegnazione
+                bool operator==(const SmartPointer&)const;		//operatore di uguaglianza
+                bool operator!=(const SmartPointer&)const;		//operatore di disuguaglianza
+                Nodo* operator->()const;					//operatore di accesso a membro
+                Nodo& operator*()const;
+
+                Nodo* pointer;
+
+                /*SmartPointer& operator=(const SmartPointer& sp) {
+                    if (this == &sp) return *this;
+                    Nodo* t = pointer;
+                    pointer = sp.pointer;
+
+                    return *this;
+                }*/
+        };
+
+        SmartPointer first;
         static Nodo* copia (Nodo*);
         static void distruggi (Nodo*);
     public:
@@ -23,7 +48,7 @@ class Container {
             friend class Container;
 
             private:
-                Container::Nodo* punt;
+                Container::SmartPointer punt;
 
             public:
                 bool operator== (Iteratore i) const {
@@ -34,11 +59,10 @@ class Container {
                     return punt != i.punt;
                 }
 
-                Iteratore& operator++ () {
-                    Iteratore aux = *this;
-                    if (punt) punt = punt->next;
-                    return aux;
-                }
+              /*  Iteratore& operator++ () {
+                    if (punt != 0) punt = punt->next;
+                    return *this;
+                }*/
 
                 Iteratore operator++ (int) {
                     Iteratore aux;
@@ -48,6 +72,12 @@ class Container {
         };
 
         Container(): first(0) {}
+
+        Container& operator= (const Container& var) {   // Assegnazione con SmartPointer
+            if (&var == this) return *this;
+            first = var.first;
+            return *this;
+        }
 
         // Metodi che usano Iteratore
 
@@ -63,12 +93,12 @@ class Container {
             return aux;
         }
 
-        T& operator[] (Iteratore it) const {
+        T* operator[] (Iteratore it) const {
             return (it.punt)->info;
         }
 
         void push_back (T nuovo) {
-            first = new Nodo (nuovo, first);
+            first = new Nodo (&nuovo, first);
         }
 };
 

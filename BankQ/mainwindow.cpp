@@ -20,6 +20,7 @@
 #include <QFile>
 #include <QFileDialog>
 
+
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::MainWindow) {
         ui->setupUi(this);
         //on_centralWidget_windowTitleChanged("BankQ - Login"); // Cambio il titolo della finestra
@@ -69,7 +70,7 @@ void MainWindow::on_toolButton_clicked() {
 
 
 
-    if(d.loadDB(utenti)) {  // Entro sse non ho avuto problemi nel riempire la lista
+    if (d.loadDB(utenti)) {  // Entro sse non ho avuto problemi nel riempire la lista
         //string *vet = verifyLogin(usr.toUtf8().constData(), pass.toUtf8().constData());
         //u.boom();
 
@@ -78,7 +79,7 @@ void MainWindow::on_toolButton_clicked() {
         string pin = pass.toUtf8().constData();
         string user = usr.toUtf8().constData();
 
-        if (isdigit(atoi(pin.c_str()))) {
+        if (atoi(pin.c_str())) {    // Verifico che il PIN sia numerico // isdigit(atoi(pin.c_str()))
             int int_pin = atoi(pin.c_str());
             /*for(int i = 0; i < utenti.getSize(); ++i) { // Verifico che le credenziali siano corrette
                 if(utenti[i].getUsername() == usr.toUtf8().constData() && utenti[i].getPin() == int_pin) {
@@ -89,12 +90,14 @@ void MainWindow::on_toolButton_clicked() {
                     break;
                 }
             }*/
-            for(Container<User>::Iteratore it = utenti.begin(); it != utenti.end(); ++it) { // Verifico che le credenziali siano corrette
+            for (Container<User>::Iteratore it = utenti.begin(); it != utenti.end(); it++) { // Verifico che le credenziali siano corrette
                 //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
+                QString app = QString::fromStdString(utenti[it]->getUsername());
+                ui->lineEdit->setText(app);
 
-                if(utenti[it].verifyLogin(user, int_pin)) {  // Login corretto
+                /*if (utenti[it].verifyLogin(user, int_pin)) {  // Login corretto
                     //Admin* ad = dynamic_cast<Admin*>(&(utenti[it]));
-                    if(true) { // Verifico se e' un amministratore e apro la relativa finestra
+                    if (true) { // Verifico se e' un amministratore e apro la relativa finestra
                         this->close(); // Chiudo la finistra di login
                         AdminInfo newAdminWindow;
                         newAdminWindow.setModal(true);
@@ -113,7 +116,8 @@ void MainWindow::on_toolButton_clicked() {
                         tr("BankQ - Errore"),
                         tr("Dati non corretti")
                     );
-                }
+                    break;
+                }*/
             }
         }else{
             QMessageBox::warning(

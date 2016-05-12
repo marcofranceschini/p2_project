@@ -28,30 +28,29 @@ class DataBase {
             file->open(QIODevice::ReadOnly);
             QXmlStreamReader xmlReader(file);
 
-            MainWindow u;
-
             while (!xmlReader.atEnd()) {
                 xmlReader.readNext();
+
                 if (xmlReader.isStartElement()) {
                     if (xmlReader.name().toString() == "username") {
                         xmlReader.readNext();
                         //User utente;
                         bool flag = false; // true se ho un utente normale
                         bool pro = false; // true se ho un utente AAA
-                        u.boom();
 
                         while (xmlReader.name().toString() != "username" && !flag && !pro) {
                             if (xmlReader.name().toString() == "salary")
                                 flag = true;
-                            else
+                            else {
                                 if(xmlReader.name().toString() == "extra")
                                     pro = true;
-
+                            }
+                            xmlReader.readNext();
                         }
 
                         if(flag) {  // Amministratore
                             Admin utente;
-                            while (xmlReader.name().toString() != "user") {
+                            while (xmlReader.name().toString() != "username") {
                                 if (xmlReader.name().toString() == "nome")
                                     utente.setName(xmlReader.readElementText().toStdString());
                                 if (xmlReader.name().toString() == "cognome")
