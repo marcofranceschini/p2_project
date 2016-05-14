@@ -68,7 +68,7 @@ class DataBase {
                                 xmlReader.readNext();
                             }
                             //TODO L'immortacci ai template
-                            utenti.push_back(utente);
+                            utenti.push_back(&utente);
                         }else{  // Utente con conto - VERIFICARE CHE UTENTE È (bronze, silver, gold) [dynamic cast]
                             if (pro) {
                                 SilverUser utente;
@@ -93,7 +93,7 @@ class DataBase {
 
                                     xmlReader.readNext();
                                 }
-                                utenti.push_back(utente);
+                                utenti.push_back(&utente);
                             }else{
                                 BronzeUser utente;
 
@@ -116,7 +116,7 @@ class DataBase {
                                         utente.setCount(xmlReader.readElementText().toDouble());    // DOUBLE
                                     xmlReader.readNext();
                                 }
-                                utenti.push_back(utente);
+                                utenti.push_back(&utente);
                             }
 
 
