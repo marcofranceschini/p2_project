@@ -12,17 +12,32 @@ class Container {
 
         class SmartPointer {
             public:
-                SmartPointer (Nodo* p): pointer(p) {}							//costruttore 0~1 parametro + convertitore implicito nodo*->smartp
+                SmartPointer (Nodo* p): pointer(p) {							//costruttore 0~1 parametro + convertitore implicito nodo*->smartp
+                    if (pointer) pointer->counter++;
 
-                ~SmartPointer () {   // Distruttore
-                    if (pointer) delete pointer;
                 }
 
-                SmartPointer (const SmartPointer& sp): pointer(sp.pointer) {}					//costruttore di copia
+                ~SmartPointer () {   // Distruttore
+                    if (pointer) {
+                        (pointer->counter)--;
+                        if (pointer->counter == 0) delete pointer;
+                    }
+                }
 
-                /*??????*/SmartPointer& operator= (const SmartPointer& var) {			//operatore di assegnazione
+                SmartPointer (const SmartPointer& sp): pointer(sp.pointer) {					//costruttore di copia
+                    if (pointer) pointer->counter++;
+                }
+
+                SmartPointer& operator= (const SmartPointer& var) {			//operatore di assegnazione
                     if (&var == this) return *this;
-                    return var;
+                    Nodo* n = pointer;
+                    pointer = var.pointer;
+                    if (pointer) (pointer->counter)++;
+                    if (n) {
+                        (n->counter)--;
+                        if ((n->counter) == 0) delete n;
+                    }
+                    return *this;
                 }
 
                 bool operator== (const SmartPointer& i)const {		//operatore di uguaglianza
@@ -44,8 +59,9 @@ class Container {
             public:
                 T* info;
                 SmartPointer next;
+                int counter;
                 //Nodo();
-                Nodo (T* t, const SmartPointer& n): info(t), next(n) {}
+                Nodo (T* t, const SmartPointer& n): info(t), next(n), counter(0) {}
         };
 
         SmartPointer first;
