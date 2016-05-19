@@ -2,261 +2,217 @@
 #define CONTAINER_H
 
 template <class T>
-
 class Container {
     friend class Iteratore;
+private:
+    class Nodo;
 
-    private:
-
-        class Nodo;
-
-        class SmartPointer {
-            public:
-                SmartPointer (Nodo* = 0);							//costruttore 0~1 parametro + convertitore implicito nodo*->smartp
-
-                ~SmartPointer ();   // Distruttore
-
-                SmartPointer (const SmartPointer&);     // Costruttore di copia
-
-                //SmartPointer& operator= (const SmartPointer&);  // Operatore di assegnazione
-                SmartPointer& operator= (const SmartPointer& var) {    //operatore di assegnazione
-                    if (&var == this) return *this;
-                    Nodo* n = pointer;
-                    pointer = var.pointer;
-                    if (pointer) (pointer->counter)++;
-                    if (n) {
-                        (n->counter)--;
-                        if ((n->counter) == 0) delete n;
-                    }
-                    return *this;
-                }
-
-                bool operator== (const SmartPointer&) const;  // Operatore di uguaglianza
-
-                bool operator!= (const SmartPointer&) const;  // Operatore di disuguaglianza
-
-                //Nodo* operator-> () const;  // Operatore di accesso a membro
-                Nodo* operator-> () const {return pointer;}
-
-                //Nodo& operator* () const;
-                Nodo& operator* () const {return *pointer;}
-
-                Nodo* pointer;
-        };
-
-        class Nodo {
-            public:
-                Nodo (T*, const SmartPointer& = 0);
-
-                T* info;
-                SmartPointer next;
-                int counter;
-                ~Nodo();
-        };
-
-        SmartPointer first;
-        //static Nodo* copia (Nodo*);
-        //static void distruggi (Nodo*);
+    class SmartPointer {
     public:
-        class Iteratore {
-            friend class Container;
+        Nodo* punt;
 
-            private:
-                Container::SmartPointer punt;
+        SmartPointer(Nodo* n = 0): punt(n) {
+            if (punt) punt->references++;
+        }
+        SmartPointer(const SmartPointer& ptr): punt(ptr.punt) {
+            if (punt) punt->references++;
+        }
+        ~SmartPointer() {
+            if (punt) {
+                punt->references--;
+                if (punt->references == 0) delete punt;
+            }
+        }
 
-            public:
-                bool operator== (const Iteratore&) const;
-
-                bool operator!= (const Iteratore&) const;
-
-                //Iteratore& operator++ ();
-                Iteratore& operator++ () {
-                    if (punt != 0) punt = punt->next;
-                    return *this;
+        SmartPointer& operator=(const SmartPointer& ptr) {
+            if (this != &ptr) {
+                Nodo* n = punt;
+                punt = ptr.punt;
+                if (punt) punt->references++;
+                if (n) {
+                    n->references--;
+                    if (n->references == 0) delete n;
                 }
-
-                //Iteratore& operator++ (int);
-                Iteratore& operator++ (int) {
-                    Iteratore aux = *this;
-                    if (punt != 0) punt = punt->next;
-                    return aux;
-                }
-
-
-                T* operator* () const;  // Operatore di accesso a membro
-        };
-
-        Container();
-
-        Container (const Container&);
-
-        //Container& operator= (const Container&);    // Assegnazione con SmartPointer
-        Container& operator= (const Container& var) {   // Assegnazione con SmartPointer
-            if (&var == this) return *this;
-            first = var.first;
+            }
             return *this;
         }
 
-        //void push_back (T*);
-        void push_back (T* nuovo) {
-            first = new Nodo (nuovo, first);
+        bool operator==(const SmartPointer& ptr) const {
+            return ptr.punt == punt;
         }
 
-        bool empty () const; // Torna 1 sse container è vuoto
+        bool operator!=(const SmartPointer& ptr) const {
+            return ptr.punt != punt;
+        }
 
-        void remove_item (T*); // Rimuove un elemento dalla lsita
+        Nodo* operator->() const {
+            return punt;
+        }
 
-        // Metodi che usano Iteratore
+        Nodo& operator*() const {
+            return *punt;
+        }
+    };
 
-        //Iteratore begin () const;
-        Iteratore begin () const {
-            Iteratore aux;
-            aux.punt = first;
+    class Nodo {
+    public:
+        T* value;
+        SmartPointer next;
+        int references;
+
+        Nodo(T* t = T(), const SmartPointer& ptr = SmartPointer()): value(t), next(ptr), references(0) {}
+    };
+
+    SmartPointer head;
+    SmartPointer tail;
+
+public:
+    class Iteratore{
+        friend class Container;
+
+    private:
+        Container::SmartPointer punt;
+
+    public:
+        bool operator==(const Iteratore& it) const {
+            return it.punt == punt;
+        }
+
+        bool operator!=(const Iteratore& it) const {
+            return it.punt != punt;
+        }
+
+        Iteratore& operator++() {
+            if(punt != 0) punt = punt->next;
+            return *this;
+        }
+
+        Iteratore& operator++(int) {
+            Iteratore aux = *this;
+            if (punt != 0) punt = punt->next;
             return aux;
         }
 
-        //Iteratore end () const;
-        Iteratore end () const {
-            Iteratore aux;
-            aux.punt = 0;
-            return aux;
+        T* operator*() const {
+            if (punt != 0) return punt->value;
         }
+    };
 
-        //T* operator[] (const Iteratore&);
-        T* operator[] (const Iteratore& it) const {
-            return (it.punt)->info;
+    Container(const SmartPointer& ptr = 0): head(ptr), tail(0) {
+        if (head != 0) {
+            SmartPointer p = head;
+            while (p != 0)
+                p = p->next;
+            tail = p;
         }
+    }
+
+    Container(const Container& list): head(list.head), tail(list.tail) {}
+
+    Container& operator=(const Container& list) {
+        if (this != &list) {
+            head = list.head;
+            tail = list.tail;
+        }
+        return *this;
+    }
+
+    int getSize() const {
+        int count = 0;
+        SmartPointer p = head;
+        while (p != 0) {
+            p = p->next;
+            count++;
+        }
+        return count;
+    }
+
+    bool isEmpty() const {
+        return getSize() == 0;
+    }
+
+    T* at(int pos) const {
+        if (pos > -1 && pos < getSize()) {
+            SmartPointer p = head;
+            while (pos--) {
+                p = p->next;
+            }
+            return p->value;
+        } else return 0;
+    }
+
+    /*void add(const T& t) {
+        if (head == 0) {
+            head = SmartPointer(new Nodo(&(const_cast<T&>(t))));
+            tail = head;
+        } else {
+            tail->next = SmartPointer(new Nodo(&(const_cast<T&>(t))));
+            tail = tail->next;
+        }
+    }*/
+
+    void push_back(T* t) {
+        if (head == 0) {
+            head = SmartPointer(new Nodo(t));
+            tail = head;
+        } else {
+            tail->next = SmartPointer(new Nodo(t));
+            tail = tail->next;
+        }
+    }
+
+    void remove(int pos) {
+        if (pos > -1 && pos < getSize()) {
+            SmartPointer newHead = head;
+            SmartPointer p = newHead;
+            head = 0;
+            while (pos--) {
+                add(p->value);
+                p = p->next;
+            }
+            p = p->next;
+            while (p != 0) {
+                add(p->value);
+                p = p->next;
+            }
+        }
+    }
+
+    void replace(int pos, T* t) {
+        if (pos > -1 && pos < getSize()) {
+            SmartPointer p = head;
+            while (pos--)
+                p = p->next;
+            p->value = t;
+        }
+    }
+
+    void replace(int pos, const T& t) {
+        if (pos > -1 && pos < getSize()) {
+            SmartPointer p = head;
+            while (pos--)
+                p = p->next;
+            T& t_obj = const_cast<T&>(t);
+            p->value = &t_obj;
+        }
+    }
+
+    Iteratore begin() const {
+        Iteratore it;
+        it.punt = head;
+        return it;
+    }
+
+    Iteratore end() const {
+        Iteratore it;
+        it.punt = 0;
+        return it;
+    }
+
+    T* operator[](const Iteratore& it) const {
+        return it.punt->value;
+    }
 };
 
 #endif // CONTAINER_H
-/*
-class Container {
-    friend class Iteratore;
 
-    private:
-
-        class Nodo;
-
-        class SmartPointer {
-            public:
-                SmartPointer (Nodo* p): pointer(p) {							//costruttore 0~1 parametro + convertitore implicito nodo*->smartp
-                    if (pointer) pointer->counter++;
-
-                }
-
-                ~SmartPointer () {   // Distruttore
-                    if (pointer) {
-                        (pointer->counter)--;
-                        if (pointer->counter == 0) delete pointer;
-                    }
-                }
-
-                SmartPointer (const SmartPointer& sp): pointer(sp.pointer) {					//costruttore di copia
-                    if (pointer) pointer->counter++;
-                }
-
-                SmartPointer& operator= (const SmartPointer& var) {			//operatore di assegnazione
-                    if (&var == this) return *this;
-                    Nodo* n = pointer;
-                    pointer = var.pointer;
-                    if (pointer) (pointer->counter)++;
-                    if (n) {
-                        (n->counter)--;
-                        if ((n->counter) == 0) delete n;
-                    }
-                    return *this;
-                }
-
-                bool operator== (const SmartPointer& i)const {		//operatore di uguaglianza
-                    return pointer == i.pointer;
-                }
-
-                bool operator!= (const SmartPointer& i)const {		//operatore di disuguaglianza
-                    return pointer != i.pointer;
-                }
-
-                Nodo* operator-> () const {return pointer;} // Operatore di accesso a membro
-
-                Nodo& operator* () const {return *pointer;}
-
-                Nodo* pointer;
-        };
-
-        class Nodo {
-            public:
-                T* info;
-                SmartPointer next;
-                int counter;
-                //Nodo();
-                Nodo (T* t, const SmartPointer& n): info(t), next(n), counter(0) {}
-        };
-
-        SmartPointer first;
-        //static Nodo* copia (Nodo*);
-        //static void distruggi (Nodo*);
-    public:
-        class Iteratore {
-            friend class Container;
-
-            private:
-                Container::SmartPointer punt;
-
-            public:
-                bool operator== (const Iteratore& i) const {
-                    return punt == i.punt;
-                }
-
-                bool operator!= (const Iteratore& i) const {
-                    return punt != i.punt;
-                }
-
-                Iteratore& operator++ () {
-                    if (punt != 0) punt = punt->next;
-                    return *this;
-                }
-
-                Iteratore& operator++ (int) {
-                    Iteratore aux = *this;
-                    if (punt != 0) punt = punt->next;
-                    return aux;
-                }
-
-                T* operator* () const {     // Operatore di accesso a membro
-                    return punt->info;
-                }
-        };
-
-        Container(): first(0) {}
-
-        Container (const Container& cont): first(cont.first){}
-
-        Container& operator= (const Container& var) {   // Assegnazione con SmartPointer
-            if (&var == this) return *this;
-            first = var.first;
-            return *this;
-        }
-
-        void push_back (T* nuovo) {
-            first = new Nodo (nuovo, first);
-        }
-
-
-        // Metodi che usano Iteratore
-
-        Iteratore begin () const {
-            Iteratore aux;
-            aux.punt = first;
-            return aux;
-        }
-
-        Iteratore end () const {
-            Iteratore aux;
-            aux.punt = 0;
-            return aux;
-        }
-
-        T* operator[] (const Iteratore& it) const {
-            return (it.punt)->info;
-        }
-};
-*/
