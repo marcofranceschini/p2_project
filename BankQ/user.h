@@ -103,13 +103,15 @@ class User {
         }*/
 
         bool verifyLogin (string usr, int pass) const {
-            if(username == usr && pin == pass)
+            return (username == usr && pin == pass);
+            /*if(username == usr && pin == pass)
                 //return true; // Dati del login verificati
                 //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
                   //  admin = true;
                 return true;
             else
                 return false;
+                */
 
             /*string vet = new string[2];
             bool flag = false;

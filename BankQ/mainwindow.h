@@ -19,6 +19,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+
+
+
+
     void boom() {
         QMessageBox::warning(
             this,
@@ -26,6 +31,10 @@ public:
             tr("BOOM")
         );
     }
+
+
+
+
 
 private slots:
     void on_centralWidget_windowTitleChanged(const QString &title);

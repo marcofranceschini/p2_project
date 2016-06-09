@@ -92,10 +92,12 @@ void MainWindow::on_toolButton_clicked() {
             }*/
             for (Container<User>::Iteratore it = utenti.begin(); it != utenti.end(); it++) { // Verifico che le credenziali siano corrette
                 //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
-                QString app = QString::fromStdString(utenti[it]->getUsername());
+
+                //QString app = QString::fromStdString(utenti[it]->getUsername());
+                QString app;
                 ui->lineEdit->setText(app);
 
-                /*if (utenti[it].verifyLogin(user, int_pin)) {  // Login corretto
+                if (utenti[it]->verifyLogin(user, int_pin)) {  // Login corretto
                     //Admin* ad = dynamic_cast<Admin*>(&(utenti[it]));
                     if (true) { // Verifico se e' un amministratore e apro la relativa finestra
                         this->close(); // Chiudo la finistra di login
@@ -117,7 +119,7 @@ void MainWindow::on_toolButton_clicked() {
                         tr("Dati non corretti")
                     );
                     break;
-                }*/
+                }
             }
         }else{
             QMessageBox::warning(

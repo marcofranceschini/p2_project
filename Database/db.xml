@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <bank>
-    <user>
+    <admin>
         <name>Admin</name>
         <surname>admin</surname>
         <address>Via Prova</address>
@@ -9,9 +9,9 @@
         <username>admin</username>
         <pin>111</pin>
         <salary>10</salary>
-    </user>
+    </admin>
     
-    <user>
+    <silver>
         <name>Marco</name>
         <surname>m</surname>
         <address>Via Prova</address>
@@ -20,5 +20,8 @@
         <username>marco</username>
         <pin>123</pin>
         <count>100</count>
-    </user>
+    </silver>
+    
+    <bronze>
+    </bronze>
 </bank>
