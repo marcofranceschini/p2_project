@@ -59,7 +59,7 @@ void MainWindow::on_toolButton_clicked() {
             QString name = xmlReader.name().toString();
             if (name == "username") {
                 QMessageBox::information(this,name,xmlReader.readElementText());
-            }
+            }xmlReader.name().toString()
         }else if (xmlReader.isEndElement()) {
                     xmlReader.readNext();
         }
@@ -67,6 +67,7 @@ void MainWindow::on_toolButton_clicked() {
     Container <User> utenti;
     DataBase d;
     MainWindow u;
+    u.boom();
 
 
 
