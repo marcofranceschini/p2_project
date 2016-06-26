@@ -14,9 +14,11 @@ private:
         SmartPointer(Nodo* n = 0): punt(n) {
             if (punt) punt->references++;
         }
+
         SmartPointer(const SmartPointer& ptr): punt(ptr.punt) {
             if (punt) punt->references++;
         }
+
         ~SmartPointer() {
             if (punt) {
                 punt->references--;

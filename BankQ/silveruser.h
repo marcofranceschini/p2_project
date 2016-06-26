@@ -18,6 +18,10 @@ class SilverUser: public BronzeUser {
             return extraBonus + tax;
         }
 
+        bool verifyLogin (const int& pass) const {
+            return (pin == pass);
+        }
+
         /*double getCount () const {
             return count;
         }*/

@@ -32,6 +32,10 @@ class BronzeUser: public User {
         void setCount (double c) {
             count = c;
         }
+
+        virtual bool verifyLogin (const int& pass) const {
+            return (pin == pass);
+        }
 };
 
 //double BronzeUser::tax = 1;

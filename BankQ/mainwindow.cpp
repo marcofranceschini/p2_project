@@ -64,24 +64,90 @@ void MainWindow::on_toolButton_clicked() {
                     xmlReader.readNext();
         }
     }*/
-    Container <User> utenti;
     DataBase d;
+
+    bool admin = false;
+    bool bronze = false;
+
+    string pin = pass.toUtf8().constData();
+    string user = usr.toUtf8().constData();
+
     MainWindow u;
-    u.boom();
+    if (atoi(pin.c_str())) {    // Verifico che il PIN sia numerico // isdigit(atoi(pin.c_str()))
+        int int_pin = atoi(pin.c_str());
+        if (d.loadAdmin()) {  // Entro sse non ci sono stati problemi a riempire la lista degli admin
+            Admin a = d.getAdmin(user);
+            if (a.verifyLogin(int_pin)) {
+                u.boom();
+                this->close(); // Chiudo la finistra di login
+                AdminInfo newAdminWindow;
+                newAdminWindow.setModal(true);
+                newAdminWindow.exec();
+                admin = true;
+            }
+        } else { // Creazione del contenitore errata o errore di accesso al DB
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("Errore di caricamento")
+            );
+        }
+        if (!admin) {
+            if (d.loadBronze()) {    // Entro sse non ci sono stati problemi a riempire la lista degli utenti bronze
+                BronzeUser b = d.getBronze(user);
+                if (b.verifyLogin(int_pin)) {
+                    this->close(); // Chiudo la finistra di login
+                    UserInfo newUserWidow;
+                    newUserWidow.setModal(true);
+                    newUserWidow.exec();
+                    bronze = true;
+                }
+            } else { // Creazione del contenitore errata o errore di accesso al DB
+                QMessageBox::warning(
+                    this,
+                    tr("BankQ - Errore"),
+                    tr("Errore di caricamento")
+                );
+            }
+        }
+        if (!bronze) {
+            if (d.loadSilver()) {    // Entro sse non ci sono stati problemi a riempire la lista degli utenti silver
+                SilverUser b = d.getSilver(user);
+                if (b.verifyLogin(int_pin)) {
+                    this->close(); // Chiudo la finistra di login
+                    UserInfo newUserWidow;
+                    newUserWidow.setModal(true);
+                    newUserWidow.exec();
+                }
+            } else { // Creazione del contenitore errata o errore di accesso al DB
+                QMessageBox::warning(
+                    this,
+                    tr("BankQ - Errore"),
+                    tr("Errore di caricamento")
+                );
+            }
+        }
+    }else{
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("PIN non numerico")
+        );
+    }
+   /* if (d.loadAdmin()) {  // Entro sse non ci sono stati problemi a riempire la lista degli admin
+        if (atoi(pin.c_str())) {    // Verifico che il PIN sia numerico // isdigit(atoi(pin.c_str()))
+            int int_pin = atoi(pin.c_str());
 
-
-
-    if (d.loadDB(utenti)) {  // Entro sse non ho avuto problemi nel riempire la lista
         //string *vet = verifyLogin(usr.toUtf8().constData(), pass.toUtf8().constData());
         //u.boom();
 
-        bool admin = false;
+        //bool admin = false;
 
-        string pin = pass.toUtf8().constData();
-        string user = usr.toUtf8().constData();
+        //string pin = pass.toUtf8().constData();
+        //string user = usr.toUtf8().constData();
 
         if (atoi(pin.c_str())) {    // Verifico che il PIN sia numerico // isdigit(atoi(pin.c_str()))
-            int int_pin = atoi(pin.c_str());
+            int int_pin = atoi(pin.c_str());*/
             /*for(int i = 0; i < utenti.getSize(); ++i) { // Verifico che le credenziali siano corrette
                 if(utenti[i].getUsername() == usr.toUtf8().constData() && utenti[i].getPin() == int_pin) {
                     flag = true; // Dati del login verificati
@@ -91,7 +157,7 @@ void MainWindow::on_toolButton_clicked() {
                     break;
                 }
             }*/
-            for (Container<User>::Iteratore it = utenti.begin(); it != utenti.end(); it++) { // Verifico che le credenziali siano corrette
+            /*for (Container<User>::Iteratore it = utenti.begin(); it != utenti.end(); it++) { // Verifico che le credenziali siano corrette
                 //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
 
                 //QString app = QString::fromStdString(utenti[it]->getUsername());
@@ -136,7 +202,7 @@ void MainWindow::on_toolButton_clicked() {
             tr("BankQ - Errore"),
             tr("Errore di caricamento")
         );
-    }
+    }*/
     /*if (usr == "admin" && pass == "admin") { // Verifico che un utente o l' amministratore sia prensente nel DB
         this->close(); // Chiudo la finistra di login
         AdminInfo newAdminWindow;

@@ -16,10 +16,12 @@ class User {
         string address;
         int telephone;
         string code; // Codice fiscale - univoco
+        //string username;
+        //int pin;
+       // bool admin; // 0 se non è amministratore, 1 altrimenti --> NO USO IL DYANMIC CAST
+    protected:
         string username;
         int pin;
-       // bool admin; // 0 se non è amministratore, 1 altrimenti --> NO USO IL DYANMIC CAST
-
     public:
 
         /*User(string n, string s, string a, int t, string c) {
@@ -98,22 +100,24 @@ class User {
             pin=p;
         }
 
+        virtual bool verifyLogin (const int& pass) const = 0;
+
         /*void setAdmin (int a) {
             admin=a;
         }*/
 
-        bool verifyLogin (string usr, int pass) const {
+        /*bool verifyLogin (string usr, int pass) const {
             return (username == usr && pin == pass);
-            /*if(username == usr && pin == pass)
+            if(username == usr && pin == pass)
                 //return true; // Dati del login verificati
                 //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
                   //  admin = true;
                 return true;
             else
                 return false;
-                */
 
-            /*string vet = new string[2];
+
+            string vet = new string[2];
             bool flag = false;
             for (int i=0; utenti.size() && !flag; ++i) {
                 if(utenti[i].getUsername() == usr && utenti[i].getUsername() == pass) {
@@ -125,8 +129,8 @@ class User {
                         vet[1] = "0";
                 }
             }
-            return vet;*/
+            return vet;
 
-        }
+        }*/
 };
 #endif // USER_H

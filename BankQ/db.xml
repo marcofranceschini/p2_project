@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bank>
+    <admin>
+        <name>Admin</name>
+        <surname>admin</surname>
+        <address>Via Prova</address>
+        <telephone>111111</telephone>
+        <code>AA111ad1l</code>
+        <username>admin</username>
+        <pin>111</pin>
+        <salary>10</salary>
+    </admin>
+    
+    <silver>
+        <name>Marco</name>
+        <surname>m</surname>
+        <address>Via Prova</address>
+        <telephone>111111</telephone>
+        <code>AA111ad1l</code>
+        <username>marco</username>
+        <pin>123</pin>
+        <count>100</count>
+    </silver>
+    
+    <bronze>
+    </bronze>
+</bank>

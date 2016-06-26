@@ -11,6 +11,10 @@ class Admin: public User {
         double getSalary () const {
             return salary;
         }
+
+        bool verifyLogin (const int& pass) const {
+            return (pin == pass);
+        }
 };
 
 #endif // ADMIN_H
