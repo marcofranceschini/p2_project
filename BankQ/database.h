@@ -33,7 +33,6 @@ class DataBase {
             if (file->exists()) {
                     file->open(QIODevice::ReadOnly);
                     QXmlStreamReader xmlReader(file);
-                    MainWindow u;
 
                     while (!xmlReader.atEnd()) {
                         xmlReader.readNext();

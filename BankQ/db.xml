@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bank>
+
     <admin>
         <name>Admin</name>
         <surname>admin</surname>
@@ -24,4 +24,4 @@
     
     <bronze>
     </bronze>
-</bank>
+
