@@ -13,7 +13,10 @@ class Admin: public User {
         }
 
         bool verifyLogin (const int& pass) const {
-            return (pin == pass);
+            //int p = const_cast<int&> (pass);
+            //if (pin==p) return true;
+            //return false;
+            return false;
         }
 };
 

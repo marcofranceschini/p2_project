@@ -64,7 +64,7 @@ void MainWindow::on_toolButton_clicked() {
                     xmlReader.readNext();
         }
     }*/
-    DataBase d;
+   /* DataBase d;
 
     bool admin = false;
     bool bronze = false;
@@ -84,7 +84,13 @@ void MainWindow::on_toolButton_clicked() {
                 newAdminWindow.setModal(true);
                 newAdminWindow.exec();
                 admin = true;
-            }
+           } else {
+                QMessageBox::warning(
+                    this,
+                    tr("BankQ - Errore"),
+                    tr("Dati di accesso non corretti")
+                );
+           }
         } else { // Creazione del contenitore errata o errore di accesso al DB
             QMessageBox::warning(
                 this,
@@ -101,7 +107,13 @@ void MainWindow::on_toolButton_clicked() {
                     newUserWidow.setModal(true);
                     newUserWidow.exec();
                     bronze = true;
-                }
+               } else {
+                    QMessageBox::warning(
+                        this,
+                        tr("BankQ - Errore"),
+                        tr("Dati di accesso non corretti")
+                    );
+               }
             } else { // Creazione del contenitore errata o errore di accesso al DB
                 QMessageBox::warning(
                     this,
@@ -118,6 +130,12 @@ void MainWindow::on_toolButton_clicked() {
                     UserInfo newUserWidow;
                     newUserWidow.setModal(true);
                     newUserWidow.exec();
+                } else {
+                    QMessageBox::warning(
+                        this,
+                        tr("BankQ - Errore"),
+                        tr("Dati di accesso non corretti")
+                    );
                 }
             } else { // Creazione del contenitore errata o errore di accesso al DB
                 QMessageBox::warning(
@@ -127,13 +145,13 @@ void MainWindow::on_toolButton_clicked() {
                 );
             }
         }
-    }else{
+    } else {
         QMessageBox::warning(
             this,
             tr("BankQ - Errore"),
             tr("PIN non numerico")
         );
-    }
+    }*/
    /* if (d.loadAdmin()) {  // Entro sse non ci sono stati problemi a riempire la lista degli admin
         if (atoi(pin.c_str())) {    // Verifico che il PIN sia numerico // isdigit(atoi(pin.c_str()))
             int int_pin = atoi(pin.c_str());

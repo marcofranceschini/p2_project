@@ -1,8 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'admininfo.ui'
 **
-** Created: Thu Jun 23 10:51:03 2016
-**      by: Qt User Interface Compiler version 4.8.1
+** Created by: Qt User Interface Compiler version 4.8.7
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -112,10 +111,10 @@ public:
         label_3->setGeometry(QRect(60, 140, 91, 17));
         label_7 = new QLabel(tab);
         label_7->setObjectName(QString::fromUtf8("label_7"));
-        label_7->setGeometry(QRect(170, 140, 111, 17));
+        label_7->setGeometry(QRect(160, 140, 111, 17));
         label_8 = new QLabel(tab);
         label_8->setObjectName(QString::fromUtf8("label_8"));
-        label_8->setGeometry(QRect(180, 100, 101, 17));
+        label_8->setGeometry(QRect(160, 100, 101, 17));
         label_12 = new QLabel(tab);
         label_12->setObjectName(QString::fromUtf8("label_12"));
         label_12->setGeometry(QRect(220, 180, 141, 17));

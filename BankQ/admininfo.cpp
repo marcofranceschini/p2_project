@@ -5,9 +5,9 @@
 
 AdminInfo::AdminInfo(QWidget *parent):QDialog(parent), ui(new Ui::AdminInfo) {
     ui->setupUi(this);
-    ui->label->setText("Marco"); // Nome amministratore
-    ui->label_2->setText("Fr"); // Cognome amministratore
-    ui->label_3->setText("Amministratore"); // Tipo account -> amministratore rimmarrà fisso
+    ui->label_5->setText("Marco"); // Nome amministratore
+    ui->label_8->setText("Fr"); // Cognome amministratore
+    ui->label_7->setText("Amministratore"); // Tipo account -> amministratore rimmarrà fisso
     ui->label_19->setText("Via bello"); // Indirizzo amministratore
     ui->label_75->setText("MNRC..."); // Codice fiscale amministratore
     ui->label_77->setText("040421"); // Numero di telefono amministratore
