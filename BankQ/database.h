@@ -127,6 +127,15 @@ class DataBase {
             }
         }
 
+        bool verifyLogin (const string& usr, const int& pin) const {
+            for (Container<Admin>::Iteratore it = admin.begin(); it != admin.end(); ++it) {
+                if (admin[it]->getUsername() == usr) {
+                    if (admin[it]->getPin() == pin) return true;
+                    else return false;
+                }
+            }
+        }
+
         bool loadSilver() { // Carico gli utenti silver nel contenitore
             if (file->exists()) {
                     file->open(QIODevice::ReadOnly);

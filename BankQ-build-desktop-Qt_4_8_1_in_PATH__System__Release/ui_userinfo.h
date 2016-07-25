@@ -240,7 +240,7 @@ public:
         UserInfo->setWindowTitle(QApplication::translate("UserInfo", "Dialog", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Nome</span></p></body></html>", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Cognome</span></p></body></html>", 0, QApplication::UnicodeUTF8));
-        label_3->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Saldo</span></p></body></html>", 0, QApplication::UnicodeUTF8));
+        label_3->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Saldo (\342\202\254)</span></p></body></html>", 0, QApplication::UnicodeUTF8));
         label_4->setText(QString());
         label_5->setText(QString());
         label_6->setText(QString());

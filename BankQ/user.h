@@ -9,7 +9,8 @@ using namespace std;
 
 
 class User {
-    private:
+    //private:
+    protected:
         string name;
         string surname;
         //Qdate birth;
@@ -19,7 +20,7 @@ class User {
         //string username;
         //int pin;
        // bool admin; // 0 se non è amministratore, 1 altrimenti --> NO USO IL DYANMIC CAST
-    protected:
+
         string username;
         int pin;
     public:
@@ -31,74 +32,43 @@ class User {
             telephone=t;
             code=c;
         }*/
-        /*User(string n, string s, string a, int t, string c, string u, int p, bool ad):
-            name(n), surname(s), address(a), telephone(t), code(c), username(u), pin(p), admin(ad) {}*/
-        User();
+        User (string, string, string, int, string, string, int);
 
-        ~User() {}
+        User ();
+
+        virtual ~User();
 
 
         // Metodi get
-        string getName () const {
-            return name;
-        }
+        string getName () const;
 
-        string getSurname () const {
-            return surname;
-        }
+        string getSurname () const;
 
-        string getAddress () const {
-            return address;
-        }
+        string getAddress () const;
 
-        int getTelephone () const {
-            return telephone;
-        }
+        int getTelephone () const;
 
-        string getCode () const {
-            return code;
-        }
+        string getCode () const;
 
-        string getUsername () const {
-            return username;
-        }
+        string getUsername () const;
 
-        int getPin () const {
-            return pin;
-        }
+        int getPin () const;
 
-        /*int getAdmin () const {
-            return admin;
-        }*/
 
         // Metodi set
-        void setName (string n) {
-            name=n;
-        }
+        void setName (string);
 
-        void setSurname (string s) {
-            surname=s;
-        }
+        void setSurname (string);
 
-        void setAddress (string a) {
-            address=a;
-        }
+        void setAddress (string);
 
-        void setTelephone (int t) {
-            telephone=t;
-        }
+        void setTelephone (int);
 
-        void setCode (string c) {
-            code=c;
-        }
+        void setCode (string);
 
-        void setUsername (string u) {
-            username=u;
-        }
+        void setUsername (string);
 
-        void setPin (int p) {
-            pin=p;
-        }
+        void setPin (int);
 
         virtual bool verifyLogin (const int& pass) const = 0;
 

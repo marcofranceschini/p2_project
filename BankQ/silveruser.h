@@ -5,22 +5,20 @@
 
 class SilverUser: public BronzeUser {
     private:
-        /*static*/ double extraBonus;   // Bonus aggiuntivo rispetto all'utente Bronze
+        static double extraBonus;   // Bonus aggiuntivo rispetto all'utente Bronze
 
     public:
+        SilverUser (string, string, string, int, string, string, int);
+
         SilverUser();
 
         /*virtual float getTotalTax() const {
             return SilverUser::getTotalTax();
         }L'utente silver non tasse aggiuntive, serve quinid il get?? */
 
-        double getTotalBonus () const {
-            return extraBonus + tax;
-        }
+        double getTotalBonus () const;
 
-        bool verifyLogin (const int& pass) const {
-            return (pin == pass);
-        }
+        bool verifyLogin (const int&) const;
 
         /*double getCount () const {
             return count;

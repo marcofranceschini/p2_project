@@ -1,6 +1,6 @@
 #include "database.h"
 
 DataBase::DataBase() {
-    DataBase::file = new QFile("Database/db.xml");
+    DataBase::file = new QFile("db.xml");
     //loadDB();
 }

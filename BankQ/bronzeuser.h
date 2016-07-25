@@ -5,8 +5,8 @@
 
 class BronzeUser: public User {
     protected:
-        /*static*/ double tax;     // Tasse
-        /*static*/ double bonus;   // Bonus
+        static double tax;     // Tasse
+        static double bonus;   // Bonus
 
     private:
         double count;   // Conto corrente
@@ -15,30 +15,21 @@ class BronzeUser: public User {
         /*BronzeUser(string n, string s, string a, int t, string cod, string u, int p, bool ad):
             User(n, s, a, t, cod, u, p, ad) {}*/
          // float surcharge; L'utente bronzo non ha tasse aggiuntive da pagare a differenza degli altri tipi di utente
-        BronzeUser();
+        BronzeUser (string, string, string, int, string, string, int);
 
-        virtual double getTotalTax () const {
-            return tax;
-        }
+        BronzeUser ();
 
-        virtual double getTotalBonus () const {
-            return bonus;
-        }
+        virtual double getTotalTax () const;
 
-        double getCount () const {
-            return count;
-        }
+        virtual double getTotalBonus () const;
 
-        void setCount (double c) {
-            count = c;
-        }
+        double getCount () const;
 
-        virtual bool verifyLogin (const int& pass) const {
-            return (pin == pass);
-        }
+        void setCount (double);
+
+        virtual bool verifyLogin (const int&) const;
 };
 
-//double BronzeUser::tax = 1;
-//double BronzeUser::bonus = 1.5;
+
 
 #endif // BRONZEUSER_H

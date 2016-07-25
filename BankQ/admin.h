@@ -6,16 +6,17 @@ class Admin: public User {
     private:
         double salary;
     public:
-        Admin();
+        Admin (string, string, string, int, string, string, int, double);
 
-        double getSalary () const {
-            return salary;
-        }
+        Admin ();
+
+        double getSalary () const;
+
+        Admin* clone () const;
 
         bool verifyLogin (const int& pass) const {
-            //int p = const_cast<int&> (pass);
-            //if (pin==p) return true;
-            //return false;
+            int p = const_cast<int&> (pass);
+            if (pin==p) return true;
             return false;
         }
 };
