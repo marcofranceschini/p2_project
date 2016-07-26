@@ -134,7 +134,7 @@ public:
     }
 
     T* at(int pos) const {
-        if (pos > -1 && pos < getSize()) {
+        if (-1 < pos && pos < getSize()) {
             SmartPointer p = head;
             while (pos--) {
                 p = p->next;
@@ -164,7 +164,7 @@ public:
     }
 
     void remove(int pos) {
-        if (pos > -1 && pos < getSize()) {
+        if (-1 < pos && pos < getSize()) {
             SmartPointer newHead = head;
             SmartPointer p = newHead;
             head = 0;
@@ -181,7 +181,7 @@ public:
     }
 
     void replace(int pos, T* t) {
-        if (pos > -1 && pos < getSize()) {
+        if (-1 < pos && pos < getSize()) {
             SmartPointer p = head;
             while (pos--)
                 p = p->next;
@@ -190,7 +190,7 @@ public:
     }
 
     void replace(int pos, const T& t) {
-        if (pos > -1 && pos < getSize()) {
+        if (-1 < pos && pos < getSize()) {
             SmartPointer p = head;
             while (pos--)
                 p = p->next;

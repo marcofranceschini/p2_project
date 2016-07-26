@@ -4,6 +4,19 @@ Admin::Admin(string n, string s, string a, int t, string c, string u, int p, dou
 
 Admin::Admin () {}
 
+Admin::Admin (const Admin& a) {
+    name = a.getName();
+    surname = a.getSurname();
+    address = a.getAddress();
+    telephone = a.getTelephone();
+    code = a.getCode();
+    username = a.getUsername();
+    pin = a.getPin();
+    salary = a.getSalary();
+}
+
+Admin::~Admin() {}
+
 double Admin::getSalary () const {
     return salary;
 }

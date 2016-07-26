@@ -24,7 +24,7 @@
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::MainWindow) {
         ui->setupUi(this);
         //on_centralWidget_windowTitleChanged("BankQ - Login"); // Cambio il titolo della finestra
-        this->setWindowTitle("BankQ - Login");  // Cambio il titolo della finestra
+       // setWindowTitle("BankQ - Login");  // Cambio il titolo della finestra
         // Funzioni utente
         //connect(ui->actionInfo, SIGNAL(clicked()), this, SLOT(showInfo())); // Aggiungo chiamata ad una funzione quando schiaccio "info" nella toolBar
         //connect(ui->actionPreleva, SIGNAL(clicked()), this, SLOT(showInfo())); // Aggiungo chiamata ad una funzione quando schiaccio "preleva" nella toolBar
@@ -34,9 +34,9 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::on_centralWidget_windowTitleChanged(const QString &title) {
-    this->setWindowTitle(title);
-}
+/*void MainWindow::on_centralWidget_windowTitleChanged(const QString& title) {
+    setWindowTitle(title);
+}*/
 
 void MainWindow::on_toolButton_clicked() {
     QString usr = ui->lineEdit->text();
@@ -77,7 +77,7 @@ void MainWindow::on_toolButton_clicked() {
         int int_pin = atoi(pin.c_str());
         if (d.loadAdmin()) {  // Entro sse non ci sono stati problemi a riempire la lista degli admin
             u.boom();
-            if (d.verifyLogin(user, int_pin)) {
+            if (d.verifyLoginAdmin(user, int_pin)) {
                 this->close(); // Chiudo la finistra di login
                 AdminInfo newAdminWindow;
                 newAdminWindow.setModal(true);
@@ -93,13 +93,12 @@ void MainWindow::on_toolButton_clicked() {
         }
         if (!admin) {
             if (d.loadBronze()) {    // Entro sse non ci sono stati problemi a riempire la lista degli utenti bronze
-                if (d.verifyLogin(user, int_pin)) {
+                if (d.verifyLoginBronze(user, int_pin)) {
                     this->close(); // Chiudo la finistra di login
                     UserInfo newUserWindow;
                     newUserWindow.setBronze(d.getBronze(user));
                     newUserWindow.setModal(true);
                     newUserWindow.exec();
-
                     bronze = true;
                 }
             } else { // Creazione del contenitore errata o errore di accesso al DB
@@ -112,7 +111,7 @@ void MainWindow::on_toolButton_clicked() {
         }
         if (!bronze) {
             if (d.loadSilver()) {    // Entro sse non ci sono stati problemi a riempire la lista degli utenti silver
-                if (d.verifyLogin(user, int_pin)) {
+                if (d.verifyLoginSilver(user, int_pin)) {
                     this->close(); // Chiudo la finistra di login
                     UserInfo newUserWindow;
                     newUserWindow.setSilver(d.getSilver(user));

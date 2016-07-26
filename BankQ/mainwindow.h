@@ -12,8 +12,7 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -24,7 +23,7 @@ public:
 
 
 
-    void boom() {
+    void boom() {   // DA TOGLIERE
         QMessageBox::warning(
             this,
             tr("BOOM"),
@@ -37,7 +36,7 @@ public:
 
 
 private slots:
-    void on_centralWidget_windowTitleChanged(const QString &title);
+    //void on_centralWidget_windowTitleChanged(const QString&);
 
     void on_toolButton_clicked();
 

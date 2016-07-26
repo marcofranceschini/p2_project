@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <admin>
+        <name>Admin</name>
+        <surname>admin</surname>
+        <address>Via Prova</address>
+        <telephone>111111</telephone>
+        <code>AA111ad1l</code>
+        <username>admin</username>
+        <pin>111</pin>
+        <salary>10</salary>
+    </admin>
+

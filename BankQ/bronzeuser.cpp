@@ -4,6 +4,16 @@ BronzeUser::BronzeUser(string n, string s, string a, int t, string c, string u, 
 
 BronzeUser::BronzeUser() {}
 
+BronzeUser::BronzeUser (const BronzeUser& u) {
+    name = u.getName();
+    surname = u.getSurname();
+    address = u.getAddress();
+    telephone = u.getTelephone();
+    code = u.getCode();
+    username = u.getUsername();
+    pin = u.getPin();
+}
+
 double BronzeUser::getTotalTax () const {
     return tax;
 }

@@ -4,25 +4,28 @@
 #include "bronzeuser.h"
 
 class SilverUser: public BronzeUser {
-    private:
-        static double extraBonus;   // Bonus aggiuntivo rispetto all'utente Bronze
+private:
+    static double extraBonus;   // Bonus aggiuntivo rispetto all'utente Bronze
 
-    public:
-        SilverUser (string, string, string, int, string, string, int);
+public:
+    SilverUser (string, string, string, int, string, string, int);
 
-        SilverUser();
+    SilverUser();
 
-        /*virtual float getTotalTax() const {
-            return SilverUser::getTotalTax();
-        }L'utente silver non tasse aggiuntive, serve quinid il get?? */
+    SilverUser (const SilverUser&);
 
-        double getTotalBonus () const;
 
-        bool verifyLogin (const int&) const;
+    /*virtual float getTotalTax() const {
+        return SilverUser::getTotalTax();
+    }L'utente silver non tasse aggiuntive, serve quinid il get?? */
 
-        /*double getCount () const {
-            return count;
-        }*/
+    double getTotalBonus () const;
+
+    bool verifyLogin (const int&) const;
+
+    /*double getCount () const {
+        return count;
+    }*/
 };
 
 //double SilverUser::extraBonus = 1.5;

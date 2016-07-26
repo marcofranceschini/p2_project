@@ -9,98 +9,100 @@ using namespace std;
 
 
 class User {
-    //private:
-    protected:
-        string name;
-        string surname;
-        //Qdate birth;
-        string address;
-        int telephone;
-        string code; // Codice fiscale - univoco
-        //string username;
-        //int pin;
-       // bool admin; // 0 se non è amministratore, 1 altrimenti --> NO USO IL DYANMIC CAST
+//private:
+protected:
+    string name;
+    string surname;
+    //Qdate birth;
+    string address;
+    int telephone;
+    string code; // Codice fiscale - univoco
+    //string username;
+    //int pin;
+   // bool admin; // 0 se non è amministratore, 1 altrimenti --> NO USO IL DYANMIC CAST
 
-        string username;
-        int pin;
-    public:
+    string username;
+    int pin;
+public:
 
-        /*User(string n, string s, string a, int t, string c) {
-            name=n;
-            surname=s;
-            address=a;
-            telephone=t;
-            code=c;
-        }*/
-        User (string, string, string, int, string, string, int);
+    /*User(string n, string s, string a, int t, string c) {
+        name=n;
+        surname=s;
+        address=a;
+        telephone=t;
+        code=c;
+    }*/
+    User (string, string, string, int, string, string, int);
 
-        User ();
+    User ();
 
-        virtual ~User();
+    //User (User const&);
 
-
-        // Metodi get
-        string getName () const;
-
-        string getSurname () const;
-
-        string getAddress () const;
-
-        int getTelephone () const;
-
-        string getCode () const;
-
-        string getUsername () const;
-
-        int getPin () const;
+    virtual ~User();
 
 
-        // Metodi set
-        void setName (string);
+    // Metodi get
+    string getName () const;
 
-        void setSurname (string);
+    string getSurname () const;
 
-        void setAddress (string);
+    string getAddress () const;
 
-        void setTelephone (int);
+    int getTelephone () const;
 
-        void setCode (string);
+    string getCode () const;
 
-        void setUsername (string);
+    string getUsername () const;
 
-        void setPin (int);
-
-        virtual bool verifyLogin (const int& pass) const = 0;
-
-        /*void setAdmin (int a) {
-            admin=a;
-        }*/
-
-        /*bool verifyLogin (string usr, int pass) const {
-            return (username == usr && pin == pass);
-            if(username == usr && pin == pass)
-                //return true; // Dati del login verificati
-                //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
-                  //  admin = true;
-                return true;
-            else
-                return false;
+    int getPin () const;
 
 
-            string vet = new string[2];
-            bool flag = false;
-            for (int i=0; utenti.size() && !flag; ++i) {
-                if(utenti[i].getUsername() == usr && utenti[i].getUsername() == pass) {
-                    flag = true;
-                    vet[0] = usr;
-                    if(dynamic_cast<Admin>(utenti[i])) // Verifico se l'utente è un amministratore
-                        vet[1] = "1";
-                    else
-                        vet[1] = "0";
-                }
+    // Metodi set
+    void setName (string);
+
+    void setSurname (string);
+
+    void setAddress (string);
+
+    void setTelephone (int);
+
+    void setCode (string);
+
+    void setUsername (string);
+
+    void setPin (int);
+
+    virtual bool verifyLogin (const int& pass) const = 0;
+
+    /*void setAdmin (int a) {
+        admin=a;
+    }*/
+
+    /*bool verifyLogin (string usr, int pass) const {
+        return (username == usr && pin == pass);
+        if(username == usr && pin == pass)
+            //return true; // Dati del login verificati
+            //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
+              //  admin = true;
+            return true;
+        else
+            return false;
+
+
+        string vet = new string[2];
+        bool flag = false;
+        for (int i=0; utenti.size() && !flag; ++i) {
+            if(utenti[i].getUsername() == usr && utenti[i].getUsername() == pass) {
+                flag = true;
+                vet[0] = usr;
+                if(dynamic_cast<Admin>(utenti[i])) // Verifico se l'utente è un amministratore
+                    vet[1] = "1";
+                else
+                    vet[1] = "0";
             }
-            return vet;
+        }
+        return vet;
 
-        }*/
+    }*/
 };
 #endif // USER_H

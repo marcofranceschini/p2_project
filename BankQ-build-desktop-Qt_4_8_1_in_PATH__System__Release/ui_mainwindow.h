@@ -100,7 +100,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "BankQ - Login", 0, QApplication::UnicodeUTF8));
         actionPreleva->setText(QApplication::translate("MainWindow", "Preleva", 0, QApplication::UnicodeUTF8));
         actionCarica->setText(QApplication::translate("MainWindow", "Carica", 0, QApplication::UnicodeUTF8));
         actionInfo->setText(QApplication::translate("MainWindow", "Info", 0, QApplication::UnicodeUTF8));
