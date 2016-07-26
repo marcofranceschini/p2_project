@@ -3,6 +3,9 @@
 
 #include <QDialog>
 
+#include "bronzeuser.h"
+#include "silveruser.h"
+
 namespace Ui {
 class UserInfo;
 }
@@ -13,7 +16,12 @@ class UserInfo : public QDialog
 
 public:
     explicit UserInfo(QWidget *parent = 0);
+
     ~UserInfo();
+
+    void setBronze (BronzeUser const&);
+
+    void setSilver (SilverUser const&);
 
 private slots:
     void on_toolButton_3_clicked();
@@ -28,6 +36,12 @@ private slots:
 
 private:
     Ui::UserInfo *ui;
+
+    BronzeUser userB;
+    bool bf = false;    // DA RIVEDERE
+
+    SilverUser userS;
+    bool sf = false;    // DA RIVEDERE
 };
 
 #endif // USERINFO_H

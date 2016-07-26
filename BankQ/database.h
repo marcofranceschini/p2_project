@@ -80,44 +80,44 @@ class DataBase {
 
         bool loadAdmin() { // Carico gli amministratori nel contenitore
             if (file->exists()) {
-                    file->open(QIODevice::ReadOnly);
-                    QXmlStreamReader xmlReader(file);
-                    MainWindow u;
+                file->open(QIODevice::ReadOnly);
+                QXmlStreamReader xmlReader(file);
+                MainWindow u;
 
-                    while (!xmlReader.atEnd()) {
-                        xmlReader.readNext();
-                        if (xmlReader.isStartElement()) {
-                               // string a = (xmlReader.name().toString()).toUtf8().constData();
-                               // cout<<a;
-                            if (xmlReader.name().toString() == "admin") {
-                                Admin ad;
+                while (!xmlReader.atEnd()) {
+                    xmlReader.readNext();
+                    if (xmlReader.isStartElement()) {
+                           // string a = (xmlReader.name().toString()).toUtf8().constData();
+                           // cout<<a;
+                        if (xmlReader.name().toString() == "admin") {
+                            Admin ad;
+                            xmlReader.readNext();
+                            u.boom();
+                            while (xmlReader.name().toString() != "admin") {
+                                if (xmlReader.name().toString() == "nome")
+                                    ad.setName(xmlReader.readElementText().toStdString());
+                                if (xmlReader.name().toString() == "cognome")
+                                    ad.setSurname(xmlReader.readElementText().toStdString());
+                                if (xmlReader.name().toString() == "codiceFiscale")
+                                    ad.setCode(xmlReader.readElementText().toStdString());
+                                if (xmlReader.name().toString() == "indirizzo")
+                                    ad.setAddress(xmlReader.readElementText().toStdString());
+                                if (xmlReader.name().toString() == "telefono")
+                                    ad.setTelephone(xmlReader.readElementText().toInt()); // INT
+                                if (xmlReader.name().toString() == "username")
+                                    ad.setUsername(xmlReader.readElementText().toStdString());
+                                if (xmlReader.name().toString() == "pin")
+                                    ad.setPin(xmlReader.readElementText().toInt()); // INT
                                 xmlReader.readNext();
-                                u.boom();
-                                while (xmlReader.name().toString() != "admin") {
-                                    if (xmlReader.name().toString() == "nome")
-                                        ad.setName(xmlReader.readElementText().toStdString());
-                                    if (xmlReader.name().toString() == "cognome")
-                                        ad.setSurname(xmlReader.readElementText().toStdString());
-                                    if (xmlReader.name().toString() == "codiceFiscale")
-                                        ad.setCode(xmlReader.readElementText().toStdString());
-                                    if (xmlReader.name().toString() == "indirizzo")
-                                        ad.setAddress(xmlReader.readElementText().toStdString());
-                                    if (xmlReader.name().toString() == "telefono")
-                                        ad.setTelephone(xmlReader.readElementText().toInt()); // INT
-                                    if (xmlReader.name().toString() == "username")
-                                        ad.setUsername(xmlReader.readElementText().toStdString());
-                                    if (xmlReader.name().toString() == "pin")
-                                        ad.setPin(xmlReader.readElementText().toInt()); // INT
-                                    xmlReader.readNext();
-                                }
-                                admin.push_back(&ad);
                             }
+                            admin.push_back(&ad);
                         }
                     }
-                    file->close();
-                    if (xmlReader.hasError()) return false;
                 }
-                return true;
+                file->close();
+                if (xmlReader.hasError()) return false;
+            }
+            return true;
         }
 
         Admin getAdmin (const string& usr) const {
@@ -134,6 +134,7 @@ class DataBase {
                     else return false;
                 }
             }
+            return false;
         }
 
         bool loadSilver() { // Carico gli utenti silver nel contenitore

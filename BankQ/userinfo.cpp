@@ -7,25 +7,38 @@ using namespace std;
 
 UserInfo::UserInfo(QWidget *parent):QDialog(parent), ui(new Ui::UserInfo) {
     ui->setupUi(this);
-    ui->label_4->setText("Marco");
-    ui->label_5->setText("Fr");
-    ui->label_6->setText("Silver");
-    ui->label_10->setText("11 €");  // Tasse anno
-    ui->label_11->setText("15 €");  // Bonus anno
-    ui->label_12->setText("1.000 €");   // Saldo
-    ui->label_19->setText("1.000 €");   // Saldo prelievo
-    ui->label_22->setText("1.000 €");   // Saldo ricarica
-    ui->label_66->setText("1.000 €");   // Saldo
-    ui->label_70->setText("3% = 30 €"); // Costo per diventare gold in base alla percentuale sul saldo
-    ui->label_71->setText("+ 5 %"); // Aumento tasse gold fisse
-    ui->label_73->setText("+ 5.5 %"); // Aumento bonus gold fisso
-    ui->label_75->setText("MNRC..."); // Codice fiscale
-    ui->label_77->setText("040421"); // Numero di telefono
-    ui->label_78->setText("marco"); // Username
+
+    if (bf) {
+        ui->label_4->setText(QString::fromStdString(userB.getName()));  // Nome
+        ui->label_5->setText(QString::fromStdString(userB.getSurname()));     // Cognome
+        ui->label_6->setText("Bronze"); // Tipo conto
+        ui->label_10->setText("11 €");  // Tasse anno
+        ui->label_11->setText("15 €");  // Bonus anno
+        ui->label_12->setText("1.000 €");   // Saldo
+        ui->label_19->setText("1.000 €");   // Saldo prelievo
+        ui->label_22->setText("1.000 €");   // Saldo ricarica
+        ui->label_66->setText("1.000 €");   // Saldo
+        ui->label_70->setText("3% = 30 €"); // Costo per diventare gold in base alla percentuale sul saldo
+        ui->label_71->setText("+ 5 %"); // Aumento tasse gold fisse
+        ui->label_73->setText("+ 5.5 %"); // Aumento bonus gold fisso
+        ui->label_75->setText(QString::fromStdString(userB.getCode())); // Codice fiscale
+        ui->label_77->setText("040421"); // Numero di telefono
+        ui->label_78->setText(QString::fromStdString(userB.getUsername())); // Username
+    }
 }
 
 UserInfo::~UserInfo() {
     delete ui;
+}
+
+void UserInfo::setBronze (BronzeUser const& b) {
+    userB = b;
+    bf = true;
+}
+
+void UserInfo::setSilver (SilverUser const& s) {
+    userS = s;
+    sf = true;
 }
 
 void UserInfo::on_toolButton_3_clicked() {
@@ -103,3 +116,5 @@ void UserInfo::on_toolButton_2_clicked() { // Chiusura conto
     //User::closeAccount(username);
     //string username = static_cast<string*>(usr);
 }
+
+

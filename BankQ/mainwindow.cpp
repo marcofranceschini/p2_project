@@ -72,10 +72,11 @@ void MainWindow::on_toolButton_clicked() {
     string pin = pass.toUtf8().constData();
     string user = usr.toUtf8().constData();
 
-    MainWindow u;
+    MainWindow u; //    DA RIMUOVERE
     if (atoi(pin.c_str())) {    // Verifico che il PIN sia numerico // isdigit(atoi(pin.c_str()))
         int int_pin = atoi(pin.c_str());
         if (d.loadAdmin()) {  // Entro sse non ci sono stati problemi a riempire la lista degli admin
+            u.boom();
             if (d.verifyLogin(user, int_pin)) {
                 this->close(); // Chiudo la finistra di login
                 AdminInfo newAdminWindow;
@@ -94,9 +95,11 @@ void MainWindow::on_toolButton_clicked() {
             if (d.loadBronze()) {    // Entro sse non ci sono stati problemi a riempire la lista degli utenti bronze
                 if (d.verifyLogin(user, int_pin)) {
                     this->close(); // Chiudo la finistra di login
-                    UserInfo newUserWidow;
-                    newUserWidow.setModal(true);
-                    newUserWidow.exec();
+                    UserInfo newUserWindow;
+                    newUserWindow.setBronze(d.getBronze(user));
+                    newUserWindow.setModal(true);
+                    newUserWindow.exec();
+
                     bronze = true;
                 }
             } else { // Creazione del contenitore errata o errore di accesso al DB
@@ -111,9 +114,10 @@ void MainWindow::on_toolButton_clicked() {
             if (d.loadSilver()) {    // Entro sse non ci sono stati problemi a riempire la lista degli utenti silver
                 if (d.verifyLogin(user, int_pin)) {
                     this->close(); // Chiudo la finistra di login
-                    UserInfo newUserWidow;
-                    newUserWidow.setModal(true);
-                    newUserWidow.exec();
+                    UserInfo newUserWindow;
+                    newUserWindow.setSilver(d.getSilver(user));
+                    newUserWindow.setModal(true);
+                    newUserWindow.exec();
                 } else {    // Ho già controllato admin e bronze, perciò se non è silver i dati sono errati
                     QMessageBox::warning(
                         this,
