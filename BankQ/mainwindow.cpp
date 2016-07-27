@@ -42,28 +42,6 @@ void MainWindow::on_toolButton_clicked() {
     QString usr = ui->lineEdit->text();
     QString pass = ui->lineEdit_2->text();
 
-    /*QString filename = QFileDialog::getOpenFileName(this, tr("Open Xml"), ".", tr("Xml files (*.xml)"));
-    QFile file("/db.xml");
-    if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        cerr << "Error: Cannot read file " << qPrintable(filename)
-                  << ": " << qPrintable(file.errorString())
-                  << std::endl;
-
-    }
-    QXmlStreamReader xmlReader;
-    xmlReader.setDevice(&file);
-    xmlReader.readNext();
-    // Inizio la lettura del file
-    while (!xmlReader.isEndDocument()) {
-        if (xmlReader.isStartElement()) {
-            QString name = xmlReader.name().toString();
-            if (name == "username") {
-                QMessageBox::information(this,name,xmlReader.readElementText());
-            }xmlReader.name().toString()
-        }else if (xmlReader.isEndElement()) {
-                    xmlReader.readNext();
-        }
-    }*/
     DataBase d;
 
     bool admin = false;
@@ -76,7 +54,7 @@ void MainWindow::on_toolButton_clicked() {
     if (atoi(pin.c_str())) {    // Verifico che il PIN sia numerico // isdigit(atoi(pin.c_str()))
         int int_pin = atoi(pin.c_str());
         if (d.loadAdmin()) {  // Entro sse non ci sono stati problemi a riempire la lista degli admin
-            u.boom();
+            //u.boom();
             if (d.verifyLoginAdmin(user, int_pin)) {
                 this->close(); // Chiudo la finistra di login
                 AdminInfo newAdminWindow;
@@ -88,7 +66,7 @@ void MainWindow::on_toolButton_clicked() {
             QMessageBox::warning(
                 this,
                 tr("BankQ - Errore"),
-                tr("Errore di caricamento")
+                tr("Errore di caricamento (admin)")
             );
         }
         if (!admin) {
@@ -105,11 +83,11 @@ void MainWindow::on_toolButton_clicked() {
                 QMessageBox::warning(
                     this,
                     tr("BankQ - Errore"),
-                    tr("Errore di caricamento")
+                    tr("Errore di caricamento (bronze)")
                 );
             }
         }
-        if (!bronze) {
+        if (!bronze && !admin) {
             if (d.loadSilver()) {    // Entro sse non ci sono stati problemi a riempire la lista degli utenti silver
                 if (d.verifyLoginSilver(user, int_pin)) {
                     this->close(); // Chiudo la finistra di login
@@ -128,7 +106,7 @@ void MainWindow::on_toolButton_clicked() {
                 QMessageBox::warning(
                     this,
                     tr("BankQ - Errore"),
-                    tr("Errore di caricamento")
+                    tr("Errore di caricamento (silver)")
                 );
             }
         }

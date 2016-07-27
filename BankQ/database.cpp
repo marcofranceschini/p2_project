@@ -1,17 +1,22 @@
 #include "database.h"
 
+#include "QDebug"   // DA RIMUOVERE
+#include "qstring.h"   // DA RIMUOVERE
+
 DataBase::DataBase() {
     //file = new QFile("db.xml");
     //loadDB();
 }
 
 bool DataBase::loadAdmin () { // Carico gli amministratori nel contenitore
-    file = new QFile("db_admin.xml");
+    file = new QFile("/home/marco/Documents/p2_project/BankQ/admin.xml");
+    QString s =file->fileName();   // DA RIMUOVERE
+    qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
     if (file->exists()) {
         file->open(QIODevice::ReadOnly);
         QXmlStreamReader xmlReader(file);
         MainWindow u;   // NON SERVE
-
+        u.boom();
         while (!xmlReader.atEnd()) {
             xmlReader.readNext();
             if (xmlReader.isStartElement()) {
@@ -44,8 +49,9 @@ bool DataBase::loadAdmin () { // Carico gli amministratori nel contenitore
         }
         file->close();
         if (xmlReader.hasError()) return false;
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool DataBase::verifyAllUsername (const string& usr) const {
@@ -62,12 +68,10 @@ Admin DataBase::getAdmin (const string& usr) const {
 bool DataBase::verifyLoginAdmin (const string& usr, const int& pin) const {
     for (Container<Admin>::Iteratore it = admin.begin(); it != admin.end(); ++it) {
         cout<<"AAAA"<<admin[it]->getUsername();
-        if (admin[it]->getUsername() == usr) {
-            if (admin[it]->getPin() == pin)
-                return true;
-            else
-                return false;
-        }
+        if (admin[it]->getUsername() == usr && admin[it]->getPin() == pin)
+            return true;
+        else
+            return false;
     }
     return false;
 }
@@ -112,8 +116,9 @@ bool DataBase::loadBronze () { // Carico gli utenti bronze nel contenitore
             }
             file->close();
             if (xmlReader.hasError()) return false;
+            return true;
         }
-        return true;
+        return false;
 }
 
 BronzeUser DataBase::getBronze (const string& usr) const {
@@ -126,12 +131,10 @@ BronzeUser DataBase::getBronze (const string& usr) const {
 bool DataBase::verifyLoginBronze (const string& usr, const int& pin) const {
     for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
         cout<<"AAAA"<<userB[it]->getUsername();
-        if (userB[it]->getUsername() == usr) {
-            if (userB[it]->getPin() == pin)
-                return true;
-            else
-                return false;
-        }
+        if (userB[it]->getUsername() == usr && userB[it]->getPin() == pin)
+            return true;
+         else
+            return false;
     }
     return false;
 }
@@ -176,8 +179,9 @@ bool DataBase::loadSilver () { // Carico gli utenti silver nel contenitore
             }
             file->close();
             if (xmlReader.hasError()) return false;
+            return true;
         }
-        return true;
+        return false;
 }
 
 SilverUser DataBase::getSilver (const string& usr) const {
@@ -190,12 +194,10 @@ SilverUser DataBase::getSilver (const string& usr) const {
 bool DataBase::verifyLoginSilver (const string& usr, const int& pin) const {
     for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
         cout<<"AAAA"<<userS[it]->getUsername();
-        if (userS[it]->getUsername() == usr) {
-            if (userS[it]->getPin() == pin)
-                return true;
-            else
-                return false;
-        }
+        if (userS[it]->getUsername() == usr && userS[it]->getPin() == pin)
+            return true;
+        else
+            return false;
     }
     return false;
 }
