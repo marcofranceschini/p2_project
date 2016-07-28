@@ -15,8 +15,6 @@ bool DataBase::loadAdmin () { // Carico gli amministratori nel contenitore
     if (file->exists()) {
         file->open(QIODevice::ReadOnly);
         QXmlStreamReader xmlReader(file);
-        MainWindow u;   // NON SERVE
-        u.boom();
         while (!xmlReader.atEnd()) {
             xmlReader.readNext();
             if (xmlReader.isStartElement()) {
@@ -25,7 +23,6 @@ bool DataBase::loadAdmin () { // Carico gli amministratori nel contenitore
                 if (xmlReader.name().toString() == "admin") {
                     Admin ad;
                     xmlReader.readNext();
-                    u.boom();
                     while (xmlReader.name().toString() != "admin") {
                         if (xmlReader.name().toString() == "nome")
                             ad.setName(xmlReader.readElementText().toStdString());
@@ -66,8 +63,11 @@ Admin DataBase::getAdmin (const string& usr) const {
 }
 
 bool DataBase::verifyLoginAdmin (const string& usr, const int& pin) const {
+    // NON SERVE
+    MainWindow u;
     for (Container<Admin>::Iteratore it = admin.begin(); it != admin.end(); ++it) {
-        cout<<"AAAA"<<admin[it]->getUsername();
+        //cout<<"AAAA"<<admin[it]->getUsername();
+        u.boom();
         if (admin[it]->getUsername() == usr && admin[it]->getPin() == pin)
             return true;
         else
@@ -77,7 +77,7 @@ bool DataBase::verifyLoginAdmin (const string& usr, const int& pin) const {
 }
 
 bool DataBase::loadBronze () { // Carico gli utenti bronze nel contenitore
-    file = new QFile("db_bronze.xml");
+    file = new QFile("/home/marco/Documents/p2_project/BankQ/bronze.xml");
     if (file->exists()) {
             file->open(QIODevice::ReadOnly);
             QXmlStreamReader xmlReader(file);
@@ -140,7 +140,7 @@ bool DataBase::verifyLoginBronze (const string& usr, const int& pin) const {
 }
 
 bool DataBase::loadSilver () { // Carico gli utenti silver nel contenitore
-    file = new QFile("db_silver.xml");
+    file = new QFile("/home/marco/Documents/p2_project/BankQ/silver.xml");
     if (file->exists()) {
             file->open(QIODevice::ReadOnly);
             QXmlStreamReader xmlReader(file);

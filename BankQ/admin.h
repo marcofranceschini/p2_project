@@ -14,6 +14,10 @@ public:
 
     ~Admin ();
 
+    /*Admin* operator= (const Admin& a) {
+        return new Admin(a);
+    }*/
+
 
     double getSalary () const;
 

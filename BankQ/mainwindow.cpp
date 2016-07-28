@@ -58,6 +58,10 @@ void MainWindow::on_toolButton_clicked() {
             if (d.verifyLoginAdmin(user, int_pin)) {
                 this->close(); // Chiudo la finistra di login
                 AdminInfo newAdminWindow;
+                Admin a = d.getAdmin(user);
+                QString s = QString::fromStdString(a.getName());   // DA RIMUOVERE
+                qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
+                newAdminWindow.setAdmin(a);
                 newAdminWindow.setModal(true);
                 newAdminWindow.exec();
                 admin = true;
