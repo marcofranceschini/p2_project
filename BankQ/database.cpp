@@ -133,7 +133,6 @@ BronzeUser DataBase::getBronze (const string& usr) const {
 
 bool DataBase::verifyLoginBronze (const string& usr, const int& pin) const {
     for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
-        cout<<"AAAA"<<userB[it]->getUsername();
         if (userB[it]->getUsername() == usr && userB[it]->getPin() == pin)
             return true;
          else
@@ -141,6 +140,22 @@ bool DataBase::verifyLoginBronze (const string& usr, const int& pin) const {
     }
     return false;
 }
+
+bool DataBase::verifyNumberBronze (const string& number) const {
+    for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
+        if (userB[it]->getCountNumber() == number)
+            return true;
+    }
+    return false;
+}
+
+BronzeUser DataBase::getBronzeByCount (const string& conto) const {
+    for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
+        if (userB[it]->getCountNumber() == conto)
+            return *userB[it];
+    }
+}
+
 
 bool DataBase::loadSilver () { // Carico gli utenti silver nel contenitore
     file = new QFile("/home/marco/Documents/p2_project/BankQ/silver.xml");
@@ -198,11 +213,25 @@ SilverUser DataBase::getSilver (const string& usr) const {
 
 bool DataBase::verifyLoginSilver (const string& usr, const int& pin) const {
     for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
-        cout<<"AAAA"<<userS[it]->getUsername();
         if (userS[it]->getUsername() == usr && userS[it]->getPin() == pin)
             return true;
         else
             return false;
     }
     return false;
+}
+
+bool DataBase::verifyNumberSilver (const string& number) const {
+    for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
+        if (userS[it]->getCountNumber() == number)
+            return true;
+    }
+    return false;
+}
+
+SilverUser DataBase::getSilverByCount (const string& conto) const {
+    for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
+        if (userS[it]->getCountNumber() == conto)
+            return *userS[it];
+    }
 }

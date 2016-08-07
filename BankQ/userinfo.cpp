@@ -4,6 +4,9 @@ using namespace std;
 #include "mainwindow.h"
 #include "QMessageBox"
 #include "bronzeuser.h"
+#include "database.h"
+#include "bronzeuser.h"
+#include "silveruser.h"
 
 UserInfo::UserInfo(QWidget *parent):QDialog(parent), ui(new Ui::UserInfo) {
     ui->setupUi(this);
@@ -62,8 +65,113 @@ void UserInfo::setSilver (SilverUser const& s) {
 }
 
 void UserInfo::on_toolButton_3_clicked() {  // Prelievo
-    QString app = ui->lineEdit->text();
-    float withdraw = app.toFloat();
+    QString a = ui->lineEdit_2->text();
+    QString b = ui->lineEdit_3->text();
+
+    float cifra = a.toFloat();
+    string conto = b.toUtf8().constData();
+    bool flag = false;
+    if (cifra > 0) {
+        // Tolgo l'importo dal conto dell'utente loggato
+        if (bf) { // E' un utente bronze
+            if (0 <= userB.getCount()-cifra) {
+                userB.setCount(userB.getCount()-cifra);
+                flag = true;
+            } else {
+                QMessageBox::information(
+                    this,
+                    tr("BankQ - Prelievo"),
+                    tr("Credito insufficiente")
+                );
+            }
+        } else {    // Utente silver
+            if (0 <= userS.getCount()-cifra) {
+                userS.setCount(userS.getCount()-cifra);
+                flag = true;
+            } else {
+                QMessageBox::information(
+                    this,
+                    tr("BankQ - Prelievo"),
+                    tr("Credito insufficiente")
+                );
+            }
+        }
+
+        bool bronze = false;
+        // Ricarico il conto di destinazione
+        if (flag) {
+            DataBase d;
+            if (d.loadBronze()) {   // Carico gli utenti bronze
+                if (d.verifyNumberBronze(conto)) {   // Verifico che il numero di conto sia di un utente bronze
+                    BronzeUser b = d.getBronzeByCount(conto);
+                    b.setCount(b.getCount()+cifra);
+                    bronze = true;
+
+                    ui->label_12->setText(QString::number(userB.getCount()));   // Saldo
+                    ui->label_19->setText(QString::number(userB.getCount()));   // Saldo prelievo
+                    ui->label_22->setText(QString::number(userB.getCount()));   // Saldo ricarica
+                    ui->label_66->setText(QString::number(userB.getCount()));   // Saldo
+                }
+
+            } else {
+                QMessageBox::warning(
+                    this,
+                    tr("BankQ - Errore"),
+                    tr("Errore di caricamento (bronze)")
+                );
+            }
+
+            bool silver = false;
+
+            if (!bronze) {
+                if (d.loadSilver()) {   // Carico gli utenti silver
+                    if (d.verifyNumberSilver(conto)) {   // Verifico che il numero di conto sia di un utente silver
+                        SilverUser s = d.getSilverByCount(conto);
+                        s.setCount(s.getCount()+cifra);
+                        silver = true;
+
+                        ui->label_12->setText(QString::number(userS.getCount()));   // Saldo
+                        ui->label_19->setText(QString::number(userS.getCount()));   // Saldo prelievo
+                        ui->label_22->setText(QString::number(userS.getCount()));   // Saldo ricarica
+                        ui->label_66->setText(QString::number(userS.getCount()));   // Saldo
+                    } else {    // Se il numero non è né silver né bronze allora è errato
+
+                        QMessageBox::information(
+                            this,
+                            tr("BankQ - Prelievo"),
+                            tr("Numbero di conto errato")
+                        );
+                    }
+                } else {
+                    QMessageBox::warning(
+                        this,
+                        tr("BankQ - Errore"),
+                        tr("Errore di caricamento (silver)")
+                    );
+                }
+            }
+            // Se non ho trovato un numero di conto ritorno l'importo prelevato
+            if (!bronze && !silver) {
+                if (bf) // E' un utente bronze
+                    userB.setCount(userB.getCount()+cifra);
+                else
+                    userS.setCount(userS.getCount()+cifra);
+            } else {
+                QMessageBox::information(
+                    this,
+                    tr("BankQ - Prelievo"),
+                    tr("Prelievo avvenuto correttamente")
+                );
+            }
+        }
+
+    }else{
+        QMessageBox::information(
+            this,
+            tr("BankQ - Prelievo"),
+            tr("Importo errato")
+        );
+    }
     //qDebug()  << withdraw << QString("float %1").arg(f, 20, 'f', 20);
     // Verifico se prelevo oltre il limite del conto
     //if....
@@ -74,26 +182,127 @@ void UserInfo::on_toolButton_3_clicked() {  // Prelievo
         tr("Credito non sufficente")
     );*/
     //Messaggio di avvenuto prelievo
-    QMessageBox::information(
-        this,
-        tr("BankQ - Prelievo"),
-        tr("Prelievo avvenuto correttamente")
-    );
+
     // Verifico se l'utente scende ad utente bronze + messaggio
 
 }
 
 void UserInfo::on_toolButton_4_clicked() {  // Ricarica
-    QString app = ui->lineEdit_2->text();
-    float add = app.toFloat();
-    //qDebug()  << withdraw << QString("float %1").arg(f, 20, 'f', 20);
-    //Messaggio di avvenuta ricarica
-    QMessageBox::information(
-        this,
-        tr("BankQ - Ricarica"),
-        tr("Ricarica avvenuta correttamente")
-    );
+
+
+
+    // DA FARE
     // Verifico se l'utente passa ad utente silver + messaggio
+
+
+
+    QString a = ui->lineEdit_2->text();
+    QString b = ui->lineEdit_3->text();
+
+    float cifra = a.toFloat();
+    string conto = b.toUtf8().constData();
+    bool flag = false;
+    if (cifra > 0) {
+        // Tolgo l'importo dal conto dell'utente loggato
+        if (bf) { // E' un utente bronze
+            if (0 <= userB.getCount()-cifra) {
+                userB.setCount(userB.getCount()-cifra);
+                flag = true;
+            } else {
+                QMessageBox::information(
+                    this,
+                    tr("BankQ - Prelievo"),
+                    tr("Credito insufficiente")
+                );
+            }
+        } else {    // Utente silver
+            if (0 <= userS.getCount()-cifra) {
+                userS.setCount(userS.getCount()-cifra);
+                flag = true;
+            } else {
+                QMessageBox::information(
+                    this,
+                    tr("BankQ - Prelievo"),
+                    tr("Credito insufficiente")
+                );
+            }
+        }
+
+        bool bronze = false;
+        // Ricarico il conto di destinazione
+        if (flag) {
+            DataBase d;
+            if (d.loadBronze()) {   // Carico gli utenti bronze
+                if (d.verifyNumberBronze(conto)) {   // Verifico che il numero di conto sia di un utente bronze
+                    BronzeUser b = d.getBronzeByCount(conto);
+                    b.setCount(b.getCount()+cifra);
+                    bronze = true;
+
+                    ui->label_12->setText(QString::number(userB.getCount()));   // Saldo
+                    ui->label_19->setText(QString::number(userB.getCount()));   // Saldo prelievo
+                    ui->label_22->setText(QString::number(userB.getCount()));   // Saldo ricarica
+                    ui->label_66->setText(QString::number(userB.getCount()));   // Saldo
+                }
+
+            } else {
+                QMessageBox::warning(
+                    this,
+                    tr("BankQ - Errore"),
+                    tr("Errore di caricamento (bronze)")
+                );
+            }
+
+            bool silver = false;
+
+            if (!bronze) {
+                if (d.loadSilver()) {   // Carico gli utenti silver
+                    if (d.verifyNumberSilver(conto)) {   // Verifico che il numero di conto sia di un utente silver
+                        SilverUser s = d.getSilverByCount(conto);
+                        s.setCount(s.getCount()+cifra);
+                        silver = true;
+
+                        ui->label_12->setText(QString::number(userS.getCount()));   // Saldo
+                        ui->label_19->setText(QString::number(userS.getCount()));   // Saldo prelievo
+                        ui->label_22->setText(QString::number(userS.getCount()));   // Saldo ricarica
+                        ui->label_66->setText(QString::number(userS.getCount()));   // Saldo
+                    } else {    // Se il numero non è né silver né bronze allora è errato
+
+                        QMessageBox::information(
+                            this,
+                            tr("BankQ - Prelievo"),
+                            tr("Numbero di conto errato")
+                        );
+                    }
+                } else {
+                    QMessageBox::warning(
+                        this,
+                        tr("BankQ - Errore"),
+                        tr("Errore di caricamento (silver)")
+                    );
+                }
+            }
+            // Se non ho trovato un numero di conto ritorno l'importo prelevato
+            if (!bronze && !silver) {
+                if (bf) // E' un utente bronze
+                    userB.setCount(userB.getCount()+cifra);
+                else
+                    userS.setCount(userS.getCount()+cifra);
+            } else {
+                QMessageBox::information(
+                    this,
+                    tr("BankQ - Prelievo"),
+                    tr("Prelievo avvenuto correttamente")
+                );
+            }
+        }
+
+    }else{
+        QMessageBox::information(
+            this,
+            tr("BankQ - Prelievo"),
+            tr("Importo errato")
+        );
+    }
 }
 
 void UserInfo::on_toolButton_13_clicked() {
