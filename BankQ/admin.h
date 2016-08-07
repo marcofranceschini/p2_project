@@ -21,6 +21,8 @@ public:
 
     double getSalary () const;
 
+    void setSalary (double);
+
     Admin* clone () const;
 
     bool verifyLogin (const int& pass) const {

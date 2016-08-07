@@ -5,16 +5,6 @@
 
 AdminInfo::AdminInfo(QWidget *parent):QDialog(parent), ui(new Ui::AdminInfo) {
     ui->setupUi(this);
-   // ui->label_5->setText(QString::fromStdString(admin.getName())); // Nome amministratore
-    ui->label_8->setText(QString::fromStdString(admin.getSurname())); // Cognome amministratore
-    ui->label_7->setText("Amministratore"); // Tipo account -> amministratore rimmarrà fisso
-    ui->label_19->setText(QString::fromStdString(admin.getAddress())); // Indirizzo amministratore
-    ui->label_75->setText(QString::fromStdString(admin.getCode())); // Codice fiscale amministratore
-    ui->label_77->setText("040421"); // Numero di telefono amministratore
-    ui->label_78->setText(QString::fromStdString(admin.getUsername())); // Username amministratore
-
-    ui->label_21->setText("Ci sono 3 richieste di chiudere il conto"); // Username amministratore
-
 }
 
 AdminInfo::~AdminInfo() {
@@ -35,7 +25,7 @@ void AdminInfo::setAdmin (Admin const& a) {
     ui->label_77->setText("040421"); // Numero di telefono amministratore
     ui->label_78->setText(QString::fromStdString(admin.getUsername())); // Username amministratore
 
-    ui->label_21->setText("Ci sono 3 richieste di chiudere il conto"); // Username amministratore
+    //ui->label_21->setText("Ci sono 3 richieste di chiudere il conto"); // Username amministratore
 }
 
 void AdminInfo::on_toolButton_2_clicked() {

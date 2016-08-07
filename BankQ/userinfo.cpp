@@ -9,21 +9,7 @@ UserInfo::UserInfo(QWidget *parent):QDialog(parent), ui(new Ui::UserInfo) {
     ui->setupUi(this);
 
     if (bf) {
-        ui->label_4->setText(QString::fromStdString(userB.getName()));  // Nome
-        ui->label_5->setText(QString::fromStdString(userB.getSurname()));     // Cognome
-        ui->label_6->setText("Bronze"); // Tipo conto
-        ui->label_10->setText("11 €");  // Tasse anno
-        ui->label_11->setText("15 €");  // Bonus anno
-        ui->label_12->setText("1.000 €");   // Saldo
-        ui->label_19->setText("1.000 €");   // Saldo prelievo
-        ui->label_22->setText("1.000 €");   // Saldo ricarica
-        ui->label_66->setText("1.000 €");   // Saldo
-        ui->label_70->setText("3% = 30 €"); // Costo per diventare gold in base alla percentuale sul saldo
-        ui->label_71->setText("+ 5 %"); // Aumento tasse gold fisse
-        ui->label_73->setText("+ 5.5 %"); // Aumento bonus gold fisso
-        ui->label_75->setText(QString::fromStdString(userB.getCode())); // Codice fiscale
-        ui->label_77->setText("040421"); // Numero di telefono
-        ui->label_78->setText(QString::fromStdString(userB.getUsername())); // Username
+
     }
 }
 
@@ -34,14 +20,48 @@ UserInfo::~UserInfo() {
 void UserInfo::setBronze (BronzeUser const& b) {
     userB = b;
     bf = true;
+
+    ui->label_4->setText(QString::fromStdString(userB.getName()));  // Nome
+    ui->label_5->setText(QString::fromStdString(userB.getSurname()));     // Cognome
+    ui->label_6->setText("Bronze"); // Tipo conto
+    ui->label_10->setText(QString::number(userB.getTotalTax()));  // Tasse anno
+    ui->label_11->setText(QString::number(userB.getTotalBonus()));  // Bonus anno
+    ui->label_24->setText(QString::fromStdString(userB.getCountNumber()));  // Numero conto
+    ui->label_12->setText(QString::number(userB.getCount()));   // Saldo
+    ui->label_19->setText(QString::number(userB.getCount()));   // Saldo prelievo
+    ui->label_22->setText(QString::number(userB.getCount()));   // Saldo ricarica
+    ui->label_66->setText(QString::number(userB.getCount()));   // Saldo
+    //ui->label_70->setText("3% = 30 €"); // Costo per diventare gold in base alla percentuale sul saldo
+    //ui->label_71->setText("+ 5 %"); // Aumento tasse gold fisse
+    //ui->label_73->setText("+ 5.5 %"); // Aumento bonus gold fisso
+    ui->label_75->setText(QString::fromStdString(userB.getCode())); // Codice fiscale
+    ui->label_77->setText(QString::number(userB.getTelephone())); // Numero di telefono
+    ui->label_78->setText(QString::fromStdString(userB.getUsername())); // Username
 }
 
 void UserInfo::setSilver (SilverUser const& s) {
     userS = s;
     sf = true;
+
+    ui->label_4->setText(QString::fromStdString(userS.getName()));  // Nome
+    ui->label_5->setText(QString::fromStdString(userS.getSurname()));     // Cognome
+    ui->label_6->setText("Bronze"); // Tipo conto
+    ui->label_10->setText(QString::number(userS.getTotalTax()));  // Tasse anno
+    ui->label_11->setText(QString::number(userS.getTotalBonus()));  // Bonus anno
+    ui->label_24->setText(QString::fromStdString(userS.getCountNumber()));  // Numero conto
+    ui->label_12->setText(QString::number(userS.getCount()));   // Saldo
+    ui->label_19->setText(QString::number(userS.getCount()));   // Saldo prelievo
+    ui->label_22->setText(QString::number(userS.getCount()));   // Saldo ricarica
+    ui->label_66->setText(QString::number(userS.getCount()));   // Saldo
+    //ui->label_70->setText("3% = 30 €"); // Costo per diventare gold in base alla percentuale sul saldo
+    //ui->label_71->setText("+ 5 %"); // Aumento tasse gold fisse
+    //ui->label_73->setText("+ 5.5 %"); // Aumento bonus gold fisso
+    ui->label_75->setText(QString::fromStdString(userS.getCode())); // Codice fiscale
+    ui->label_77->setText(QString::number(userS.getTelephone())); // Numero di telefono
+    ui->label_78->setText(QString::fromStdString(userS.getUsername())); // Username
 }
 
-void UserInfo::on_toolButton_3_clicked() {
+void UserInfo::on_toolButton_3_clicked() {  // Prelievo
     QString app = ui->lineEdit->text();
     float withdraw = app.toFloat();
     //qDebug()  << withdraw << QString("float %1").arg(f, 20, 'f', 20);
@@ -63,7 +83,7 @@ void UserInfo::on_toolButton_3_clicked() {
 
 }
 
-void UserInfo::on_toolButton_4_clicked() {
+void UserInfo::on_toolButton_4_clicked() {  // Ricarica
     QString app = ui->lineEdit_2->text();
     float add = app.toFloat();
     //qDebug()  << withdraw << QString("float %1").arg(f, 20, 'f', 20);

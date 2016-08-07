@@ -51,6 +51,7 @@ void MainWindow::on_toolButton_clicked() {
     string user = usr.toUtf8().constData();
 
     MainWindow u; //    DA RIMUOVERE
+
     if (atoi(pin.c_str())) {    // Verifico che il PIN sia numerico // isdigit(atoi(pin.c_str()))
         int int_pin = atoi(pin.c_str());
         if (d.loadAdmin()) {  // Entro sse non ci sono stati problemi a riempire la lista degli admin
@@ -59,8 +60,10 @@ void MainWindow::on_toolButton_clicked() {
                 this->close(); // Chiudo la finistra di login
                 AdminInfo newAdminWindow;
                 Admin a = d.getAdmin(user);
+
                 QString s = QString::fromStdString(a.getName());   // DA RIMUOVERE
                 qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
+
                 newAdminWindow.setAdmin(a);
                 newAdminWindow.setModal(true);
                 newAdminWindow.exec();

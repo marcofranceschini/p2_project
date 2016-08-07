@@ -21,6 +21,10 @@ double Admin::getSalary () const {
     return salary;
 }
 
+void Admin::setSalary (double s) {
+    salary = s;
+}
+
 Admin* Admin::clone () const {
     return new Admin (name, surname, address, telephone, code, username, pin, salary);
 }

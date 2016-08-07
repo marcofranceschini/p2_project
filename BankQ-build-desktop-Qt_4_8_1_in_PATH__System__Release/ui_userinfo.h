@@ -50,6 +50,8 @@ public:
     QLabel *label_77;
     QLabel *label_78;
     QLabel *label_79;
+    QLabel *label_16;
+    QLabel *label_24;
     QWidget *tab_2;
     QLabel *label_14;
     QLabel *label_17;
@@ -64,6 +66,8 @@ public:
     QLineEdit *lineEdit_2;
     QLabel *label_22;
     QLabel *label_23;
+    QLineEdit *lineEdit_3;
+    QLabel *label_15;
     QWidget *tab_4;
     QLabel *label_65;
     QLabel *label_66;
@@ -95,7 +99,7 @@ public:
         label_2->setGeometry(QRect(60, 80, 71, 17));
         label_3 = new QLabel(tab);
         label_3->setObjectName(QString::fromUtf8("label_3"));
-        label_3->setGeometry(QRect(60, 240, 67, 17));
+        label_3->setGeometry(QRect(320, 160, 67, 17));
         label_4 = new QLabel(tab);
         label_4->setObjectName(QString::fromUtf8("label_4"));
         label_4->setGeometry(QRect(180, 40, 111, 17));
@@ -128,7 +132,7 @@ public:
         label_11->setGeometry(QRect(180, 200, 131, 17));
         label_12 = new QLabel(tab);
         label_12->setObjectName(QString::fromUtf8("label_12"));
-        label_12->setGeometry(QRect(180, 240, 141, 17));
+        label_12->setGeometry(QRect(440, 160, 111, 17));
         label_13 = new QLabel(tab);
         label_13->setObjectName(QString::fromUtf8("label_13"));
         label_13->setGeometry(QRect(10, 10, 67, 21));
@@ -150,6 +154,12 @@ public:
         label_79 = new QLabel(tab);
         label_79->setObjectName(QString::fromUtf8("label_79"));
         label_79->setGeometry(QRect(320, 120, 81, 17));
+        label_16 = new QLabel(tab);
+        label_16->setObjectName(QString::fromUtf8("label_16"));
+        label_16->setGeometry(QRect(320, 200, 67, 17));
+        label_24 = new QLabel(tab);
+        label_24->setObjectName(QString::fromUtf8("label_24"));
+        label_24->setGeometry(QRect(440, 200, 111, 17));
         tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
@@ -176,7 +186,7 @@ public:
         tab_3->setObjectName(QString::fromUtf8("tab_3"));
         toolButton_4 = new QToolButton(tab_3);
         toolButton_4->setObjectName(QString::fromUtf8("toolButton_4"));
-        toolButton_4->setGeometry(QRect(190, 180, 71, 25));
+        toolButton_4->setGeometry(QRect(190, 190, 71, 25));
         label_20 = new QLabel(tab_3);
         label_20->setObjectName(QString::fromUtf8("label_20"));
         label_20->setGeometry(QRect(50, 110, 131, 17));
@@ -192,6 +202,12 @@ public:
         label_23 = new QLabel(tab_3);
         label_23->setObjectName(QString::fromUtf8("label_23"));
         label_23->setGeometry(QRect(10, 10, 67, 21));
+        lineEdit_3 = new QLineEdit(tab_3);
+        lineEdit_3->setObjectName(QString::fromUtf8("lineEdit_3"));
+        lineEdit_3->setGeometry(QRect(210, 140, 141, 27));
+        label_15 = new QLabel(tab_3);
+        label_15->setObjectName(QString::fromUtf8("label_15"));
+        label_15->setGeometry(QRect(50, 150, 111, 17));
         tabWidget->addTab(tab_3, QString());
         tab_4 = new QWidget();
         tab_4->setObjectName(QString::fromUtf8("tab_4"));
@@ -259,6 +275,8 @@ public:
         label_77->setText(QApplication::translate("UserInfo", "<html><head/><body><p><br/></p></body></html>", 0, QApplication::UnicodeUTF8));
         label_78->setText(QApplication::translate("UserInfo", "<html><head/><body><p><br/></p></body></html>", 0, QApplication::UnicodeUTF8));
         label_79->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Username</span></p></body></html>", 0, QApplication::UnicodeUTF8));
+        label_16->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\"># conto</span></p></body></html>", 0, QApplication::UnicodeUTF8));
+        label_24->setText(QApplication::translate("UserInfo", "<html><head/><body><p><br/></p></body></html>", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("UserInfo", "Info", 0, QApplication::UnicodeUTF8));
         label_14->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0, QApplication::UnicodeUTF8));
         label_17->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Saldo attuale</span></p></body></html>", 0, QApplication::UnicodeUTF8));
@@ -271,6 +289,7 @@ public:
         label_21->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Saldo attuale</span></p></body></html>", 0, QApplication::UnicodeUTF8));
         label_22->setText(QApplication::translate("UserInfo", "TextLabel", 0, QApplication::UnicodeUTF8));
         label_23->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0, QApplication::UnicodeUTF8));
+        label_15->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Numero conto</span></p></body></html>", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("UserInfo", "Carica", 0, QApplication::UnicodeUTF8));
         label_65->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Saldo attuale</span></p></body></html>", 0, QApplication::UnicodeUTF8));
         label_66->setText(QApplication::translate("UserInfo", "TextLabel", 0, QApplication::UnicodeUTF8));

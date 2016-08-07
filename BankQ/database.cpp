@@ -24,20 +24,22 @@ bool DataBase::loadAdmin () { // Carico gli amministratori nel contenitore
                     Admin ad;
                     xmlReader.readNext();
                     while (xmlReader.name().toString() != "admin") {
-                        if (xmlReader.name().toString() == "nome")
+                        if (xmlReader.name().toString() == "name")
                             ad.setName(xmlReader.readElementText().toStdString());
-                        if (xmlReader.name().toString() == "cognome")
+                        if (xmlReader.name().toString() == "surname")
                             ad.setSurname(xmlReader.readElementText().toStdString());
-                        if (xmlReader.name().toString() == "codiceFiscale")
-                            ad.setCode(xmlReader.readElementText().toStdString());
-                        if (xmlReader.name().toString() == "indirizzo")
+                        if (xmlReader.name().toString() == "address")
                             ad.setAddress(xmlReader.readElementText().toStdString());
-                        if (xmlReader.name().toString() == "telefono")
+                        if (xmlReader.name().toString() == "telephone")
                             ad.setTelephone(xmlReader.readElementText().toInt()); // INT
+                        if (xmlReader.name().toString() == "code")
+                            ad.setCode(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "username")
                             ad.setUsername(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "pin")
                             ad.setPin(xmlReader.readElementText().toInt()); // INT
+                        if (xmlReader.name().toString() == "salary")
+                            ad.setSalary(xmlReader.readElementText().toDouble()); // DOUBLE
                         xmlReader.readNext();
                     }
                     admin.push_back(new Admin(ad));
@@ -63,8 +65,7 @@ Admin DataBase::getAdmin (const string& usr) const {
 }
 
 bool DataBase::verifyLoginAdmin (const string& usr, const int& pin) const {
-    // NON SERVE
-    MainWindow u;
+    MainWindow u;   // NON SERVE
     for (Container<Admin>::Iteratore it = admin.begin(); it != admin.end(); ++it) {
         //cout<<"AAAA"<<admin[it]->getUsername();
         u.boom();
@@ -91,22 +92,24 @@ bool DataBase::loadBronze () { // Carico gli utenti bronze nel contenitore
                         BronzeUser uBronze;
                         xmlReader.readNext();
                         while (xmlReader.name().toString() != "silver") {
-                            if (xmlReader.name().toString() == "nome")
+                            if (xmlReader.name().toString() == "name")
                                 uBronze.setName(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "cognome")
+                            if (xmlReader.name().toString() == "surname")
                                 uBronze.setSurname(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "codiceFiscale")
-                                uBronze.setCode(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "indirizzo")
+                            if (xmlReader.name().toString() == "address")
                                 uBronze.setAddress(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "telefono")
+                            if (xmlReader.name().toString() == "telephone")
                                 uBronze.setTelephone(xmlReader.readElementText().toInt()); // INT
+                            if (xmlReader.name().toString() == "code")
+                                uBronze.setCode(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "username")
                                 uBronze.setUsername(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "pin")
                                 uBronze.setPin(xmlReader.readElementText().toInt()); // INT
                             if(xmlReader.name().toString() == "count")
                                 uBronze.setCount(xmlReader.readElementText().toDouble());    // DOUBLE
+                            if(xmlReader.name().toString() == "countNumber")
+                                uBronze.setCountNumber(xmlReader.readElementText().toStdString());
                             xmlReader.readNext();
                         }
                         userB.push_back(new BronzeUser(uBronze));
@@ -155,22 +158,24 @@ bool DataBase::loadSilver () { // Carico gli utenti silver nel contenitore
                         SilverUser uSilver;
                         xmlReader.readNext();
                         while (xmlReader.name().toString() != "silver") {
-                            if (xmlReader.name().toString() == "nome")
+                            if (xmlReader.name().toString() == "name")
                                 uSilver.setName(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "cognome")
+                            if (xmlReader.name().toString() == "surname")
                                 uSilver.setSurname(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "codiceFiscale")
-                                uSilver.setCode(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "indirizzo")
+                            if (xmlReader.name().toString() == "address")
                                 uSilver.setAddress(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "telefono")
+                            if (xmlReader.name().toString() == "telephone")
                                 uSilver.setTelephone(xmlReader.readElementText().toInt()); // INT
+                            if (xmlReader.name().toString() == "code")
+                                uSilver.setCode(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "username")
                                 uSilver.setUsername(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "pin")
                                 uSilver.setPin(xmlReader.readElementText().toInt()); // INT
                             if(xmlReader.name().toString() == "count")
                                 uSilver.setCount(xmlReader.readElementText().toDouble());    // DOUBLE
+                            if(xmlReader.name().toString() == "countNumber")
+                                uSilver.setCountNumber(xmlReader.readElementText().toStdString());
                             xmlReader.readNext();
                         }
                         userS.push_back(new SilverUser(uSilver));
