@@ -10,8 +10,10 @@ DataBase::DataBase() {
 
 bool DataBase::loadAdmin () { // Carico gli amministratori nel contenitore
     file = new QFile("/home/marco/Documents/p2_project/BankQ/admin.xml");
+
     QString s =file->fileName();   // DA RIMUOVERE
     qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
+
     if (file->exists()) {
         file->open(QIODevice::ReadOnly);
         QXmlStreamReader xmlReader(file);
@@ -113,7 +115,6 @@ bool DataBase::loadBronze () { // Carico gli utenti bronze nel contenitore
                             xmlReader.readNext();
                         }
                         userB.push_back(new BronzeUser(uBronze));
-                        cout<<"AAAAA"<<uBronze.getUsername();
                     }
                 }
             }
@@ -188,7 +189,7 @@ bool DataBase::loadSilver () { // Carico gli utenti silver nel contenitore
                             if (xmlReader.name().toString() == "pin")
                                 uSilver.setPin(xmlReader.readElementText().toInt()); // INT
                             if(xmlReader.name().toString() == "count")
-                                uSilver.setCount(xmlReader.readElementText().toDouble());    // DOUBLE
+                                uSilver.setCount(xmlReader.readElementText().toDouble());    // DOUBLEE
                             if(xmlReader.name().toString() == "countNumber")
                                 uSilver.setCountNumber(xmlReader.readElementText().toStdString());
                             xmlReader.readNext();
@@ -223,6 +224,10 @@ bool DataBase::verifyLoginSilver (const string& usr, const int& pin) const {
 
 bool DataBase::verifyNumberSilver (const string& number) const {
     for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
+        QString s = QString::fromStdString(userS[it]->getCountNumber());   // DA RIMUOVERE
+        qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
+        QString dd = QString::fromStdString(number);   // DA RIMUOVERE
+        qDebug("BBB-" + dd.toLatin1() + "-BBB");   // DA RIMUOVERE
         if (userS[it]->getCountNumber() == number)
             return true;
     }

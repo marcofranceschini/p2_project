@@ -68,12 +68,12 @@ void UserInfo::on_toolButton_3_clicked() {  // Prelievo
     QString a = ui->lineEdit_2->text();
     QString b = ui->lineEdit_3->text();
 
-    float cifra = a.toFloat();
+    double cifra = a.toDouble();
     string conto = b.toUtf8().constData();
     bool flag = false;
     if (cifra > 0) {
         // Tolgo l'importo dal conto dell'utente loggato
-        if (bf) { // E' un utente bronze
+        if (bf) {   // E' un utente bronze
             if (0 <= userB.getCount()-cifra) {
                 userB.setCount(userB.getCount()-cifra);
                 flag = true;
@@ -194,17 +194,19 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
     // DA FARE
     // Verifico se l'utente passa ad utente silver + messaggio
 
+    // Scrivere nel DB
+
 
 
     QString a = ui->lineEdit_2->text();
     QString b = ui->lineEdit_3->text();
 
-    float cifra = a.toFloat();
+    double cifra = a.toDouble();
     string conto = b.toUtf8().constData();
     bool flag = false;
     if (cifra > 0) {
         // Tolgo l'importo dal conto dell'utente loggato
-        if (bf) { // E' un utente bronze
+        if (bf) {   // E' un utente bronze
             if (0 <= userB.getCount()-cifra) {
                 userB.setCount(userB.getCount()-cifra);
                 flag = true;

@@ -1,6 +1,6 @@
 #include "bronzeuser.h"
 
-BronzeUser::BronzeUser(string n, string s, string a, int t, string c, string u, int p, string num):User(n, s, a, t, c, u, p), countNumber(num) {}
+BronzeUser::BronzeUser(string n, string s, string a, int t, string c, string u, int p, string nu, double co):User(n, s, a, t, c, u, p), countNumber(nu), count(co) {}
 
 BronzeUser::BronzeUser() {}
 
@@ -13,6 +13,7 @@ BronzeUser::BronzeUser (const BronzeUser& u) {
     username = u.getUsername();
     pin = u.getPin();
     countNumber = u.getCountNumber();
+    count = u.getCount();
 }
 
 double BronzeUser::getTotalTax () const {

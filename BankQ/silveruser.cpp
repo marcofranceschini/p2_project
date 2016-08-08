@@ -1,6 +1,6 @@
 #include "silveruser.h"
 
-SilverUser::SilverUser(string n, string s, string a, int t, string c, string u, int p, string num):BronzeUser(n, s, a, t, c, u, p, num) {}
+SilverUser::SilverUser(string n, string s, string a, int t, string c, string u, int p, string nu, double co):BronzeUser(n, s, a, t, c, u, p, nu, co) {}
 
 SilverUser::SilverUser() {}
 
@@ -13,6 +13,7 @@ SilverUser::SilverUser (const SilverUser& s) {
     username = s.getUsername();
     pin = s.getPin();
     countNumber = s.getCountNumber();
+    count = s.getCount();
 }
 
 double SilverUser::getTotalBonus () const {
