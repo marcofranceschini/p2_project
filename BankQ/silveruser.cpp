@@ -16,6 +16,18 @@ SilverUser::SilverUser (const SilverUser& s) {
     count = s.getCount();
 }
 
+SilverUser::SilverUser (const BronzeUser& b) {
+    name = b.getName();
+    surname = b.getSurname();
+    address = b.getAddress();
+    telephone = b.getTelephone();
+    code = b.getCode();
+    username = b.getUsername();
+    pin = b.getPin();
+    countNumber = b.getCountNumber();
+    count = b.getCount();
+}
+
 double SilverUser::getTotalBonus () const {
     return extraBonus + tax;
 }

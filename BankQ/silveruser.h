@@ -14,6 +14,8 @@ public:
 
     SilverUser (const SilverUser&);
 
+    SilverUser (const BronzeUser&);
+
 
     /*virtual float getTotalTax() const {
         return SilverUser::getTotalTax();

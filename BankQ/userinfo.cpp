@@ -68,7 +68,7 @@ void UserInfo::on_toolButton_3_clicked() {  // Prelievo
     QString a = ui->lineEdit_2->text();
     QString b = ui->lineEdit_3->text();
 
-    double cifra = a.toDouble();
+    /*double cifra = a.toDouble();
     int conto = b.toInt();
     bool flag = false;
 
@@ -172,7 +172,7 @@ void UserInfo::on_toolButton_3_clicked() {  // Prelievo
             tr("BankQ - Prelievo"),
             tr("Importo errato")
         );
-    }
+    }*/
     //qDebug()  << withdraw << QString("float %1").arg(f, 20, 'f', 20);
     // Verifico se prelevo oltre il limite del conto
     //if....
@@ -210,7 +210,6 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
         // Tolgo l'importo dal conto dell'utente loggato
         if (bf) {   // E' un utente bronze
             if (0 <= userB.getCount()-cifra) {
-                userB.setCount(userB.getCount()-cifra);
                 flag = true;
             } else {
                 QMessageBox::information(
@@ -221,7 +220,6 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
             }
         } else {    // Utente silver
             if (0 <= userS.getCount()-cifra) {
-                userS.setCount(userS.getCount()-cifra);
                 flag = true;
             } else {
                 QMessageBox::information(
@@ -242,12 +240,12 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                 if (d.verifyNumberBronze(conto)) {   // Verifico che il numero di conto sia di un utente bronze
                     b = d.getBronzeByCount(conto);
                     b.setCount(b.getCount()+cifra);
+                    if (!d.verifyStillBronze(b)) {
+
+                    }
                     bronze = true;
 
-                    ui->label_12->setText(QString::number(userB.getCount()));   // Saldo
-                    ui->label_19->setText(QString::number(userB.getCount()));   // Saldo prelievo
-                    ui->label_22->setText(QString::number(userB.getCount()));   // Saldo ricarica
-                    ui->label_66->setText(QString::number(userB.getCount()));   // Saldo
+
                 }
 
             } else {
@@ -267,10 +265,7 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                         s.setCount(s.getCount()+cifra);
                         silver = true;
 
-                        ui->label_12->setText(QString::number(userS.getCount()));   // Saldo
-                        ui->label_19->setText(QString::number(userS.getCount()));   // Saldo prelievo
-                        ui->label_22->setText(QString::number(userS.getCount()));   // Saldo ricarica
-                        ui->label_66->setText(QString::number(userS.getCount()));   // Saldo
+
                     } else {    // Se il numero non è né silver né bronze allora è errato
 
                         QMessageBox::information(
@@ -287,13 +282,23 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                     );
                 }
             }
-            // Se non ho trovato un numero di conto ritorno l'importo prelevato
-            if (!bronze && !silver) {
-                if (bf) // E' un utente bronze
-                    userB.setCount(userB.getCount()+cifra);
-                else
-                    userS.setCount(userS.getCount()+cifra);
-            } else {
+
+            if ((bronze && !silver) || (!bronze && silver)) {   // Se ho trovato un numero di conto sottraggo l'importo
+                if (bf) {   // Aggiorno i campi con il nuovo saldo
+                    userB.setCount(userB.getCount() - cifra);
+
+                    ui->label_12->setText(QString::number(userB.getCount()));   // Saldo
+                    ui->label_19->setText(QString::number(userB.getCount()));   // Saldo prelievo
+                    ui->label_22->setText(QString::number(userB.getCount()));   // Saldo ricarica
+                    ui->label_66->setText(QString::number(userB.getCount()));   // Saldo
+                } else {
+                    userS.setCount(userS.getCount() - cifra);
+
+                    ui->label_12->setText(QString::number(userS.getCount()));   // Saldo
+                    ui->label_19->setText(QString::number(userS.getCount()));   // Saldo prelievo
+                    ui->label_22->setText(QString::number(userS.getCount()));   // Saldo ricarica
+                    ui->label_66->setText(QString::number(userS.getCount()));   // Saldo
+                }
                 QMessageBox::information(
                     this,
                     tr("BankQ - Prelievo"),

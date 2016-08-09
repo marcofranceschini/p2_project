@@ -30,3 +30,4 @@ Operazioni svolgibili lato amministratore:
 
 Per l'accesso alla banca sono necessari un username ed un pin di 5 cifre.
 
+Speficare che per far funzionare il db serve mettere chmod 755

@@ -9,7 +9,7 @@ DataBase::DataBase() {
 }
 
 bool DataBase::loadAdmin () { // Carico gli amministratori nel contenitore
-    file = new QFile("/home/marco/Documents/p2_project/BankQ/admin.xml");
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/admin.xml");
 
     QString s =file->fileName();   // DA RIMUOVERE
     qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
@@ -80,7 +80,7 @@ bool DataBase::verifyLoginAdmin (const string& usr, const int& pin) const {
 }
 
 bool DataBase::loadBronze () { // Carico gli utenti bronze nel contenitore
-    file = new QFile("/home/marco/Documents/p2_project/BankQ/bronze.xml");
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/bronze.xml");
     if (file->exists()) {
             file->open(QIODevice::ReadOnly);
             QXmlStreamReader xmlReader(file);
@@ -157,9 +157,20 @@ BronzeUser DataBase::getBronzeByCount (const int& conto) const {
     }
 }
 
+bool DataBase::verifyStillBronze (const BronzeUser& b) {
+    if (100000 <= b.getCount()) {   // L'utente passa a silver
+        //SilverUser s = new SilverUser (b.getName(), b.getSurname(), b.getAddress(), b.getTelephone(), b.getUsername(), b.getCode(), b.getPin(), b.getCountNumber(), b.getCount());
+        SilverUser s = new SilverUser (b);
+        userS.push_back(s);
+        this->writeSilver
+        return true;
+    }else
+        return false;
+}
+
 
 bool DataBase::loadSilver () { // Carico gli utenti silver nel contenitore
-    file = new QFile("/home/marco/Documents/p2_project/BankQ/silver.xml");
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/silver.xml");
     if (file->exists()) {
             file->open(QIODevice::ReadOnly);
             QXmlStreamReader xmlReader(file);

@@ -48,6 +48,8 @@ public:
 
     BronzeUser getBronzeByCount (const int&) const; // Ritorna l'oggetto BronzeUser con numero di conto uguale a quello passato
 
+    bool verifyStillBronze (const BronzeUser&); // Verifica se l'oggetto BronzeUser soddisfa i requisiti oppure passa a Silver
+
 
     bool loadSilver(); // Carico gli utenti silver nel contenitore
 
@@ -58,5 +60,8 @@ public:
     bool verifyNumberSilver (const int&) const;  // Verifica se il numero di conto appartiene ad un utente silver
 
     SilverUser getSilverByCount (const int&) const; // Ritorna l'oggetto SilverUser con numero di conto uguale a quello passato
+
+    bool verifyStillSilver (const SilverUser&); // Verifica se l'oggetto SilverUser soddisfa i requisiti oppure scende a Bronze
+
 };
 #endif // DATABASE_H

@@ -11,22 +11,22 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>BankQ</string>
   </property>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>600</height>
+     <width>900</width>
+     <height>700</height>
     </rect>
    </property>
    <property name="locale">
     <locale language="Italian" country="Italy"/>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -219,7 +219,7 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>67</width>
+       <width>71</width>
        <height>21</height>
       </rect>
      </property>
@@ -245,7 +245,7 @@
       <rect>
        <x>440</x>
        <y>40</y>
-       <width>111</width>
+       <width>121</width>
        <height>17</height>
       </rect>
      </property>

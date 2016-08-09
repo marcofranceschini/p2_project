@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>BankQ</string>
   </property>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
@@ -164,7 +164,7 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>67</width>
+       <width>71</width>
        <height>21</height>
       </rect>
      </property>
@@ -216,7 +216,7 @@
       <rect>
        <x>430</x>
        <y>60</y>
-       <width>111</width>
+       <width>131</width>
        <height>17</height>
       </rect>
      </property>
