@@ -29,7 +29,7 @@ void UserInfo::setBronze (BronzeUser const& b) {
     ui->label_6->setText("Bronze"); // Tipo conto
     ui->label_10->setText(QString::number(userB.getTotalTax()));  // Tasse anno
     ui->label_11->setText(QString::number(userB.getTotalBonus()));  // Bonus anno
-    ui->label_24->setText(QString::fromStdString(userB.getCountNumber()));  // Numero conto
+    ui->label_24->setText(QString::number(userB.getCountNumber()));  // Numero conto
     ui->label_12->setText(QString::number(userB.getCount()));   // Saldo
     ui->label_19->setText(QString::number(userB.getCount()));   // Saldo prelievo
     ui->label_22->setText(QString::number(userB.getCount()));   // Saldo ricarica
@@ -51,7 +51,7 @@ void UserInfo::setSilver (SilverUser const& s) {
     ui->label_6->setText("Bronze"); // Tipo conto
     ui->label_10->setText(QString::number(userS.getTotalTax()));  // Tasse anno
     ui->label_11->setText(QString::number(userS.getTotalBonus()));  // Bonus anno
-    ui->label_24->setText(QString::fromStdString(userS.getCountNumber()));  // Numero conto
+    ui->label_24->setText(QString::number(userS.getCountNumber()));  // Numero conto
     ui->label_12->setText(QString::number(userS.getCount()));   // Saldo
     ui->label_19->setText(QString::number(userS.getCount()));   // Saldo prelievo
     ui->label_22->setText(QString::number(userS.getCount()));   // Saldo ricarica
@@ -69,8 +69,9 @@ void UserInfo::on_toolButton_3_clicked() {  // Prelievo
     QString b = ui->lineEdit_3->text();
 
     double cifra = a.toDouble();
-    string conto = b.toUtf8().constData();
+    int conto = b.toInt();
     bool flag = false;
+
     if (cifra > 0) {
         // Tolgo l'importo dal conto dell'utente loggato
         if (bf) {   // E' un utente bronze
@@ -202,8 +203,9 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
     QString b = ui->lineEdit_3->text();
 
     double cifra = a.toDouble();
-    string conto = b.toUtf8().constData();
+    int conto = b.toInt();
     bool flag = false;
+
     if (cifra > 0) {
         // Tolgo l'importo dal conto dell'utente loggato
         if (bf) {   // E' un utente bronze
@@ -231,12 +233,14 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
         }
 
         bool bronze = false;
+        SilverUser s;
+        BronzeUser b;
         // Ricarico il conto di destinazione
         if (flag) {
             DataBase d;
             if (d.loadBronze()) {   // Carico gli utenti bronze
                 if (d.verifyNumberBronze(conto)) {   // Verifico che il numero di conto sia di un utente bronze
-                    BronzeUser b = d.getBronzeByCount(conto);
+                    b = d.getBronzeByCount(conto);
                     b.setCount(b.getCount()+cifra);
                     bronze = true;
 
@@ -259,7 +263,7 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
             if (!bronze) {
                 if (d.loadSilver()) {   // Carico gli utenti silver
                     if (d.verifyNumberSilver(conto)) {   // Verifico che il numero di conto sia di un utente silver
-                        SilverUser s = d.getSilverByCount(conto);
+                        s = d.getSilverByCount(conto);
                         s.setCount(s.getCount()+cifra);
                         silver = true;
 

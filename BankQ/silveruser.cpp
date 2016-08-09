@@ -1,6 +1,6 @@
 #include "silveruser.h"
 
-SilverUser::SilverUser(string n, string s, string a, int t, string c, string u, int p, string nu, double co):BronzeUser(n, s, a, t, c, u, p, nu, co) {}
+SilverUser::SilverUser(string n, string s, string a, int t, string c, string u, int p, int nu, double co):BronzeUser(n, s, a, t, c, u, p, nu, co) {}
 
 SilverUser::SilverUser() {}
 

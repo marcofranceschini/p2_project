@@ -8,7 +8,7 @@ private:
     static double extraBonus;   // Bonus aggiuntivo rispetto all'utente Bronze
 
 public:
-    SilverUser (string, string, string, int, string, string, int, string, double);
+    SilverUser (string, string, string, int, string, string, int, int, double);
 
     SilverUser();
 

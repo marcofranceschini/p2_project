@@ -1,29 +1,32 @@
 3 tipi di utenti:
-- bronze
-- silver
+- bronze (basic)
+- silver (pro)
 (- gold)
 - amministratore
 
 Tutti gli utenti hanno dei dati personali.
-I primi 3 pagano una retta fissa (bronze e silver stessa rata) ed hanno un bonus annuale ed hanno un conto.
-Un utente bronze può diventare silver se il saldo del suo conto supera 50.000€, inoltre ottiene un ulteriore bonus (bonus standard + bonus silver).
-(Si può diventare utenti gold solamente pagando una retta maggiorata (percentuale fissa sul saldo) e arrivando dal silver, così si ottiene, inoltre, un ulteriore bonus (bonus standard + bonus silver + bonus gold).)
-L'amministratore ha come unico campo il salario, oltre a quelli di un utente.
+I primi 2 pagano una retta fissa (bronze e silver stessa rata) ed hanno un bonus annuale ed hanno un conto.
+Un utente bronze può diventare silver (pro) se il saldo del suo conto supera 100.000€, inoltre ottiene un ulteriore bonus (bonus standard + bonus silver).
+
+---[(Si può diventare utenti gold solamente pagando una retta maggiorata (percentuale fissa sul saldo) e arrivando dal silver, così si ottiene, inoltre, un ulteriore bonus (bonus standard + bonus silver + bonus gold).)]
+
+L'amministratore ha come unico campo il salario, oltre a quelli di utente.
 
 Operazioni svolgibili lato utente:
 - visualizzare saldo conto
-- aggiungere sul conto
+- aggiungere su un altro conto
 - prelevare dal conto
 (- fare richiesta per diventare utente gold)
 - ??????? togliere gold???????
 - fare richiesta per chiudere conto
-- storico delle operazioni (prelievo, ricarica) [solo nella sessione corrente?]
+- storico delle operazioni (prelievo, ricarica)(fare un quarto db avente come campo lo username e le operazione svolte dall'untene) [solo nella sessione corrente?]
+- messaggio in arrivo (quarto db come sopra)
 
 Operazioni svolgibili lato amministratore:
-- aggiungere nuovo utente
-(NO!aggiornare tipo di utente (da bronze,silver->gold, ???gold->?????))
+- aggiungere nuovo utente (username e numero conto univoci)
 - chiudere conto (su richiesta)
 - ricerca di utenti con vari filtri
+- inviare messaggi agli utenti
 
 Per l'accesso alla banca sono necessari un username ed un pin di 5 cifre.
 

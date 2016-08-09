@@ -9,7 +9,7 @@ protected:
 
     static double bonus;   // Bonus
 
-    string countNumber; // Numero di conto
+    int countNumber; // Numero di conto
 
     double count;   // Conto corrente
 
@@ -17,7 +17,7 @@ public:
     /*BronzeUser(string n, string s, string a, int t, string cod, string u, int p, bool ad):
         User(n, s, a, t, cod, u, p, ad) {}*/
      // float surcharge; L'utente bronzo non ha tasse aggiuntive da pagare a differenza degli altri tipi di utente
-    BronzeUser (string, string, string, int, string, string, int, string, double);
+    BronzeUser (string, string, string, int, string, string, int, int, double);
 
     BronzeUser ();
 
@@ -27,13 +27,17 @@ public:
 
     virtual double getTotalBonus () const;
 
-    double getCount () const;
+    virtual double getCount () const;
 
-    void setCount (double);
+    virtual void setCount (double);
 
-    virtual string getCountNumber () const;
+    virtual void decreaseCount (double);
 
-    virtual void setCountNumber (string);
+    virtual void increaseCount (double);
+
+    virtual int getCountNumber () const;
+
+    virtual void setCountNumber (int);
 
     virtual bool verifyLogin (const int&) const;
 };

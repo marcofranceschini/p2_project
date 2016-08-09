@@ -44,9 +44,9 @@ public:
 
     bool verifyLoginBronze (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente bronze siano corretti
 
-    bool verifyNumberBronze (const string&) const;  // Verifica se il numero di conto passato appartiene ad un utente bronze
+    bool verifyNumberBronze (const int&) const;  // Verifica se il numero di conto passato appartiene ad un utente bronze
 
-    BronzeUser getBronzeByCount (const string&) const; // Ritorna l'oggetto BronzeUser con numero di conto uguale a quello passato
+    BronzeUser getBronzeByCount (const int&) const; // Ritorna l'oggetto BronzeUser con numero di conto uguale a quello passato
 
 
     bool loadSilver(); // Carico gli utenti silver nel contenitore
@@ -55,8 +55,8 @@ public:
 
     bool verifyLoginSilver (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente silver siano corretti
 
-    bool verifyNumberSilver (const string&) const;  // Verifica se il numero di conto appartiene ad un utente silver
+    bool verifyNumberSilver (const int&) const;  // Verifica se il numero di conto appartiene ad un utente silver
 
-    SilverUser getSilverByCount (const string&) const; // Ritorna l'oggetto SilverUser con numero di conto uguale a quello passato
+    SilverUser getSilverByCount (const int&) const; // Ritorna l'oggetto SilverUser con numero di conto uguale a quello passato
 };
 #endif // DATABASE_H

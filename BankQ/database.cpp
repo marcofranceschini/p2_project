@@ -111,7 +111,7 @@ bool DataBase::loadBronze () { // Carico gli utenti bronze nel contenitore
                             if(xmlReader.name().toString() == "count")
                                 uBronze.setCount(xmlReader.readElementText().toDouble());    // DOUBLE
                             if(xmlReader.name().toString() == "countNumber")
-                                uBronze.setCountNumber(xmlReader.readElementText().toStdString());
+                                uBronze.setCountNumber(xmlReader.readElementText().toInt());
                             xmlReader.readNext();
                         }
                         userB.push_back(new BronzeUser(uBronze));
@@ -142,7 +142,7 @@ bool DataBase::verifyLoginBronze (const string& usr, const int& pin) const {
     return false;
 }
 
-bool DataBase::verifyNumberBronze (const string& number) const {
+bool DataBase::verifyNumberBronze (const int& number) const {
     for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
         if (userB[it]->getCountNumber() == number)
             return true;
@@ -150,7 +150,7 @@ bool DataBase::verifyNumberBronze (const string& number) const {
     return false;
 }
 
-BronzeUser DataBase::getBronzeByCount (const string& conto) const {
+BronzeUser DataBase::getBronzeByCount (const int& conto) const {
     for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
         if (userB[it]->getCountNumber() == conto)
             return *userB[it];
@@ -191,7 +191,7 @@ bool DataBase::loadSilver () { // Carico gli utenti silver nel contenitore
                             if(xmlReader.name().toString() == "count")
                                 uSilver.setCount(xmlReader.readElementText().toDouble());    // DOUBLEE
                             if(xmlReader.name().toString() == "countNumber")
-                                uSilver.setCountNumber(xmlReader.readElementText().toStdString());
+                                uSilver.setCountNumber(xmlReader.readElementText().toInt());
                             xmlReader.readNext();
                         }
                         userS.push_back(new SilverUser(uSilver));
@@ -222,19 +222,15 @@ bool DataBase::verifyLoginSilver (const string& usr, const int& pin) const {
     return false;
 }
 
-bool DataBase::verifyNumberSilver (const string& number) const {
+bool DataBase::verifyNumberSilver (const int& number) const {
     for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
-        QString s = QString::fromStdString(userS[it]->getCountNumber());   // DA RIMUOVERE
-        qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
-        QString dd = QString::fromStdString(number);   // DA RIMUOVERE
-        qDebug("BBB-" + dd.toLatin1() + "-BBB");   // DA RIMUOVERE
         if (userS[it]->getCountNumber() == number)
             return true;
     }
     return false;
 }
 
-SilverUser DataBase::getSilverByCount (const string& conto) const {
+SilverUser DataBase::getSilverByCount (const int& conto) const {
     for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
         if (userS[it]->getCountNumber() == conto)
             return *userS[it];

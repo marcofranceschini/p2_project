@@ -1,6 +1,6 @@
 #include "bronzeuser.h"
 
-BronzeUser::BronzeUser(string n, string s, string a, int t, string c, string u, int p, string nu, double co):User(n, s, a, t, c, u, p), countNumber(nu), count(co) {}
+BronzeUser::BronzeUser(string n, string s, string a, int t, string c, string u, int p, int nu, double co):User(n, s, a, t, c, u, p), countNumber(nu), count(co) {}
 
 BronzeUser::BronzeUser() {}
 
@@ -32,11 +32,32 @@ void BronzeUser::setCount (double c) {
     count = c;
 }
 
-string BronzeUser::getCountNumber () const {
+void BronzeUser::decreaseCount (double c) {
+
+    // Verifico se l'utente scende a bronze
+    if (count - c < 100000) {
+
+    } else
+        count = count - c;
+    // Fare una seconda funzione, quella corrente torna true o false se scendo di grado o meno
+    // l'altra funzione (non va inserita in brozeUser) crea un nuovo utente ed elimina l'utente silver con conseguente
+    // riscrittura sul db
+}
+
+void BronzeUser::increaseCount (double c) {
+
+    // Verifico se l'utente sale a silver
+    if (100000 <= count + c) {
+
+    } else
+        count = count + c;
+}
+
+int BronzeUser::getCountNumber () const {
     return countNumber;
 }
 
-void BronzeUser::setCountNumber (string c) {
+void BronzeUser::setCountNumber (int c) {
     countNumber = c;
 }
 
