@@ -1,8 +1,10 @@
 #include "silveruser.h"
 
-SilverUser::SilverUser(string n, string s, string a, int t, string c, string u, int p, int nu, double co):BronzeUser(n, s, a, t, c, u, p, nu, co) {}
+SilverUser::SilverUser (string n, string s, string a, int t, string c, string u, int p, int nu, double co):BronzeUser(n, s, a, t, c, u, p, nu, co) {}
 
-SilverUser::SilverUser() {}
+SilverUser::SilverUser () {}
+
+SilverUser::~SilverUser () {}
 
 SilverUser::SilverUser (const SilverUser& s) {
     name = s.getName();

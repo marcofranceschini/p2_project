@@ -50,6 +50,8 @@ public:
 
     bool verifyStillBronze (const BronzeUser&); // Verifica se l'oggetto BronzeUser soddisfa i requisiti oppure passa a Silver
 
+    bool writeBronze (); // Scrive nel DB relativo agli utenti Bronze la lista di utenti Bronze passata
+
 
     bool loadSilver(); // Carico gli utenti silver nel contenitore
 
@@ -63,5 +65,6 @@ public:
 
     bool verifyStillSilver (const SilverUser&); // Verifica se l'oggetto SilverUser soddisfa i requisiti oppure scende a Bronze
 
+    bool writeSilver (); // Scrive nel DB relativo agli utenti Silver la lista di utenti Silver passata
 };
 #endif // DATABASE_H

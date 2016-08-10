@@ -160,12 +160,53 @@ BronzeUser DataBase::getBronzeByCount (const int& conto) const {
 bool DataBase::verifyStillBronze (const BronzeUser& b) {
     if (100000 <= b.getCount()) {   // L'utente passa a silver
         //SilverUser s = new SilverUser (b.getName(), b.getSurname(), b.getAddress(), b.getTelephone(), b.getUsername(), b.getCode(), b.getPin(), b.getCountNumber(), b.getCount());
-        SilverUser s = new SilverUser (b);
-        userS.push_back(s);
-        this->writeSilver
+        SilverUser *s = new SilverUser (b);
+
+        QString st =QString::fromStdString(s->getUsername());   // DA RIMUOVERE
+        qDebug("AAA-" + st.toLatin1() + "-AAA");   // DA RIMUOVERE
+
+        int cont = 0;
+        for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
+            if (userB[it]->getUsername() != b.getUsername())
+                cont ++;
+            else
+                break;
+        }
+        userB.remove(cont); // Rimuove il "vecchio" utente bronze dalla lista degli utenti bronze
+        userS.push_back(s); // Inserisce il "nuovo" utente silver nella lista di appartenenza
+        if (this->writeBronze() && this->writeSilver())
+            return false;
+        else
+            return true;
+    } else
         return true;
-    }else
-        return false;
+}
+
+bool DataBase::writeBronze () {
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/silver.xml");
+    file->open(QIODevice::WriteOnly);
+    QXmlStreamWriter xmlWriter(file);
+    xmlWriter.setAutoFormatting(true);
+
+    xmlWriter.writeStartDocument();
+    xmlWriter.writeStartElement("bronze");
+    for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
+        xmlWriter.writeTextElement("name", QString::fromStdString(userB[it]->getName()));
+        xmlWriter.writeTextElement("surname", QString::fromStdString(userB[it]->getSurname()));
+        xmlWriter.writeTextElement("address", QString::fromStdString(userB[it]->getAddress()));
+        xmlWriter.writeTextElement("telephone", QString::number(userB[it]->getTelephone()));
+        xmlWriter.writeTextElement("code", QString::fromStdString(userB[it]->getCode()));
+        xmlWriter.writeTextElement("username", QString::fromStdString(userB[it]->getUsername()));
+        xmlWriter.writeTextElement("pin", QString::number(userB[it]->getPin()));
+        xmlWriter.writeTextElement("count", QString::number(userB[it]->getCount()));
+        xmlWriter.writeTextElement("countNumber", QString::number(userB[it]->getCountNumber()));
+        xmlWriter.writeEndElement();
+    }
+    xmlWriter.writeEndDocument();
+
+    file->close();
+    if (xmlWriter.hasError()) return false;
+    return true;
 }
 
 
@@ -246,4 +287,64 @@ SilverUser DataBase::getSilverByCount (const int& conto) const {
         if (userS[it]->getCountNumber() == conto)
             return *userS[it];
     }
+}
+
+bool DataBase::verifyStillSilver (const SilverUser& s) {
+    if (s.getCount() < 100000) {   // L'utente passa a bronze
+        //SilverUser s = new SilverUser (b.getName(), b.getSurname(), b.getAddress(), b.getTelephone(), b.getUsername(), b.getCode(), b.getPin(), b.getCountNumber(), b.getCount());
+        BronzeUser *b = new BronzeUser (s);
+
+        int cont = 0;
+        for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
+            if (userS[it]->getUsername() != s.getUsername())
+                cont ++;
+            else
+                break;
+        }
+        userS.remove(cont); // Rimuove il "vecchio" utente silver dalla lista degli utenti silver
+
+        userB.push_back(b); // Inserisce il "nuovo" utente bronze nella lista di appartenenza
+        QString st =QString::fromStdString(b->getUsername());   // DA RIMUOVERE
+        qDebug("AAA-" + st.toLatin1() + "-AAA");   // DA RIMUOVERE
+
+        for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
+            QString st =QString::fromStdString(b->getUsername());   // DA RIMUOVERE
+            qDebug("AAA-" + st.toLatin1() + "-AAA");   // DA RIMUOVERE
+        }
+
+
+        /*if (this->writeBronze() && this->writeSilver())
+            return false;
+        else
+            return true;*/
+        return false;
+    } else
+        return true;
+}
+
+bool DataBase::writeSilver () {
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/silver.xml");
+    file->open(QIODevice::WriteOnly);
+    QXmlStreamWriter xmlWriter(file);
+    xmlWriter.setAutoFormatting(true);
+
+    xmlWriter.writeStartDocument();
+    xmlWriter.writeStartElement("silver");
+    for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
+        xmlWriter.writeTextElement("name", QString::fromStdString(userS[it]->getName()));
+        xmlWriter.writeTextElement("surname", QString::fromStdString(userS[it]->getSurname()));
+        xmlWriter.writeTextElement("address", QString::fromStdString(userS[it]->getAddress()));
+        xmlWriter.writeTextElement("telephone", QString::number(userS[it]->getTelephone()));
+        xmlWriter.writeTextElement("code", QString::fromStdString(userS[it]->getCode()));
+        xmlWriter.writeTextElement("username", QString::fromStdString(userS[it]->getUsername()));
+        xmlWriter.writeTextElement("pin", QString::number(userS[it]->getPin()));
+        xmlWriter.writeTextElement("count", QString::number(userS[it]->getCount()));
+        xmlWriter.writeTextElement("countNumber", QString::number(userS[it]->getCountNumber()));
+        xmlWriter.writeEndElement();
+    }
+    xmlWriter.writeEndDocument();
+
+    file->close();
+    if (xmlWriter.hasError()) return false;
+    return true;
 }

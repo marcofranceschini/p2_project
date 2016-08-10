@@ -21,6 +21,8 @@ public:
 
     BronzeUser ();
 
+    ~BronzeUser ();
+
     BronzeUser (const BronzeUser&);
 
     virtual double getTotalTax () const;

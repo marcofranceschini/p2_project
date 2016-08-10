@@ -169,12 +169,12 @@ public:
             SmartPointer p = newHead;
             head = 0;
             while (pos--) {
-                add(p->value);
+                push_back(p->value);
                 p = p->next;
             }
             p = p->next;
             while (p != 0) {
-                add(p->value);
+                push_back(p->value);
                 p = p->next;
             }
         }

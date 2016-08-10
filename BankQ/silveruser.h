@@ -10,7 +10,9 @@ private:
 public:
     SilverUser (string, string, string, int, string, string, int, int, double);
 
-    SilverUser();
+    SilverUser ();
+
+    ~SilverUser ();
 
     SilverUser (const SilverUser&);
 

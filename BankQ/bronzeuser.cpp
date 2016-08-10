@@ -1,8 +1,10 @@
 #include "bronzeuser.h"
 
-BronzeUser::BronzeUser(string n, string s, string a, int t, string c, string u, int p, int nu, double co):User(n, s, a, t, c, u, p), countNumber(nu), count(co) {}
+BronzeUser::BronzeUser (string n, string s, string a, int t, string c, string u, int p, int nu, double co):User(n, s, a, t, c, u, p), countNumber(nu), count(co) {}
 
-BronzeUser::BronzeUser() {}
+BronzeUser::BronzeUser () {}
+
+BronzeUser::~BronzeUser () {}
 
 BronzeUser::BronzeUser (const BronzeUser& u) {
     name = u.getName();

@@ -1,15 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-    <silver>
+<?xml version="1.0" encoding="UTF-8"?>
+<silver>
         <name>Marco</name>
-        <surname>m</surname>
+        <surname>Marco</surname>
         <address>Via Prova</address>
         <telephone>111111</telephone>
         <code>AA111ad1l</code>
         <username>marco</username>
         <pin>123</pin>
-        <count>100</count>
-        <countNumber>1143</countNumber>
-    </silver>
-
-
+        <countNumber>111</countNumber>
+        <count>111000</count>
+</silver>

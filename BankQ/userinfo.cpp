@@ -48,7 +48,7 @@ void UserInfo::setSilver (SilverUser const& s) {
 
     ui->label_4->setText(QString::fromStdString(userS.getName()));  // Nome
     ui->label_5->setText(QString::fromStdString(userS.getSurname()));     // Cognome
-    ui->label_6->setText("Bronze"); // Tipo conto
+    ui->label_6->setText("Silver"); // Tipo conto
     ui->label_10->setText(QString::number(userS.getTotalTax()));  // Tasse anno
     ui->label_11->setText(QString::number(userS.getTotalBonus()));  // Bonus anno
     ui->label_24->setText(QString::number(userS.getCountNumber()));  // Numero conto
@@ -240,12 +240,11 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                 if (d.verifyNumberBronze(conto)) {   // Verifico che il numero di conto sia di un utente bronze
                     b = d.getBronzeByCount(conto);
                     b.setCount(b.getCount()+cifra);
+                    bronze = true;
                     if (!d.verifyStillBronze(b)) {
+                        // MANDO UN MESSAGGIO ALL'UTENTE PER L'AVVENUTO PASSAGGIO
 
                     }
-                    bronze = true;
-
-
                 }
 
             } else {
@@ -283,9 +282,22 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                 }
             }
 
+            MainWindow u;   // DA RIMUOVERE
+
+
             if ((bronze && !silver) || (!bronze && silver)) {   // Se ho trovato un numero di conto sottraggo l'importo
                 if (bf) {   // Aggiorno i campi con il nuovo saldo
                     userB.setCount(userB.getCount() - cifra);
+
+                    if (!d.verifyStillBronze(userB)) {   // Verifico se l'utente è ancora bronze
+                        bf = false;
+                        sf = true;
+                        SilverUser* app = new SilverUser(userB);
+                        userS = *app;
+                        delete app;
+                        delete &userB;
+                        ui->label_6->setText("Silver"); // Cambio il tipo di conto
+                    }
 
                     ui->label_12->setText(QString::number(userB.getCount()));   // Saldo
                     ui->label_19->setText(QString::number(userB.getCount()));   // Saldo prelievo
@@ -293,6 +305,18 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                     ui->label_66->setText(QString::number(userB.getCount()));   // Saldo
                 } else {
                     userS.setCount(userS.getCount() - cifra);
+
+                    if (!d.verifyStillSilver(userS)) {      // Verifico se l'utente è ancora silver
+                        sf = false;
+                        bf = true;
+                        BronzeUser* app = new BronzeUser(userS);
+
+                        userB = *app;
+                        delete app;
+                        delete &userS;
+                        u.boom();
+                        ui->label_6->setText("Bronze"); // Cambio il tipo di conto
+                    }
 
                     ui->label_12->setText(QString::number(userS.getCount()));   // Saldo
                     ui->label_19->setText(QString::number(userS.getCount()));   // Saldo prelievo
