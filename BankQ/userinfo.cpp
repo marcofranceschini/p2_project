@@ -289,15 +289,16 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                 if (bf) {   // Aggiorno i campi con il nuovo saldo
                     userB.setCount(userB.getCount() - cifra);
 
-                    if (!d.verifyStillBronze(userB)) {   // Verifico se l'utente è ancora bronze
+                    // L'utente bronze non può "scendere"
+                    /*if (!d.verifyStillBronze(userB)) {   // Verifico se l'utente è ancora bronze
                         bf = false;
                         sf = true;
                         SilverUser* app = new SilverUser(userB);
                         userS = *app;
                         delete app;
-                        delete &userB;
+                        //delete &userB;    // CAUSA CRASH
                         ui->label_6->setText("Silver"); // Cambio il tipo di conto
-                    }
+                    }*/
 
                     ui->label_12->setText(QString::number(userB.getCount()));   // Saldo
                     ui->label_19->setText(QString::number(userB.getCount()));   // Saldo prelievo
@@ -310,12 +311,16 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                         sf = false;
                         bf = true;
                         BronzeUser* app = new BronzeUser(userS);
-
                         userB = *app;
                         delete app;
-                        delete &userS;
-                        u.boom();
+                        //delete &userS;    // CAUSA CRASH
                         ui->label_6->setText("Bronze"); // Cambio il tipo di conto
+
+                        QMessageBox::information(
+                            this,
+                            tr("BankQ - Avviso"),
+                            tr("Con l'ultimo ricarica il tuo account è sceso a bronze")
+                        );
                     }
 
                     ui->label_12->setText(QString::number(userS.getCount()));   // Saldo

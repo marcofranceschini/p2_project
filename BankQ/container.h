@@ -172,6 +172,9 @@ public:
                 push_back(p->value);
                 p = p->next;
             }
+            // Devo rimuovere il nodo in questione
+            //SmartPointer q = p;
+            //delete &q;
             p = p->next;
             while (p != 0) {
                 push_back(p->value);

@@ -93,7 +93,7 @@ bool DataBase::loadBronze () { // Carico gli utenti bronze nel contenitore
                     if (xmlReader.name().toString() == "bronze") {
                         BronzeUser uBronze;
                         xmlReader.readNext();
-                        while (xmlReader.name().toString() != "silver") {
+                        while (xmlReader.name().toString() != "bronze") {
                             if (xmlReader.name().toString() == "name")
                                 uBronze.setName(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "surname")
@@ -134,6 +134,11 @@ BronzeUser DataBase::getBronze (const string& usr) const {
 
 bool DataBase::verifyLoginBronze (const string& usr, const int& pin) const {
     for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
+
+        QString st =QString::fromStdString(userB[it]->getUsername());   // DA RIMUOVERE
+        qDebug("AAA-" + st.toLatin1() + "-AAA");   // DA RIMUOVERE
+        MainWindow u;
+        u.boom();
         if (userB[it]->getUsername() == usr && userB[it]->getPin() == pin)
             return true;
          else
@@ -183,14 +188,15 @@ bool DataBase::verifyStillBronze (const BronzeUser& b) {
 }
 
 bool DataBase::writeBronze () {
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/silver.xml");
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/bronze.xml");
     file->open(QIODevice::WriteOnly);
     QXmlStreamWriter xmlWriter(file);
     xmlWriter.setAutoFormatting(true);
 
     xmlWriter.writeStartDocument();
-    xmlWriter.writeStartElement("bronze");
+
     for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
+        xmlWriter.writeStartElement("bronze");
         xmlWriter.writeTextElement("name", QString::fromStdString(userB[it]->getName()));
         xmlWriter.writeTextElement("surname", QString::fromStdString(userB[it]->getSurname()));
         xmlWriter.writeTextElement("address", QString::fromStdString(userB[it]->getAddress()));
@@ -313,11 +319,10 @@ bool DataBase::verifyStillSilver (const SilverUser& s) {
         }
 
 
-        /*if (this->writeBronze() && this->writeSilver())
+        if (this->writeBronze() && this->writeSilver())
             return false;
         else
-            return true;*/
-        return false;
+            return true;
     } else
         return true;
 }
@@ -329,8 +334,8 @@ bool DataBase::writeSilver () {
     xmlWriter.setAutoFormatting(true);
 
     xmlWriter.writeStartDocument();
-    xmlWriter.writeStartElement("silver");
     for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
+        xmlWriter.writeStartElement("silver");
         xmlWriter.writeTextElement("name", QString::fromStdString(userS[it]->getName()));
         xmlWriter.writeTextElement("surname", QString::fromStdString(userS[it]->getSurname()));
         xmlWriter.writeTextElement("address", QString::fromStdString(userS[it]->getAddress()));

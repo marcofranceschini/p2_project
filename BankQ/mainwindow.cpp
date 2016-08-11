@@ -77,6 +77,7 @@ void MainWindow::on_toolButton_clicked() {
             );
         }
         if (!admin) {
+            u.boom();
             if (d.loadBronze()) {    // Entro sse non ci sono stati problemi a riempire la lista degli utenti bronze
                 if (d.verifyLoginBronze(user, int_pin)) {
                     this->close(); // Chiudo la finistra di login
