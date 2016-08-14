@@ -29,7 +29,7 @@ private:
 public:
     DataBase();
 
-    bool loadAdmin(); // Carico gli amministratori nel contenitore
+    bool loadAdmin (); // Carico gli amministratori nel contenitore
 
     bool verifyAllUsername (const string&) const; // Ritorna true se l'username passato esiste già (tra bronze e silver)
 

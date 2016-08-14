@@ -330,14 +330,6 @@ bool DataBase::verifyStillSilver (const SilverUser& s) {
         userS.remove(cont); // Rimuove il "vecchio" utente silver dalla lista degli utenti silver
 
         userB.push_back(b); // Inserisce il "nuovo" utente bronze nella lista di appartenenza
-        QString st =QString::fromStdString(b->getUsername());   // DA RIMUOVERE
-        qDebug("AAA-" + st.toLatin1() + "-AAA");   // DA RIMUOVERE
-
-        for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
-            QString st =QString::fromStdString(b->getUsername());   // DA RIMUOVERE
-            qDebug("AAA-" + st.toLatin1() + "-AAA");   // DA RIMUOVERE
-        }
-
 
         if (this->writeBronze() && this->writeSilver())
             return false;

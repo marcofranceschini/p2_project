@@ -19,6 +19,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QTabWidget>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QWidget>
 
@@ -79,6 +80,10 @@ public:
     QLabel *label_71;
     QLabel *label_72;
     QLabel *label_73;
+    QWidget *tab_5;
+    QTableView *tableView;
+    QToolButton *toolButton_5;
+    QLabel *label_25;
 
     void setupUi(QDialog *UserInfo)
     {
@@ -186,7 +191,7 @@ public:
         tab_3->setObjectName(QStringLiteral("tab_3"));
         toolButton_4 = new QToolButton(tab_3);
         toolButton_4->setObjectName(QStringLiteral("toolButton_4"));
-        toolButton_4->setGeometry(QRect(190, 190, 71, 25));
+        toolButton_4->setGeometry(QRect(190, 230, 71, 25));
         label_20 = new QLabel(tab_3);
         label_20->setObjectName(QStringLiteral("label_20"));
         label_20->setGeometry(QRect(50, 110, 131, 17));
@@ -242,10 +247,22 @@ public:
         label_73->setObjectName(QStringLiteral("label_73"));
         label_73->setGeometry(QRect(210, 190, 111, 17));
         tabWidget->addTab(tab_4, QString());
+        tab_5 = new QWidget();
+        tab_5->setObjectName(QStringLiteral("tab_5"));
+        tableView = new QTableView(tab_5);
+        tableView->setObjectName(QStringLiteral("tableView"));
+        tableView->setGeometry(QRect(30, 40, 511, 221));
+        toolButton_5 = new QToolButton(tab_5);
+        toolButton_5->setObjectName(QStringLiteral("toolButton_5"));
+        toolButton_5->setGeometry(QRect(230, 280, 101, 22));
+        label_25 = new QLabel(tab_5);
+        label_25->setObjectName(QStringLiteral("label_25"));
+        label_25->setGeometry(QRect(30, 10, 441, 16));
+        tabWidget->addTab(tab_5, QString());
 
         retranslateUi(UserInfo);
 
-        tabWidget->setCurrentIndex(3);
+        tabWidget->setCurrentIndex(4);
 
 
         QMetaObject::connectSlotsByName(UserInfo);
@@ -302,6 +319,9 @@ public:
         label_72->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Aumento bonus</span></p></body></html>", 0));
         label_73->setText(QApplication::translate("UserInfo", "TextLabel", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("UserInfo", "Upgrade", 0));
+        toolButton_5->setText(QApplication::translate("UserInfo", "Visualizzati", 0));
+        label_25->setText(QString());
+        tabWidget->setTabText(tabWidget->indexOf(tab_5), QApplication::translate("UserInfo", "Messaggi", 0));
     } // retranslateUi
 
 };

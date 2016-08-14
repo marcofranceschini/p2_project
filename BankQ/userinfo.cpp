@@ -7,6 +7,7 @@ using namespace std;
 #include "database.h"
 #include "bronzeuser.h"
 #include "silveruser.h"
+#include "QStandardItemModel"
 
 UserInfo::UserInfo(QWidget *parent):QDialog(parent), ui(new Ui::UserInfo) {
     ui->setupUi(this);
@@ -40,6 +41,45 @@ void UserInfo::setBronze (BronzeUser const& b) {
     ui->label_75->setText(QString::fromStdString(userB.getCode())); // Codice fiscale
     ui->label_77->setText(QString::number(userB.getTelephone())); // Numero di telefono
     ui->label_78->setText(QString::fromStdString(userB.getUsername())); // Username
+
+    MessagesDataBase* message = new MessagesDataBase();
+    if (message->loadMessages()) {
+        int mex = message->countMessage(userB.getUsername());
+        if (0 <= mex) {
+
+            // QStandardItemModel(int rows, int columns, QObject * parent = 0)
+            QStandardItemModel *model = new QStandardItemModel (mex, 3, this);
+            ui->tableView->setModel(model);
+
+            Container<Message> app = message->getMessageByUser(userB.getUsername());
+            Container<Message>::Iteratore it = app.begin();
+            for (int row = 0; row < mex; ++row) {
+                for (int col = 0; col < 3; ++col) {
+                    QModelIndex index = model->index(row, col, QModelIndex());  // 0 for all data
+                    switch (col) {
+                        case 0:
+                            string a = app[it]->getRecipient();
+                            model->setData(index, a);
+                         break;
+                        case 1:
+                            model->setData(index, app[it]->getSender());
+                        break;
+                        case 2:
+                            model->setData(index, app[it]->getText());
+                        break;
+                    }
+                }
+                it++;
+            }
+        } else
+            ui->label_25->setText("Non sono presenti nuovi messaggi da leggere");
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento (messaggi)")
+        );
+    }
 }
 
 void UserInfo::setSilver (SilverUser const& s) {

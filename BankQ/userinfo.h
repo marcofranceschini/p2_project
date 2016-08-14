@@ -5,6 +5,7 @@
 
 #include "bronzeuser.h"
 #include "silveruser.h"
+#include "messagesdatabase.h"
 
 namespace Ui {
 class UserInfo;
