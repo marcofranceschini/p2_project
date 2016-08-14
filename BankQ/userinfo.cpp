@@ -45,7 +45,7 @@ void UserInfo::setBronze (BronzeUser const& b) {
     MessagesDataBase* message = new MessagesDataBase();
     if (message->loadMessages()) {
         int mex = message->countMessage(userB.getUsername());
-        if (0 <= mex) {
+        if (0 < mex) {
 
             // QStandardItemModel(int rows, int columns, QObject * parent = 0)
             QStandardItemModel *model = new QStandardItemModel (mex, 3, this);
@@ -53,24 +53,39 @@ void UserInfo::setBronze (BronzeUser const& b) {
 
             Container<Message> app = message->getMessageByUser(userB.getUsername());
             Container<Message>::Iteratore it = app.begin();
+            int num = 0;
             for (int row = 0; row < mex; ++row) {
                 for (int col = 0; col < 3; ++col) {
                     QModelIndex index = model->index(row, col, QModelIndex());  // 0 for all data
+
+                    if (!app[it]->getRead()) {    // Conto il numero di messaggi non letti
+                        num ++;
+                        // Risalto i messaggi da leggere
+                        QFont font;
+                        font.setBold(true);
+                        ui->tableView->itemDelegateForRow(row)->set(font);
+                    }
+                    //tableWidget->item(2, 2)->setFont(font);
+                    //model->
                     switch (col) {
                         case 0:
-                            string a = app[it]->getRecipient();
-                            model->setData(index, a);
-                         break;
-                        case 1:
-                            model->setData(index, app[it]->getSender());
+                            model->setData(index, QString::fromStdString(app[it]->getRecipient()));
                         break;
+
+                        case 1:
+                            model->setData(index, QString::fromStdString(app[it]->getSender()));
+                        break;
+
                         case 2:
-                            model->setData(index, app[it]->getText());
+                            model->setData(index, QString::fromStdString(app[it]->getSender()));
                         break;
                     }
                 }
                 it++;
             }
+            QString s = QString::number(num);
+            ui->label_25->setText("Sono presenti " + s + "messaggi da leggere");
+
         } else
             ui->label_25->setText("Non sono presenti nuovi messaggi da leggere");
     } else {

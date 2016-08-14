@@ -9,8 +9,9 @@ private:
     string recipient;
     string sender;
     string text;
+    bool read; // 0 = no, 1 = si
 public:
-    Message (string, string, string);
+    Message (string, string, string, bool);
 
     Message ();
 
@@ -25,6 +26,10 @@ public:
     void setText (const string&);
 
     string getText () const;
+
+    void setRead (const bool&);
+
+    bool getRead () const;
 };
 
 #endif // MESSAGE_H
