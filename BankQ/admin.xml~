@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<admins>
+
     <admin>
         <name>Pippo</name>
         <surname>MaNonTroppo</surname>
@@ -10,4 +10,4 @@
         <pin>111</pin>
         <salary>10</salary>
     </admin>
-</admins>
+

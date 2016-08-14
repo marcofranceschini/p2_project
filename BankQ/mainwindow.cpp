@@ -79,6 +79,8 @@ void MainWindow::on_toolButton_clicked() {
         if (!admin) {
             u.boom();
             if (d.loadBronze()) {    // Entro sse non ci sono stati problemi a riempire la lista degli utenti bronze
+                QString st =QString::fromStdString(user);   // DA RIMUOVERE
+                qDebug("AAA-" + st.toLatin1() + "-AAA");   // DA RIMUOVERE
                 if (d.verifyLoginBronze(user, int_pin)) {
                     this->close(); // Chiudo la finistra di login
                     UserInfo newUserWindow;
@@ -115,6 +117,12 @@ void MainWindow::on_toolButton_clicked() {
                     this,
                     tr("BankQ - Errore"),
                     tr("Errore di caricamento (silver)")
+                );
+
+                QMessageBox::warning(
+                    this,
+                    tr("BankQ - Errore"),
+                    tr("Dati di accesso non corretti")
                 );
             }
         }

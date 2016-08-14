@@ -101,15 +101,15 @@ bool DataBase::loadBronze () { // Carico gli utenti bronze nel contenitore
                             if (xmlReader.name().toString() == "address")
                                 uBronze.setAddress(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "telephone")
-                                uBronze.setTelephone(xmlReader.readElementText().toInt()); // INT
+                                uBronze.setTelephone(xmlReader.readElementText().toInt());  // INT
                             if (xmlReader.name().toString() == "code")
                                 uBronze.setCode(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "username")
                                 uBronze.setUsername(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "pin")
-                                uBronze.setPin(xmlReader.readElementText().toInt()); // INT
+                                uBronze.setPin(xmlReader.readElementText().toInt());    // INT
                             if(xmlReader.name().toString() == "count")
-                                uBronze.setCount(xmlReader.readElementText().toDouble());    // DOUBLE
+                                uBronze.setCount(xmlReader.readElementText().toDouble());   // DOUBLE
                             if(xmlReader.name().toString() == "countNumber")
                                 uBronze.setCountNumber(xmlReader.readElementText().toInt());
                             xmlReader.readNext();
@@ -119,6 +119,10 @@ bool DataBase::loadBronze () { // Carico gli utenti bronze nel contenitore
                 }
             }
             file->close();
+            for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
+                QString st =QString::fromStdString(userB[it]->getUsername());   // DA RIMUOVERE
+                qDebug("AAA-" + st.toLatin1() + "-AAA");   // DA RIMUOVERE
+            }
             if (xmlReader.hasError()) return false;
             return true;
         }
@@ -139,10 +143,12 @@ bool DataBase::verifyLoginBronze (const string& usr, const int& pin) const {
         qDebug("AAA-" + st.toLatin1() + "-AAA");   // DA RIMUOVERE
         MainWindow u;
         u.boom();
-        if (userB[it]->getUsername() == usr && userB[it]->getPin() == pin)
-            return true;
-         else
-            return false;
+        if (userB[it]->getUsername() == usr) {
+            if (userB[it]->getPin() == pin)
+                return true;
+             else
+                return false;
+        }
     }
     return false;
 }
@@ -183,8 +189,20 @@ bool DataBase::verifyStillBronze (const BronzeUser& b) {
             return false;
         else
             return true;
-    } else
+    } else {
+        int cont = 0;
+        for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
+            if (userB[it]->getUsername() != b.getUsername())
+                cont ++;
+            else
+                break;
+        }
+        userB.remove(cont); // Rimuove il "vecchio" utente bronze dalla lista degli utenti bronze
+        BronzeUser app = static_cast<BronzeUser>(b);
+        userB.push_back(&app); // Inserisce il "nuovo" utente bronze (con conto aggiornato) nella lista di appartenenza
+        this->writeBronze();
         return true;
+    }
 }
 
 bool DataBase::writeBronze () {
@@ -194,6 +212,7 @@ bool DataBase::writeBronze () {
     xmlWriter.setAutoFormatting(true);
 
     xmlWriter.writeStartDocument();
+    xmlWriter.writeStartElement("bronzes");
 
     for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
         xmlWriter.writeStartElement("bronze");
@@ -208,6 +227,7 @@ bool DataBase::writeBronze () {
         xmlWriter.writeTextElement("countNumber", QString::number(userB[it]->getCountNumber()));
         xmlWriter.writeEndElement();
     }
+    xmlWriter.writeEndElement();
     xmlWriter.writeEndDocument();
 
     file->close();
@@ -323,8 +343,20 @@ bool DataBase::verifyStillSilver (const SilverUser& s) {
             return false;
         else
             return true;
-    } else
+    } else {
+        int cont = 0;
+        for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
+            if (userS[it]->getUsername() != s.getUsername())
+                cont ++;
+            else
+                break;
+        }
+        userS.remove(cont); // Rimuove il "vecchio" utente bronze dalla lista degli utenti bronze
+        SilverUser app = static_cast<SilverUser>(s);
+        userS.push_back(&app); // Inserisce il "nuovo" utente bronze (con conto aggiornato) nella lista di appartenenza
+        this->writeSilver();
         return true;
+    }
 }
 
 bool DataBase::writeSilver () {
@@ -334,6 +366,7 @@ bool DataBase::writeSilver () {
     xmlWriter.setAutoFormatting(true);
 
     xmlWriter.writeStartDocument();
+    xmlWriter.writeStartElement("silvers");
     for (Container<SilverUser>::Iteratore it = userS.begin(); it != userS.end(); ++it) {
         xmlWriter.writeStartElement("silver");
         xmlWriter.writeTextElement("name", QString::fromStdString(userS[it]->getName()));
@@ -347,6 +380,7 @@ bool DataBase::writeSilver () {
         xmlWriter.writeTextElement("countNumber", QString::number(userS[it]->getCountNumber()));
         xmlWriter.writeEndElement();
     }
+    xmlWriter.writeEndElement();
     xmlWriter.writeEndDocument();
 
     file->close();

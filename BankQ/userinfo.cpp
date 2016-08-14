@@ -239,11 +239,13 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
             if (d.loadBronze()) {   // Carico gli utenti bronze
                 if (d.verifyNumberBronze(conto)) {   // Verifico che il numero di conto sia di un utente bronze
                     b = d.getBronzeByCount(conto);
-                    b.setCount(b.getCount()+cifra);
+                    b.setCount(b.getCount() + cifra);
                     bronze = true;
                     if (!d.verifyStillBronze(b)) {
                         // MANDO UN MESSAGGIO ALL'UTENTE PER L'AVVENUTO PASSAGGIO
 
+                    } else {
+                        // MANDO UN MESSAGGIO PER LA RICARICA
                     }
                 }
 
@@ -261,9 +263,12 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                 if (d.loadSilver()) {   // Carico gli utenti silver
                     if (d.verifyNumberSilver(conto)) {   // Verifico che il numero di conto sia di un utente silver
                         s = d.getSilverByCount(conto);
-                        s.setCount(s.getCount()+cifra);
+                        s.setCount(s.getCount() + cifra);
                         silver = true;
 
+                         // Un utente silver non può "salire" ma verifyStillSilver riscrive sul DB con il conto aggiornato
+                         d.verifyStillSilver(s);
+                        // MANDO UN MESSAGGIO PER LA RICARICA
 
                     } else {    // Se il numero non è né silver né bronze allora è errato
 
@@ -289,16 +294,8 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                 if (bf) {   // Aggiorno i campi con il nuovo saldo
                     userB.setCount(userB.getCount() - cifra);
 
-                    // L'utente bronze non può "scendere"
-                    /*if (!d.verifyStillBronze(userB)) {   // Verifico se l'utente è ancora bronze
-                        bf = false;
-                        sf = true;
-                        SilverUser* app = new SilverUser(userB);
-                        userS = *app;
-                        delete app;
-                        //delete &userB;    // CAUSA CRASH
-                        ui->label_6->setText("Silver"); // Cambio il tipo di conto
-                    }*/
+                    // L'utente bronze non può "scendere" però verifyStillBronze riscrive nel DB l'utente con il conto decrementato
+                    d.verifyStillBronze(userB);
 
                     ui->label_12->setText(QString::number(userB.getCount()));   // Saldo
                     ui->label_19->setText(QString::number(userB.getCount()));   // Saldo prelievo

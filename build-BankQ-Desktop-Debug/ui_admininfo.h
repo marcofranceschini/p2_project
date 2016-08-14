@@ -150,7 +150,7 @@ public:
         tab_2->setObjectName(QStringLiteral("tab_2"));
         label_14 = new QLabel(tab_2);
         label_14->setObjectName(QStringLiteral("label_14"));
-        label_14->setGeometry(QRect(10, 10, 67, 21));
+        label_14->setGeometry(QRect(10, 10, 71, 21));
         label_9 = new QLabel(tab_2);
         label_9->setObjectName(QStringLiteral("label_9"));
         label_9->setGeometry(QRect(40, 50, 67, 17));
@@ -207,7 +207,7 @@ public:
         tab_3->setObjectName(QStringLiteral("tab_3"));
         label_23 = new QLabel(tab_3);
         label_23->setObjectName(QStringLiteral("label_23"));
-        label_23->setGeometry(QRect(10, 10, 67, 21));
+        label_23->setGeometry(QRect(10, 10, 71, 21));
         label_21 = new QLabel(tab_3);
         label_21->setObjectName(QStringLiteral("label_21"));
         label_21->setGeometry(QRect(140, 40, 281, 20));
@@ -222,7 +222,7 @@ public:
         tab_4->setObjectName(QStringLiteral("tab_4"));
         label_68 = new QLabel(tab_4);
         label_68->setObjectName(QStringLiteral("label_68"));
-        label_68->setGeometry(QRect(10, 10, 67, 21));
+        label_68->setGeometry(QRect(10, 10, 71, 21));
         label_22 = new QLabel(tab_4);
         label_22->setObjectName(QStringLiteral("label_22"));
         label_22->setGeometry(QRect(90, 70, 81, 17));
@@ -236,7 +236,7 @@ public:
 
         retranslateUi(AdminInfo);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(AdminInfo);

@@ -165,7 +165,7 @@ public:
         tab_2->setObjectName(QStringLiteral("tab_2"));
         label_14 = new QLabel(tab_2);
         label_14->setObjectName(QStringLiteral("label_14"));
-        label_14->setGeometry(QRect(10, 10, 67, 21));
+        label_14->setGeometry(QRect(10, 10, 71, 21));
         label_17 = new QLabel(tab_2);
         label_17->setObjectName(QStringLiteral("label_17"));
         label_17->setGeometry(QRect(50, 70, 101, 17));
@@ -201,7 +201,7 @@ public:
         label_22->setGeometry(QRect(210, 70, 141, 17));
         label_23 = new QLabel(tab_3);
         label_23->setObjectName(QStringLiteral("label_23"));
-        label_23->setGeometry(QRect(10, 10, 67, 21));
+        label_23->setGeometry(QRect(10, 10, 71, 21));
         lineEdit_3 = new QLineEdit(tab_3);
         lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
         lineEdit_3->setGeometry(QRect(210, 140, 141, 27));
@@ -222,7 +222,7 @@ public:
         label_67->setGeometry(QRect(50, 110, 131, 17));
         label_68 = new QLabel(tab_4);
         label_68->setObjectName(QStringLiteral("label_68"));
-        label_68->setGeometry(QRect(10, 10, 67, 21));
+        label_68->setGeometry(QRect(10, 10, 71, 21));
         toolButton_13 = new QToolButton(tab_4);
         toolButton_13->setObjectName(QStringLiteral("toolButton_13"));
         toolButton_13->setGeometry(QRect(190, 230, 81, 25));
@@ -245,7 +245,7 @@ public:
 
         retranslateUi(UserInfo);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(UserInfo);
