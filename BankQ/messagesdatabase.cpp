@@ -42,8 +42,11 @@ bool MessagesDataBase::loadMessages () {
 int MessagesDataBase::countMessage (const string& u) {
     int cont = 0;
     for (Container<Message>::Iteratore it = messages.begin(); it != messages.end(); ++it) {
-        if (messages[it]->getRecipient() == u)
+        if (messages[it]->getRecipient() == u) {
             cont++;
+            QString st =QString::fromStdString(messages[it]->getRecipient());   // DA RIMUOVERE
+            qDebug("QQQ-" + st.toLatin1() + "-QQQ");   // DA RIMUOVERE
+        }
     }
     return cont;
 }
@@ -55,4 +58,40 @@ Container<Message> MessagesDataBase::getMessageByUser (const string& user) {
             app.push_back(messages[it]);
     }
     return app;
+}
+
+bool MessagesDataBase::deleteMessages (const string& user) {
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/messages.xml");
+    file->open(QIODevice::WriteOnly);
+    QXmlStreamWriter xmlWriter(file);
+    xmlWriter.setAutoFormatting(true);
+
+    vector<int> vet(this->countMessage(user));
+    for (int i = 0; i < vet.size(); ++i) {
+        vet[i] = 0;
+    }
+    int i = 0;
+    xmlWriter.writeStartDocument();
+    xmlWriter.writeStartElement("messages");
+    for (Container<Message>::Iteratore it = messages.begin(); it != messages.end(); ++it) {
+        if (messages[it]->getRecipient() != user) {
+            xmlWriter.writeStartElement("message");
+            xmlWriter.writeTextElement("recipient", QString::fromStdString(messages[it]->getRecipient()));
+            xmlWriter.writeTextElement("sender", QString::fromStdString(messages[it]->getSender()));
+            xmlWriter.writeTextElement("text", QString::fromStdString(messages[it]->getText()));
+            xmlWriter.writeEndElement();
+            vet[i]++;
+        } else
+            ++i;
+    }
+    xmlWriter.writeEndElement();
+    xmlWriter.writeEndDocument();
+
+    for (int i = 0; i < vet.size(); ++i) {
+        messages.remove(vet[i]);
+    }
+
+    file->close();
+    if (xmlWriter.hasError()) return false;
+    return true;
 }

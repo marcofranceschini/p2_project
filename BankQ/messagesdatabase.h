@@ -24,6 +24,7 @@ public:
 
     Container<Message> getMessageByUser (const string&); // Ritorna i messaggi per l'utente passato
 
+    bool deleteMessages (const string&); // Elimina i messaggi dell'utente passato
 };
 
 #endif // MESSAGESDATABASE_H

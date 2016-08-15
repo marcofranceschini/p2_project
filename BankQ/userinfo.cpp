@@ -48,23 +48,36 @@ void UserInfo::setBronze (BronzeUser const& b) {
         if (0 < mex) {
 
             // QStandardItemModel(int rows, int columns, QObject * parent = 0)
-            QStandardItemModel *model = new QStandardItemModel (mex, 3, this);
+            QStandardItemModel *model = new QStandardItemModel (mex, 2, this);
+            QStringList columnName;
+            columnName.push_back("Mittente");
+            columnName.push_back("Messaggio");
+            model->setHorizontalHeaderLabels(columnName);
+            ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
 
+            QString s = QString::number(mex);
+            ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Messagi"),
+                tr("Ci sono dei messaggi da leggere")
+            );
+
+            //int num = 0;
             Container<Message> app = message->getMessageByUser(userB.getUsername());
             Container<Message>::Iteratore it = app.begin();
-            int num = 0;
             for (int row = 0; row < mex; ++row) {
-                for (int col = 0; col < 3; ++col) {
+                for (int col = 0; col < 2; ++col) {
                     QModelIndex index = model->index(row, col, QModelIndex());  // 0 for all data
 
-                    if (!app[it]->getRead()) {    // Conto il numero di messaggi non letti
+                    /*if (!app[it]->getRead()) {    // Conto il numero di messaggi non letti
                         num ++;
                         // Risalto i messaggi da leggere
                         QFont font;
                         font.setBold(true);
-                        ui->tableView->itemDelegateForRow(row)->set(font);
-                    }
+                        //ui->tableView->itemDelegateForRow(row)->set(font);
+                    }*/
                     //tableWidget->item(2, 2)->setFont(font);
                     //model->
                     switch (col) {
@@ -75,19 +88,15 @@ void UserInfo::setBronze (BronzeUser const& b) {
                         case 1:
                             model->setData(index, QString::fromStdString(app[it]->getSender()));
                         break;
-
-                        case 2:
-                            model->setData(index, QString::fromStdString(app[it]->getSender()));
-                        break;
                     }
                 }
                 it++;
             }
-            QString s = QString::number(num);
-            ui->label_25->setText("Sono presenti " + s + "messaggi da leggere");
 
-        } else
+
+        } else {
             ui->label_25->setText("Non sono presenti nuovi messaggi da leggere");
+        }
     } else {
         QMessageBox::warning(
             this,
@@ -117,6 +126,70 @@ void UserInfo::setSilver (SilverUser const& s) {
     ui->label_75->setText(QString::fromStdString(userS.getCode())); // Codice fiscale
     ui->label_77->setText(QString::number(userS.getTelephone())); // Numero di telefono
     ui->label_78->setText(QString::fromStdString(userS.getUsername())); // Username
+
+    MessagesDataBase* message = new MessagesDataBase();
+    if (message->loadMessages()) {
+        int mex = message->countMessage(userS.getUsername());
+        if (0 < mex) {
+
+            // QStandardItemModel(int rows, int columns, QObject * parent = 0)
+            QStandardItemModel *model = new QStandardItemModel (mex, 2, this);
+            QStringList columnName;
+            columnName.push_back("Mittente");
+            columnName.push_back("Messaggio");
+            model->setHorizontalHeaderLabels(columnName);
+            ui->tableView->verticalHeader()->setVisible(false);
+            ui->tableView->setModel(model);
+
+            QString s = QString::number(mex);
+            ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Messagi"),
+                tr("Ci sono dei messaggi da leggere")
+            );
+
+            //int num = 0;
+            Container<Message> app = message->getMessageByUser(userS.getUsername());
+            Container<Message>::Iteratore it = app.begin();
+            for (int row = 0; row < mex; ++row) {
+                for (int col = 0; col < 2; ++col) {
+                    QModelIndex index = model->index(row, col, QModelIndex());  // 0 for all data
+
+                    /*if (!app[it]->getRead()) {    // Conto il numero di messaggi non letti
+                        num ++;
+                        // Risalto i messaggi da leggere
+                        QFont font;
+                        font.setBold(true);
+                        //ui->tableView->itemDelegateForRow(row)->set(font);
+                    }*/
+                    //tableWidget->item(2, 2)->setFont(font);
+                    //model->
+                    switch (col) {
+                        case 0:
+                            model->setData(index, QString::fromStdString(app[it]->getRecipient()));
+                        break;
+
+                        case 1:
+                            model->setData(index, QString::fromStdString(app[it]->getSender()));
+                        break;
+                    }
+                }
+                it++;
+            }
+
+
+        } else {
+            ui->label_25->setText("Non sono presenti nuovi messaggi da leggere");
+            ui->toolButton_5->setCheckable(false);
+        }
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento (messaggi)")
+        );
+    }
 }
 
 void UserInfo::on_toolButton_3_clicked() {  // Prelievo
@@ -439,3 +512,44 @@ void UserInfo::on_toolButton_2_clicked() { // Chiusura conto
 }
 
 
+
+void UserInfo::on_toolButton_5_clicked() { // Messaggi spuntati come visualizzati
+    MessagesDataBase* mdb = new MessagesDataBase();
+    if (mdb->loadMessages()) {
+        if (bf) {
+            // QStandardItemModel(int rows, int columns, QObject * parent = 0)
+            QStandardItemModel *model = new QStandardItemModel (0, 2, this);
+            QStringList columnName;
+            columnName.push_back("Mittente");
+            columnName.push_back("Messaggio");
+            model->setHorizontalHeaderLabels(columnName);
+            ui->tableView->verticalHeader()->setVisible(false);
+            ui->tableView->setModel(model);
+
+            QString s = QString::number(0);
+            ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
+
+            mdb->deleteMessages(userB.getUsername());
+        } else {
+            // QStandardItemModel(int rows, int columns, QObject * parent = 0)
+            QStandardItemModel *model = new QStandardItemModel (0, 2, this);
+            QStringList columnName;
+            columnName.push_back("Mittente");
+            columnName.push_back("Messaggio");
+            model->setHorizontalHeaderLabels(columnName);
+            ui->tableView->verticalHeader()->setVisible(false);
+            ui->tableView->setModel(model);
+
+            QString s = QString::number(0);
+            ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
+
+            mdb->deleteMessages(userS.getUsername());
+        }
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento (messaggi)")
+        );
+    }
+}

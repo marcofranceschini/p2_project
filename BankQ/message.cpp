@@ -1,6 +1,6 @@
 #include "message.h"
 
-Message::Message (string r, string s, string t, bool re): recipient(r), sender(s), text(t), read(re) {}
+Message::Message (string r, string s, string t/*, bool re*/): recipient(r), sender(s), text(t)/*, read(re)*/ {}
 
 Message::Message () {}
 
@@ -29,10 +29,10 @@ string Message::getText () const {
     return text;
 }
 
-void Message::setRead (const bool& r) {
+/*void Message::setRead (const bool& r) {
     read = r;
 }
 
 bool Message::getRead () const {
     return read;
-}
+}*/

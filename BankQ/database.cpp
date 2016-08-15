@@ -70,7 +70,7 @@ bool DataBase::verifyLoginAdmin (const string& usr, const int& pin) const {
     MainWindow u;   // NON SERVE
     for (Container<Admin>::Iteratore it = admin.begin(); it != admin.end(); ++it) {
         //cout<<"AAAA"<<admin[it]->getUsername();
-        u.boom();
+        //u.boom();
         if (admin[it]->getUsername() == usr && admin[it]->getPin() == pin)
             return true;
         else
