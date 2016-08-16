@@ -50,12 +50,9 @@ void MainWindow::on_toolButton_clicked() {
     string pin = pass.toUtf8().constData();
     string user = usr.toUtf8().constData();
 
-    MainWindow u; //    DA RIMUOVERE
-
     if (atoi(pin.c_str())) {    // Verifico che il PIN sia numerico // isdigit(atoi(pin.c_str()))
         int int_pin = atoi(pin.c_str());
         if (d.load()) {  // Entro sse non ci sono stati problemi a riempire la lista degli admin
-            //u.boom();
             if (d.verifyLogin(user, int_pin)) {
                 this->close(); // Chiudo la finistra di login
                 if (d.verifyAdmin(user)) {
@@ -67,7 +64,8 @@ void MainWindow::on_toolButton_clicked() {
                     newAdminWindow.exec();
                 } else {    // Non è amministratore
                     UserInfo newUserWindow;
-                    newUserWindow.setUser(d.getUser(user));
+                    User h = d.getUser(user);
+                    newUserWindow.setUser(h);
                     newUserWindow.setModal(true);
                     newUserWindow.exec();
                 }

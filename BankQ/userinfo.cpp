@@ -19,24 +19,38 @@ UserInfo::~UserInfo() {
 
 void UserInfo::setUser (User const& cu) {
     User* ncu = const_cast<User*> (&cu);
+
     BronzeUser* u = dynamic_cast<BronzeUser*> (ncu);
+    QString st =QString::fromStdString(ncu->getUsername());   // DA RIMUOVERE
+    qDebug("RRR-" + st.toLatin1() + "-RRR");   // DA RIMUOVERE
+    MainWindow uf;  // DA RIMUOVERE
+
+    uf.boom();  // DA RIMUOVERE
+
+
+    uf.boom();  // DA RIMUOVERE
     user = *u;
-    ui->label_4->setText(QString::fromStdString(u->getName()));  // Nome
-    ui->label_5->setText(QString::fromStdString(u->getSurname()));     // Cognome
-    ui->label_75->setText(QString::fromStdString(u->getCode())); // Codice fiscale
-    ui->label_77->setText(QString::number(u->getTelephone())); // Numero di telefono
-    ui->label_78->setText(QString::fromStdString(u->getUsername())); // Username
+    uf.boom();  // DA RIMUOVERE
 
-    ui->label_10->setText(QString::number(u->getTotalTax()));  // Tasse anno
-    ui->label_11->setText(QString::number(u->getTotalBonus()));  // Bonus anno
-    ui->label_24->setText(QString::number(u->getCountNumber()));  // Numero conto
-    ui->label_12->setText(QString::number(u->getCount()));   // Saldo
-    ui->label_19->setText(QString::number(u->getCount()));   // Saldo prelievo
-    ui->label_22->setText(QString::number(u->getCount()));   // Saldo ricarica
-    ui->label_66->setText(QString::number(u->getCount()));   // Saldo
+    //MainWindow uf;  // DA RIMUOVERE
+    uf.boom();  // DA RIMUOVERE
+    ui->label_4->setText(QString::fromStdString(u->getName()));     // Nome
+    ui->label_5->setText(QString::fromStdString(u->getSurname()));  // Cognome
+    ui->label_75->setText(QString::fromStdString(u->getCode()));    // Codice fiscale
+    ui->label_77->setText(QString::number(u->getTelephone()));      // Numero di telefono
+    ui->label_78->setText(QString::fromStdString(u->getUsername()));// Username
+    ui->label_10->setText(QString::number(u->getTotalTax()));       // Tasse anno
+    ui->label_11->setText(QString::number(u->getTotalBonus()));     // Bonus anno
+    //MainWindow uf;  // DA RIMUOVERE
+    uf.boom();  // DA RIMUOVERE
+    ui->label_24->setText(QString::number(u->getCountNumber()));    // Numero conto
+    ui->label_12->setText(QString::number(u->getCount()));          // Saldo
+    ui->label_19->setText(QString::number(u->getCount()));          // Saldo prelievo
+    ui->label_22->setText(QString::number(u->getCount()));          // Saldo ricarica
+    ui->label_66->setText(QString::number(u->getCount()));          // Saldo
 
-    SilverUser* s = dynamic_cast<SilverUser*> (u);
-    if (s)
+
+    if (dynamic_cast<SilverUser*> (u))
         ui->label_6->setText("Silver"); // Tipo conto
     else
         ui->label_6->setText("Bronze"); // Tipo conto

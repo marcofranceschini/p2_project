@@ -42,6 +42,8 @@ public:
     virtual void setCountNumber (int);
 
     virtual bool verifyLogin (const int&) const;
+
+    //BronzeUser* operator= (const BronzeUser&);
 };
 
 
