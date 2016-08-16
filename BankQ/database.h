@@ -26,6 +26,8 @@ private:
     Container<SilverUser> userS;
     Container<Admin> admin;
 
+    Container<User> user;
+
 public:
     DataBase();
 

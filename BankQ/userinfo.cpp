@@ -131,7 +131,11 @@ void UserInfo::setSilver (SilverUser const& s) {
 void UserInfo::setTable () {
     MessagesDataBase* message = new MessagesDataBase();
     if (message->loadMessages()) {
-        int mex = message->countMessage(userB.getUsername());
+        int mex;
+        if (bf)
+            mex = message->countMessage(userB.getUsername());
+        else
+            mex = message->countMessage(userS.getUsername());
         if (0 < mex) {
 
             // QStandardItemModel(int rows, int columns, QObject * parent = 0)
@@ -148,16 +152,20 @@ void UserInfo::setTable () {
             QMessageBox::warning(
                 this,
                 tr("BankQ - Messagi"),
-                tr("Ci sono dei messaggi da leggere")
+                tr("Ci sono nuovi messaggi da leggere")
             );
 
             //int num = 0;
             Container<Message> app;
+            QString st =QString::fromStdString(userS.getUsername());   // DA RIMUOVERE
+            qDebug("RRR-" + st.toLatin1() + "-RRR");   // DA RIMUOVERE
             if (bf)
                 app = message->getMessageByUser(userB.getUsername());
-            else
+            else {
                 app = message->getMessageByUser(userS.getUsername());
-
+                QString st =QString::fromStdString(userS.getUsername());   // DA RIMUOVERE
+                qDebug("RRR-" + st.toLatin1() + "-RRR");   // DA RIMUOVERE
+            }
             Container<Message>::Iteratore it = app.begin();
             for (int row = 0; row < mex; ++row) {
                 for (int col = 0; col < 2; ++col) {
@@ -174,11 +182,11 @@ void UserInfo::setTable () {
                     //model->
                     switch (col) {
                         case 0:
-                            model->setData(index, QString::fromStdString(app[it]->getRecipient()));
+                            model->setData(index, QString::fromStdString(app[it]->getSender()));    // Mostro il mittente
                         break;
 
                         case 1:
-                            model->setData(index, QString::fromStdString(app[it]->getText()));
+                            model->setData(index, QString::fromStdString(app[it]->getText()));  // Mostro il contenuto
                         break;
                     }
                 }
@@ -188,6 +196,7 @@ void UserInfo::setTable () {
 
         } else {
             ui->label_25->setText("Non sono presenti nuovi messaggi da leggere");
+            ui->toolButton_5->setEnabled(false);
         }
     } else {
         QMessageBox::warning(
@@ -397,10 +406,10 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                         if (m.loadMessages()) {
                             if (bf) {
                                 m.addMessage(*new Message(b.getUsername(), userB.getUsername(), "Ricevuta una ricarica"));
-                                m.addMessage(*new Message("BankQ", b.getUsername(), "Grazie alla ricarica ricevuta ora è un UTENTE SILVER"));
+                                m.addMessage(*new Message(b.getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo SILVER"));
                             } else {
                                 m.addMessage(*new Message(b.getUsername(), userS.getUsername(), "Ricevuta una ricarica"));
-                                m.addMessage(*new Message("BankQ", b.getUsername(), "Grazie alla ricarica ricevuta ora è un UTENTE SILVER"));
+                                m.addMessage(*new Message(b.getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo SILVER"));
                             }
                         } else {
                             QMessageBox::warning(
@@ -495,7 +504,7 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                         QMessageBox::information(
                             this,
                             tr("BankQ - Avviso"),
-                            tr("Con l'ultimo ricarica il tuo account è sceso a bronze")
+                            tr("Con l'ultimo ricarica il tipo di conto è diventanto bronze")
                         );
                     }
 
@@ -591,6 +600,7 @@ void UserInfo::on_toolButton_5_clicked() { // Messaggi spuntati come visualizzat
             ui->tableView->setModel(model);
 
             ui->label_25->setText("Non sono presenti messaggi da leggere");
+            ui->toolButton_5->setEnabled(false);
 
             mdb->deleteMessages(userS.getUsername());
         }

@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<messages/>
+<messages>
+    <message>
+        <recipient>marco</recipient>
+        <sender>pluto</sender>
+        <text>Ricevuta una ricarica</text>
+    </message>
+</messages>

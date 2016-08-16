@@ -119,10 +119,6 @@ bool DataBase::loadBronze () { // Carico gli utenti bronze nel contenitore
                 }
             }
             file->close();
-            for (Container<BronzeUser>::Iteratore it = userB.begin(); it != userB.end(); ++it) {
-                QString st =QString::fromStdString(userB[it]->getUsername());   // DA RIMUOVERE
-                qDebug("AAA-" + st.toLatin1() + "-AAA");   // DA RIMUOVERE
-            }
             if (xmlReader.hasError()) return false;
             return true;
         }
