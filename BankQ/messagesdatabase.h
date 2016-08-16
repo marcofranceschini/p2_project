@@ -25,6 +25,10 @@ public:
     Container<Message> getMessageByUser (const string&); // Ritorna i messaggi per l'utente passato
 
     bool deleteMessages (const string&); // Elimina i messaggi dell'utente passato
+
+    bool addMessage (Message); // Inserisce un nuovo messaggio nel Container di messaggi
+
+    bool writeMessages (); // Scrive i messaggi nel DB
 };
 
 #endif // MESSAGESDATABASE_H

@@ -42,68 +42,9 @@ void UserInfo::setBronze (BronzeUser const& b) {
     ui->label_77->setText(QString::number(userB.getTelephone())); // Numero di telefono
     ui->label_78->setText(QString::fromStdString(userB.getUsername())); // Username
 
-    MessagesDataBase* message = new MessagesDataBase();
-    if (message->loadMessages()) {
-        int mex = message->countMessage(userB.getUsername());
-        if (0 < mex) {
-
-            // QStandardItemModel(int rows, int columns, QObject * parent = 0)
-            QStandardItemModel *model = new QStandardItemModel (mex, 2, this);
-            QStringList columnName;
-            columnName.push_back("Mittente");
-            columnName.push_back("Messaggio");
-            model->setHorizontalHeaderLabels(columnName);
-            ui->tableView->verticalHeader()->setVisible(false);
-            ui->tableView->setModel(model);
-
-            QString s = QString::number(mex);
-            ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
-            QMessageBox::warning(
-                this,
-                tr("BankQ - Messagi"),
-                tr("Ci sono dei messaggi da leggere")
-            );
-
-            //int num = 0;
-            Container<Message> app = message->getMessageByUser(userB.getUsername());
-            Container<Message>::Iteratore it = app.begin();
-            for (int row = 0; row < mex; ++row) {
-                for (int col = 0; col < 2; ++col) {
-                    QModelIndex index = model->index(row, col, QModelIndex());  // 0 for all data
-
-                    /*if (!app[it]->getRead()) {    // Conto il numero di messaggi non letti
-                        num ++;
-                        // Risalto i messaggi da leggere
-                        QFont font;
-                        font.setBold(true);
-                        //ui->tableView->itemDelegateForRow(row)->set(font);
-                    }*/
-                    //tableWidget->item(2, 2)->setFont(font);
-                    //model->
-                    switch (col) {
-                        case 0:
-                            model->setData(index, QString::fromStdString(app[it]->getRecipient()));
-                        break;
-
-                        case 1:
-                            model->setData(index, QString::fromStdString(app[it]->getSender()));
-                        break;
-                    }
-                }
-                it++;
-            }
+    this->setTable();
 
 
-        } else {
-            ui->label_25->setText("Non sono presenti nuovi messaggi da leggere");
-        }
-    } else {
-        QMessageBox::warning(
-            this,
-            tr("BankQ - Errore"),
-            tr("Errore di caricamento (messaggi)")
-        );
-    }
 }
 
 void UserInfo::setSilver (SilverUser const& s) {
@@ -127,7 +68,10 @@ void UserInfo::setSilver (SilverUser const& s) {
     ui->label_77->setText(QString::number(userS.getTelephone())); // Numero di telefono
     ui->label_78->setText(QString::fromStdString(userS.getUsername())); // Username
 
-    MessagesDataBase* message = new MessagesDataBase();
+
+    this->setTable();
+
+    /*MessagesDataBase* message = new MessagesDataBase();
     if (message->loadMessages()) {
         int mex = message->countMessage(userS.getUsername());
         if (0 < mex) {
@@ -156,15 +100,7 @@ void UserInfo::setSilver (SilverUser const& s) {
                 for (int col = 0; col < 2; ++col) {
                     QModelIndex index = model->index(row, col, QModelIndex());  // 0 for all data
 
-                    /*if (!app[it]->getRead()) {    // Conto il numero di messaggi non letti
-                        num ++;
-                        // Risalto i messaggi da leggere
-                        QFont font;
-                        font.setBold(true);
-                        //ui->tableView->itemDelegateForRow(row)->set(font);
-                    }*/
-                    //tableWidget->item(2, 2)->setFont(font);
-                    //model->
+
                     switch (col) {
                         case 0:
                             model->setData(index, QString::fromStdString(app[it]->getRecipient()));
@@ -182,6 +118,76 @@ void UserInfo::setSilver (SilverUser const& s) {
         } else {
             ui->label_25->setText("Non sono presenti nuovi messaggi da leggere");
             ui->toolButton_5->setCheckable(false);
+        }
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento (messaggi)")
+        );
+    }*/
+}
+
+void UserInfo::setTable () {
+    MessagesDataBase* message = new MessagesDataBase();
+    if (message->loadMessages()) {
+        int mex = message->countMessage(userB.getUsername());
+        if (0 < mex) {
+
+            // QStandardItemModel(int rows, int columns, QObject * parent = 0)
+            QStandardItemModel *model = new QStandardItemModel (mex, 2, this);
+            QStringList columnName;
+            columnName.push_back("Mittente");
+            columnName.push_back("Messaggio");
+            model->setHorizontalHeaderLabels(columnName);
+            ui->tableView->verticalHeader()->setVisible(false);
+            ui->tableView->setModel(model);
+
+            QString s = QString::number(mex);
+            ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Messagi"),
+                tr("Ci sono dei messaggi da leggere")
+            );
+
+            //int num = 0;
+            Container<Message> app;
+            if (bf)
+                app = message->getMessageByUser(userB.getUsername());
+            else
+                app = message->getMessageByUser(userS.getUsername());
+
+            Container<Message>::Iteratore it = app.begin();
+            for (int row = 0; row < mex; ++row) {
+                for (int col = 0; col < 2; ++col) {
+                    QModelIndex index = model->index(row, col, QModelIndex());  // 0 for all data
+
+                    /*if (!app[it]->getRead()) {    // Conto il numero di messaggi non letti
+                        num ++;
+                        // Risalto i messaggi da leggere
+                        QFont font;
+                        font.setBold(true);
+                        //ui->tableView->itemDelegateForRow(row)->set(font);
+                    }*/
+                    //tableWidget->item(2, 2)->setFont(font);
+                    //model->
+                    switch (col) {
+                        case 0:
+                            model->setData(index, QString::fromStdString(app[it]->getRecipient()));
+                        break;
+
+                        case 1:
+                            model->setData(index, QString::fromStdString(app[it]->getText()));
+                        break;
+                    }
+                }
+                it++;
+            }
+
+
+        } else {
+            ui->label_25->setText("Non sono presenti nuovi messaggi da leggere");
         }
     } else {
         QMessageBox::warning(
@@ -328,32 +334,48 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
 
 
     QString a = ui->lineEdit_2->text();
-    QString b = ui->lineEdit_3->text();
+    QString bi = ui->lineEdit_3->text();
 
     double cifra = a.toDouble();
-    int conto = b.toInt();
+    int conto = bi.toInt();
     bool flag = false;
 
     if (cifra > 0) {
         // Tolgo l'importo dal conto dell'utente loggato
         if (bf) {   // E' un utente bronze
-            if (0 <= userB.getCount()-cifra) {
-                flag = true;
+            if (userB.getCountNumber() != conto) {
+                if (0 <= userB.getCount()-cifra) {
+                    flag = true;
+                } else {
+                    QMessageBox::information(
+                        this,
+                        tr("BankQ - Prelievo"),
+                        tr("Credito insufficiente")
+                    );
+                }
             } else {
                 QMessageBox::information(
                     this,
                     tr("BankQ - Prelievo"),
-                    tr("Credito insufficiente")
+                    tr("Non è possibile inserire il proprio conto")
                 );
             }
         } else {    // Utente silver
-            if (0 <= userS.getCount()-cifra) {
-                flag = true;
+            if (userS.getCountNumber() != conto) {
+                if (0 <= userS.getCount()-cifra) {
+                    flag = true;
+                } else {
+                    QMessageBox::information(
+                        this,
+                        tr("BankQ - Prelievo"),
+                        tr("Credito insufficiente")
+                    );
+                }
             } else {
                 QMessageBox::information(
                     this,
                     tr("BankQ - Prelievo"),
-                    tr("Credito insufficiente")
+                    tr("Non è possibile inserire il proprio conto")
                 );
             }
         }
@@ -366,14 +388,36 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
             DataBase d;
             if (d.loadBronze()) {   // Carico gli utenti bronze
                 if (d.verifyNumberBronze(conto)) {   // Verifico che il numero di conto sia di un utente bronze
-                    b = d.getBronzeByCount(conto);
+                    b = d.getBronzeByCount(conto);  // Username del "ricevente"
                     b.setCount(b.getCount() + cifra);
                     bronze = true;
                     if (!d.verifyStillBronze(b)) {
-                        // MANDO UN MESSAGGIO ALL'UTENTE PER L'AVVENUTO PASSAGGIO
-
+                        // MANDO UN MESSAGGIO ALL'UTENTE PER L'AVVENUTO PASSAGGIO E PER LA RICARICA
+                        MessagesDataBase m;
+                        if (m.loadMessages()) {
+                            if (bf) {
+                                m.addMessage(*new Message(b.getUsername(), userB.getUsername(), "Ricevuta una ricarica"));
+                                m.addMessage(*new Message("BankQ", b.getUsername(), "Grazie alla ricarica ricevuta ora è un UTENTE SILVER"));
+                            } else {
+                                m.addMessage(*new Message(b.getUsername(), userS.getUsername(), "Ricevuta una ricarica"));
+                                m.addMessage(*new Message("BankQ", b.getUsername(), "Grazie alla ricarica ricevuta ora è un UTENTE SILVER"));
+                            }
+                        } else {
+                            QMessageBox::warning(
+                                this,
+                                tr("BankQ - Errore"),
+                                tr("Errore di caricamento (messaggi)")
+                            );
+                        }
                     } else {
                         // MANDO UN MESSAGGIO PER LA RICARICA
+                        MessagesDataBase m;
+                        if (m.loadMessages()) {
+                            if (bf)
+                                m.addMessage(*new Message(b.getUsername(), userB.getUsername(), "Ricevuta una ricarica"));
+                            else
+                                m.addMessage(*new Message(b.getUsername(), userS.getUsername(), "Ricevuta una ricarica"));
+                        }
                     }
                 }
 
@@ -397,6 +441,13 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                          // Un utente silver non può "salire" ma verifyStillSilver riscrive sul DB con il conto aggiornato
                          d.verifyStillSilver(s);
                         // MANDO UN MESSAGGIO PER LA RICARICA
+                         MessagesDataBase m;
+                         if (m.loadMessages()) {
+                             if (bf)
+                                 m.addMessage(*new Message(s.getUsername(), userB.getUsername(), "Ricevuta una ricarica"));
+                             else
+                                 m.addMessage(*new Message(s.getUsername(), userS.getUsername(),"Ricevuta una ricarica"));
+                         }
 
                     } else {    // Se il numero non è né silver né bronze allora è errato
 
@@ -526,8 +577,7 @@ void UserInfo::on_toolButton_5_clicked() { // Messaggi spuntati come visualizzat
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
 
-            QString s = QString::number(0);
-            ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
+            ui->label_25->setText("Non sono presenti messaggi da leggere");
 
             mdb->deleteMessages(userB.getUsername());
         } else {
@@ -540,8 +590,7 @@ void UserInfo::on_toolButton_5_clicked() { // Messaggi spuntati come visualizzat
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
 
-            QString s = QString::number(0);
-            ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
+            ui->label_25->setText("Non sono presenti messaggi da leggere");
 
             mdb->deleteMessages(userS.getUsername());
         }

@@ -1,5 +1,7 @@
 #include "messagesdatabase.h"
 
+#include "mainwindow.h" // DA RIMUOVERE
+
 MessagesDataBase::MessagesDataBase() {}
 
 bool MessagesDataBase::loadMessages () {
@@ -61,37 +63,52 @@ Container<Message> MessagesDataBase::getMessageByUser (const string& user) {
 }
 
 bool MessagesDataBase::deleteMessages (const string& user) {
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/messages.xml");
-    file->open(QIODevice::WriteOnly);
-    QXmlStreamWriter xmlWriter(file);
-    xmlWriter.setAutoFormatting(true);
 
     vector<int> vet(this->countMessage(user));
     for (int i = 0; i < vet.size(); ++i) {
         vet[i] = 0;
     }
     int i = 0;
-    xmlWriter.writeStartDocument();
-    xmlWriter.writeStartElement("messages");
     for (Container<Message>::Iteratore it = messages.begin(); it != messages.end(); ++it) {
-        if (messages[it]->getRecipient() != user) {
-            xmlWriter.writeStartElement("message");
-            xmlWriter.writeTextElement("recipient", QString::fromStdString(messages[it]->getRecipient()));
-            xmlWriter.writeTextElement("sender", QString::fromStdString(messages[it]->getSender()));
-            xmlWriter.writeTextElement("text", QString::fromStdString(messages[it]->getText()));
-            xmlWriter.writeEndElement();
+        if (messages[it]->getRecipient() != user)
             vet[i]++;
-        } else
+        else
             ++i;
     }
-    xmlWriter.writeEndElement();
-    xmlWriter.writeEndDocument();
 
     for (int i = 0; i < vet.size(); ++i) {
         messages.remove(vet[i]);
     }
+    return this->writeMessages();
+}
+
+bool MessagesDataBase::addMessage (Message m) {
+    MainWindow u;
+    u.boom();
+    messages.push_back(&m);
+    return this->writeMessages();
+}
+
+bool MessagesDataBase::writeMessages () {
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/messages.xml");
+    file->open(QIODevice::WriteOnly);
+    QXmlStreamWriter xmlWriter(file);
+    xmlWriter.setAutoFormatting(true);
+
+    xmlWriter.writeStartDocument();
+    xmlWriter.writeStartElement("messages");
+    for (Container<Message>::Iteratore it = messages.begin(); it != messages.end(); ++it) {
+        xmlWriter.writeStartElement("message");
+        xmlWriter.writeTextElement("recipient", QString::fromStdString(messages[it]->getRecipient()));
+        xmlWriter.writeTextElement("sender", QString::fromStdString(messages[it]->getSender()));
+        xmlWriter.writeTextElement("text", QString::fromStdString(messages[it]->getText()));
+        xmlWriter.writeEndElement();
+    }
+    xmlWriter.writeEndElement();
+    xmlWriter.writeEndDocument();
 
     file->close();
     if (xmlWriter.hasError()) return false;
     return true;
 }
+
