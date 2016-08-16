@@ -20,9 +20,9 @@ public:
 
     ~UserInfo();
 
-    void setBronze (BronzeUser const&);
+    void setUser (User const&);
 
-    void setSilver (SilverUser const&);
+    //void setSilver (SilverUser const&);
 
     void setTable ();
 
@@ -42,11 +42,7 @@ private slots:
 private:
     Ui::UserInfo *ui;
 
-    BronzeUser userB;
-    bool bf = false;    // DA RIVEDERE
-
-    SilverUser userS;
-    bool sf = false;    // DA RIVEDERE
+    BronzeUser user;
 };
 
 #endif // USERINFO_H

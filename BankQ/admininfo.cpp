@@ -11,11 +11,10 @@ AdminInfo::~AdminInfo() {
     delete ui;
 }
 
-void AdminInfo::setAdmin (Admin const& a) {
-    admin = a;
-    QString s = QString::fromStdString(a.getName());   // DA RIMUOVERE
+void AdminInfo::setAdmin (Admin const& u) {
+    admin = u;
+    QString s = QString::fromStdString(u.getName());   // DA RIMUOVERE
     qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
-    s = QString::fromStdString(a.getName());
 
     ui->label_5->setText(s); // Nome amministratore
     ui->label_8->setText(QString::fromStdString(admin.getSurname())); // Cognome amministratore

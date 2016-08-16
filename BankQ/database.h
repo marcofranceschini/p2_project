@@ -31,42 +31,52 @@ private:
 public:
     DataBase();
 
-    bool loadAdmin (); // Carico gli amministratori nel contenitore
+    bool load (); // Carico gli amministratori nel contenitore
+
+    bool verifyAdmin (const string&) const; // Ritorna true se l'username passato appartiene ad un amministratore
 
     bool verifyAllUsername (const string&) const; // Ritorna true se l'username passato esiste già (tra bronze e silver)
 
-    Admin getAdmin (const string&) const;   // Ritorna l'oggetto Admin con username uguale a quello passato
+    //Admin getAdmin (const string&) const;   // Ritorna l'oggetto Admin con username uguale a quello passato
 
-    bool verifyLoginAdmin (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'amministratore siano corretti
+    bool verifyLogin (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'amministratore siano corretti
 
 
-    bool loadBronze(); // Carico gli utenti bronze nel contenitore
+    //bool loadBronze(); // Carico gli utenti bronze nel contenitore
 
-    BronzeUser getBronze (const string&) const; // Ritorna l'oggetto BronzeUser con username uguale a quello passato
+    bool verifyBronze (const string&) const; // Ritorna true se l'username passato appartiene ad un utente bronze
 
-    bool verifyLoginBronze (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente bronze siano corretti
+    User getUser (const string&) const; // Ritorna l'oggetto User con username uguale a quello passato
+
+    //bool verifyLoginBronze (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente bronze siano corretti
 
     bool verifyNumberBronze (const int&) const;  // Verifica se il numero di conto passato appartiene ad un utente bronze
 
-    BronzeUser getBronzeByCount (const int&) const; // Ritorna l'oggetto BronzeUser con numero di conto uguale a quello passato
+    User getUserByCountNumber (const int&) const; // Ritorna l'oggetto User con numero di conto uguale a quello passato
 
     bool verifyStillBronze (const BronzeUser&); // Verifica se l'oggetto BronzeUser soddisfa i requisiti oppure passa a Silver
 
-    bool writeBronze (); // Scrive nel DB relativo agli utenti Bronze la lista di utenti Bronze passata
+    bool remove (const User&); // Rimuove dal DB l'utente passato
+
+    bool write (); // Scrive nel DB relativo agli utenti Bronze la lista di utenti Bronze passata
 
 
-    bool loadSilver(); // Carico gli utenti silver nel contenitore
+    //bool loadSilver(); // Carico gli utenti silver nel contenitore
 
-    SilverUser getSilver (const string&) const; // Ritorna l'oggetto SilverUser con username uguale a quello passato
+    bool verifySilver (const string&) const; // Ritorna true se l'username passato appartiene ad un utente silver
 
-    bool verifyLoginSilver (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente silver siano corretti
+    //SilverUser getSilver (const string&) const; // Ritorna l'oggetto SilverUser con username uguale a quello passato
+
+    //bool verifyLoginSilver (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente silver siano corretti
 
     bool verifyNumberSilver (const int&) const;  // Verifica se il numero di conto appartiene ad un utente silver
 
-    SilverUser getSilverByCount (const int&) const; // Ritorna l'oggetto SilverUser con numero di conto uguale a quello passato
+    //SilverUser getSilverByCount (const int&) const; // Ritorna l'oggetto SilverUser con numero di conto uguale a quello passato
 
     bool verifyStillSilver (const SilverUser&); // Verifica se l'oggetto SilverUser soddisfa i requisiti oppure scende a Bronze
 
-    bool writeSilver (); // Scrive nel DB relativo agli utenti Silver la lista di utenti Silver passata
+    //bool removeSilver (const SilverUser&); // Rimuove dal DB l'utente passato
+
+    //bool writeSilver (); // Scrive nel DB relativo agli utenti Silver la lista di utenti Silver passata
 };
 #endif // DATABASE_H

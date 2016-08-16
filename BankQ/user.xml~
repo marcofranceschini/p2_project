@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<silvers>
-    <silver>
+<bronzes>
+    <bronze>
         <name>Marco</name>
         <surname>Marco</surname>
         <address>Via Prova</address>
@@ -8,7 +8,7 @@
         <code>AA111ad1l</code>
         <username>marco</username>
         <pin>123</pin>
-        <count>100740</count>
+        <count>50739</count>
         <countNumber>111</countNumber>
-    </silver>
-</silvers>
+    </bronze>
+</bronzes>

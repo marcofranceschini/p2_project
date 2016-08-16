@@ -54,77 +54,36 @@ void MainWindow::on_toolButton_clicked() {
 
     if (atoi(pin.c_str())) {    // Verifico che il PIN sia numerico // isdigit(atoi(pin.c_str()))
         int int_pin = atoi(pin.c_str());
-        if (d.loadAdmin()) {  // Entro sse non ci sono stati problemi a riempire la lista degli admin
+        if (d.load()) {  // Entro sse non ci sono stati problemi a riempire la lista degli admin
             //u.boom();
-            if (d.verifyLoginAdmin(user, int_pin)) {
+            if (d.verifyLogin(user, int_pin)) {
                 this->close(); // Chiudo la finistra di login
-                AdminInfo newAdminWindow;
-                Admin a = d.getAdmin(user);
-
-                QString s = QString::fromStdString(a.getName());   // DA RIMUOVERE
-                qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
-
-                newAdminWindow.setAdmin(a);
-                newAdminWindow.setModal(true);
-                newAdminWindow.exec();
-                admin = true;
-           }
-        } else { // Creazione del contenitore errata o errore di accesso al DB
-            QMessageBox::warning(
-                this,
-                tr("BankQ - Errore"),
-                tr("Errore di caricamento (admin)")
-            );
-        }
-        if (!admin) {
-            u.boom();
-            if (d.loadBronze()) {    // Entro sse non ci sono stati problemi a riempire la lista degli utenti bronze
-                QString st =QString::fromStdString(user);   // DA RIMUOVERE
-                qDebug("AAA-" + st.toLatin1() + "-AAA");   // DA RIMUOVERE
-                if (d.verifyLoginBronze(user, int_pin)) {
-                    this->close(); // Chiudo la finistra di login
+                if (d.verifyAdmin(user)) {
+                    AdminInfo newAdminWindow;
+                    User u = d.getUser(user);
+                    Admin* a = dynamic_cast<Admin*>(&u);
+                    newAdminWindow.setAdmin(*a);
+                    newAdminWindow.setModal(true);
+                    newAdminWindow.exec();
+                } else {    // Non è amministratore
                     UserInfo newUserWindow;
-                    newUserWindow.setBronze(d.getBronze(user));
+                    newUserWindow.setUser(d.getUser(user));
                     newUserWindow.setModal(true);
                     newUserWindow.exec();
-                    bronze = true;
                 }
-            } else { // Creazione del contenitore errata o errore di accesso al DB
-                QMessageBox::warning(
-                    this,
-                    tr("BankQ - Errore"),
-                    tr("Errore di caricamento (bronze)")
-                );
-            }
-        }
-        if (!bronze && !admin) {
-            if (d.loadSilver()) {    // Entro sse non ci sono stati problemi a riempire la lista degli utenti silver
-                if (d.verifyLoginSilver(user, int_pin)) {
-                    this->close(); // Chiudo la finistra di login
-                    UserInfo newUserWindow;
-                    newUserWindow.setSilver(d.getSilver(user));
-                    newUserWindow.setModal(true);
-                    newUserWindow.exec();
-                } else {    // Ho già controllato admin e bronze, perciò se non è silver i dati sono errati
-                    QMessageBox::warning(
-                        this,
-                        tr("BankQ - Errore"),
-                        tr("Dati di accesso non corretti")
-                    );
-                }
-            } else { // Creazione del contenitore errata o errore di accesso al DB
-                QMessageBox::warning(
-                    this,
-                    tr("BankQ - Errore"),
-                    tr("Errore di caricamento (silver)")
-                );
-
+            } else {
                 QMessageBox::warning(
                     this,
                     tr("BankQ - Errore"),
                     tr("Dati di accesso non corretti")
                 );
             }
+        } else { // Creazione del contenitore errata o errore di accesso al DB
+                QMessageBox::warning(
+                    this,
+                    tr("BankQ - Errore"),
+                    tr("Errore di caricamento del DB")
+                );
         }
     } else {
         QMessageBox::warning(

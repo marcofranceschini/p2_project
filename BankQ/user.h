@@ -72,7 +72,9 @@ public:
 
     void setPin (int);
 
-    virtual bool verifyLogin (const int& pass) const = 0;
+
+
+    //virtual bool verifyLogin (const int&) const;
 
     /*void setAdmin (int a) {
         admin=a;

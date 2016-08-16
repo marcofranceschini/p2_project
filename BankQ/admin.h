@@ -25,11 +25,7 @@ public:
 
     Admin* clone () const;
 
-    bool verifyLogin (const int& pass) const {
-        int p = const_cast<int&> (pass);
-        if (pin==p) return true;
-        return false;
-    }
+    //bool verifyLogin (const int&) const;
 };
 
 #endif // ADMIN_H
