@@ -24,7 +24,7 @@ public:
 
     //void setSilver (SilverUser const&);
 
-    void setTable ();
+    void setTable (User const&);
 
 private slots:
     void on_toolButton_3_clicked();
@@ -42,7 +42,7 @@ private slots:
 private:
     Ui::UserInfo *ui;
 
-    BronzeUser user;
+    //BronzeUser user;
 };
 
 #endif // USERINFO_H

@@ -34,7 +34,7 @@ void BronzeUser::setCount (double c) {
     count = c;
 }
 
-void BronzeUser::decreaseCount (double c) {
+/*void BronzeUser::decreaseCount (double c) {
 
     // Verifico se l'utente scende a bronze
     if (count - c < 100000) {
@@ -53,7 +53,7 @@ void BronzeUser::increaseCount (double c) {
 
     } else
         count = count + c;
-}
+}*/
 
 int BronzeUser::getCountNumber () const {
     return countNumber;

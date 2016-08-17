@@ -1,7 +1,8 @@
 #include "database.h"
 
-#include "QDebug"   // DA RIMUOVERE
-#include "qstring.h"   // DA RIMUOVERE
+#include "QDebug"       // DA RIMUOVERE
+#include "qstring.h"    // DA RIMUOVERE
+#include "mainwindow.h" // DA RIMUOVERE
 
 DataBase::DataBase() {
     //file = new QFile("db.xml");
@@ -9,7 +10,7 @@ DataBase::DataBase() {
 }
 
 bool DataBase::load () { // Carico gli amministratori nel contenitore
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/user.xml");
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/users.xml");
 
     QString s =file->fileName();   // DA RIMUOVERE
     qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
@@ -22,7 +23,13 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
             if (xmlReader.isStartElement()) {
                    // string a = (xmlReader.name().toString()).toUtf8().constData();
                    // cout<<a;
+                qDebug("Pre admin");   // DA RIMUOVERE
+                QString st = xmlReader.name().toString();   // DA RIMUOVERE
+                qDebug("NN-" + st.toLatin1() + "-NN");
                 if (xmlReader.name().toString() == "admin") {
+                    qDebug("Dentro admin");   // DA RIMUOVERE
+                    MainWindow u;   // DA RIMUOVERE
+                    u.boom();       // DA RIMUOVERE
                     Admin ad;
                     xmlReader.readNext();
                     while (xmlReader.name().toString() != "admin") {
@@ -45,7 +52,10 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
                         xmlReader.readNext();
                     }
                     user.push_back(new Admin(ad));
+                        QString st =QString::fromStdString(ad.getName());   // DA RIMUOVERE
+                        qDebug("CCC-" + st.toLatin1() + "-CCC");
                 } else if (xmlReader.name().toString() == "bronze") {
+                    qDebug("Dentro bronze");   // DA RIMUOVERE
                     BronzeUser uBronze;
                     xmlReader.readNext();
                     while (xmlReader.name().toString() != "bronze") {
@@ -70,7 +80,12 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
                         xmlReader.readNext();
                     }
                     user.push_back(new BronzeUser(uBronze));
+                    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+                        QString st =QString::fromStdString(user[it]->getName());   // DA RIMUOVERE
+                        qDebug("CCC-" + st.toLatin1() + "-CCC");
+                    }
                 } else {
+                    qDebug("Dentro silver");   // DA RIMUOVERE
                     SilverUser uSilver;
                     xmlReader.readNext();
                     while (xmlReader.name().toString() != "silver") {
@@ -99,6 +114,7 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
             }
         }
         file->close();
+
         if (xmlReader.hasError()) return false;
         return true;
     }

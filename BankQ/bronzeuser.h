@@ -33,9 +33,9 @@ public:
 
     virtual void setCount (double);
 
-    virtual void decreaseCount (double);
+    /*virtual void decreaseCount (double);
 
-    virtual void increaseCount (double);
+    virtual void increaseCount (double);*/
 
     virtual int getCountNumber () const;
 

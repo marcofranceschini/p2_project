@@ -65,6 +65,8 @@ void MainWindow::on_toolButton_clicked() {
                 } else {    // Non è amministratore
                     UserInfo newUserWindow;
                     User h = d.getUser(user);
+                    QString st =QString::fromStdString(h.getName());   // DA RIMUOVERE
+                    //qDebug("USR-" + st.toLatin1() + "-USR");                  // DA RIMUOVERE
                     newUserWindow.setUser(h);
                     newUserWindow.setModal(true);
                     newUserWindow.exec();
