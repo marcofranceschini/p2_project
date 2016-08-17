@@ -6,6 +6,10 @@ BronzeUser::BronzeUser () {}
 
 BronzeUser::~BronzeUser () {}
 
+BronzeUser* BronzeUser::clone () const {
+    return new BronzeUser (name, surname, address, telephone, code, username, pin, countNumber, count);
+}
+
 BronzeUser::BronzeUser (const BronzeUser& u) {
     name = u.getName();
     surname = u.getSurname();

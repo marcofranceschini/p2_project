@@ -23,6 +23,8 @@ public:
 
     ~BronzeUser ();
 
+    virtual BronzeUser* clone () const;
+
     BronzeUser (const BronzeUser&);
 
     virtual double getTotalTax () const;

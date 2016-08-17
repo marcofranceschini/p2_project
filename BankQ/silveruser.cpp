@@ -6,6 +6,10 @@ SilverUser::SilverUser () {}
 
 SilverUser::~SilverUser () {}
 
+SilverUser* SilverUser::clone () const {
+    return new SilverUser (name, surname, address, telephone, code, username, pin, countNumber, count);
+}
+
 SilverUser::SilverUser (const SilverUser& s) {
     name = s.getName();
     surname = s.getSurname();

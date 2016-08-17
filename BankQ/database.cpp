@@ -12,8 +12,8 @@ DataBase::DataBase() {
 bool DataBase::load () { // Carico gli amministratori nel contenitore
     file = new QFile("/home/mrc/Documents/p2_project/BankQ/users.xml");
 
-    QString s =file->fileName();   // DA RIMUOVERE
-    qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
+    //QString s =file->fileName();   // DA RIMUOVERE
+    //qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
 
     if (file->exists()) {
         file->open(QIODevice::ReadOnly);
@@ -23,13 +23,9 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
             if (xmlReader.isStartElement()) {
                    // string a = (xmlReader.name().toString()).toUtf8().constData();
                    // cout<<a;
-                qDebug("Pre admin");   // DA RIMUOVERE
-                QString st = xmlReader.name().toString();   // DA RIMUOVERE
-                qDebug("NN-" + st.toLatin1() + "-NN");
                 if (xmlReader.name().toString() == "admin") {
-                    qDebug("Dentro admin");   // DA RIMUOVERE
-                    MainWindow u;   // DA RIMUOVERE
-                    u.boom();       // DA RIMUOVERE
+                    //MainWindow u;   // DA RIMUOVERE
+                    //u.boom();       // DA RIMUOVERE
                     Admin ad;
                     xmlReader.readNext();
                     while (xmlReader.name().toString() != "admin") {
@@ -52,10 +48,7 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
                         xmlReader.readNext();
                     }
                     user.push_back(new Admin(ad));
-                        QString st =QString::fromStdString(ad.getName());   // DA RIMUOVERE
-                        qDebug("CCC-" + st.toLatin1() + "-CCC");
                 } else if (xmlReader.name().toString() == "bronze") {
-                    qDebug("Dentro bronze");   // DA RIMUOVERE
                     BronzeUser uBronze;
                     xmlReader.readNext();
                     while (xmlReader.name().toString() != "bronze") {
@@ -80,12 +73,7 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
                         xmlReader.readNext();
                     }
                     user.push_back(new BronzeUser(uBronze));
-                    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-                        QString st =QString::fromStdString(user[it]->getName());   // DA RIMUOVERE
-                        qDebug("CCC-" + st.toLatin1() + "-CCC");
-                    }
-                } else {
-                    qDebug("Dentro silver");   // DA RIMUOVERE
+                } else if (xmlReader.name().toString() == "silver") {
                     SilverUser uSilver;
                     xmlReader.readNext();
                     while (xmlReader.name().toString() != "silver") {
@@ -113,6 +101,10 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
                 }
             }
         }
+        /*for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+            QString st =QString::fromStdString(user[it]->getName());    // DA RIMUOVERE
+            qDebug("CCC-" + st.toLatin1() + "-CCC");                    // DA RIMUOVERE
+        }*/
         file->close();
 
         if (xmlReader.hasError()) return false;
@@ -147,7 +139,7 @@ bool DataBase::verifyAllUsername (const string& usr) const {
 
 bool DataBase::verifyLogin (const string& usr, const int& pin) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        if (user[it]->getUsername() == usr){
+        if (user[it]->getUsername() == usr) {
             if (user[it]->getPin() == pin)
                 return true;
             else
@@ -203,10 +195,47 @@ bool DataBase::verifyLogin (const string& usr, const int& pin) const {
         return false;
 }*/
 
-User DataBase::getUser (const string& usr) const {
+bool DataBase::verifyStillSame (const BronzeUser& u) {
+    int cont = 0;   // Per sapere in quale posizione del Container l'oggetto si trova
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        BronzeUser* b = dynamic_cast<BronzeUser*> (user[it]);
+        if (b && b->getUsername() != bronze.getUsername())
+            cont ++;
+        else
+            break;
+    }
+    user.remove(cont); // Rimuove il "vecchio" utente dalla lista
+
+    if (100000 <= u.getCount() && !dynamic_cast<SilverUser> (u)) {
+        // L'utente Bronze e deve diventare Silver
+        SilverUser *s = new SilverUser (bronze);
+        user.push_back(s); // Inserisce il "nuovo" utente silver nella lista di appartenenza
+        return false;
+    } else if (u.getCount() < 100000 && dynamic_cast<SilverUser> (u)) {
+        // E
+        return false;
+    } else {
+        // L'utente non ha cambiato "tipo" ma va comunque aggiornato il DB
+        int cont = 0;
+        for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+            BronzeUser* b = dynamic_cast<BronzeUser*> (user[it]);
+            if (b && b->getUsername() != bronze.getUsername())
+                cont ++;
+            else
+                break;
+        }
+        user.remove(cont); // Rimuove il "vecchio" utente bronze dalla lista degli utenti bronze
+        BronzeUser app = bronze;
+        user.push_back(&app); // Inserisce il "nuovo" utente bronze (con conto aggiornato) nella lista di appartenenza
+        this->write();
+        return true;
+    }
+}
+
+User* DataBase::getUser (const string& usr) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         if (user[it]->getUsername() == usr)
-            return *user[it];
+            return user[it]->clone();
     }
 }
 
@@ -232,16 +261,15 @@ User DataBase::getUser (const string& usr) const {
     return false;
 }*/
 
-User DataBase::getUserByCountNumber (const int& conto) const {
+User* DataBase::getUserByCountNumber (const int& conto) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         BronzeUser* b = dynamic_cast<BronzeUser*> (user[it]);
         if (b && b->getCountNumber() == conto)
-            return *user[it];
+            return user[it]->clone();
     }
 }
 
-bool DataBase::verifyStillBronze (const BronzeUser& bronze) {
-    if (100000 <= bronze.getCount()) {   // L'utente passa a silver
+bool DataBase::fromBronzeToSilver (const BronzeUser& bronze) {  // L'utente passa da Bronze a Silver
         //SilverUser s = new SilverUser (b.getName(), b.getSurname(), b.getAddress(), b.getTelephone(), b.getUsername(), b.getCode(), b.getPin(), b.getCountNumber(), b.getCount());
         SilverUser *s = new SilverUser (bronze);
 
@@ -259,21 +287,6 @@ bool DataBase::verifyStillBronze (const BronzeUser& bronze) {
             return false;
         else
             return true;
-    } else {
-        int cont = 0;
-        for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-            BronzeUser* b = dynamic_cast<BronzeUser*> (user[it]);
-            if (b && b->getUsername() != bronze.getUsername())
-                cont ++;
-            else
-                break;
-        }
-        user.remove(cont); // Rimuove il "vecchio" utente bronze dalla lista degli utenti bronze
-        BronzeUser app = bronze;
-        user.push_back(&app); // Inserisce il "nuovo" utente bronze (con conto aggiornato) nella lista di appartenenza
-        this->write();
-        return true;
-    }
 }
 
 bool DataBase::remove (const User& u) {

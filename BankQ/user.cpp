@@ -9,6 +9,10 @@ User::User () {}
 
 User::~User() {}
 
+User* User::clone () const {
+    return new User (name, surname, address, telephone, code, username, pin);
+}
+
 // Metodi get
 string User::getName () const {
     return name;
@@ -43,30 +47,30 @@ int User::getPin () const {
 }*/
 
 // Metodi set
-void User::setName (string n) {
+void User::setName (const string& n) {
     name=n;
 }
 
-void User::setSurname (string s) {
+void User::setSurname (const string& s) {
     surname=s;
 }
 
-void User::setAddress (string a) {
+void User::setAddress (const string& a) {
     address=a;
 }
 
-void User::setTelephone (int t) {
+void User::setTelephone (const int& t) {
     telephone=t;
 }
 
-void User::setCode (string c) {
+void User::setCode (const string& c) {
     code=c;
 }
 
-void User::setUsername (string u) {
+void User::setUsername (const string& u) {
     username=u;
 }
 
-void User::setPin (int p) {
+void User::setPin (const int& p) {
     pin=p;
 }

@@ -1,13 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages>
     <message>
-        <recipient>pluto</recipient>
-        <sender>marco</sender>
+        <recipient>marco</recipient>
+        <sender>pluto</sender>
         <text>Ricevuta una ricarica</text>
     </message>
     <message>
-        <recipient>pluto</recipient>
+        <recipient>marco</recipient>
         <sender>BankQ</sender>
-        <text>Grazie alla ricarica ricevuta ora è un UTENTE SILVER</text>
+        <text>Grazie alla ricarica ricevuta il proprio conto è ora di tipo SILVER</text>
+    </message>
+    <message>
+        <recipient>marco</recipient>
+        <sender>pluto</sender>
+        <text>Ricevuta una ricarica</text>
+    </message>
+    <message>
+        <recipient>marco</recipient>
+        <sender>BankQ</sender>
+        <text>Grazie alla ricarica ricevuta il proprio conto è ora di tipo SILVER</text>
+    </message>
+    <message>
+        <recipient>marco</recipient>
+        <sender>pluto</sender>
+        <text>Ricevuta una ricarica</text>
+    </message>
+    <message>
+        <recipient>marco</recipient>
+        <sender>BankQ</sender>
+        <text>Grazie alla ricarica ricevuta il proprio conto è ora di tipo SILVER</text>
+    </message>
+    <message>
+        <recipient>marco</recipient>
+        <sender>pluto</sender>
+        <text>Ricevuta una ricarica</text>
+    </message>
+    <message>
+        <recipient>marco</recipient>
+        <sender>BankQ</sender>
+        <text>Grazie alla ricarica ricevuta il proprio conto è ora di tipo SILVER</text>
+    </message>
+    <message>
+        <recipient>marco</recipient>
+        <sender>pluto</sender>
+        <text>Ricevuta una ricarica</text>
+    </message>
+    <message>
+        <recipient>marco</recipient>
+        <sender>BankQ</sender>
+        <text>Grazie alla ricarica ricevuta il proprio conto è ora di tipo SILVER</text>
     </message>
 </messages>

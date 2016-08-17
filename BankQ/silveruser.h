@@ -14,6 +14,8 @@ public:
 
     ~SilverUser ();
 
+    virtual SilverUser* clone () const;
+
     SilverUser (const SilverUser&);
 
     SilverUser (const BronzeUser&);

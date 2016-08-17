@@ -20,11 +20,11 @@ public:
 
     ~UserInfo();
 
-    void setUser (User const&);
+    void setUser (const User&);
 
     //void setSilver (SilverUser const&);
 
-    void setTable (User const&);
+    void setTable (const User&);
 
 private slots:
     void on_toolButton_3_clicked();

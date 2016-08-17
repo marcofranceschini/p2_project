@@ -17,47 +17,29 @@ UserInfo::~UserInfo() {
     delete ui;
 }
 
-void UserInfo::setUser (User const& cu) {
+void UserInfo::setUser (const User& cu) {
     User* ncu = const_cast<User*> (&cu);
-
     BronzeUser* u = dynamic_cast<BronzeUser*> (ncu);
-    MainWindow uf;  // DA RIMUOVERE
-
-    //uf.boom();  // DA RIMUOVERE
-
-
-    //uf.boom();  // DA RIMUOVERE
-    //user = *u;
-    //uf.boom();  // DA RIMUOVERE
-
-    //MainWindow uf;  // DA RIMUOVERE
-
-    QString st =QString::fromStdString(u->getName());   // DA RIMUOVERE
-    qDebug("RRR-" + st.toLatin1() + "-RRR");                  // DA RIMUOVERE
 
     ui->label_4->setText(QString::fromStdString(u->getName()));     // Nome
-    uf.boom();  // DA RIMUOVERE
     ui->label_5->setText(QString::fromStdString(u->getSurname()));  // Cognome
     ui->label_75->setText(QString::fromStdString(u->getCode()));    // Codice fiscale
     ui->label_77->setText(QString::number(u->getTelephone()));      // Numero di telefono
     ui->label_78->setText(QString::fromStdString(u->getUsername()));// Username
     ui->label_10->setText(QString::number(u->getTotalTax()));       // Tasse anno
     ui->label_11->setText(QString::number(u->getTotalBonus()));     // Bonus anno
-    //MainWindow uf;  // DA RIMUOVERE
-    uf.boom();  // DA RIMUOVERE
     ui->label_24->setText(QString::number(u->getCountNumber()));    // Numero conto
     ui->label_12->setText(QString::number(u->getCount()));          // Saldo
     ui->label_19->setText(QString::number(u->getCount()));          // Saldo prelievo
     ui->label_22->setText(QString::number(u->getCount()));          // Saldo ricarica
     ui->label_66->setText(QString::number(u->getCount()));          // Saldo
 
-
     if (dynamic_cast<SilverUser*> (u))
-        ui->label_6->setText("Silver"); // Tipo conto
+        ui->label_6->setText("Silver");                             // Tipo conto
     else
-        ui->label_6->setText("Bronze"); // Tipo conto
+        ui->label_6->setText("Bronze");                             // Tipo conto
 
-    this->setTable(*ncu);
+    this->setTable(cu);
 }
 
 /*void UserInfo::setSilver (SilverUser const& s) {
@@ -142,7 +124,7 @@ if (message->loadMessages()) {
     );
 }*/
 
-void UserInfo::setTable (User const& u) {
+void UserInfo::setTable (const User& u) {   // Riempie la tabella in caso vi siano messaggi per l'utente loggato
     MessagesDataBase* message = new MessagesDataBase();
     if (message->loadMessages()) {
         int mex;
@@ -334,52 +316,50 @@ void UserInfo::on_toolButton_3_clicked() {  // Prelievo
 
 }
 
-void UserInfo::on_toolButton_4_clicked() {  // Ricarica
-
-
-
-    // DA FARE
-    // Verifico se l'utente passa ad utente silver + messaggio
-
-    // Scrivere nel DB
-
-
-
-    QString a = ui->lineEdit_2->text();
-    QString bi = ui->lineEdit_3->text();
-    QString c = ui->label_78->text();
+void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
+    QString a = ui->lineEdit_2->text();     // Cifra da caricare
+    QString bi = ui->lineEdit_3->text();    // Numero di conto
+    QString c = ui->label_78->text();       // Username dell'utente loggato
 
     double cifra = a.toDouble();
     int conto = bi.toInt();
     string username = c.toUtf8().constData();
-;
     //bool flag = false;
-
 
     if (cifra > 0) {
         DataBase d;
         if (d.load()) {
-            User u = d.getUser(username);
-            BronzeUser* user = dynamic_cast<BronzeUser*> (&u);
+            User* m_app = d.getUser(username);
+            BronzeUser* mittente = dynamic_cast<BronzeUser*> (m_app); // Username dell'utente loggato
             // Tolgo l'importo dal conto dell'utente loggato
-            if (user->getCountNumber() != conto) {
-                if (0 <= user->getCount() - cifra) {
-                    User u = d.getUserByCountNumber(conto);  // Username del "ricevente"
-                    SilverUser* s = dynamic_cast<SilverUser*> (&u);
-                    if (s) {
-                        s->setCount(s->getCount() + cifra);
-                        d.verifyStillSilver(*s);  // Un utente silver non può "salire" ma verifyStillSilver scrive nel DB l'utente con il conto aggiornato
+            if (mittente->getCountNumber() != conto) {      // Verifico che il conto da ricarica e quello dell'utente loggato siano diversi
+                if (0 <= mittente->getCount() - cifra) {    // Verifico che il conto abbia sufficiente credito
+
+                    User* r_app = d.getUserByCountNumber(conto);  // Username del "ricevente"
+                    BronzeUser* ricevente = dynamic_cast<BronzeUser*> (r_app);
+
+
+                    ricevente->setCount(ricevente->getCount() + cifra);
+                    QString qstr = "Ricevuta una ricarica di € " + QString::number(cifra);
+                    string str = qstr.toUtf8().constData();
+                    MessagesDataBase m;
+                    if (m.loadMessages())
+                        m.addMessage(*new Message(ricevente->getUsername(), mittente->getUsername(), str));
+
+                    if (d.verifyStillSame(*ricevente)) {    // Se l'utente era Bronze allora diventa Silver, altrimenti non accade "nulla"
+                        m.addMessage(*new Message(b->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo SILVER"));
+                    }
                         // MANDO UN MESSAGGIO PER LA RICARICA RICEVUTA
-                        MessagesDataBase m;
-                        if (m.loadMessages()) {
-                                m.addMessage(*new Message(s->getUsername(), user->getUsername(), "Ricevuta una ricarica"));
 
-                                SilverUser* silver = dynamic_cast<SilverUser*> (user);
 
-                                silver->setCount(silver->getCount() - cifra);
+                                //SilverUser* silver = dynamic_cast<SilverUser*> (user);
 
-                                if (!d.verifyStillSilver(*silver)) {      // Verifico se l'utente è ancora silver
-                                    BronzeUser* app = new BronzeUser(*silver);
+                                user->setCount(user->getCount() - cifra);
+
+                                if (!d.verifyStillSilver(*user)) {      // Verifico se l'utente che ricarica mantiene il suo "status"
+                                    // Se è bronze non accade nulla oltre alla riscrittura del conto sul DB
+                                    // Se è silver allora nel DB cambia anche tipo di utente
+                                    BronzeUser* app = new BronzeUser(*s);
                                     user = app;
                                     delete app;
                                     //delete &userS;    // CAUSA CRASH
@@ -392,10 +372,10 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                                     );
                                 }
 
-                                ui->label_12->setText(QString::number(silver->getCount()));   // Saldo
-                                ui->label_19->setText(QString::number(silver->getCount()));   // Saldo prelievo
-                                ui->label_22->setText(QString::number(silver->getCount()));   // Saldo ricarica
-                                ui->label_66->setText(QString::number(silver->getCount()));   // Saldo
+                                ui->label_12->setText(QString::number(user->getCount()));   // Saldo
+                                ui->label_19->setText(QString::number(user->getCount()));   // Saldo prelievo
+                                ui->label_22->setText(QString::number(user->getCount()));   // Saldo ricarica
+                                ui->label_66->setText(QString::number(user->getCount()));   // Saldo
 
                                 QMessageBox::information(
                                     this,
@@ -409,8 +389,10 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica
                                 tr("Errore di caricamento (messaggi)")
                             );
                         }
-                    } else {    // È un utente bronze
-                        BronzeUser* b = dynamic_cast<BronzeUser*> (&u);
+                    } else {    // Il "ricevente" è bronze
+                        BronzeUser* b = dynamic_cast<BronzeUser*> (u);
+                        MainWindow f;   // DA RIMUOVERE
+                        f.boom();       // DA RIMUOVERE
                         b->setCount(b->getCount() + cifra);
 
                         MessagesDataBase m;
@@ -647,17 +629,17 @@ void UserInfo::on_toolButton_clicked() { // Logout
 }
 
 void UserInfo::on_toolButton_2_clicked() { // Chiusura conto
-    // Chiamo la funzione per inviare una notifica all'admin
+    // DA FARE - notificare con un messaggio all'admin della chiusura
     DataBase d;
     MessagesDataBase m;
 
     if (d.load()) {
         QString u = ui->label_78->text();
         string username = u.toUtf8().constData();
-        User user = d.getUser(username);
-        d.remove(user);
+        User* user = d.getUser(username);
+        d.remove(*user);
         if (m.loadMessages())
-            m.deleteMessages(user.getUsername());
+            m.deleteMessages(user->getUsername());
         else {
             QMessageBox::warning(
                 this,
@@ -696,9 +678,9 @@ void UserInfo::on_toolButton_5_clicked() { // Messaggi spuntati come visualizzat
 
             QString c = ui->label_78->text();
             string username = c.toUtf8().constData();
-            User user = d.getUser(username);
+            User* user = d.getUser(username);
 
-            mdb->deleteMessages(user.getUsername());
+            mdb->deleteMessages(user->getUsername());
             ui->toolButton_5->setEnabled(false);
         } else {
             QMessageBox::warning(

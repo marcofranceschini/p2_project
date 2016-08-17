@@ -46,15 +46,17 @@ public:
 
     bool verifyBronze (const string&) const; // Ritorna true se l'username passato appartiene ad un utente bronze
 
-    User getUser (const string&) const; // Ritorna l'oggetto User con username uguale a quello passato
+    User* getUser (const string&) const; // Ritorna l'oggetto User con username uguale a quello passato
 
     //bool verifyLoginBronze (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente bronze siano corretti
 
     bool verifyNumberBronze (const int&) const;  // Verifica se il numero di conto passato appartiene ad un utente bronze
 
-    User getUserByCountNumber (const int&) const; // Ritorna l'oggetto User con numero di conto uguale a quello passato
+    User* getUserByCountNumber (const int&) const; // Ritorna l'oggetto User con numero di conto uguale a quello passato
 
-    bool verifyStillBronze (const BronzeUser&); // Verifica se l'oggetto BronzeUser soddisfa i requisiti oppure passa a Silver
+    bool verifyStillSame (const BronzeUser&); // Verifica se
+
+    //bool fromBronzeToSilver (const BronzeUser&); // "Passa" un utente Bronze in utente Silver
 
     bool remove (const User&); // Rimuove dal DB l'utente passato
 
@@ -73,7 +75,7 @@ public:
 
     //SilverUser getSilverByCount (const int&) const; // Ritorna l'oggetto SilverUser con numero di conto uguale a quello passato
 
-    bool verifyStillSilver (const SilverUser&); // Verifica se l'oggetto SilverUser soddisfa i requisiti oppure scende a Bronze
+    //bool verifyStillSilver (const SilverUser&); // Verifica se l'oggetto SilverUser soddisfa i requisiti oppure scende a Bronze
 
     //bool removeSilver (const SilverUser&); // Rimuove dal DB l'utente passato
 

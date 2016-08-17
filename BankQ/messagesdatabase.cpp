@@ -83,8 +83,6 @@ bool MessagesDataBase::deleteMessages (const string& user) {
 }
 
 bool MessagesDataBase::addMessage (Message m) {
-    MainWindow u;
-    u.boom();
     messages.push_back(&m);
     return this->writeMessages();
 }

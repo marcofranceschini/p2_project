@@ -38,7 +38,9 @@ public:
 
     //User (User const&);
 
-    virtual ~User();
+    virtual ~User ();
+
+    virtual User* clone () const;
 
 
     // Metodi get
@@ -58,19 +60,19 @@ public:
 
 
     // Metodi set
-    void setName (string);
+    void setName (const string&);
 
-    void setSurname (string);
+    void setSurname (const string&);
 
-    void setAddress (string);
+    void setAddress (const string&);
 
-    void setTelephone (int);
+    void setTelephone (const int&);
 
-    void setCode (string);
+    void setCode (const string&);
 
-    void setUsername (string);
+    void setUsername (const string&);
 
-    void setPin (int);
+    void setPin (const int&);
 
 
 

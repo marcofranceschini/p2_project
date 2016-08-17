@@ -11,17 +11,17 @@ AdminInfo::~AdminInfo() {
     delete ui;
 }
 
-void AdminInfo::setAdmin (Admin const& u) {
-    admin = u;
-    QString s = QString::fromStdString(u.getName());   // DA RIMUOVERE
-    qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
+void AdminInfo::setAdmin (const User& u) {
+    //User* usr = static_cast <User*> (u);
+    Admin* a = dynamic_cast<Admin*>(u);
+    //admin = *a;
 
-    ui->label_5->setText(s); // Nome amministratore
-    ui->label_8->setText(QString::fromStdString(admin.getSurname())); // Cognome amministratore
-    ui->label_7->setText("Amministratore"); // Tipo account -> amministratore rimmarrà fisso
-    ui->label_19->setText(QString::fromStdString(admin.getAddress())); // Indirizzo amministratore
-    ui->label_75->setText(QString::fromStdString(admin.getCode())); // Codice fiscale amministratore
-    ui->label_77->setText("040421"); // Numero di telefono amministratore
+    ui->label_5->setText(QString::fromStdString(admin.getName()));      // Nome amministratore
+    ui->label_8->setText(QString::fromStdString(admin.getSurname()));   // Cognome amministratore
+    ui->label_7->setText("Amministratore");                             // Tipo account -> "amministratore" rimmarrà fisso
+    ui->label_19->setText(QString::fromStdString(admin.getAddress()));  // Indirizzo amministratore
+    ui->label_75->setText(QString::fromStdString(admin.getCode()));     // Codice fiscale amministratore
+    ui->label_77->setText(QString::number(admin.getTelephone()));       // Numero di telefono amministratore
     ui->label_78->setText(QString::fromStdString(admin.getUsername())); // Username amministratore
 
     //ui->label_21->setText("Ci sono 3 richieste di chiudere il conto"); // Username amministratore

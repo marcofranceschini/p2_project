@@ -16,7 +16,7 @@ class AdminInfo : public QDialog {
 
         ~AdminInfo();
 
-        void setAdmin (Admin const&);
+        void setAdmin (const User&);
 
     private slots:
         void on_toolButton_2_clicked();
