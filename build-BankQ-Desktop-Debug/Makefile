@@ -47,8 +47,6 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../BankQ/main.cpp \
 		../BankQ/mainwindow.cpp \
-		../BankQ/bronzeuser.cpp \
-		../BankQ/silveruser.cpp \
 		../BankQ/user.cpp \
 		../BankQ/userinfo.cpp \
 		../BankQ/admininfo.cpp \
@@ -56,13 +54,13 @@ SOURCES       = ../BankQ/main.cpp \
 		../BankQ/admin.cpp \
 		../BankQ/database.cpp \
 		../BankQ/message.cpp \
-		../BankQ/messagesdatabase.cpp moc_mainwindow.cpp \
+		../BankQ/messagesdatabase.cpp \
+		../BankQ/basicuser.cpp \
+		../BankQ/prouser.cpp moc_mainwindow.cpp \
 		moc_userinfo.cpp \
 		moc_admininfo.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
-		bronzeuser.o \
-		silveruser.o \
 		user.o \
 		userinfo.o \
 		admininfo.o \
@@ -71,6 +69,8 @@ OBJECTS       = main.o \
 		database.o \
 		message.o \
 		messagesdatabase.o \
+		basicuser.o \
+		prouser.o \
 		moc_mainwindow.o \
 		moc_userinfo.o \
 		moc_admininfo.o
@@ -305,7 +305,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/BankQ1.0.0 || mkdir -p .tmp/BankQ1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/BankQ1.0.0/ && $(COPY_FILE) --parents ../BankQ/mainwindow.h ../BankQ/bronzeuser.h ../BankQ/silveruser.h ../BankQ/user.h ../BankQ/userinfo.h ../BankQ/admininfo.h ../BankQ/container.h ../BankQ/admin.h ../BankQ/database.h ../BankQ/message.h ../BankQ/messagesdatabase.h .tmp/BankQ1.0.0/ && $(COPY_FILE) --parents ../BankQ/main.cpp ../BankQ/mainwindow.cpp ../BankQ/bronzeuser.cpp ../BankQ/silveruser.cpp ../BankQ/user.cpp ../BankQ/userinfo.cpp ../BankQ/admininfo.cpp ../BankQ/container.cpp ../BankQ/admin.cpp ../BankQ/database.cpp ../BankQ/message.cpp ../BankQ/messagesdatabase.cpp .tmp/BankQ1.0.0/ && $(COPY_FILE) --parents ../BankQ/mainwindow.ui ../BankQ/userinfo.ui ../BankQ/admininfo.ui .tmp/BankQ1.0.0/ && (cd `dirname .tmp/BankQ1.0.0` && $(TAR) BankQ1.0.0.tar BankQ1.0.0 && $(COMPRESS) BankQ1.0.0.tar) && $(MOVE) `dirname .tmp/BankQ1.0.0`/BankQ1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/BankQ1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/BankQ1.0.0/ && $(COPY_FILE) --parents ../BankQ/mainwindow.h ../BankQ/user.h ../BankQ/userinfo.h ../BankQ/admininfo.h ../BankQ/container.h ../BankQ/admin.h ../BankQ/database.h ../BankQ/message.h ../BankQ/messagesdatabase.h ../BankQ/basicuser.h ../BankQ/prouser.h .tmp/BankQ1.0.0/ && $(COPY_FILE) --parents ../BankQ/main.cpp ../BankQ/mainwindow.cpp ../BankQ/user.cpp ../BankQ/userinfo.cpp ../BankQ/admininfo.cpp ../BankQ/container.cpp ../BankQ/admin.cpp ../BankQ/database.cpp ../BankQ/message.cpp ../BankQ/messagesdatabase.cpp ../BankQ/basicuser.cpp ../BankQ/prouser.cpp .tmp/BankQ1.0.0/ && $(COPY_FILE) --parents ../BankQ/mainwindow.ui ../BankQ/userinfo.ui ../BankQ/admininfo.ui .tmp/BankQ1.0.0/ && (cd `dirname .tmp/BankQ1.0.0` && $(TAR) BankQ1.0.0.tar BankQ1.0.0 && $(COMPRESS) BankQ1.0.0.tar) && $(MOVE) `dirname .tmp/BankQ1.0.0`/BankQ1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/BankQ1.0.0
 
 
 clean:compiler_clean 
@@ -557,10 +557,17 @@ moc_userinfo.cpp: /usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtCore/qfiledevice.h \
 		/usr/include/qt5/QtGui/qvector2d.h \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
-		../BankQ/bronzeuser.h \
+		../BankQ/basicuser.h \
 		../BankQ/user.h \
 		../BankQ/container.h \
-		../BankQ/silveruser.h \
+		../BankQ/prouser.h \
+		../BankQ/messagesdatabase.h \
+		/usr/include/qt5/QtCore/QXmlStreamReader \
+		/usr/include/qt5/QtCore/qxmlstream.h \
+		/usr/include/qt5/QtCore/QXmlStreamWriter \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/QFile \
+		../BankQ/message.h \
 		../BankQ/userinfo.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../BankQ/userinfo.h -o moc_userinfo.cpp
 
@@ -987,34 +994,25 @@ mainwindow.o: ../BankQ/mainwindow.cpp ../BankQ/mainwindow.h \
 		/usr/include/qt5/QtWidgets/QWidget \
 		../BankQ/userinfo.h \
 		/usr/include/qt5/QtWidgets/QDialog \
-		../BankQ/bronzeuser.h \
+		../BankQ/basicuser.h \
 		../BankQ/user.h \
 		../BankQ/container.h \
-		../BankQ/silveruser.h \
-		../BankQ/admininfo.h \
-		../BankQ/admin.h \
-		../BankQ/database.h \
+		../BankQ/prouser.h \
+		../BankQ/messagesdatabase.h \
 		/usr/include/qt5/QtCore/QXmlStreamReader \
 		/usr/include/qt5/QtCore/qxmlstream.h \
 		/usr/include/qt5/QtCore/QXmlStreamWriter \
 		/usr/include/qt5/QtCore/QDebug \
 		/usr/include/qt5/QtCore/QFile \
+		../BankQ/message.h \
+		../BankQ/admininfo.h \
+		../BankQ/admin.h \
+		../BankQ/database.h \
 		/usr/include/qt5/QtWidgets/QFileDialog \
 		/usr/include/qt5/QtWidgets/qfiledialog.h \
 		/usr/include/qt5/QtCore/qdir.h \
 		/usr/include/qt5/QtCore/qfileinfo.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../BankQ/mainwindow.cpp
-
-bronzeuser.o: ../BankQ/bronzeuser.cpp ../BankQ/bronzeuser.h \
-		../BankQ/user.h \
-		../BankQ/container.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bronzeuser.o ../BankQ/bronzeuser.cpp
-
-silveruser.o: ../BankQ/silveruser.cpp ../BankQ/silveruser.h \
-		../BankQ/bronzeuser.h \
-		../BankQ/user.h \
-		../BankQ/container.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o silveruser.o ../BankQ/silveruser.cpp
 
 user.o: ../BankQ/user.cpp ../BankQ/user.h \
 		../BankQ/container.h
@@ -1130,10 +1128,17 @@ userinfo.o: ../BankQ/userinfo.cpp ../BankQ/userinfo.h \
 		/usr/include/qt5/QtCore/qfiledevice.h \
 		/usr/include/qt5/QtGui/qvector2d.h \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
-		../BankQ/bronzeuser.h \
+		../BankQ/basicuser.h \
 		../BankQ/user.h \
 		../BankQ/container.h \
-		../BankQ/silveruser.h \
+		../BankQ/prouser.h \
+		../BankQ/messagesdatabase.h \
+		/usr/include/qt5/QtCore/QXmlStreamReader \
+		/usr/include/qt5/QtCore/qxmlstream.h \
+		/usr/include/qt5/QtCore/QXmlStreamWriter \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/QFile \
+		../BankQ/message.h \
 		ui_userinfo.h \
 		/usr/include/qt5/QtCore/QLocale \
 		/usr/include/qt5/QtCore/QVariant \
@@ -1190,11 +1195,8 @@ userinfo.o: ../BankQ/userinfo.cpp ../BankQ/userinfo.h \
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
 		../BankQ/database.h \
 		../BankQ/admin.h \
-		/usr/include/qt5/QtCore/QXmlStreamReader \
-		/usr/include/qt5/QtCore/qxmlstream.h \
-		/usr/include/qt5/QtCore/QXmlStreamWriter \
-		/usr/include/qt5/QtCore/QDebug \
-		/usr/include/qt5/QtCore/QFile
+		/usr/include/qt5/QtGui/QStandardItemModel \
+		/usr/include/qt5/QtGui/qstandarditemmodel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o userinfo.o ../BankQ/userinfo.cpp
 
 admininfo.o: ../BankQ/admininfo.cpp ../BankQ/admininfo.h \
@@ -1376,8 +1378,8 @@ admin.o: ../BankQ/admin.cpp ../BankQ/admin.h \
 database.o: ../BankQ/database.cpp ../BankQ/database.h \
 		../BankQ/user.h \
 		../BankQ/container.h \
-		../BankQ/bronzeuser.h \
-		../BankQ/silveruser.h \
+		../BankQ/basicuser.h \
+		../BankQ/prouser.h \
 		../BankQ/admin.h \
 		/usr/include/qt5/QtCore/QXmlStreamReader \
 		/usr/include/qt5/QtCore/qxmlstream.h \
@@ -1584,8 +1586,61 @@ messagesdatabase.o: ../BankQ/messagesdatabase.cpp ../BankQ/messagesdatabase.h \
 		/usr/include/qt5/QtCore/qcontiguouscache.h \
 		/usr/include/qt5/QtCore/QFile \
 		/usr/include/qt5/QtCore/qfile.h \
-		/usr/include/qt5/QtCore/qfiledevice.h
+		/usr/include/qt5/QtCore/qfiledevice.h \
+		../BankQ/container.h \
+		../BankQ/message.h \
+		../BankQ/mainwindow.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/qwidget.h \
+		/usr/include/qt5/QtGui/qwindowdefs.h \
+		/usr/include/qt5/QtGui/qwindowdefs_win.h \
+		/usr/include/qt5/QtCore/qmargins.h \
+		/usr/include/qt5/QtCore/qrect.h \
+		/usr/include/qt5/QtCore/qsize.h \
+		/usr/include/qt5/QtGui/qpaintdevice.h \
+		/usr/include/qt5/QtGui/qpalette.h \
+		/usr/include/qt5/QtGui/qcolor.h \
+		/usr/include/qt5/QtGui/qrgb.h \
+		/usr/include/qt5/QtGui/qbrush.h \
+		/usr/include/qt5/QtGui/qmatrix.h \
+		/usr/include/qt5/QtGui/qpolygon.h \
+		/usr/include/qt5/QtGui/qregion.h \
+		/usr/include/qt5/QtCore/qline.h \
+		/usr/include/qt5/QtGui/qtransform.h \
+		/usr/include/qt5/QtGui/qpainterpath.h \
+		/usr/include/qt5/QtGui/qimage.h \
+		/usr/include/qt5/QtGui/qpixmap.h \
+		/usr/include/qt5/QtCore/qsharedpointer.h \
+		/usr/include/qt5/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt5/QtGui/qfont.h \
+		/usr/include/qt5/QtGui/qfontmetrics.h \
+		/usr/include/qt5/QtGui/qfontinfo.h \
+		/usr/include/qt5/QtWidgets/qsizepolicy.h \
+		/usr/include/qt5/QtGui/qcursor.h \
+		/usr/include/qt5/QtGui/qkeysequence.h \
+		/usr/include/qt5/QtGui/qevent.h \
+		/usr/include/qt5/QtCore/qurl.h \
+		/usr/include/qt5/QtCore/qurlquery.h \
+		/usr/include/qt5/QtGui/qvector2d.h \
+		/usr/include/qt5/QtGui/qtouchdevice.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/QMessageBox \
+		/usr/include/qt5/QtWidgets/qmessagebox.h \
+		/usr/include/qt5/QtWidgets/qdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o messagesdatabase.o ../BankQ/messagesdatabase.cpp
+
+basicuser.o: ../BankQ/basicuser.cpp ../BankQ/basicuser.h \
+		../BankQ/user.h \
+		../BankQ/container.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o basicuser.o ../BankQ/basicuser.cpp
+
+prouser.o: ../BankQ/prouser.cpp ../BankQ/prouser.h \
+		../BankQ/basicuser.h \
+		../BankQ/user.h \
+		../BankQ/container.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o prouser.o ../BankQ/prouser.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

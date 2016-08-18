@@ -2,8 +2,8 @@
 #define DATABASE_H
 
 #include "user.h"
-#include "bronzeuser.h"
-#include "silveruser.h"
+#include "basicuser.h"
+#include "prouser.h"
 #include "admin.h"
 #include "container.h"
 
@@ -22,8 +22,8 @@ class DataBase {
 private:
     QFile* file;
 
-    Container<BronzeUser> userB;
-    Container<SilverUser> userS;
+    Container<BasicUser> userB;
+    Container<ProUser> userS;
     Container<Admin> admin;
 
     Container<User> user;
@@ -35,50 +35,53 @@ public:
 
     bool verifyAdmin (const string&) const; // Ritorna true se l'username passato appartiene ad un amministratore
 
-    bool verifyAllUsername (const string&) const; // Ritorna true se l'username passato esiste già (tra bronze e silver)
+    bool verifyExistingUsername (const string&) const; // Ritorna true se l'username passato esiste già (tra Basic e Pro)
+
+    bool verifyExistingCountNumber (const int&) const; // Ritorna true se il #conto passato passato esiste già
 
     //Admin getAdmin (const string&) const;   // Ritorna l'oggetto Admin con username uguale a quello passato
 
     bool verifyLogin (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'amministratore siano corretti
 
+    bool addUser (const BasicUser&);    // Inserisce un nuovo utente nel DB
 
-    //bool loadBronze(); // Carico gli utenti bronze nel contenitore
+    //bool loadBasic(); // Carico gli utenti Basic nel contenitore
 
-    bool verifyBronze (const string&) const; // Ritorna true se l'username passato appartiene ad un utente bronze
+    bool verifyBasic (const string&) const; // Ritorna true se l'username passato appartiene ad un utente Basic
 
     User* getUser (const string&) const; // Ritorna l'oggetto User con username uguale a quello passato
 
-    //bool verifyLoginBronze (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente bronze siano corretti
+    //bool verifyLoginBasic (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente Basic siano corretti
 
-    bool verifyNumberBronze (const int&) const;  // Verifica se il numero di conto passato appartiene ad un utente bronze
+    bool verifyNumberBasic (const int&) const;  // Verifica se il numero di conto passato appartiene ad un utente Basic
 
     User* getUserByCountNumber (const int&) const; // Ritorna l'oggetto User con numero di conto uguale a quello passato
 
-    bool verifyStillSame (const BronzeUser&); // Verifica se
+    bool verifyStillSame (const BasicUser&); // Verifica se
 
-    //bool fromBronzeToSilver (const BronzeUser&); // "Passa" un utente Bronze in utente Silver
+    //bool fromBasicToPro (const BasicUser&); // "Passa" un utente Basic in utente Pro
 
     bool remove (const User&); // Rimuove dal DB l'utente passato
 
-    bool write (); // Scrive nel DB relativo agli utenti Bronze la lista di utenti Bronze passata
+    bool write (); // Scrive nel DB relativo agli utenti Basic la lista di utenti Basic passata
 
 
-    //bool loadSilver(); // Carico gli utenti silver nel contenitore
+    //bool loadPro(); // Carico gli utenti Pro nel contenitore
 
-    bool verifySilver (const string&) const; // Ritorna true se l'username passato appartiene ad un utente silver
+    bool verifyPro (const string&) const; // Ritorna true se l'username passato appartiene ad un utente Pro
 
-    //SilverUser getSilver (const string&) const; // Ritorna l'oggetto SilverUser con username uguale a quello passato
+    //ProUser getPro (const string&) const; // Ritorna l'oggetto ProUser con username uguale a quello passato
 
-    //bool verifyLoginSilver (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente silver siano corretti
+    //bool verifyLoginPro (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente Pro siano corretti
 
-    bool verifyNumberSilver (const int&) const;  // Verifica se il numero di conto appartiene ad un utente silver
+    bool verifyNumberPro (const int&) const;  // Verifica se il numero di conto appartiene ad un utente Pro
 
-    //SilverUser getSilverByCount (const int&) const; // Ritorna l'oggetto SilverUser con numero di conto uguale a quello passato
+    //ProUser getProByCount (const int&) const; // Ritorna l'oggetto ProUser con numero di conto uguale a quello passato
 
-    //bool verifyStillSilver (const SilverUser&); // Verifica se l'oggetto SilverUser soddisfa i requisiti oppure scende a Bronze
+    //bool verifyStillPro (const ProUser&); // Verifica se l'oggetto ProUser soddisfa i requisiti oppure scende a Basic
 
-    //bool removeSilver (const SilverUser&); // Rimuove dal DB l'utente passato
+    //bool removePro (const ProUser&); // Rimuove dal DB l'utente passato
 
-    //bool writeSilver (); // Scrive nel DB relativo agli utenti Silver la lista di utenti Silver passata
+    //bool writePro (); // Scrive nel DB relativo agli utenti Pro la lista di utenti Pro passata
 };
 #endif // DATABASE_H

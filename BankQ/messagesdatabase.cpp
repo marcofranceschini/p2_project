@@ -44,11 +44,11 @@ bool MessagesDataBase::loadMessages () {
 int MessagesDataBase::countMessage (const string& u) {
     int cont = 0;
     for (Container<Message>::Iteratore it = messages.begin(); it != messages.end(); ++it) {
-        if (messages[it]->getRecipient() == u) {
+        if (messages[it]->getRecipient() == u)
             cont++;
-            QString st =QString::fromStdString(messages[it]->getRecipient());   // DA RIMUOVERE
+            /*QString st =QString::fromStdString(messages[it]->getRecipient());   // DA RIMUOVERE
             qDebug("QQQ-" + st.toLatin1() + "-QQQ");   // DA RIMUOVERE
-        }
+            */
     }
     return cont;
 }
@@ -64,22 +64,27 @@ Container<Message> MessagesDataBase::getMessageByUser (const string& user) {
 
 bool MessagesDataBase::deleteMessages (const string& user) {
 
-    vector<int> vet(this->countMessage(user));
-    for (int i = 0; i < vet.size(); ++i) {
-        vet[i] = 0;
-    }
-    int i = 0;
-    for (Container<Message>::Iteratore it = messages.begin(); it != messages.end(); ++it) {
-        if (messages[it]->getRecipient() != user)
-            vet[i]++;
-        else
-            ++i;
-    }
+    if (0 < this->countMessage(user)) {
+        vector<int> vet(this->countMessage(user));
+        for (int i = 0; i < vet.size(); ++i) {
+            vet[i] = 0;
+        }
+        int i = 0;
+        for (Container<Message>::Iteratore it = messages.begin(); it != messages.end(); ++it) {
+            if (messages[it]->getRecipient() != user)
+                vet[i]++;
+            else
+                ++i;
+        }
 
-    for (int i = 0; i < vet.size(); ++i) {
-        messages.remove(vet[i]);
+        for (int i = 0; i < vet.size(); ++i) {
+            messages.remove(vet[i]);
+        }
+        QString st =QString::number(this->countMessage(user));   // DA RIMUOVERE
+        qDebug("QQQ-" + st.toLatin1() + "-QQQ");                 // DA RIMUOVERE
+        return this->writeMessages();
     }
-    return this->writeMessages();
+    return false;
 }
 
 bool MessagesDataBase::addMessage (Message m) {

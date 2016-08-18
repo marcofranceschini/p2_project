@@ -14,8 +14,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    bronzeuser.cpp \
-    silveruser.cpp \
     user.cpp \
     userinfo.cpp \
     admininfo.cpp \
@@ -23,11 +21,11 @@ SOURCES += main.cpp\
     admin.cpp \
     database.cpp \
     message.cpp \
-    messagesdatabase.cpp
+    messagesdatabase.cpp \
+    basicuser.cpp \
+    prouser.cpp
 
 HEADERS  += mainwindow.h \
-    bronzeuser.h \
-    silveruser.h \
     user.h \
     userinfo.h \
     admininfo.h \
@@ -35,7 +33,9 @@ HEADERS  += mainwindow.h \
     admin.h \
     database.h \
     message.h \
-    messagesdatabase.h
+    messagesdatabase.h \
+    basicuser.h \
+    prouser.h
 
 FORMS    += mainwindow.ui \
     userinfo.ui \

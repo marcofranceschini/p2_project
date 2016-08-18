@@ -48,56 +48,56 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
                         xmlReader.readNext();
                     }
                     user.push_back(new Admin(ad));
-                } else if (xmlReader.name().toString() == "bronze") {
-                    BronzeUser uBronze;
+                } else if (xmlReader.name().toString() == "basic") {
+                    BasicUser uBasic;
                     xmlReader.readNext();
-                    while (xmlReader.name().toString() != "bronze") {
+                    while (xmlReader.name().toString() != "basic") {
                         if (xmlReader.name().toString() == "name")
-                            uBronze.setName(xmlReader.readElementText().toStdString());
+                            uBasic.setName(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "surname")
-                            uBronze.setSurname(xmlReader.readElementText().toStdString());
+                            uBasic.setSurname(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "address")
-                            uBronze.setAddress(xmlReader.readElementText().toStdString());
+                            uBasic.setAddress(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "telephone")
-                            uBronze.setTelephone(xmlReader.readElementText().toInt());  // INT
+                            uBasic.setTelephone(xmlReader.readElementText().toInt());  // INT
                         if (xmlReader.name().toString() == "code")
-                            uBronze.setCode(xmlReader.readElementText().toStdString());
+                            uBasic.setCode(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "username")
-                            uBronze.setUsername(xmlReader.readElementText().toStdString());
+                            uBasic.setUsername(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "pin")
-                            uBronze.setPin(xmlReader.readElementText().toInt());    // INT
+                            uBasic.setPin(xmlReader.readElementText().toInt());    // INT
                         if(xmlReader.name().toString() == "count")
-                            uBronze.setCount(xmlReader.readElementText().toDouble());   // DOUBLE
+                            uBasic.setCount(xmlReader.readElementText().toDouble());   // DOUBLE
                         if(xmlReader.name().toString() == "countNumber")
-                            uBronze.setCountNumber(xmlReader.readElementText().toInt());
+                            uBasic.setCountNumber(xmlReader.readElementText().toInt());
                         xmlReader.readNext();
                     }
-                    user.push_back(new BronzeUser(uBronze));
-                } else if (xmlReader.name().toString() == "silver") {
-                    SilverUser uSilver;
+                    user.push_back(new BasicUser(uBasic));
+                } else if (xmlReader.name().toString() == "pro") {
+                    ProUser uPro;
                     xmlReader.readNext();
-                    while (xmlReader.name().toString() != "silver") {
+                    while (xmlReader.name().toString() != "pro") {
                         if (xmlReader.name().toString() == "name")
-                            uSilver.setName(xmlReader.readElementText().toStdString());
+                            uPro.setName(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "surname")
-                            uSilver.setSurname(xmlReader.readElementText().toStdString());
+                            uPro.setSurname(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "address")
-                            uSilver.setAddress(xmlReader.readElementText().toStdString());
+                            uPro.setAddress(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "telephone")
-                            uSilver.setTelephone(xmlReader.readElementText().toInt()); // INT
+                            uPro.setTelephone(xmlReader.readElementText().toInt()); // INT
                         if (xmlReader.name().toString() == "code")
-                            uSilver.setCode(xmlReader.readElementText().toStdString());
+                            uPro.setCode(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "username")
-                            uSilver.setUsername(xmlReader.readElementText().toStdString());
+                            uPro.setUsername(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "pin")
-                            uSilver.setPin(xmlReader.readElementText().toInt()); // INT
+                            uPro.setPin(xmlReader.readElementText().toInt()); // INT
                         if(xmlReader.name().toString() == "count")
-                            uSilver.setCount(xmlReader.readElementText().toDouble());    // DOUBLEE
+                            uPro.setCount(xmlReader.readElementText().toDouble());    // DOUBLEE
                         if(xmlReader.name().toString() == "countNumber")
-                            uSilver.setCountNumber(xmlReader.readElementText().toInt());
+                            uPro.setCountNumber(xmlReader.readElementText().toInt());
                         xmlReader.readNext();
                     }
-                    user.push_back(new SilverUser(uSilver));
+                    user.push_back(new ProUser(uPro));
                 }
             }
         }
@@ -125,7 +125,22 @@ bool DataBase::verifyAdmin (const string& u) const {
 }
 
 
-bool DataBase::verifyAllUsername (const string& usr) const {
+bool DataBase::verifyExistingUsername (const string& u) const {
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
+        if (b && b->getUsername() == u)
+                return true;
+    }
+    return false;
+}
+
+bool DataBase::verifyExistingCountNumber (const int& c) const {
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
+        if (b && b->getCountNumber() == c)
+                return true;
+    }
+    return false;
 
 }
 
@@ -139,18 +154,24 @@ bool DataBase::verifyAllUsername (const string& usr) const {
 
 bool DataBase::verifyLogin (const string& usr, const int& pin) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        if (user[it]->getUsername() == usr) {
-            if (user[it]->getPin() == pin)
+        if (user[it]->getUsername() == usr && user[it]->getPin() == pin)
                 return true;
-            else
-                return false;
-        }
     }
     return false;
 }
 
-/*bool DataBase::loadBronze () { // Carico gli utenti bronze nel contenitore
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/bronze.xml");
+bool DataBase::addUser (const BasicUser& u) {
+    BasicUser* ncu = const_cast <BasicUser*> (&u);
+    if (u.getCount() < 100000) {
+        user.push_back(ncu);
+    } else {
+        user.push_back(new ProUser(*ncu));
+    }
+    this->write();
+}
+
+/*bool DataBase::loadBasic () { // Carico gli utenti Basic nel contenitore
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/Basic.xml");
     if (file->exists()) {
             file->open(QIODevice::ReadOnly);
             QXmlStreamReader xmlReader(file);
@@ -160,31 +181,31 @@ bool DataBase::verifyLogin (const string& usr, const int& pin) const {
                 if (xmlReader.isStartElement()) {
                     // string a = (xmlReader.name().toString()).toUtf8().constData();
                     // cout<<a;
-                    if (xmlReader.name().toString() == "bronze") {
-                        BronzeUser uBronze;
+                    if (xmlReader.name().toString() == "Basic") {
+                        BasicUser uBasic;
                         xmlReader.readNext();
-                        while (xmlReader.name().toString() != "bronze") {
+                        while (xmlReader.name().toString() != "Basic") {
                             if (xmlReader.name().toString() == "name")
-                                uBronze.setName(xmlReader.readElementText().toStdString());
+                                uBasic.setName(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "surname")
-                                uBronze.setSurname(xmlReader.readElementText().toStdString());
+                                uBasic.setSurname(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "address")
-                                uBronze.setAddress(xmlReader.readElementText().toStdString());
+                                uBasic.setAddress(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "telephone")
-                                uBronze.setTelephone(xmlReader.readElementText().toInt());  // INT
+                                uBasic.setTelephone(xmlReader.readElementText().toInt());  // INT
                             if (xmlReader.name().toString() == "code")
-                                uBronze.setCode(xmlReader.readElementText().toStdString());
+                                uBasic.setCode(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "username")
-                                uBronze.setUsername(xmlReader.readElementText().toStdString());
+                                uBasic.setUsername(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "pin")
-                                uBronze.setPin(xmlReader.readElementText().toInt());    // INT
+                                uBasic.setPin(xmlReader.readElementText().toInt());    // INT
                             if(xmlReader.name().toString() == "count")
-                                uBronze.setCount(xmlReader.readElementText().toDouble());   // DOUBLE
+                                uBasic.setCount(xmlReader.readElementText().toDouble());   // DOUBLE
                             if(xmlReader.name().toString() == "countNumber")
-                                uBronze.setCountNumber(xmlReader.readElementText().toInt());
+                                uBasic.setCountNumber(xmlReader.readElementText().toInt());
                             xmlReader.readNext();
                         }
-                        user.push_back(new BronzeUser(uBronze));
+                        user.push_back(new BasicUser(uBasic));
                     }
                 }
             }
@@ -195,41 +216,52 @@ bool DataBase::verifyLogin (const string& usr, const int& pin) const {
         return false;
 }*/
 
-bool DataBase::verifyStillSame (const BronzeUser& u) {
+bool DataBase::verifyStillSame (const BasicUser& usr) {
     int cont = 0;   // Per sapere in quale posizione del Container l'oggetto si trova
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        BronzeUser* b = dynamic_cast<BronzeUser*> (user[it]);
-        if (b && b->getUsername() != bronze.getUsername())
+        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
+        if (!b || (b && b->getUsername() != usr.getUsername()))
             cont ++;
         else
             break;
     }
     user.remove(cont); // Rimuove il "vecchio" utente dalla lista
+    BasicUser* u = const_cast<BasicUser*> (&usr);
 
-    if (100000 <= u.getCount() && !dynamic_cast<SilverUser> (u)) {
-        // L'utente Bronze e deve diventare Silver
-        SilverUser *s = new SilverUser (bronze);
-        user.push_back(s); // Inserisce il "nuovo" utente silver nella lista di appartenenza
-        return false;
-    } else if (u.getCount() < 100000 && dynamic_cast<SilverUser> (u)) {
-        // E
-        return false;
+    if (100000 <= u->getCount() && !dynamic_cast<ProUser*> (u)) {
+        // L'utente è Basic e deve diventare Pro
+        ProUser *s = new ProUser (*u);
+
+        user.push_back(s->clone()); // Inserisce il "nuovo" utente Pro nella lista
+
+    } else if (u->getCount() < 100000 && dynamic_cast<ProUser*> (u)) {
+        // L'utente è Pro e deve diventare Basic
+        ProUser* s = dynamic_cast<ProUser*> (u);
+        BasicUser* b = new BasicUser (*s);
+        user.push_back(b->clone());
     } else {
-        // L'utente non ha cambiato "tipo" ma va comunque aggiornato il DB
-        int cont = 0;
+        // L'utente non ha cambiato "tipo", ma va comunque aggiornato il DB
+        /*int cont = 0;
         for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-            BronzeUser* b = dynamic_cast<BronzeUser*> (user[it]);
-            if (b && b->getUsername() != bronze.getUsername())
+            BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
+            if (b && b->getUsername() != Basic.getUsername())
                 cont ++;
             else
                 break;
+        }*/
+        //user.remove(cont); // Rimuove il "vecchio" utente Basic dalla lista degli utenti Basic
+        if (dynamic_cast<ProUser*> (u)) { // È un utente Pro
+            ProUser* s = dynamic_cast<ProUser*> (u);
+            user.push_back(s->clone()); // Inserisce il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
+        } else { // È un utente Basic
+            user.push_back(u->clone());  // Inserisco il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
         }
-        user.remove(cont); // Rimuove il "vecchio" utente bronze dalla lista degli utenti bronze
-        BronzeUser app = bronze;
-        user.push_back(&app); // Inserisce il "nuovo" utente bronze (con conto aggiornato) nella lista di appartenenza
+        //delete u; // ATTENZIONE
         this->write();
         return true;
     }
+    this->write();
+    return false;
 }
 
 User* DataBase::getUser (const string& usr) const {
@@ -239,9 +271,9 @@ User* DataBase::getUser (const string& usr) const {
     }
 }
 
-/*bool DataBase::verifyLoginBronze (const string& usr, const int& pin) const {
+/*bool DataBase::verifyLoginBasic (const string& usr, const int& pin) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        BronzeUser* b = dynamic_cast<BronzeUser*> (user[it]);
+        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
         if (b && b->getUsername() == usr) {
             if (b->getPin() == pin)
                 return true;
@@ -252,9 +284,9 @@ User* DataBase::getUser (const string& usr) const {
     return false;
 }*/
 
-/*bool DataBase::verifyNumberBronze (const int& number) const {
+/*bool DataBase::verifyNumberBasic (const int& number) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        BronzeUser* b = dynamic_cast<BronzeUser*> (user[it]);
+        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
         if (b && b->getCountNumber() == number)
             return true;
     }
@@ -263,31 +295,31 @@ User* DataBase::getUser (const string& usr) const {
 
 User* DataBase::getUserByCountNumber (const int& conto) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        BronzeUser* b = dynamic_cast<BronzeUser*> (user[it]);
+        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
         if (b && b->getCountNumber() == conto)
             return user[it]->clone();
     }
 }
 
-bool DataBase::fromBronzeToSilver (const BronzeUser& bronze) {  // L'utente passa da Bronze a Silver
-        //SilverUser s = new SilverUser (b.getName(), b.getSurname(), b.getAddress(), b.getTelephone(), b.getUsername(), b.getCode(), b.getPin(), b.getCountNumber(), b.getCount());
-        SilverUser *s = new SilverUser (bronze);
+/*bool DataBase::fromBasicToPro (const BasicUser& Basic) {  // L'utente passa da Basic a Pro
+        //ProUser s = new ProUser (b.getName(), b.getSurname(), b.getAddress(), b.getTelephone(), b.getUsername(), b.getCode(), b.getPin(), b.getCountNumber(), b.getCount());
+        ProUser *s = new ProUser (Basic);
 
         int cont = 0;
         for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-            BronzeUser* b = dynamic_cast<BronzeUser*> (user[it]);
-            if (b && b->getUsername() != bronze.getUsername())
+            BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
+            if (b && b->getUsername() != Basic.getUsername())
                 cont ++;
             else
                 break;
         }
-        user.remove(cont); // Rimuove il "vecchio" utente bronze dalla lista degli utenti bronze
-        user.push_back(s); // Inserisce il "nuovo" utente silver nella lista di appartenenza
+        user.remove(cont); // Rimuove il "vecchio" utente Basic dalla lista degli utenti Basic
+        user.push_back(s); // Inserisce il "nuovo" utente Pro nella lista di appartenenza
         if (this->write() && this->write())
             return false;
         else
             return true;
-}
+}*/
 
 bool DataBase::remove (const User& u) {
     int cont = 0;
@@ -300,7 +332,7 @@ bool DataBase::remove (const User& u) {
 }
 
 bool DataBase::write () {
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/user.xml");
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/users.xml");
     file->open(QIODevice::WriteOnly);
     QXmlStreamWriter xmlWriter(file);
     xmlWriter.setAutoFormatting(true);
@@ -309,31 +341,31 @@ bool DataBase::write () {
     xmlWriter.writeStartElement("users");
 
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        BronzeUser* b = dynamic_cast<BronzeUser*> (user[it]);
-        if (b) {
-            xmlWriter.writeStartElement("bronze");
-            xmlWriter.writeTextElement("name", QString::fromStdString(b->getName()));
-            xmlWriter.writeTextElement("surname", QString::fromStdString(b->getSurname()));
-            xmlWriter.writeTextElement("address", QString::fromStdString(b->getAddress()));
-            xmlWriter.writeTextElement("telephone", QString::number(b->getTelephone()));
-            xmlWriter.writeTextElement("code", QString::fromStdString(b->getCode()));
-            xmlWriter.writeTextElement("username", QString::fromStdString(b->getUsername()));
-            xmlWriter.writeTextElement("pin", QString::number(b->getPin()));
-            xmlWriter.writeTextElement("count", QString::number(b->getCount()));
-            xmlWriter.writeTextElement("countNumber", QString::number(b->getCountNumber()));
+        ProUser* s = dynamic_cast<ProUser*> (user[it]);
+        if (s) {
+            xmlWriter.writeStartElement("pro");
+            xmlWriter.writeTextElement("name", QString::fromStdString(s->getName()));
+            xmlWriter.writeTextElement("surname", QString::fromStdString(s->getSurname()));
+            xmlWriter.writeTextElement("address", QString::fromStdString(s->getAddress()));
+            xmlWriter.writeTextElement("telephone", QString::number(s->getTelephone()));
+            xmlWriter.writeTextElement("code", QString::fromStdString(s->getCode()));
+            xmlWriter.writeTextElement("username", QString::fromStdString(s->getUsername()));
+            xmlWriter.writeTextElement("pin", QString::number(s->getPin()));
+            xmlWriter.writeTextElement("count", QString::number(s->getCount()));
+            xmlWriter.writeTextElement("countNumber", QString::number(s->getCountNumber()));
         } else {
-            SilverUser* s = dynamic_cast<SilverUser*> (user[it]);
-            if (s) {
-                xmlWriter.writeStartElement("silver");
-                xmlWriter.writeTextElement("name", QString::fromStdString(s->getName()));
-                xmlWriter.writeTextElement("surname", QString::fromStdString(s->getSurname()));
-                xmlWriter.writeTextElement("address", QString::fromStdString(s->getAddress()));
-                xmlWriter.writeTextElement("telephone", QString::number(s->getTelephone()));
-                xmlWriter.writeTextElement("code", QString::fromStdString(s->getCode()));
-                xmlWriter.writeTextElement("username", QString::fromStdString(s->getUsername()));
-                xmlWriter.writeTextElement("pin", QString::number(s->getPin()));
-                xmlWriter.writeTextElement("count", QString::number(s->getCount()));
-                xmlWriter.writeTextElement("countNumber", QString::number(s->getCountNumber()));
+            BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
+            if (b) {
+                xmlWriter.writeStartElement("basic");
+                xmlWriter.writeTextElement("name", QString::fromStdString(b->getName()));
+                xmlWriter.writeTextElement("surname", QString::fromStdString(b->getSurname()));
+                xmlWriter.writeTextElement("address", QString::fromStdString(b->getAddress()));
+                xmlWriter.writeTextElement("telephone", QString::number(b->getTelephone()));
+                xmlWriter.writeTextElement("code", QString::fromStdString(b->getCode()));
+                xmlWriter.writeTextElement("username", QString::fromStdString(b->getUsername()));
+                xmlWriter.writeTextElement("pin", QString::number(b->getPin()));
+                xmlWriter.writeTextElement("count", QString::number(b->getCount()));
+                xmlWriter.writeTextElement("countNumber", QString::number(b->getCountNumber()));
             } else {
                 Admin* a = dynamic_cast<Admin*> (user[it]);
                 xmlWriter.writeStartElement("admin");
@@ -358,8 +390,8 @@ bool DataBase::write () {
 }
 
 
-/*bool DataBase::loadSilver () { // Carico gli utenti silver nel contenitore
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/silver.xml");
+/*bool DataBase::loadPro () { // Carico gli utenti Pro nel contenitore
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/Pro.xml");
     if (file->exists()) {
             file->open(QIODevice::ReadOnly);
             QXmlStreamReader xmlReader(file);
@@ -370,31 +402,31 @@ bool DataBase::write () {
                 if (xmlReader.isStartElement()) {
                     // string a = (xmlReader.name().toString()).toUtf8().constData();
                     // cout<<a;
-                    if (xmlReader.name().toString() == "silver") {
-                        SilverUser uSilver;
+                    if (xmlReader.name().toString() == "Pro") {
+                        ProUser uPro;
                         xmlReader.readNext();
-                        while (xmlReader.name().toString() != "silver") {
+                        while (xmlReader.name().toString() != "Pro") {
                             if (xmlReader.name().toString() == "name")
-                                uSilver.setName(xmlReader.readElementText().toStdString());
+                                uPro.setName(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "surname")
-                                uSilver.setSurname(xmlReader.readElementText().toStdString());
+                                uPro.setSurname(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "address")
-                                uSilver.setAddress(xmlReader.readElementText().toStdString());
+                                uPro.setAddress(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "telephone")
-                                uSilver.setTelephone(xmlReader.readElementText().toInt()); // INT
+                                uPro.setTelephone(xmlReader.readElementText().toInt()); // INT
                             if (xmlReader.name().toString() == "code")
-                                uSilver.setCode(xmlReader.readElementText().toStdString());
+                                uPro.setCode(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "username")
-                                uSilver.setUsername(xmlReader.readElementText().toStdString());
+                                uPro.setUsername(xmlReader.readElementText().toStdString());
                             if (xmlReader.name().toString() == "pin")
-                                uSilver.setPin(xmlReader.readElementText().toInt()); // INT
+                                uPro.setPin(xmlReader.readElementText().toInt()); // INT
                             if(xmlReader.name().toString() == "count")
-                                uSilver.setCount(xmlReader.readElementText().toDouble());    // DOUBLEE
+                                uPro.setCount(xmlReader.readElementText().toDouble());    // DOUBLEE
                             if(xmlReader.name().toString() == "countNumber")
-                                uSilver.setCountNumber(xmlReader.readElementText().toInt());
+                                uPro.setCountNumber(xmlReader.readElementText().toInt());
                             xmlReader.readNext();
                         }
-                        user.push_back(new SilverUser(uSilver));
+                        user.push_back(new ProUser(uPro));
                     }
                 }
             }
@@ -405,17 +437,17 @@ bool DataBase::write () {
         return false;
 }*/
 
-/*SilverUser DataBase::getSilver (const string& usr) const {
+/*ProUser DataBase::getPro (const string& usr) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        SilverUser* s = dynamic_cast<SilverUser*> (user[it]);
+        ProUser* s = dynamic_cast<ProUser*> (user[it]);
         if (s && s->getUsername() == usr)
             return *s;
     }
 }*/
 
-/*bool DataBase::verifyLoginSilver (const string& usr, const int& pin) const {
+/*bool DataBase::verifyLoginPro (const string& usr, const int& pin) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        SilverUser* s = dynamic_cast<SilverUser*> (user[it]);
+        ProUser* s = dynamic_cast<ProUser*> (user[it]);
         if (s && s->getUsername() == usr && s->getPin() == pin)
             return true;
         else
@@ -424,39 +456,39 @@ bool DataBase::write () {
     return false;
 }*/
 
-bool DataBase::verifyNumberSilver (const int& number) const {
+bool DataBase::verifyNumberPro (const int& number) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        SilverUser* s = dynamic_cast<SilverUser*> (user[it]);
+        ProUser* s = dynamic_cast<ProUser*> (user[it]);
         if (s && s->getCountNumber() == number)
             return true;
     }
     return false;
 }
 
-/*SilverUser DataBase::getSilverByCount (const int& conto) const {
+/*ProUser DataBase::getProByCount (const int& conto) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        SilverUser* s = dynamic_cast<SilverUser*> (user[it]);
+        ProUser* s = dynamic_cast<ProUser*> (user[it]);
         if (s && s->getCountNumber() == conto)
             return *s;
     }
 }*/
 
-bool DataBase::verifyStillSilver (const SilverUser& silver) {
-    if (silver.getCount() < 100000) {   // L'utente passa a bronze
-        //SilverUser s = new SilverUser (b.getName(), b.getSurname(), b.getAddress(), b.getTelephone(), b.getUsername(), b.getCode(), b.getPin(), b.getCountNumber(), b.getCount());
-        BronzeUser *b = new BronzeUser (silver);
+/*bool DataBase::verifyStillPro (const ProUser& Pro) {
+    if (Pro.getCount() < 100000) {   // L'utente passa a Basic
+        //ProUser s = new ProUser (b.getName(), b.getSurname(), b.getAddress(), b.getTelephone(), b.getUsername(), b.getCode(), b.getPin(), b.getCountNumber(), b.getCount());
+        BasicUser *b = new BasicUser (Pro);
 
         int cont = 0;
         for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-            SilverUser* s = dynamic_cast<SilverUser*> (user[it]);
-            if (s && s->getUsername() != silver.getUsername())
+            ProUser* s = dynamic_cast<ProUser*> (user[it]);
+            if (s && s->getUsername() != Pro.getUsername())
                 cont ++;
             else
                 break;
         }
-        user.remove(cont); // Rimuove il "vecchio" utente silver dalla lista degli utenti silver
+        user.remove(cont); // Rimuove il "vecchio" utente Pro dalla lista degli utenti Pro
 
-        user.push_back(b); // Inserisce il "nuovo" utente bronze nella lista di appartenenza
+        user.push_back(b); // Inserisce il "nuovo" utente Basic nella lista di appartenenza
 
         if (this->write() && this->write())
             return false;
@@ -465,42 +497,42 @@ bool DataBase::verifyStillSilver (const SilverUser& silver) {
     } else {
         int cont = 0;
         for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-            SilverUser* s = dynamic_cast<SilverUser*> (user[it]);
-            if (s && s->getUsername() != silver.getUsername())
+            ProUser* s = dynamic_cast<ProUser*> (user[it]);
+            if (s && s->getUsername() != Pro.getUsername())
                 cont ++;
             else
                 break;
         }
-        user.remove(cont); // Rimuove il "vecchio" utente bronze dalla lista degli utenti bronze
-        SilverUser app = static_cast<SilverUser>(silver);
-        user.push_back(&app); // Inserisce il "nuovo" utente bronze (con conto aggiornato) nella lista di appartenenza
+        user.remove(cont); // Rimuove il "vecchio" utente Basic dalla lista degli utenti Basic
+        ProUser app = static_cast<ProUser>(Pro);
+        user.push_back(&app); // Inserisce il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
         this->write();
         return true;
     }
-}
+}*/
 
-/*bool DataBase::removeSilver (const SilverUser& silver) {
+/*bool DataBase::removePro (const ProUser& Pro) {
     int cont = 0;
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        SilverUser* s = dynamic_cast<SilverUser*> (user[it]);
-        if (s && s->getUsername() == silver.getUsername()) break;
+        ProUser* s = dynamic_cast<ProUser*> (user[it]);
+        if (s && s->getUsername() == Pro.getUsername()) break;
         cont++;
     }
     user.remove(cont);
 }*/
 
-/*bool DataBase::writeSilver () {
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/silver.xml");
+/*bool DataBase::writePro () {
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/Pro.xml");
     file->open(QIODevice::WriteOnly);
     QXmlStreamWriter xmlWriter(file);
     xmlWriter.setAutoFormatting(true);
 
     xmlWriter.writeStartDocument();
-    xmlWriter.writeStartElement("silvers");
+    xmlWriter.writeStartElement("Pros");
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        SilverUser* s = dynamic_cast<SilverUser*> (user[it]);
+        ProUser* s = dynamic_cast<ProUser*> (user[it]);
         if (s) {
-            xmlWriter.writeStartElement("silver");
+            xmlWriter.writeStartElement("Pro");
             xmlWriter.writeTextElement("name", QString::fromStdString(s->getName()));
             xmlWriter.writeTextElement("surname", QString::fromStdString(s->getSurname()));
             xmlWriter.writeTextElement("address", QString::fromStdString(s->getAddress()));

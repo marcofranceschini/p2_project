@@ -3,10 +3,9 @@ using namespace std;
 #include "ui_userinfo.h"
 #include "mainwindow.h"
 #include "QMessageBox"
-#include "bronzeuser.h"
 #include "database.h"
-#include "bronzeuser.h"
-#include "silveruser.h"
+#include "basicuser.h"
+#include "prouser.h"
 #include "QStandardItemModel"
 
 UserInfo::UserInfo(QWidget *parent):QDialog(parent), ui(new Ui::UserInfo) {
@@ -19,7 +18,7 @@ UserInfo::~UserInfo() {
 
 void UserInfo::setUser (const User& cu) {
     User* ncu = const_cast<User*> (&cu);
-    BronzeUser* u = dynamic_cast<BronzeUser*> (ncu);
+    BasicUser* u = dynamic_cast<BasicUser*> (ncu);
 
     ui->label_4->setText(QString::fromStdString(u->getName()));     // Nome
     ui->label_5->setText(QString::fromStdString(u->getSurname()));  // Cognome
@@ -34,34 +33,34 @@ void UserInfo::setUser (const User& cu) {
     ui->label_22->setText(QString::number(u->getCount()));          // Saldo ricarica
     ui->label_66->setText(QString::number(u->getCount()));          // Saldo
 
-    if (dynamic_cast<SilverUser*> (u))
-        ui->label_6->setText("Silver");                             // Tipo conto
+    if (dynamic_cast<ProUser*> (u))
+        ui->label_6->setText("Pro");                             // Tipo conto
     else
-        ui->label_6->setText("Bronze");                             // Tipo conto
+        ui->label_6->setText("Basic");                             // Tipo conto
 
     this->setTable(cu);
 }
 
-/*void UserInfo::setSilver (SilverUser const& s) {
+/*void UserInfo::setPro (ProUser const& s) {
     userS = s;
     sf = true;
 
-    ui->label_4->setText(QString::fromStdString(silver->getName()));  // Nome
-    ui->label_5->setText(QString::fromStdString(silver->getSurname()));     // Cognome
-    ui->label_6->setText("Silver"); // Tipo conto
-    ui->label_10->setText(QString::number(silver->getTotalTax()));  // Tasse anno
-    ui->label_11->setText(QString::number(silver->getTotalBonus()));  // Bonus anno
-    ui->label_24->setText(QString::number(silver->getCountNumber()));  // Numero conto
-    ui->label_12->setText(QString::number(silver->getCount()));   // Saldo
-    ui->label_19->setText(QString::number(silver->getCount()));   // Saldo prelievo
-    ui->label_22->setText(QString::number(silver->getCount()));   // Saldo ricarica
-    ui->label_66->setText(QString::number(silver->getCount()));   // Saldo
+    ui->label_4->setText(QString::fromStdString(Pro->getName()));  // Nome
+    ui->label_5->setText(QString::fromStdString(Pro->getSurname()));     // Cognome
+    ui->label_6->setText("Pro"); // Tipo conto
+    ui->label_10->setText(QString::number(Pro->getTotalTax()));  // Tasse anno
+    ui->label_11->setText(QString::number(Pro->getTotalBonus()));  // Bonus anno
+    ui->label_24->setText(QString::number(Pro->getCountNumber()));  // Numero conto
+    ui->label_12->setText(QString::number(Pro->getCount()));   // Saldo
+    ui->label_19->setText(QString::number(Pro->getCount()));   // Saldo prelievo
+    ui->label_22->setText(QString::number(Pro->getCount()));   // Saldo ricarica
+    ui->label_66->setText(QString::number(Pro->getCount()));   // Saldo
     //ui->label_70->setText("3% = 30 €"); // Costo per diventare gold in base alla percentuale sul saldo
     //ui->label_71->setText("+ 5 %"); // Aumento tasse gold fisse
     //ui->label_73->setText("+ 5.5 %"); // Aumento bonus gold fisso
-    ui->label_75->setText(QString::fromStdString(silver->getCode())); // Codice fiscale
-    ui->label_77->setText(QString::number(silver->getTelephone())); // Numero di telefono
-    ui->label_78->setText(QString::fromStdString(silver->getUsername())); // Username
+    ui->label_75->setText(QString::fromStdString(Pro->getCode())); // Codice fiscale
+    ui->label_77->setText(QString::number(Pro->getTelephone())); // Numero di telefono
+    ui->label_78->setText(QString::fromStdString(Pro->getUsername())); // Username
 
 
     this->setTable();
@@ -70,7 +69,7 @@ void UserInfo::setUser (const User& cu) {
 }*/
 /*MessagesDataBase* message = new MessagesDataBase();
 if (message->loadMessages()) {
-    int mex = message->countMessage(silver->getUsername());
+    int mex = message->countMessage(Pro->getUsername());
     if (0 < mex) {
 
         // QStandardItemModel(int rows, int columns, QObject * parent = 0)
@@ -91,7 +90,7 @@ if (message->loadMessages()) {
         );
 
         //int num = 0;
-        Container<Message> app = message->getMessageByUser(silver->getUsername());
+        Container<Message> app = message->getMessageByUser(Pro->getUsername());
         Container<Message>::Iteratore it = app.begin();
         for (int row = 0; row < mex; ++row) {
             for (int col = 0; col < 2; ++col) {
@@ -202,7 +201,7 @@ void UserInfo::on_toolButton_3_clicked() {  // Prelievo
 
     if (cifra > 0) {
         // Tolgo l'importo dal conto dell'utente loggato
-        if (bf) {   // E' un utente bronze
+        if (bf) {   // E' un utente Basic
             if (0 <= userB.getCount()-cifra) {
                 userB.setCount(userB.getCount()-cifra);
                 flag = true;
@@ -213,9 +212,9 @@ void UserInfo::on_toolButton_3_clicked() {  // Prelievo
                     tr("Credito insufficiente")
                 );
             }
-        } else {    // Utente silver
-            if (0 <= silver->getCount()-cifra) {
-                silver->setCount(silver->getCount()-cifra);
+        } else {    // Utente Pro
+            if (0 <= Pro->getCount()-cifra) {
+                Pro->setCount(Pro->getCount()-cifra);
                 flag = true;
             } else {
                 QMessageBox::information(
@@ -226,15 +225,15 @@ void UserInfo::on_toolButton_3_clicked() {  // Prelievo
             }
         }
 
-        bool bronze = false;
+        bool Basic = false;
         // Ricarico il conto di destinazione
         if (flag) {
             DataBase d;
-            if (d.loadBronze()) {   // Carico gli utenti bronze
-                if (d.verifyNumberBronze(conto)) {   // Verifico che il numero di conto sia di un utente bronze
-                    BronzeUser b = d.getBronzeByCount(conto);
+            if (d.loadBasic()) {   // Carico gli utenti Basic
+                if (d.verifyNumberBasic(conto)) {   // Verifico che il numero di conto sia di un utente Basic
+                    BasicUser b = d.getBasicByCount(conto);
                     b.setCount(b.getCount()+cifra);
-                    bronze = true;
+                    Basic = true;
 
                     ui->label_12->setText(QString::number(userB.getCount()));   // Saldo
                     ui->label_19->setText(QString::number(userB.getCount()));   // Saldo prelievo
@@ -246,24 +245,24 @@ void UserInfo::on_toolButton_3_clicked() {  // Prelievo
                 QMessageBox::warning(
                     this,
                     tr("BankQ - Errore"),
-                    tr("Errore di caricamento (bronze)")
+                    tr("Errore di caricamento (Basic)")
                 );
             }
 
-            bool silver = false;
+            bool Pro = false;
 
-            if (!bronze) {
-                if (d.loadSilver()) {   // Carico gli utenti silver
-                    if (d.verifyNumberSilver(conto)) {   // Verifico che il numero di conto sia di un utente silver
-                        SilverUser s = d.getSilverByCount(conto);
+            if (!Basic) {
+                if (d.loadPro()) {   // Carico gli utenti Pro
+                    if (d.verifyNumberPro(conto)) {   // Verifico che il numero di conto sia di un utente Pro
+                        ProUser s = d.getProByCount(conto);
                         s.setCount(s.getCount()+cifra);
-                        silver = true;
+                        Pro = true;
 
-                        ui->label_12->setText(QString::number(silver->getCount()));   // Saldo
-                        ui->label_19->setText(QString::number(silver->getCount()));   // Saldo prelievo
-                        ui->label_22->setText(QString::number(silver->getCount()));   // Saldo ricarica
-                        ui->label_66->setText(QString::number(silver->getCount()));   // Saldo
-                    } else {    // Se il numero non è né silver né bronze allora è errato
+                        ui->label_12->setText(QString::number(Pro->getCount()));   // Saldo
+                        ui->label_19->setText(QString::number(Pro->getCount()));   // Saldo prelievo
+                        ui->label_22->setText(QString::number(Pro->getCount()));   // Saldo ricarica
+                        ui->label_66->setText(QString::number(Pro->getCount()));   // Saldo
+                    } else {    // Se il numero non è né Pro né Basic allora è errato
 
                         QMessageBox::information(
                             this,
@@ -275,16 +274,16 @@ void UserInfo::on_toolButton_3_clicked() {  // Prelievo
                     QMessageBox::warning(
                         this,
                         tr("BankQ - Errore"),
-                        tr("Errore di caricamento (silver)")
+                        tr("Errore di caricamento (Pro)")
                     );
                 }
             }
             // Se non ho trovato un numero di conto ritorno l'importo prelevato
-            if (!bronze && !silver) {
-                if (bf) // E' un utente bronze
+            if (!Basic && !Pro) {
+                if (bf) // E' un utente Basic
                     userB.setCount(userB.getCount()+cifra);
                 else
-                    silver->setCount(silver->getCount()+cifra);
+                    Pro->setCount(Pro->getCount()+cifra);
             } else {
                 QMessageBox::information(
                     this,
@@ -312,7 +311,7 @@ void UserInfo::on_toolButton_3_clicked() {  // Prelievo
     );*/
     //Messaggio di avvenuto prelievo
 
-    // Verifico se l'utente scende ad utente bronze + messaggio
+    // Verifico se l'utente scende ad utente Basic + messaggio
 
 }
 
@@ -330,67 +329,76 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
         DataBase d;
         if (d.load()) {
             User* m_app = d.getUser(username);
-            BronzeUser* mittente = dynamic_cast<BronzeUser*> (m_app); // Username dell'utente loggato
-            // Tolgo l'importo dal conto dell'utente loggato
+            BasicUser* mittente = dynamic_cast<BasicUser*> (m_app); // Username dell'utente loggato
+
+            QString st =QString::fromStdString(mittente->getName());    // DA RIMUOVERE
+            qDebug("MMM-" + st.toLatin1() + "-MMM");                    // DA RIMUOVERE
+
             if (mittente->getCountNumber() != conto) {      // Verifico che il conto da ricarica e quello dell'utente loggato siano diversi
                 if (0 <= mittente->getCount() - cifra) {    // Verifico che il conto abbia sufficiente credito
 
                     User* r_app = d.getUserByCountNumber(conto);  // Username del "ricevente"
-                    BronzeUser* ricevente = dynamic_cast<BronzeUser*> (r_app);
+                    BasicUser* ricevente = dynamic_cast<BasicUser*> (r_app);
 
+                    QString st =QString::fromStdString(ricevente->getName());    // DA RIMUOVERE
+                    qDebug("RRR-" + st.toLatin1() + "-RRR");                    // DA RIMUOVERE
 
+                    // Aggiunto l'importo al conto dell'utente "ricevente"
                     ricevente->setCount(ricevente->getCount() + cifra);
                     QString qstr = "Ricevuta una ricarica di € " + QString::number(cifra);
                     string str = qstr.toUtf8().constData();
                     MessagesDataBase m;
-                    if (m.loadMessages())
+                    if (m.loadMessages())   {
+                        // Messaggio per la ricarica ricevuta
                         m.addMessage(*new Message(ricevente->getUsername(), mittente->getUsername(), str));
 
-                    if (d.verifyStillSame(*ricevente)) {    // Se l'utente era Bronze allora diventa Silver, altrimenti non accade "nulla"
-                        m.addMessage(*new Message(b->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo SILVER"));
+                        // Messaggio per un'eventuale passaggio da Basic a Pro
+                        if (!d.verifyStillSame(*ricevente))   // Se l'utente è Basic allora può diventare Pro, altrimenti non accade "nulla"
+                            // Se l'utente passa a Pro invio un messaggio
+                            m.addMessage(*new Message(ricevente->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro"));
+                    } else {
+                        QMessageBox::warning(
+                            this,
+                            tr("BankQ - Errore"),
+                            tr("Errore di caricamento (messaggi)")
+                        );
                     }
                         // MANDO UN MESSAGGIO PER LA RICARICA RICEVUTA
 
 
-                                //SilverUser* silver = dynamic_cast<SilverUser*> (user);
+                     //ProUser* Pro = dynamic_cast<ProUser*> (user);
+                    // Tolgo l'importo dal conto dell'utente loggato
+                    mittente->setCount(mittente->getCount() - cifra);
 
-                                user->setCount(user->getCount() - cifra);
+                    if (!d.verifyStillSame(*mittente)) {   // Se l'utente è Pro allora può diventare Basic, altrimenti non accade "nulla"
+                        /*BasicUser* app = new BasicUser(*s);
+                        user = app;
+                        delete app;*/
+                        //delete &userS;    // CAUSA CRASH
+                        ui->label_6->setText("Basic"); // Cambio il tipo di conto
 
-                                if (!d.verifyStillSilver(*user)) {      // Verifico se l'utente che ricarica mantiene il suo "status"
-                                    // Se è bronze non accade nulla oltre alla riscrittura del conto sul DB
-                                    // Se è silver allora nel DB cambia anche tipo di utente
-                                    BronzeUser* app = new BronzeUser(*s);
-                                    user = app;
-                                    delete app;
-                                    //delete &userS;    // CAUSA CRASH
-                                    ui->label_6->setText("Bronze"); // Cambio il tipo di conto
+                        QMessageBox::information(
+                            this,
+                            tr("BankQ - Avviso"),
+                            tr("Con l'ultimo ricarica il tipo di conto è diventanto Basic")
+                        );
+                    }
+                    // Aggiorno la "grafica" del saldo
+                    ui->label_12->setText(QString::number(mittente->getCount()));   // Saldo
+                    ui->label_19->setText(QString::number(mittente->getCount()));   // Saldo prelievo
+                    ui->label_22->setText(QString::number(mittente->getCount()));   // Saldo ricarica
+                    ui->label_66->setText(QString::number(mittente->getCount()));   // Saldo
 
-                                    QMessageBox::information(
-                                        this,
-                                        tr("BankQ - Avviso"),
-                                        tr("Con l'ultimo ricarica il tipo di conto è diventanto bronze")
-                                    );
-                                }
+                    ui->lineEdit_2->setText("");    // Cifra da caricare
+                    ui->lineEdit_3->setText("");    // Numero di conto
 
-                                ui->label_12->setText(QString::number(user->getCount()));   // Saldo
-                                ui->label_19->setText(QString::number(user->getCount()));   // Saldo prelievo
-                                ui->label_22->setText(QString::number(user->getCount()));   // Saldo ricarica
-                                ui->label_66->setText(QString::number(user->getCount()));   // Saldo
-
-                                QMessageBox::information(
-                                    this,
-                                    tr("BankQ - Prelievo"),
-                                    tr("Prelievo avvenuto correttamente")
-                                );
-                        } else {
-                            QMessageBox::warning(
-                                this,
-                                tr("BankQ - Errore"),
-                                tr("Errore di caricamento (messaggi)")
-                            );
-                        }
-                    } else {    // Il "ricevente" è bronze
-                        BronzeUser* b = dynamic_cast<BronzeUser*> (u);
+                    QMessageBox::information(
+                        this,
+                        tr("BankQ - Ricarica"),
+                        tr("Ricarica avvenuta correttamenta")
+                    );
+                    /*} else {    // Il "ricevente" è Basic
+                        BasicUser* b = dynamic_cast<BasicUser*> (u);
                         MainWindow f;   // DA RIMUOVERE
                         f.boom();       // DA RIMUOVERE
                         b->setCount(b->getCount() + cifra);
@@ -398,15 +406,15 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                         MessagesDataBase m;
                         if (m.loadMessages()) {
                             m.addMessage(*new Message(b->getUsername(), user->getUsername(), "Ricevuta una ricarica"));
-                            if (d.verifyStillBronze(*b))    // Verifico se l'utene "ricevente" diventa Silver
-                                m.addMessage(*new Message(b->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo SILVER"));
+                            if (d.verifyStillBasic(*b))    // Verifico se l'utene "ricevente" diventa Pro
+                                m.addMessage(*new Message(b->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro"));
 
-                            //BronzeUser* bronze = dynamic_cast<BronzeUser*> (user);
+                            //BasicUser* Basic = dynamic_cast<BasicUser*> (user);
 
                             user->setCount(user->getCount() - cifra);
 
-                            // L'utente bronze non può "scendere" però verifyStillBronze riscrive nel DB l'utente con il conto decrementato
-                            d.verifyStillBronze(*user);
+                            // L'utente Basic non può "scendere" però verifyStillBasic riscrive nel DB l'utente con il conto decrementato
+                            d.verifyStillBasic(*user);
 
                             ui->label_12->setText(QString::number(user->getCount()));   // Saldo
                             ui->label_19->setText(QString::number(user->getCount()));   // Saldo prelievo
@@ -425,16 +433,16 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                                 tr("Errore di caricamento (messaggi)")
                             );
                         }
-                    }
+                    }*/
                 } else {
-                    QMessageBox::information(
+                    QMessageBox::warning(
                         this,
                         tr("BankQ - Prelievo"),
                         tr("Credito insufficiente")
                     );
                 }
             } else {
-                    QMessageBox::information(
+                    QMessageBox::warning(
                         this,
                         tr("BankQ - Prelievo"),
                         tr("Non è possibile inserire il proprio conto")
@@ -448,34 +456,34 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
             );
         }
     } else {
-        QMessageBox::information(
+        QMessageBox::warning(
             this,
             tr("BankQ - Prelievo"),
             tr("Importo errato")
         );
     }
 
-  /*      bool bronze = false;
-        SilverUser s;
-        BronzeUser b;
+  /*      bool Basic = false;
+        ProUser s;
+        BasicUser b;
         // Ricarico il conto di destinazione
         if (flag) {
             DataBase d;
-            if (d.loadBronze()) {   // Carico gli utenti bronze
-                if (d.verifyNumberBronze(conto)) {   // Verifico che il numero di conto sia di un utente bronze
-                    b = d.getBronzeByCount(conto);  // Username del "ricevente"
+            if (d.loadBasic()) {   // Carico gli utenti Basic
+                if (d.verifyNumberBasic(conto)) {   // Verifico che il numero di conto sia di un utente Basic
+                    b = d.getBasicByCount(conto);  // Username del "ricevente"
                     b.setCount(b.getCount() + cifra);
-                    bronze = true;
-                    if (!d.verifyStillBronze(b)) {
+                    Basic = true;
+                    if (!d.verifyStillBasic(b)) {
                         // MANDO UN MESSAGGIO ALL'UTENTE PER L'AVVENUTO PASSAGGIO E PER LA RICARICA
                         MessagesDataBase m;
                         if (m.loadMessages()) {
                             if (bf) {
                                 m.addMessage(*new Message(b.getUsername(), userB.getUsername(), "Ricevuta una ricarica"));
-                                m.addMessage(*new Message(b.getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo SILVER"));
+                                m.addMessage(*new Message(b.getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro"));
                             } else {
-                                m.addMessage(*new Message(b.getUsername(), silver->getUsername(), "Ricevuta una ricarica"));
-                                m.addMessage(*new Message(b.getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo SILVER"));
+                                m.addMessage(*new Message(b.getUsername(), Pro->getUsername(), "Ricevuta una ricarica"));
+                                m.addMessage(*new Message(b.getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro"));
                             }
                         } else {
                             QMessageBox::warning(
@@ -491,7 +499,7 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                             if (bf)
                                 m.addMessage(*new Message(b.getUsername(), userB.getUsername(), "Ricevuta una ricarica"));
                             else
-                                m.addMessage(*new Message(b.getUsername(), silver->getUsername(), "Ricevuta una ricarica"));
+                                m.addMessage(*new Message(b.getUsername(), Pro->getUsername(), "Ricevuta una ricarica"));
                         }
                     }
                 }
@@ -500,31 +508,31 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                 QMessageBox::warning(
                     this,
                     tr("BankQ - Errore"),
-                    tr("Errore di caricamento (bronze)")
+                    tr("Errore di caricamento (Basic)")
                 );
             }
 
-            bool silver = false;
+            bool Pro = false;
 
-            if (!bronze) {
-                if (d.loadSilver()) {   // Carico gli utenti silver
-                    if (d.verifyNumberSilver(conto)) {   // Verifico che il numero di conto sia di un utente silver
-                        s = d.getSilverByCount(conto);
+            if (!Basic) {
+                if (d.loadPro()) {   // Carico gli utenti Pro
+                    if (d.verifyNumberPro(conto)) {   // Verifico che il numero di conto sia di un utente Pro
+                        s = d.getProByCount(conto);
                         s.setCount(s.getCount() + cifra);
-                        silver = true;
+                        Pro = true;
 
-                         // Un utente silver non può "salire" ma verifyStillSilver riscrive sul DB con il conto aggiornato
-                         d.verifyStillSilver(s);
+                         // Un utente Pro non può "salire" ma verifyStillPro riscrive sul DB con il conto aggiornato
+                         d.verifyStillPro(s);
                         // MANDO UN MESSAGGIO PER LA RICARICA
                          MessagesDataBase m;
                          if (m.loadMessages()) {
                              if (bf)
                                  m.addMessage(*new Message(s.getUsername(), userB.getUsername(), "Ricevuta una ricarica"));
                              else
-                                 m.addMessage(*new Message(s.getUsername(), silver->getUsername(),"Ricevuta una ricarica"));
+                                 m.addMessage(*new Message(s.getUsername(), Pro->getUsername(),"Ricevuta una ricarica"));
                          }
 
-                    } else {    // Se il numero non è né silver né bronze allora è errato
+                    } else {    // Se il numero non è né Pro né Basic allora è errato
 
                         QMessageBox::information(
                             this,
@@ -536,7 +544,7 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                     QMessageBox::warning(
                         this,
                         tr("BankQ - Errore"),
-                        tr("Errore di caricamento (silver)")
+                        tr("Errore di caricamento (Pro)")
                     );
                 }
             }
@@ -544,40 +552,40 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
             MainWindow u;   // DA RIMUOVERE
 
 
-            if ((bronze && !silver) || (!bronze && silver)) {   // Se ho trovato un numero di conto sottraggo l'importo
+            if ((Basic && !Pro) || (!Basic && Pro)) {   // Se ho trovato un numero di conto sottraggo l'importo
                 if (bf) {   // Aggiorno i campi con il nuovo saldo
                     userB.setCount(userB.getCount() - cifra);
 
-                    // L'utente bronze non può "scendere" però verifyStillBronze riscrive nel DB l'utente con il conto decrementato
-                    d.verifyStillBronze(userB);
+                    // L'utente Basic non può "scendere" però verifyStillBasic riscrive nel DB l'utente con il conto decrementato
+                    d.verifyStillBasic(userB);
 
                     ui->label_12->setText(QString::number(userB.getCount()));   // Saldo
                     ui->label_19->setText(QString::number(userB.getCount()));   // Saldo prelievo
                     ui->label_22->setText(QString::number(userB.getCount()));   // Saldo ricarica
                     ui->label_66->setText(QString::number(userB.getCount()));   // Saldo
                 } else {
-                    silver->setCount(silver->getCount() - cifra);
+                    Pro->setCount(Pro->getCount() - cifra);
 
-                    if (!d.verifyStillSilver(userS)) {      // Verifico se l'utente è ancora silver
+                    if (!d.verifyStillPro(userS)) {      // Verifico se l'utente è ancora Pro
                         sf = false;
                         bf = true;
-                        BronzeUser* app = new BronzeUser(userS);
+                        BasicUser* app = new BasicUser(userS);
                         userB = *app;
                         delete app;
                         //delete &userS;    // CAUSA CRASH
-                        ui->label_6->setText("Bronze"); // Cambio il tipo di conto
+                        ui->label_6->setText("Basic"); // Cambio il tipo di conto
 
                         QMessageBox::information(
                             this,
                             tr("BankQ - Avviso"),
-                            tr("Con l'ultimo ricarica il tipo di conto è diventanto bronze")
+                            tr("Con l'ultimo ricarica il tipo di conto è diventanto Basic")
                         );
                     }
 
-                    ui->label_12->setText(QString::number(silver->getCount()));   // Saldo
-                    ui->label_19->setText(QString::number(silver->getCount()));   // Saldo prelievo
-                    ui->label_22->setText(QString::number(silver->getCount()));   // Saldo ricarica
-                    ui->label_66->setText(QString::number(silver->getCount()));   // Saldo
+                    ui->label_12->setText(QString::number(Pro->getCount()));   // Saldo
+                    ui->label_19->setText(QString::number(Pro->getCount()));   // Saldo prelievo
+                    ui->label_22->setText(QString::number(Pro->getCount()));   // Saldo ricarica
+                    ui->label_66->setText(QString::number(Pro->getCount()));   // Saldo
                 }
                 QMessageBox::information(
                     this,
@@ -619,10 +627,10 @@ void UserInfo::on_toolButton_13_clicked() {
         tr("BankQ - Upgrade"),
         tr("Upgrade corretto, ora sei un utente gold")
     );
-    // Verifico se l'utente scende ad utente bronze + messaggio
+    // Verifico se l'utente scende ad utente Basic + messaggio
 }
 
-void UserInfo::on_toolButton_clicked() { // Logout
+void UserInfo::on_toolButton_clicked() {    // Logout
     MainWindow* w = new MainWindow(); // Dichiaro una nuova MainWindow
     w->show();
     this->close(); // Chiudo la finestra corrente
@@ -638,9 +646,16 @@ void UserInfo::on_toolButton_2_clicked() { // Chiusura conto
         string username = u.toUtf8().constData();
         User* user = d.getUser(username);
         d.remove(*user);
-        if (m.loadMessages())
+        if (m.loadMessages()) {
             m.deleteMessages(user->getUsername());
-        else {
+
+            QMessageBox::information(
+                this,
+                tr("BankQ - Chiusura"),
+                tr("Conto chiuso correttamente, arrivederci")
+            );
+            this->on_toolButton_clicked();
+        } else {
             QMessageBox::warning(
                 this,
                 tr("BankQ - Errore"),

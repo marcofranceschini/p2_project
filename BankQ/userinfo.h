@@ -3,8 +3,8 @@
 
 #include <QDialog>
 
-#include "bronzeuser.h"
-#include "silveruser.h"
+#include "basicuser.h"
+#include "prouser.h"
 #include "messagesdatabase.h"
 
 namespace Ui {
@@ -42,7 +42,7 @@ private slots:
 private:
     Ui::UserInfo *ui;
 
-    //BronzeUser user;
+    //BasicUser user;
 };
 
 #endif // USERINFO_H
