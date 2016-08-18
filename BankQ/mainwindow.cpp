@@ -57,7 +57,6 @@ void MainWindow::on_toolButton_clicked() {
                 this->close();              // Chiudo la finistra di login
                 if (d.verifyAdmin(user)) {  // Verifico se l'utente è amministratore
                     User* u = d.getUser(user);
-                    Admin* a = dynamic_cast<Admin*>(u);
                     AdminInfo newAdminWindow;
                     newAdminWindow.setAdmin(*u);
                     newAdminWindow.setModal(true);

@@ -1,13 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<messages>
-    <message>
-        <recipient>marco</recipient>
-        <sender>pluto</sender>
-        <text>Ricevuta una ricarica di € 2222</text>
-    </message>
-    <message>
-        <recipient>marco</recipient>
-        <sender>pluto</sender>
-        <text>Ricevuta una ricarica di € 112</text>
-    </message>
-</messages>
+<messages/>

@@ -18,6 +18,10 @@ class AdminInfo : public QDialog {
 
         void setAdmin (const User&);
 
+        void setTable (const Admin&);
+
+        void setComboBox ();
+
     private slots:
         void on_toolButton_2_clicked();
 
@@ -25,10 +29,12 @@ class AdminInfo : public QDialog {
 
         void on_toolButton_3_clicked();
 
-    private:
+        void on_toolButton_4_clicked();
+
+private:
         Ui::AdminInfo *ui;
 
-        Admin admin;
+        //Admin admin;
 };
 
 #endif // ADMININFO_H

@@ -2,6 +2,8 @@
 #include "ui_admininfo.h"
 #include "mainwindow.h"
 #include "database.h"
+#include "messagesdatabase.h"
+#include "QStandardItemModel"
 
 AdminInfo::AdminInfo(QWidget *parent):QDialog(parent), ui(new Ui::AdminInfo) {
     ui->setupUi(this);
@@ -16,15 +18,18 @@ void AdminInfo::setAdmin (const User& cu) {
     Admin* a = dynamic_cast<Admin*>(ncu);
     //admin = *a;
 
-    ui->label_5->setText(QString::fromStdString(admin.getName()));      // Nome amministratore
-    ui->label_8->setText(QString::fromStdString(admin.getSurname()));   // Cognome amministratore
+    ui->label_5->setText(QString::fromStdString(cu.getName()));      // Nome amministratore
+    ui->label_8->setText(QString::fromStdString(cu.getSurname()));   // Cognome amministratore
     ui->label_7->setText("Amministratore");                             // Tipo account -> "amministratore" rimmarrà fisso
-    ui->label_19->setText(QString::fromStdString(admin.getAddress()));  // Indirizzo amministratore
-    ui->label_75->setText(QString::fromStdString(admin.getCode()));     // Codice fiscale amministratore
-    ui->label_77->setText(QString::number(admin.getTelephone()));       // Numero di telefono amministratore
-    ui->label_78->setText(QString::fromStdString(admin.getUsername())); // Username amministratore
+    ui->label_19->setText(QString::fromStdString(cu.getAddress()));  // Indirizzo amministratore
+    ui->label_75->setText(QString::fromStdString(cu.getCode()));     // Codice fiscale amministratore
+    ui->label_77->setText(QString::number(cu.getTelephone()));       // Numero di telefono amministratore
+    ui->label_78->setText(QString::fromStdString(cu.getUsername())); // Username amministratore
 
     //ui->label_21->setText("Ci sono 3 richieste di chiudere il conto"); // Username amministratore
+    this->setTable(*a);     // Riempie la tabella con i messaggi
+
+    this->setComboBox();    // Riempi la combo box con gli utenti
 }
 
 void AdminInfo::on_toolButton_2_clicked() {     // Inserisci nuovo utente
@@ -115,24 +120,150 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisci nuovo utente
     //Messaggio di avvenuto prelievo
 }
 
-void AdminInfo::on_toolButton_clicked() {
-    MainWindow* w = new MainWindow(); // Dichiaro una nuova MainWindow
-    w->show();
-    this->close(); // Chiudo la finestra corrente
+void AdminInfo::setTable (const Admin& u) {   // Riempie la tabella in caso vi siano messaggi per l'utente loggato
+    MessagesDataBase* message = new MessagesDataBase();
+    if (message->loadMessages()) {
+        int mex;
+        mex = message->countMessage(u.getUsername());
+        if (0 < mex) {
+
+            // QStandardItemModel(int rows, int columns, QObject * parent = 0)
+            QStandardItemModel *model = new QStandardItemModel (mex, 2, this);
+            QStringList columnName;
+            columnName.push_back("Mittente");
+            columnName.push_back("Messaggio");
+            model->setHorizontalHeaderLabels(columnName);
+            ui->tableView->verticalHeader()->setVisible(false);
+            ui->tableView->setModel(model);
+
+            QString s = QString::number(mex);
+            ui->label_21->setText("Sono presenti " + s + " messaggi da leggere");
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Messagi"),
+                tr("Ci sono nuovi messaggi da leggere")
+            );
+
+            //int num = 0;
+            Container<Message> app;
+            app = message->getMessageByUser(u.getUsername());
+            Container<Message>::Iteratore it = app.begin();
+            for (int row = 0; row < mex; ++row) {
+                for (int col = 0; col < 2; ++col) {
+                    QModelIndex index = model->index(row, col, QModelIndex());  // 0 for all data
+
+                    /*if (!app[it]->getRead()) {    // Conto il numero di messaggi non letti
+                        num ++;
+                        // Risalto i messaggi da leggere
+                        QFont font;
+                        font.setBold(true);
+                        //ui->tableView->itemDelegateForRow(row)->set(font);
+                    }*/
+                    //tableWidget->item(2, 2)->setFont(font);
+                    //model->
+                    switch (col) {
+                        case 0:
+                            model->setData(index, QString::fromStdString(app[it]->getSender()));    // Mostro il mittente
+                        break;
+
+                        case 1:
+                            model->setData(index, QString::fromStdString(app[it]->getText()));  // Mostro il contenuto
+                        break;
+                    }
+                }
+                it++;
+            }
+        } else {
+            ui->label_21->setText("Non sono presenti nuovi messaggi da leggere");
+            ui->toolButton_4->setEnabled(false);
+        }
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento (messaggi)")
+        );
+    }
 }
 
-void AdminInfo::on_toolButton_3_clicked() {
-    QString u = ui->lineEdit_8->text(); // Username
+void AdminInfo::setComboBox () {    // Riempie la combo box
+    DataBase d;
+    if (d.load()) {
+        Container<BasicUser> l = d.getUserNoAdmin();
+
+        for (Container<BasicUser>::Iteratore it = l.begin(); it != l.end(); ++it) {
+            ui->comboBox->addItem(QString::fromStdString(l[it]->getUsername()) + " - " + QString::number(l[it]->getCountNumber()));
+        }
+    }
+}
+
+void AdminInfo::on_toolButton_clicked () {   // Logout
+    MainWindow* w = new MainWindow();   // Creo una nuova MainWindow
+    w->show();
+    this->close();  // Chiudo la finestra corrente
+}
+
+void AdminInfo::on_toolButton_3_clicked() {     // Elimina un utente
     // Se l'utente esiste e ha fatto richiesta di essere eliminato
-    QMessageBox::information(
-        this,
-        tr("BankQ - Rimozione Utente"),
-        tr("Rimozione avvenuta correttamente")
-    );
-    // Altrimenti errore:
-    /*QMessageBox::warning(
-        this,
-        tr("BankQ - Errore"),
-        tr("Credito non sufficente")
-    );*/
+    QString qstr = ui->comboBox->itemText(ui->comboBox->currentIndex());  // Elemento selezionato
+    //QString qstr = qv.toString();
+    string str = qstr.toUtf8().constData(); // "Username - #conto"
+
+    string delimiter = " - ";
+    string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
+
+    DataBase d;
+    if (d.load()) {
+        d.remove(*d.getUser(user));    // Rimuovo l'utente dal DB
+
+        QMessageBox::information(
+            this,
+            tr("BankQ - Rimozione Utente"),
+            tr("Rimozione avvenuta correttamente")
+        );
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento del DB")
+        );
+    }
+    this->setComboBox();
+}
+
+void AdminInfo::on_toolButton_4_clicked() {     // Messaggi spuntati come "visualizzati"
+    MessagesDataBase* mdb = new MessagesDataBase();
+
+    if (mdb->loadMessages()) {
+        DataBase d;
+        if (d.load()) {// QStandardItemModel(int rows, int columns, QObject * parent = 0)
+            QStandardItemModel *model = new QStandardItemModel (0, 2, this);
+            QStringList columnName;
+            columnName.push_back("Mittente");
+            columnName.push_back("Messaggio");
+            model->setHorizontalHeaderLabels(columnName);
+            ui->tableView->verticalHeader()->setVisible(false);
+            ui->tableView->setModel(model);
+            ui->label_21->setText("Non sono presenti messaggi da leggere");
+
+            QString c = ui->label_78->text();
+            string username = c.toUtf8().constData();
+            User* user = d.getUser(username);
+
+            mdb->deleteMessages(user->getUsername());
+            ui->toolButton_4->setEnabled(false);
+        } else {
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("Errore di caricamento del DB")
+            );
+        }
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento (messaggi)")
+        );
+    }
 }

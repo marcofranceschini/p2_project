@@ -644,17 +644,18 @@ void UserInfo::on_toolButton_2_clicked() { // Chiusura conto
     if (d.load()) {
         QString u = ui->label_78->text();
         string username = u.toUtf8().constData();
-        User* user = d.getUser(username);
-        d.remove(*user);
+        //User* user = d.getUser(username);
+        //d.remove(*user);
         if (m.loadMessages()) {
-            m.deleteMessages(user->getUsername());
+            m.deleteMessages(username); // Elimino i messaggi dell'utente
 
             QMessageBox::information(
                 this,
                 tr("BankQ - Chiusura"),
-                tr("Conto chiuso correttamente, arrivederci")
+                tr("Tra breve il suo conto verrà chiuso, arrivederci")
             );
             this->on_toolButton_clicked();
+            m.addMessage(*new Message ("admin", username, "L'utente desidera chiudere il proprio conto"));
         } else {
             QMessageBox::warning(
                 this,
@@ -677,7 +678,7 @@ void UserInfo::on_toolButton_2_clicked() { // Chiusura conto
 
 
 
-void UserInfo::on_toolButton_5_clicked() { // Messaggi spuntati come visualizzati
+void UserInfo::on_toolButton_5_clicked() {  // Messaggi spuntati come "visualizzati"
     MessagesDataBase* mdb = new MessagesDataBase();
     if (mdb->loadMessages()) {
         DataBase d;

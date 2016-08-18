@@ -22,10 +22,6 @@ class DataBase {
 private:
     QFile* file;
 
-    Container<BasicUser> userB;
-    Container<ProUser> userS;
-    Container<Admin> admin;
-
     Container<User> user;
 
 public:
@@ -83,5 +79,7 @@ public:
     //bool removePro (const ProUser&); // Rimuove dal DB l'utente passato
 
     //bool writePro (); // Scrive nel DB relativo agli utenti Pro la lista di utenti Pro passata
+
+    Container<BasicUser> getUserNoAdmin ();
 };
 #endif // DATABASE_H

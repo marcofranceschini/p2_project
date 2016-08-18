@@ -84,6 +84,7 @@ public:
     QTableView *tableView;
     QToolButton *toolButton_5;
     QLabel *label_25;
+    QLabel *label_80;
 
     void setupUi(QDialog *UserInfo)
     {
@@ -251,18 +252,21 @@ public:
         tab_5->setObjectName(QStringLiteral("tab_5"));
         tableView = new QTableView(tab_5);
         tableView->setObjectName(QStringLiteral("tableView"));
-        tableView->setGeometry(QRect(30, 40, 511, 221));
+        tableView->setGeometry(QRect(30, 90, 511, 171));
         toolButton_5 = new QToolButton(tab_5);
         toolButton_5->setObjectName(QStringLiteral("toolButton_5"));
         toolButton_5->setGeometry(QRect(230, 280, 101, 22));
         label_25 = new QLabel(tab_5);
         label_25->setObjectName(QStringLiteral("label_25"));
-        label_25->setGeometry(QRect(30, 10, 441, 16));
+        label_25->setGeometry(QRect(30, 60, 441, 16));
+        label_80 = new QLabel(tab_5);
+        label_80->setObjectName(QStringLiteral("label_80"));
+        label_80->setGeometry(QRect(10, 10, 71, 21));
         tabWidget->addTab(tab_5, QString());
 
         retranslateUi(UserInfo);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(UserInfo);
@@ -321,6 +325,7 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("UserInfo", "Upgrade", 0));
         toolButton_5->setText(QApplication::translate("UserInfo", "Visualizzati", 0));
         label_25->setText(QString());
+        label_80->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_5), QApplication::translate("UserInfo", "Messaggi", 0));
     } // retranslateUi
 

@@ -552,3 +552,13 @@ bool DataBase::verifyNumberPro (const int& number) const {
     if (xmlWriter.hasError()) return false;
     return true;
 }*/
+
+Container<BasicUser> DataBase::getUserNoAdmin () {
+    Container<BasicUser> u;
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        if (dynamic_cast<BasicUser*> (user[it]))
+            u.push_back(dynamic_cast<BasicUser*> (user[it])->clone());
+    }
+    return u;
+}
+

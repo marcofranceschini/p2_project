@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -76,9 +77,9 @@ public:
     QToolButton *toolButton_4;
     QWidget *tab_4;
     QLabel *label_68;
-    QLabel *label_22;
-    QLineEdit *lineEdit_10;
     QToolButton *toolButton_3;
+    QLabel *label_26;
+    QComboBox *comboBox;
 
     void setupUi(QDialog *AdminInfo)
     {
@@ -218,7 +219,7 @@ public:
         label_23->setGeometry(QRect(10, 10, 71, 21));
         label_21 = new QLabel(tab_3);
         label_21->setObjectName(QStringLiteral("label_21"));
-        label_21->setGeometry(QRect(140, 40, 281, 20));
+        label_21->setGeometry(QRect(50, 50, 281, 20));
         tableView = new QTableView(tab_3);
         tableView->setObjectName(QStringLiteral("tableView"));
         tableView->setGeometry(QRect(45, 80, 481, 192));
@@ -231,20 +232,20 @@ public:
         label_68 = new QLabel(tab_4);
         label_68->setObjectName(QStringLiteral("label_68"));
         label_68->setGeometry(QRect(10, 10, 71, 21));
-        label_22 = new QLabel(tab_4);
-        label_22->setObjectName(QStringLiteral("label_22"));
-        label_22->setGeometry(QRect(90, 70, 81, 17));
-        lineEdit_10 = new QLineEdit(tab_4);
-        lineEdit_10->setObjectName(QStringLiteral("lineEdit_10"));
-        lineEdit_10->setGeometry(QRect(200, 70, 113, 27));
         toolButton_3 = new QToolButton(tab_4);
         toolButton_3->setObjectName(QStringLiteral("toolButton_3"));
-        toolButton_3->setGeometry(QRect(210, 170, 91, 25));
+        toolButton_3->setGeometry(QRect(220, 190, 91, 25));
+        label_26 = new QLabel(tab_4);
+        label_26->setObjectName(QStringLiteral("label_26"));
+        label_26->setGeometry(QRect(30, 70, 201, 16));
+        comboBox = new QComboBox(tab_4);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+        comboBox->setGeometry(QRect(230, 70, 191, 23));
         tabWidget->addTab(tab_4, QString());
 
         retranslateUi(AdminInfo);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(AdminInfo);
@@ -287,11 +288,11 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("AdminInfo", "Aggiungi utente", 0));
         label_23->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         label_21->setText(QString());
-        toolButton_4->setText(QApplication::translate("AdminInfo", "Aggiorna", 0));
+        toolButton_4->setText(QApplication::translate("AdminInfo", "Visualizzati", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("AdminInfo", "Richieste", 0));
         label_68->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
-        label_22->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Username</span></p></body></html>", 0));
         toolButton_3->setText(QApplication::translate("AdminInfo", "Rimuovi", 0));
+        label_26->setText(QApplication::translate("AdminInfo", "Scegliere il conto da rimuovere", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("AdminInfo", "Rimuovi account", 0));
     } // retranslateUi
 

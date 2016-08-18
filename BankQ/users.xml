@@ -10,6 +10,17 @@
         <pin>111</pin>
         <salary>10</salary>
     </admin>
+    <pro>
+        <name>Pluto</name>
+        <surname>Pluto</surname>
+        <address>Via Prova</address>
+        <telephone>111111</telephone>
+        <code>BB11aer</code>
+        <username>pluto</username>
+        <pin>123</pin>
+        <count>160508</count>
+        <countNumber>222</countNumber>
+    </pro>
     <basic>
         <name>Marco</name>
         <surname>Marco</surname>
