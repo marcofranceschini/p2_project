@@ -34,8 +34,12 @@ ProUser::ProUser (const BasicUser& b) {
     count = b.getCount();
 }
 
-double ProUser::getTotalBonus () const {
-    return extraBonus + tax;
+double ProUser::getBonus () const {
+    return bonus;
+}
+
+double ProUser::getTax () const {
+    return proTax;
 }
 
 bool ProUser::verifyLogin (const int& pass) const {
@@ -44,4 +48,5 @@ bool ProUser::verifyLogin (const int& pass) const {
     return false;
 }
 
-double ProUser::extraBonus = 1.5;
+double ProUser::bonus = 1.5;
+double ProUser::proTax = 0.5;

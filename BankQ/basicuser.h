@@ -5,13 +5,13 @@
 
 class BasicUser: public User {
 protected:
-    static double tax;     // Tasse
+    static double tax;  // Tasse
 
-    static double bonus;   // Bonus
+    //static double bonus;   // Bonus
 
-    int countNumber; // Numero di conto
+    int countNumber;    // Numero di conto
 
-    double count;   // Conto corrente
+    double count;       // Conto corrente
 
 public:
     /*BasicUser(string n, string s, string a, int t, string cod, string u, int p, bool ad):
@@ -27,9 +27,9 @@ public:
 
     BasicUser (const BasicUser&);
 
-    virtual double getTotalTax () const;
+    virtual double getTax () const;
 
-    virtual double getTotalBonus () const;
+    //virtual double getTotalBonus () const;
 
     virtual double getCount () const;
 

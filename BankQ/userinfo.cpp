@@ -25,19 +25,24 @@ void UserInfo::setUser (const User& cu) {
     ui->label_75->setText(QString::fromStdString(u->getCode()));    // Codice fiscale
     ui->label_77->setText(QString::number(u->getTelephone()));      // Numero di telefono
     ui->label_78->setText(QString::fromStdString(u->getUsername()));// Username
-    ui->label_10->setText(QString::number(u->getTotalTax()));       // Tasse anno
-    ui->label_11->setText(QString::number(u->getTotalBonus()));     // Bonus anno
+    ui->label_10->setText(QString::number(u->getTax()));            // Tasse anno
+    ui->label_10->setText(QString::number(u->getTax()));            // Tasse anno
     ui->label_24->setText(QString::number(u->getCountNumber()));    // Numero conto
     ui->label_12->setText(QString::number(u->getCount()));          // Saldo
-    ui->label_19->setText(QString::number(u->getCount()));          // Saldo prelievo
     ui->label_22->setText(QString::number(u->getCount()));          // Saldo ricarica
     ui->label_66->setText(QString::number(u->getCount()));          // Saldo
 
-    if (dynamic_cast<ProUser*> (u))
-        ui->label_6->setText("Pro");                             // Tipo conto
-    else
-        ui->label_6->setText("Basic");                             // Tipo conto
 
+    if (dynamic_cast<ProUser*> (u)) {
+        ProUser* p = dynamic_cast<ProUser*> (u);
+        ui->label_11->setText(QString::number(p->getBonus()));     // Bonus anno
+        ui->label_6->setText("Pro");                               // Tipo conto
+    } else {
+        ui->label_9->setVisible(false);
+        ui->label_11->setVisible(false);
+        ui->label_6->setText("Basic");                             // Tipo conto
+        ui->tabWidget->removeTab(1);
+    }
     this->setTable(cu);
 }
 
@@ -191,10 +196,17 @@ void UserInfo::setTable (const User& u) {   // Riempie la tabella in caso vi sia
     }
 }
 
-void UserInfo::on_toolButton_3_clicked() {  // Prelievo
-    QString a = ui->lineEdit_2->text();
-    QString b = ui->lineEdit_3->text();
+void UserInfo::on_toolButton_3_clicked() {  // Richiesta bonus anticipato
 
+    QString s = ui->label_78->text();       // Username dell'utente loggato
+    string username = s.toUtf8().constData();
+
+    DataBase d;
+    if (d.load()) {
+        User* user = d.getUser(username);
+        if (dynamic_cast<ProUser*>(user))
+            return;
+    }
     /*double cifra = a.toDouble();
     int conto = b.toInt();
     bool flag = false;
@@ -385,7 +397,6 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                     }
                     // Aggiorno la "grafica" del saldo
                     ui->label_12->setText(QString::number(mittente->getCount()));   // Saldo
-                    ui->label_19->setText(QString::number(mittente->getCount()));   // Saldo prelievo
                     ui->label_22->setText(QString::number(mittente->getCount()));   // Saldo ricarica
                     ui->label_66->setText(QString::number(mittente->getCount()));   // Saldo
 
@@ -652,7 +663,7 @@ void UserInfo::on_toolButton_2_clicked() { // Chiusura conto
             QMessageBox::information(
                 this,
                 tr("BankQ - Chiusura"),
-                tr("Tra breve il suo conto verrà chiuso, arrivederci")
+                tr("La sua richiesta è stata presa in carico, arrivederci")
             );
             this->on_toolButton_clicked();
             m.addMessage(*new Message ("admin", username, "L'utente desidera chiudere il proprio conto"));

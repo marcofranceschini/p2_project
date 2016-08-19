@@ -26,7 +26,7 @@
     <locale language="Italian" country="Italy"/>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -154,12 +154,12 @@
       <rect>
        <x>60</x>
        <y>160</y>
-       <width>91</width>
+       <width>101</width>
        <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tasse/anno&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tasse/anno (%)s&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_9">
@@ -167,12 +167,12 @@
       <rect>
        <x>60</x>
        <y>200</y>
-       <width>91</width>
+       <width>111</width>
        <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Bonus/anno&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Bonus/anno (%)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_10">
@@ -352,63 +352,40 @@
     <widget class="QLabel" name="label_17">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>70</y>
-       <width>101</width>
+       <x>40</x>
+       <y>130</y>
+       <width>181</width>
        <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Saldo attuale&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Richiedi il bonus anticipato*&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_18">
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>110</y>
-       <width>131</width>
+       <y>300</y>
+       <width>151</width>
        <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Cifra da prelevare&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_19">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>70</y>
-       <width>141</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>100</y>
-       <width>141</width>
-       <height>27</height>
-      </rect>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;*&lt;span style=&quot; font-size:6pt;&quot;&gt;È prevista la detrazione della tassa&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QToolButton" name="toolButton_3">
      <property name="geometry">
       <rect>
-       <x>190</x>
-       <y>180</y>
-       <width>71</width>
+       <x>240</x>
+       <y>130</y>
+       <width>81</width>
        <height>25</height>
       </rect>
      </property>
      <property name="text">
-      <string>Preleva</string>
+      <string>Richiedi</string>
      </property>
     </widget>
    </widget>

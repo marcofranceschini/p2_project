@@ -22,13 +22,13 @@ BasicUser::BasicUser (const BasicUser& u) {
     count = u.getCount();
 }
 
-double BasicUser::getTotalTax () const {
+double BasicUser::getTax () const {
     return tax;
 }
 
-double BasicUser::getTotalBonus () const {
+/*double BasicUser::getTotalBonus () const {
     return bonus;
-}
+}*/
 
 double BasicUser::getCount () const {
     return count;
@@ -87,6 +87,6 @@ bool BasicUser::verifyLogin (const int& pass) const {
 }*/
 
 
-double BasicUser::tax = 1;
+double BasicUser::tax = 1.0;
 
-double BasicUser::bonus = 1.5;
+//double BasicUser::bonus = 1.5;
