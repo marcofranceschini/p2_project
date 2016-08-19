@@ -178,7 +178,7 @@ public:
         label_18->setGeometry(QRect(50, 300, 151, 17));
         toolButton_3 = new QToolButton(tab_2);
         toolButton_3->setObjectName(QStringLiteral("toolButton_3"));
-        toolButton_3->setGeometry(QRect(240, 130, 81, 25));
+        toolButton_3->setGeometry(QRect(230, 130, 81, 25));
         tabWidget->addTab(tab_2, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QStringLiteral("tab_3"));

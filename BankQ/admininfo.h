@@ -31,6 +31,10 @@ class AdminInfo : public QDialog {
 
         void on_toolButton_4_clicked();
 
+        void on_toolButton_5_clicked();
+
+        void on_toolButton_6_clicked();
+
 private:
         Ui::AdminInfo *ui;
 

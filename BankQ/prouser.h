@@ -12,7 +12,7 @@ private:
     bool request; // 0 = non ha ricevuto il bonus, 1 altrimenti
 
 public:
-    ProUser (string, string, string, int, string, string, int, int, double);
+    ProUser (string, string, string, int, string, string, int, int, double, bool);
 
     ProUser ();
 
@@ -35,13 +35,9 @@ public:
 
     bool verifyLogin (const int&) const;
 
-    bool getRequest () const {
-        return request;
-    }
+    bool getRequest () const;
 
-    void setRequest (bool r) {
-        request = r;
-    }
+    void setRequest (bool r);
 
     /*double getCount () const {
         return count;

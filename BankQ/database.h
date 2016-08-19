@@ -53,7 +53,7 @@ public:
 
     User* getUserByCountNumber (const int&) const; // Ritorna l'oggetto User con numero di conto uguale a quello passato
 
-    bool verifyStillSame (const BasicUser&); // Verifica se
+    bool verifyStillSame (const BasicUser&); // Verifica se l'utente cambia tipo di account o meno
 
     //bool fromBasicToPro (const BasicUser&); // "Passa" un utente Basic in utente Pro
 
@@ -80,6 +80,12 @@ public:
 
     //bool writePro (); // Scrive nel DB relativo agli utenti Pro la lista di utenti Pro passata
 
-    Container<BasicUser> getUserNoAdmin ();
+    Container<BasicUser> getUserNoAdmin (); // Ritorna una lista con gli utenti nel DB ad eccezione degli amministraotri
+
+    Container<ProUser> getUserNoRequest ();    // Ritorna una lista di utenti Pro senza richieste di bonus anticipato
+
+    bool giveBonus (const User&);    // Assegna il bonus all'utente passato
+
+    bool giveBonusToAll (); // Assegna il bonus agli utenti che non lo hanno ancora ricevuto
 };
 #endif // DATABASE_H

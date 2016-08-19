@@ -4,6 +4,8 @@
 #include "qstring.h"    // DA RIMUOVERE
 #include "mainwindow.h" // DA RIMUOVERE
 
+#include "messagesdatabase.h"
+
 DataBase::DataBase() {
     //file = new QFile("db.xml");
     //loadDB();
@@ -95,6 +97,12 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
                             uPro.setCount(xmlReader.readElementText().toDouble());    // DOUBLEE
                         if(xmlReader.name().toString() == "countNumber")
                             uPro.setCountNumber(xmlReader.readElementText().toInt());
+                        if(xmlReader.name().toString() == "request") {
+                            if ((xmlReader.readElementText().toStdString()) == "true")
+                                uPro.setRequest(true);
+                            else
+                                uPro.setRequest(false);
+                        }
                         xmlReader.readNext();
                     }
                     user.push_back(new ProUser(uPro));
@@ -353,6 +361,7 @@ bool DataBase::write () {
             xmlWriter.writeTextElement("pin", QString::number(s->getPin()));
             xmlWriter.writeTextElement("count", QString::number(s->getCount()));
             xmlWriter.writeTextElement("countNumber", QString::number(s->getCountNumber()));
+            xmlWriter.writeTextElement("request", QString::number(s->getRequest()));
         } else {
             BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
             if (b) {
@@ -562,3 +571,34 @@ Container<BasicUser> DataBase::getUserNoAdmin () {
     return u;
 }
 
+Container<ProUser> DataBase::getUserNoRequest() {
+    Container<ProUser> u;
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        ProUser* p = dynamic_cast<ProUser*> (user[it]);
+        if (p && p->getRequest())
+            u.push_back(p->clone());
+    }
+    return u;
+}
+
+bool DataBase::giveBonus(const User& cu) {
+    User* ncu = const_cast<User*> (&cu);
+    ProUser* u = dynamic_cast<ProUser*> (ncu);
+    double c = u->getCount() + ((u->getCount())/100)*(u->getBonus() - u->getTax());
+    u->setCount(c);
+    u->setRequest(true);
+    if (this->verifyStillSame(*u)) {    // verifyStillSame in questo caso riscrive soltanto l'utente nel DB
+        MessagesDataBase m;
+        if (m.loadMessages())
+            m.addMessage(*new Message (cu.getUsername(), "BankQ", "Bonus ricevuto"));
+        else
+            qDebug("Errore nel caricamento del DB dei messaggi");
+    }
+}
+
+bool DataBase::giveBonusToAll () {
+    Container<ProUser> l = this->getUserNoRequest();
+    for (Container<ProUser>::Iteratore it = l.begin(); it != l.end(); ++it) {
+        this->giveBonus(*l[it]);
+    }
+}

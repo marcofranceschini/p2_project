@@ -29,6 +29,8 @@ public:
     bool addMessage (Message); // Inserisce un nuovo messaggio nel Container di messaggi
 
     bool writeMessages (); // Scrive i messaggi nel DB
+
+    //bool addBonus (const string&); // Crea un messaggio per la richiesta del bonus anticipato
 };
 
 #endif // MESSAGESDATABASE_H

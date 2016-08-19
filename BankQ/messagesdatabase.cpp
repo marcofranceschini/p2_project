@@ -1,4 +1,5 @@
 #include "messagesdatabase.h"
+#include "database.h"
 
 #include "mainwindow.h" // DA RIMUOVERE
 
@@ -115,3 +116,10 @@ bool MessagesDataBase::writeMessages () {
     return true;
 }
 
+/*bool MessagesDataBase::addBonus (const string& u) {
+    DataBase d;
+    if (d.load()) {
+        User* user = d.getUser(u);
+        ProUser* pro = dynamic_cast<ProUser*>(user);
+    }
+}*/

@@ -37,6 +37,11 @@ void UserInfo::setUser (const User& cu) {
         ProUser* p = dynamic_cast<ProUser*> (u);
         ui->label_11->setText(QString::number(p->getBonus()));     // Bonus anno
         ui->label_6->setText("Pro");                               // Tipo conto
+        if (p->getRequest()) {
+            ui->toolButton_3->setEnabled(false);
+            ui->label_17->setText("Bonus già ricevuto");
+            ui->label_18->setEnabled(false);
+        }
     } else {
         ui->label_9->setVisible(false);
         ui->label_11->setVisible(false);
@@ -201,11 +206,24 @@ void UserInfo::on_toolButton_3_clicked() {  // Richiesta bonus anticipato
     QString s = ui->label_78->text();       // Username dell'utente loggato
     string username = s.toUtf8().constData();
 
-    DataBase d;
-    if (d.load()) {
-        User* user = d.getUser(username);
-        if (dynamic_cast<ProUser*>(user))
-            return;
+    MessagesDataBase m;
+    if (m.loadMessages()) {
+        m.addMessage(*new Message ("BankQ", username, "L'utente desidera ricevere il bonus anticipato"));
+        //ProUser* pro = dynamic_cast<ProUser*>(user);
+        ui->toolButton_3->setEnabled(false);
+        ui->label_17->setText("Bonus già richiesto");
+
+        QMessageBox::information(
+            this,
+            tr("BankQ - Chiusura"),
+            tr("La sua richiesta è stata presa in carico")
+        );
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento del DB messaggi")
+        );
     }
     /*double cifra = a.toDouble();
     int conto = b.toInt();

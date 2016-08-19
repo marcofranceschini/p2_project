@@ -1,13 +1,13 @@
 #include "prouser.h"
 
-ProUser::ProUser (string n, string s, string a, int t, string c, string u, int p, int nu, double co):BasicUser(n, s, a, t, c, u, p, nu, co) {}
+ProUser::ProUser (string n, string s, string a, int t, string c, string u, int p, int nu, double co, bool r):BasicUser(n, s, a, t, c, u, p, nu, co), request(r) {}
 
 ProUser::ProUser () {}
 
 ProUser::~ProUser () {}
 
 ProUser* ProUser::clone () const {
-    return new ProUser (name, surname, address, telephone, code, username, pin, countNumber, count);
+    return new ProUser (name, surname, address, telephone, code, username, pin, countNumber, count, request);
 }
 
 ProUser::ProUser (const ProUser& s) {
@@ -20,6 +20,7 @@ ProUser::ProUser (const ProUser& s) {
     pin = s.getPin();
     countNumber = s.getCountNumber();
     count = s.getCount();
+    request = s.getRequest();
 }
 
 ProUser::ProUser (const BasicUser& b) {
@@ -32,6 +33,7 @@ ProUser::ProUser (const BasicUser& b) {
     pin = b.getPin();
     countNumber = b.getCountNumber();
     count = b.getCount();
+    request = false;
 }
 
 double ProUser::getBonus () const {
@@ -46,6 +48,14 @@ bool ProUser::verifyLogin (const int& pass) const {
     int p = const_cast<int&> (pass);
     if (pin==p) return true;
     return false;
+}
+
+bool ProUser::getRequest () const {
+    return request;
+}
+
+void ProUser::setRequest (bool r) {
+    request = r;
 }
 
 double ProUser::bonus = 1.5;
