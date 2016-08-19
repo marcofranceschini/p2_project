@@ -27,7 +27,7 @@ void AdminInfo::setAdmin (const User& cu) {
     ui->label_78->setText(QString::fromStdString(cu.getUsername())); // Username amministratore
 
     //ui->label_21->setText("Ci sono 3 richieste di chiudere il conto"); // Username amministratore
-    this->setTable(*a);     // Riempie la tabella con i messaggi
+    this->setTable("BankQ");     // Riempie la tabella con i messaggi
 
     this->setComboBox();    // Riempi la combo box con gli utenti
 }
@@ -120,7 +120,7 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisci nuovo utente
     //Messaggio di avvenuto prelievo
 }
 
-void AdminInfo::setTable (const Admin& u) {   // Riempie la tabella in caso vi siano messaggi per l'utente loggato
+void AdminInfo::setTable (const string& u) {   // Riempie la tabella in caso vi siano messaggi per l'utente loggato
     MessagesDataBase* message = new MessagesDataBase();
     if (message->loadMessages()) {
         int mex;
@@ -316,6 +316,48 @@ void AdminInfo::on_toolButton_6_clicked() { // Assegna il bonus (a "tutti")
             this,
             tr("BankQ - Errore"),
             tr("Errore di caricamento del DB")
+        );
+    }
+}
+
+void AdminInfo::on_tableView_clicked(const QModelIndex &index) {
+    int riga = ui->tableView->selectionModel()->currentIndex().row();
+    QString qstr_u = ui->tableView->model()->data(ui->tableView->model()->index(riga, 0)).toString();
+    QString qstr_m = ui->tableView->model()->data(ui->tableView->model()->index(riga, 1)).toString();
+
+    string mit = qstr_u.toUtf8().constData();   // Username del mittente
+    string mex = qstr_m.toUtf8().constData();   // Testo del messaggio
+
+    MessagesDataBase m;
+    if (m.loadMessages()) {
+        if (m.deleteOneMessage(*new Message("BankQ", mit, mex))) {
+            DataBase d;
+            if (d.load()) {
+                this->setTable("BankQ");
+                QMessageBox::information(
+                        this,
+                        tr("BankQ - Rimozione"),
+                        tr("Messaggio rimosso")
+                    );
+            } else {
+                QMessageBox::warning(
+                    this,
+                    tr("BankQ - Errore"),
+                    tr("Errore di caricamento del DB")
+                );
+            }
+        } else {
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("Errore")
+            );
+        }
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento (messaggi)")
         );
     }
 }

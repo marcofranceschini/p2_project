@@ -6,11 +6,6 @@
         <text>L'utente desidera ricevere il bonus anticipato</text>
     </message>
     <message>
-        <recipient>BankQ</recipient>
-        <sender>pluto</sender>
-        <text>L'utente desidera ricevere il bonus anticipato</text>
-    </message>
-    <message>
         <recipient>pluto</recipient>
         <sender>BankQ</sender>
         <text>Bonus ricevuto</text>

@@ -18,7 +18,7 @@ class AdminInfo : public QDialog {
 
         void setAdmin (const User&);
 
-        void setTable (const Admin&);
+        void setTable (const string&);
 
         void setComboBox ();
 
@@ -34,6 +34,8 @@ class AdminInfo : public QDialog {
         void on_toolButton_5_clicked();
 
         void on_toolButton_6_clicked();
+
+        void on_tableView_clicked(const QModelIndex &index);
 
 private:
         Ui::AdminInfo *ui;
