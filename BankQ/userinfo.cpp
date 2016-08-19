@@ -148,6 +148,7 @@ void UserInfo::setTable (const User& u) {   // Riempie la tabella in caso vi sia
             model->setHorizontalHeaderLabels(columnName);
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
+            ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);  // Rende le celle non editabili
 
             QString s = QString::number(mex);
             ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
@@ -741,4 +742,58 @@ void UserInfo::on_toolButton_5_clicked() {  // Messaggi spuntati come "visualizz
             tr("Errore di caricamento (messaggi)")
         );
     }
+}
+
+void UserInfo::on_tableView_clicked(const QModelIndex &index) { // Elimino la riga selezionata della tabella
+
+    /*QItemSelectionModel *select = ui->tableView->selectionModel();
+    select->selectedRows(); // return selected row(s)
+    */
+
+    int riga = ui->tableView->selectionModel()->currentIndex().row();
+    QString qstr_u = ui->tableView->model()->data(ui->tableView->model()->index(riga, 0)).toString();
+    QString qstr_m = ui->tableView->model()->data(ui->tableView->model()->index(riga, 1)).toString();
+
+    string mit = qstr_u.toUtf8().constData();   // Username del mittente
+    string mex = qstr_m.toUtf8().constData();   // Testo del messaggio
+
+    QString c = ui->label_78->text();
+    string username = c.toUtf8().constData();   // Username dell'utente loggato
+
+    QString st =QString::fromStdString(mex);   // DA RIMUOVERE
+    qDebug("QQQ-" + st.toLatin1() + "-QQQ");                              // DA RIMUOVERE
+
+    MessagesDataBase m;
+    if (m.loadMessages()) {
+        if (m.deleteOneMessage(*new Message(username, mit, mex))) {
+            DataBase d;
+            if (d.load()) {
+                this->setTable(*d.getUser(username));
+                QMessageBox::information(
+                        this,
+                        tr("BankQ - Rimozione"),
+                        tr("Messaggio rimosso")
+                    );
+            } else {
+                QMessageBox::warning(
+                    this,
+                    tr("BankQ - Errore"),
+                    tr("Errore di caricamento del DB")
+                );
+            }
+        } else {
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("Errore")
+            );
+        }
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento (messaggi)")
+        );
+    }
+
 }

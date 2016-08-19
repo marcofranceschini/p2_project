@@ -39,6 +39,8 @@ private slots:
 
     void on_toolButton_5_clicked();
 
+    void on_tableView_clicked(const QModelIndex &index);
+
 private:
     Ui::UserInfo *ui;
 

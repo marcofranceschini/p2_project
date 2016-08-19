@@ -15,9 +15,4 @@
         <sender>BankQ</sender>
         <text>Bonus ricevuto</text>
     </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
 </messages>

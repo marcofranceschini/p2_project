@@ -48,7 +48,7 @@ int MessagesDataBase::countMessage (const string& u) {
         if (messages[it]->getRecipient() == u)
             cont++;
             /*QString st =QString::fromStdString(messages[it]->getRecipient());   // DA RIMUOVERE
-            qDebug("QQQ-" + st.toLatin1() + "-QQQ");   // DA RIMUOVERE
+            qDebug("QQQ-" + st.toLatin1() + "-QQQ");                              // DA RIMUOVERE
             */
     }
     return cont;
@@ -88,8 +88,8 @@ bool MessagesDataBase::deleteMessages (const string& user) {
     return false;
 }
 
-bool MessagesDataBase::addMessage (Message m) {
-    messages.push_back(&m);
+bool MessagesDataBase::addMessage (const Message& m) {
+    messages.push_back(const_cast<Message*>(&m));
     return this->writeMessages();
 }
 
@@ -115,6 +115,24 @@ bool MessagesDataBase::writeMessages () {
     if (xmlWriter.hasError()) return false;
     return true;
 }
+
+bool MessagesDataBase::deleteOneMessage (const Message& m) {
+    int cont = 0;
+    for (Container<Message>::Iteratore it = messages.begin(); it != messages.end(); ++it) {
+        if (messages[it]->getRecipient() == m.getRecipient() &&
+            messages[it]->getSender() == m.getSender() &&
+            messages[it]->getText() == m.getText()) {
+
+            messages.remove(cont);
+            this->writeMessages();
+            return true;
+        }
+
+        cont++;
+    }
+    return false;
+}
+
 
 /*bool MessagesDataBase::addBonus (const string& u) {
     DataBase d;

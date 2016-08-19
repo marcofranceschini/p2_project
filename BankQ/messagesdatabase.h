@@ -26,9 +26,11 @@ public:
 
     bool deleteMessages (const string&); // Elimina i messaggi dell'utente passato
 
-    bool addMessage (Message); // Inserisce un nuovo messaggio nel Container di messaggi
+    bool addMessage (const Message&); // Inserisce un nuovo messaggio nel Container di messaggi
 
     bool writeMessages (); // Scrive i messaggi nel DB
+
+    bool deleteOneMessage (const Message&); // Elimina un messaggio passato
 
     //bool addBonus (const string&); // Crea un messaggio per la richiesta del bonus anticipato
 };

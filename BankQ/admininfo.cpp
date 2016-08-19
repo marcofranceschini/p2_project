@@ -135,6 +135,7 @@ void AdminInfo::setTable (const Admin& u) {   // Riempie la tabella in caso vi s
             model->setHorizontalHeaderLabels(columnName);
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
+            ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);    // Rende le celle non editabili
 
             QString s = QString::number(mex);
             ui->label_21->setText("Sono presenti " + s + " messaggi da leggere");
