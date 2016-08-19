@@ -97,12 +97,9 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
                             uPro.setCount(xmlReader.readElementText().toDouble());    // DOUBLEE
                         if(xmlReader.name().toString() == "countNumber")
                             uPro.setCountNumber(xmlReader.readElementText().toInt());
-                        if(xmlReader.name().toString() == "request") {
-                            if ((xmlReader.readElementText().toStdString()) == "true")
-                                uPro.setRequest(true);
-                            else
-                                uPro.setRequest(false);
-                        }
+                        if(xmlReader.name().toString() == "request")
+                            uPro.setRequest(xmlReader.readElementText().toInt());
+
                         xmlReader.readNext();
                     }
                     user.push_back(new ProUser(uPro));
@@ -575,7 +572,7 @@ Container<ProUser> DataBase::getUserNoRequest() {
     Container<ProUser> u;
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         ProUser* p = dynamic_cast<ProUser*> (user[it]);
-        if (p && p->getRequest())
+        if (p && !p->getRequest())
             u.push_back(p->clone());
     }
     return u;
