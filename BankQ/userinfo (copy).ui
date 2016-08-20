@@ -548,19 +548,6 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;BankQ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_13">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>230</y>
-       <width>81</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Upgrade</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_69">
      <property name="geometry">
       <rect>

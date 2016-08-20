@@ -27,7 +27,7 @@ void AdminInfo::setAdmin (const User& cu) {
     ui->label_78->setText(QString::fromStdString(cu.getUsername())); // Username amministratore
 
     //ui->label_21->setText("Ci sono 3 richieste di chiudere il conto"); // Username amministratore
-    this->setTable("BankQ");     // Riempie la tabella con i messaggi
+    this->setTable("BankQ", true);     // Riempie la tabella con i messaggi
 
     this->setComboBox();    // Riempi la combo box con gli utenti
 }
@@ -120,7 +120,7 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisci nuovo utente
     //Messaggio di avvenuto prelievo
 }
 
-void AdminInfo::setTable (const string& u) {   // Riempie la tabella in caso vi siano messaggi per l'utente loggato
+void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tabella in caso vi siano messaggi per l'utente loggato
     MessagesDataBase* message = new MessagesDataBase();
     if (message->loadMessages()) {
         int mex;
@@ -139,11 +139,14 @@ void AdminInfo::setTable (const string& u) {   // Riempie la tabella in caso vi 
 
             QString s = QString::number(mex);
             ui->label_21->setText("Sono presenti " + s + " messaggi da leggere");
-            QMessageBox::warning(
-                this,
-                tr("BankQ - Messagi"),
-                tr("Ci sono nuovi messaggi da leggere")
-            );
+
+            if (f) {
+                QMessageBox::information(
+                    this,
+                    tr("BankQ - Messagi"),
+                    tr("Ci sono nuovi messaggi da leggere")
+                );
+            }
 
             //int num = 0;
             Container<Message> app;
@@ -153,15 +156,6 @@ void AdminInfo::setTable (const string& u) {   // Riempie la tabella in caso vi 
                 for (int col = 0; col < 2; ++col) {
                     QModelIndex index = model->index(row, col, QModelIndex());  // 0 for all data
 
-                    /*if (!app[it]->getRead()) {    // Conto il numero di messaggi non letti
-                        num ++;
-                        // Risalto i messaggi da leggere
-                        QFont font;
-                        font.setBold(true);
-                        //ui->tableView->itemDelegateForRow(row)->set(font);
-                    }*/
-                    //tableWidget->item(2, 2)->setFont(font);
-                    //model->
                     switch (col) {
                         case 0:
                             model->setData(index, QString::fromStdString(app[it]->getSender()));    // Mostro il mittente
@@ -320,7 +314,7 @@ void AdminInfo::on_toolButton_6_clicked() { // Assegna il bonus (a "tutti")
     }
 }
 
-void AdminInfo::on_tableView_clicked(const QModelIndex &index) {
+void AdminInfo::on_tableView_clicked (const QModelIndex &index) {   // Elimino la riga selezionata della tabella
     int riga = ui->tableView->selectionModel()->currentIndex().row();
     QString qstr_u = ui->tableView->model()->data(ui->tableView->model()->index(riga, 0)).toString();
     QString qstr_m = ui->tableView->model()->data(ui->tableView->model()->index(riga, 1)).toString();
@@ -333,7 +327,7 @@ void AdminInfo::on_tableView_clicked(const QModelIndex &index) {
         if (m.deleteOneMessage(*new Message("BankQ", mit, mex))) {
             DataBase d;
             if (d.load()) {
-                this->setTable("BankQ");
+                this->setTable("BankQ", false);
                 QMessageBox::information(
                         this,
                         tr("BankQ - Rimozione"),

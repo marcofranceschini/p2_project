@@ -149,14 +149,6 @@ bool DataBase::verifyExistingCountNumber (const int& c) const {
 
 }
 
-/*Admin DataBase::getAdmin (const string& usr) const {
-    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        Admin* a = dynamic_cast<Admin*> (user[it]);
-        if (a && a->getUsername() == usr)
-            return *a;
-    }
-}*/
-
 bool DataBase::verifyLogin (const string& usr, const int& pin) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         if (user[it]->getUsername() == usr && user[it]->getPin() == pin)
@@ -174,52 +166,6 @@ bool DataBase::addUser (const BasicUser& u) {
     }
     this->write();
 }
-
-/*bool DataBase::loadBasic () { // Carico gli utenti Basic nel contenitore
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/Basic.xml");
-    if (file->exists()) {
-            file->open(QIODevice::ReadOnly);
-            QXmlStreamReader xmlReader(file);
-
-            while (!xmlReader.atEnd()) {
-                xmlReader.readNext();
-                if (xmlReader.isStartElement()) {
-                    // string a = (xmlReader.name().toString()).toUtf8().constData();
-                    // cout<<a;
-                    if (xmlReader.name().toString() == "Basic") {
-                        BasicUser uBasic;
-                        xmlReader.readNext();
-                        while (xmlReader.name().toString() != "Basic") {
-                            if (xmlReader.name().toString() == "name")
-                                uBasic.setName(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "surname")
-                                uBasic.setSurname(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "address")
-                                uBasic.setAddress(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "telephone")
-                                uBasic.setTelephone(xmlReader.readElementText().toInt());  // INT
-                            if (xmlReader.name().toString() == "code")
-                                uBasic.setCode(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "username")
-                                uBasic.setUsername(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "pin")
-                                uBasic.setPin(xmlReader.readElementText().toInt());    // INT
-                            if(xmlReader.name().toString() == "count")
-                                uBasic.setCount(xmlReader.readElementText().toDouble());   // DOUBLE
-                            if(xmlReader.name().toString() == "countNumber")
-                                uBasic.setCountNumber(xmlReader.readElementText().toInt());
-                            xmlReader.readNext();
-                        }
-                        user.push_back(new BasicUser(uBasic));
-                    }
-                }
-            }
-            file->close();
-            if (xmlReader.hasError()) return false;
-            return true;
-        }
-        return false;
-}*/
 
 bool DataBase::verifyStillSame (const BasicUser& usr) {
     int cont = 0;   // Per sapere in quale posizione del Container l'oggetto si trova
@@ -275,28 +221,6 @@ User* DataBase::getUser (const string& usr) const {
             return user[it]->clone();
     }
 }
-
-/*bool DataBase::verifyLoginBasic (const string& usr, const int& pin) const {
-    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
-        if (b && b->getUsername() == usr) {
-            if (b->getPin() == pin)
-                return true;
-             else
-                return false;
-        }
-    }
-    return false;
-}*/
-
-/*bool DataBase::verifyNumberBasic (const int& number) const {
-    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
-        if (b && b->getCountNumber() == number)
-            return true;
-    }
-    return false;
-}*/
 
 User* DataBase::getUserByCountNumber (const int& conto) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
@@ -396,52 +320,6 @@ bool DataBase::write () {
 }
 
 
-/*bool DataBase::loadPro () { // Carico gli utenti Pro nel contenitore
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/Pro.xml");
-    if (file->exists()) {
-            file->open(QIODevice::ReadOnly);
-            QXmlStreamReader xmlReader(file);
-            MainWindow u;// NON SERVE
-
-            while (!xmlReader.atEnd()) {
-                xmlReader.readNext();
-                if (xmlReader.isStartElement()) {
-                    // string a = (xmlReader.name().toString()).toUtf8().constData();
-                    // cout<<a;
-                    if (xmlReader.name().toString() == "Pro") {
-                        ProUser uPro;
-                        xmlReader.readNext();
-                        while (xmlReader.name().toString() != "Pro") {
-                            if (xmlReader.name().toString() == "name")
-                                uPro.setName(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "surname")
-                                uPro.setSurname(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "address")
-                                uPro.setAddress(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "telephone")
-                                uPro.setTelephone(xmlReader.readElementText().toInt()); // INT
-                            if (xmlReader.name().toString() == "code")
-                                uPro.setCode(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "username")
-                                uPro.setUsername(xmlReader.readElementText().toStdString());
-                            if (xmlReader.name().toString() == "pin")
-                                uPro.setPin(xmlReader.readElementText().toInt()); // INT
-                            if(xmlReader.name().toString() == "count")
-                                uPro.setCount(xmlReader.readElementText().toDouble());    // DOUBLEE
-                            if(xmlReader.name().toString() == "countNumber")
-                                uPro.setCountNumber(xmlReader.readElementText().toInt());
-                            xmlReader.readNext();
-                        }
-                        user.push_back(new ProUser(uPro));
-                    }
-                }
-            }
-            file->close();
-            if (xmlReader.hasError()) return false;
-            return true;
-        }
-        return false;
-}*/
 
 /*ProUser DataBase::getPro (const string& usr) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
@@ -470,94 +348,6 @@ bool DataBase::verifyNumberPro (const int& number) const {
     }
     return false;
 }
-
-/*ProUser DataBase::getProByCount (const int& conto) const {
-    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        ProUser* s = dynamic_cast<ProUser*> (user[it]);
-        if (s && s->getCountNumber() == conto)
-            return *s;
-    }
-}*/
-
-/*bool DataBase::verifyStillPro (const ProUser& Pro) {
-    if (Pro.getCount() < 100000) {   // L'utente passa a Basic
-        //ProUser s = new ProUser (b.getName(), b.getSurname(), b.getAddress(), b.getTelephone(), b.getUsername(), b.getCode(), b.getPin(), b.getCountNumber(), b.getCount());
-        BasicUser *b = new BasicUser (Pro);
-
-        int cont = 0;
-        for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-            ProUser* s = dynamic_cast<ProUser*> (user[it]);
-            if (s && s->getUsername() != Pro.getUsername())
-                cont ++;
-            else
-                break;
-        }
-        user.remove(cont); // Rimuove il "vecchio" utente Pro dalla lista degli utenti Pro
-
-        user.push_back(b); // Inserisce il "nuovo" utente Basic nella lista di appartenenza
-
-        if (this->write() && this->write())
-            return false;
-        else
-            return true;
-    } else {
-        int cont = 0;
-        for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-            ProUser* s = dynamic_cast<ProUser*> (user[it]);
-            if (s && s->getUsername() != Pro.getUsername())
-                cont ++;
-            else
-                break;
-        }
-        user.remove(cont); // Rimuove il "vecchio" utente Basic dalla lista degli utenti Basic
-        ProUser app = static_cast<ProUser>(Pro);
-        user.push_back(&app); // Inserisce il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
-        this->write();
-        return true;
-    }
-}*/
-
-/*bool DataBase::removePro (const ProUser& Pro) {
-    int cont = 0;
-    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        ProUser* s = dynamic_cast<ProUser*> (user[it]);
-        if (s && s->getUsername() == Pro.getUsername()) break;
-        cont++;
-    }
-    user.remove(cont);
-}*/
-
-/*bool DataBase::writePro () {
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/Pro.xml");
-    file->open(QIODevice::WriteOnly);
-    QXmlStreamWriter xmlWriter(file);
-    xmlWriter.setAutoFormatting(true);
-
-    xmlWriter.writeStartDocument();
-    xmlWriter.writeStartElement("Pros");
-    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        ProUser* s = dynamic_cast<ProUser*> (user[it]);
-        if (s) {
-            xmlWriter.writeStartElement("Pro");
-            xmlWriter.writeTextElement("name", QString::fromStdString(s->getName()));
-            xmlWriter.writeTextElement("surname", QString::fromStdString(s->getSurname()));
-            xmlWriter.writeTextElement("address", QString::fromStdString(s->getAddress()));
-            xmlWriter.writeTextElement("telephone", QString::number(s->getTelephone()));
-            xmlWriter.writeTextElement("code", QString::fromStdString(s->getCode()));
-            xmlWriter.writeTextElement("username", QString::fromStdString(s->getUsername()));
-            xmlWriter.writeTextElement("pin", QString::number(s->getPin()));
-            xmlWriter.writeTextElement("count", QString::number(s->getCount()));
-            xmlWriter.writeTextElement("countNumber", QString::number(s->getCountNumber()));
-            xmlWriter.writeEndElement();
-        }
-    }
-    xmlWriter.writeEndElement();
-    xmlWriter.writeEndDocument();
-
-    file->close();
-    if (xmlWriter.hasError()) return false;
-    return true;
-}*/
 
 Container<BasicUser> DataBase::getUserNoAdmin () {
     Container<BasicUser> u;

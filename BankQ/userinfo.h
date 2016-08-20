@@ -24,7 +24,7 @@ public:
 
     //void setSilver (SilverUser const&);
 
-    void setTable (const User&);
+    void setTable (const User&,  const bool&);
 
 private slots:
     void on_toolButton_3_clicked();

@@ -59,4 +59,5 @@ void ProUser::setRequest (bool r) {
 }
 
 double ProUser::bonus = 1.5;
+
 double ProUser::proTax = 0.5;

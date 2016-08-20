@@ -18,7 +18,7 @@ class AdminInfo : public QDialog {
 
         void setAdmin (const User&);
 
-        void setTable (const string&);
+        void setTable (const string&,  const bool&);
 
         void setComboBox ();
 
