@@ -10,4 +10,9 @@
         <sender>BankQ</sender>
         <text>Bonus ricevuto</text>
     </message>
+    <message>
+        <recipient>BankQ</recipient>
+        <sender>pluto</sender>
+        <text>ciao, siete dei coglioni</text>
+    </message>
 </messages>

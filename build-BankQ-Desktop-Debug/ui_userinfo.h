@@ -20,6 +20,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QWidget>
 
@@ -68,16 +69,10 @@ public:
     QLineEdit *lineEdit_3;
     QLabel *label_15;
     QWidget *tab_4;
-    QLabel *label_65;
-    QLabel *label_66;
-    QLabel *label_67;
     QLabel *label_68;
     QToolButton *toolButton_13;
-    QLabel *label_69;
-    QLabel *label_70;
-    QLabel *label_71;
-    QLabel *label_72;
-    QLabel *label_73;
+    QTextEdit *textEdit;
+    QLabel *label_19;
     QWidget *tab_5;
     QTableView *tableView;
     QToolButton *toolButton_5;
@@ -209,36 +204,18 @@ public:
         tabWidget->addTab(tab_3, QString());
         tab_4 = new QWidget();
         tab_4->setObjectName(QStringLiteral("tab_4"));
-        label_65 = new QLabel(tab_4);
-        label_65->setObjectName(QStringLiteral("label_65"));
-        label_65->setGeometry(QRect(50, 70, 101, 17));
-        label_66 = new QLabel(tab_4);
-        label_66->setObjectName(QStringLiteral("label_66"));
-        label_66->setGeometry(QRect(210, 70, 121, 17));
-        label_67 = new QLabel(tab_4);
-        label_67->setObjectName(QStringLiteral("label_67"));
-        label_67->setGeometry(QRect(50, 110, 131, 17));
         label_68 = new QLabel(tab_4);
         label_68->setObjectName(QStringLiteral("label_68"));
         label_68->setGeometry(QRect(10, 10, 71, 21));
         toolButton_13 = new QToolButton(tab_4);
         toolButton_13->setObjectName(QStringLiteral("toolButton_13"));
-        toolButton_13->setGeometry(QRect(190, 230, 81, 25));
-        label_69 = new QLabel(tab_4);
-        label_69->setObjectName(QStringLiteral("label_69"));
-        label_69->setGeometry(QRect(50, 150, 111, 17));
-        label_70 = new QLabel(tab_4);
-        label_70->setObjectName(QStringLiteral("label_70"));
-        label_70->setGeometry(QRect(210, 110, 121, 17));
-        label_71 = new QLabel(tab_4);
-        label_71->setObjectName(QStringLiteral("label_71"));
-        label_71->setGeometry(QRect(210, 150, 121, 17));
-        label_72 = new QLabel(tab_4);
-        label_72->setObjectName(QStringLiteral("label_72"));
-        label_72->setGeometry(QRect(50, 190, 121, 17));
-        label_73 = new QLabel(tab_4);
-        label_73->setObjectName(QStringLiteral("label_73"));
-        label_73->setGeometry(QRect(210, 190, 111, 17));
+        toolButton_13->setGeometry(QRect(230, 260, 81, 25));
+        textEdit = new QTextEdit(tab_4);
+        textEdit->setObjectName(QStringLiteral("textEdit"));
+        textEdit->setGeometry(QRect(50, 90, 471, 151));
+        label_19 = new QLabel(tab_4);
+        label_19->setObjectName(QStringLiteral("label_19"));
+        label_19->setGeometry(QRect(50, 50, 441, 16));
         tabWidget->addTab(tab_4, QString());
         tab_5 = new QWidget();
         tab_5->setObjectName(QStringLiteral("tab_5"));
@@ -303,16 +280,9 @@ public:
         label_23->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         label_15->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Numero conto</span></p></body></html>", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("UserInfo", "Carica", 0));
-        label_65->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Saldo attuale</span></p></body></html>", 0));
-        label_66->setText(QApplication::translate("UserInfo", "TextLabel", 0));
-        label_67->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Costo gold</span></p></body></html>", 0));
         label_68->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
-        toolButton_13->setText(QApplication::translate("UserInfo", "Upgrade", 0));
-        label_69->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Aumento tasse</span></p></body></html>", 0));
-        label_70->setText(QApplication::translate("UserInfo", "TextLabel", 0));
-        label_71->setText(QApplication::translate("UserInfo", "TextLabel", 0));
-        label_72->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Aumento bonus</span></p></body></html>", 0));
-        label_73->setText(QApplication::translate("UserInfo", "TextLabel", 0));
+        toolButton_13->setText(QApplication::translate("UserInfo", "Invia", 0));
+        label_19->setText(QApplication::translate("UserInfo", "Per opinioni, richieste o altro contattaci utilizzando la seguente casella", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("UserInfo", "Upgrade", 0));
         toolButton_5->setText(QApplication::translate("UserInfo", "Visualizzati", 0));
         label_25->setText(QString());

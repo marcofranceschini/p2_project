@@ -29,9 +29,8 @@ void UserInfo::setUser (const User& cu) {
     ui->label_10->setText(QString::number(u->getTax()));            // Tasse anno
     ui->label_10->setText(QString::number(u->getTax()));            // Tasse anno
     ui->label_24->setText(QString::number(u->getCountNumber()));    // Numero conto
-    ui->label_12->setText(QString::number(u->getCount()));          // Saldo
+    ui->label_12->setText(QString::number(u->getCount()));          // Saldo info utente
     ui->label_22->setText(QString::number(u->getCount()));          // Saldo ricarica
-    ui->label_66->setText(QString::number(u->getCount()));          // Saldo
 
 
     if (dynamic_cast<ProUser*> (u)) {
@@ -212,9 +211,8 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                         );
                     }
                     // Aggiorno la "grafica" del saldo
-                    ui->label_12->setText(QString::number(mittente->getCount()));   // Saldo
+                    ui->label_12->setText(QString::number(mittente->getCount()));   // Saldo info utente
                     ui->label_22->setText(QString::number(mittente->getCount()));   // Saldo ricarica
-                    ui->label_66->setText(QString::number(mittente->getCount()));   // Saldo
 
                     ui->lineEdit_2->setText("");    // Cifra da caricare
                     ui->lineEdit_3->setText("");    // Numero di conto
@@ -255,11 +253,38 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
 }
 
 
-void UserInfo::on_toolButton_13_clicked() {
-    QString appCost = ui->label_70->text();
-    QString appTax = ui->label_71->text();
-    float cost = appCost.toFloat();
-    float tax = appTax.toFloat();
+void UserInfo::on_toolButton_13_clicked() {     // Invio messaggio all'amministratore
+
+    QString s = ui->textEdit->toPlainText();
+    string mex = s.toUtf8().constData();        // Messaggio
+
+    QString c = ui->label_78->text();
+    string username = c.toUtf8().constData();   // Username dell'utente loggato
+
+    if (mex != "" && mex != " ") {
+        MessagesDataBase m;
+        if (m.loadMessages()) {
+            m.addMessage(*new Message("BankQ", username, mex));
+            QMessageBox::information(
+                this,
+                tr("BankQ - Invio"),
+                tr("Messaggio inviato correttamente")
+            );
+            ui->textEdit->setText("");
+        } else {
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("Errore di caricamento (messaggi)")
+            );
+        }
+    } else {
+        QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("Messaggio vuoto")
+        );
+    }
     //qDebug()  << withdraw << QString("float %1").arg(f, 20, 'f', 20);
     // Verifico se prelevo oltre il limite del conto
     //if....
@@ -273,11 +298,6 @@ void UserInfo::on_toolButton_13_clicked() {
     // Modifico tassa e bonus
 
     //Messaggio di avvenuto prelievo
-    QMessageBox::information(
-        this,
-        tr("BankQ - Upgrade"),
-        tr("Upgrade corretto, ora sei un utente gold")
-    );
     // Verifico se l'utente scende ad utente Basic + messaggio
 }
 
