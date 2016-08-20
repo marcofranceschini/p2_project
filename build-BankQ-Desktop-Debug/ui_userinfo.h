@@ -179,7 +179,7 @@ public:
         tab_3->setObjectName(QStringLiteral("tab_3"));
         toolButton_4 = new QToolButton(tab_3);
         toolButton_4->setObjectName(QStringLiteral("toolButton_4"));
-        toolButton_4->setGeometry(QRect(190, 230, 71, 25));
+        toolButton_4->setGeometry(QRect(250, 230, 71, 25));
         label_20 = new QLabel(tab_3);
         label_20->setObjectName(QStringLiteral("label_20"));
         label_20->setGeometry(QRect(50, 110, 131, 17));
@@ -235,7 +235,7 @@ public:
 
         retranslateUi(UserInfo);
 
-        tabWidget->setCurrentIndex(3);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(UserInfo);
@@ -276,7 +276,7 @@ public:
         toolButton_4->setText(QApplication::translate("UserInfo", "Carica", 0));
         label_20->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Cifra da caricare</span></p></body></html>", 0));
         label_21->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Saldo attuale</span></p></body></html>", 0));
-        label_22->setText(QApplication::translate("UserInfo", "TextLabel", 0));
+        label_22->setText(QString());
         label_23->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         label_15->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Numero conto</span></p></body></html>", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("UserInfo", "Carica", 0));
