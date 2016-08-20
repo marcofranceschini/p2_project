@@ -29,7 +29,8 @@ void AdminInfo::setAdmin (const User& cu) {
     //ui->label_21->setText("Ci sono 3 richieste di chiudere il conto"); // Username amministratore
     this->setTable("BankQ", true);     // Riempie la tabella con i messaggi
 
-    this->setComboBox();    // Riempi la combo box con gli utenti
+    this->setComboBox();    // Riempi la comboBox con gli utenti da eliminare
+    this->setComboBox_2();  // Riempi la comboBox con gli utenti a cui assegnare il bonus
 }
 
 void AdminInfo::on_toolButton_2_clicked() {     // Inserisci nuovo utente
@@ -181,17 +182,34 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
     }
 }
 
-void AdminInfo::setComboBox () {    // Riempie la combo box
+void AdminInfo::setComboBox () {    // Riempie la comboBox
     DataBase d;
     if (d.load()) {
         Container<BasicUser> l = d.getUserNoAdmin();
-
-        for (Container<BasicUser>::Iteratore it = l.begin(); it != l.end(); ++it) {
-            ui->comboBox->addItem(QString::fromStdString(l[it]->getUsername()) + " - " + QString::number(l[it]->getCountNumber()));
+        if (0 < l.getSize()) {
+            for (Container<BasicUser>::Iteratore it = l.begin(); it != l.end(); ++it) {
+                ui->comboBox->addItem(QString::fromStdString(l[it]->getUsername()) + " - " + QString::number(l[it]->getCountNumber()));
+            }
+        } else {    // Non ho utenti da eliminare
+            ui->comboBox->addItem("Nessun utente");
+            ui->toolButton_3->setEnabled(false);
         }
+    }
+
+}
+
+void AdminInfo::setComboBox_2 () {    // Riempie la comboBox_2
+    DataBase d;
+    if (d.load()) {
         Container<ProUser> r = d.getUserNoRequest();
-        for (Container<ProUser>::Iteratore it = r.begin(); it != r.end(); ++it) {
-            ui->comboBox_2->addItem(QString::fromStdString(r[it]->getUsername()) + " - " + QString::number(r[it]->getCountNumber()));
+        if (0 < r.getSize()) {
+            for (Container<ProUser>::Iteratore it = r.begin(); it != r.end(); ++it) {
+                ui->comboBox_2->addItem(QString::fromStdString(r[it]->getUsername()) + " - " + QString::number(r[it]->getCountNumber()));
+            }
+        } else {    // Non ho utenti a cui assegnare il bonus
+            ui->comboBox_2->addItem("Nessun utente");
+            ui->toolButton_5->setEnabled(false);
+            ui->toolButton_6->setEnabled(false);
         }
     }
 
@@ -204,30 +222,41 @@ void AdminInfo::on_toolButton_clicked () {   // Logout
 }
 
 void AdminInfo::on_toolButton_3_clicked() {     // Elimina un utente
-    QString qstr = ui->comboBox->itemText(ui->comboBox->currentIndex());  // Elemento selezionato
-    //QString qstr = qv.toString();
-    string str = qstr.toUtf8().constData(); // "Username - #conto"
+    QMessageBox msgBox(
+                QMessageBox::Question,
+                trUtf8("Attenzione"),
+                trUtf8("Proseguire?"),
+                QMessageBox::Yes | QMessageBox::No);
 
-    string delimiter = " - ";
-    string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
+    msgBox.setButtonText(QMessageBox::Yes, trUtf8("Si"));
+    msgBox.setButtonText(QMessageBox::No, trUtf8("No"));
 
-    DataBase d;
-    if (d.load()) {
-        d.remove(*d.getUser(user));    // Rimuovo l'utente dal DB
+    if (msgBox.exec() == QMessageBox::Yes) {
+        QString qstr = ui->comboBox->itemText(ui->comboBox->currentIndex());  // Elemento selezionato
+        //QString qstr = qv.toString();
+        string str = qstr.toUtf8().constData(); // "Username - #conto"
 
-        QMessageBox::information(
-            this,
-            tr("BankQ - Rimozione Utente"),
-            tr("Rimozione avvenuta correttamente")
-        );
-    } else {
-        QMessageBox::warning(
-            this,
-            tr("BankQ - Errore"),
-            tr("Errore di caricamento del DB")
-        );
+        string delimiter = " - ";
+        string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
+
+        DataBase d;
+        if (d.load()) {
+            d.remove(*d.getUser(user));    // Rimuovo l'utente dal DB
+
+            QMessageBox::information(
+                this,
+                tr("BankQ - Rimozione Utente"),
+                tr("Rimozione avvenuta correttamente")
+            );
+        } else {
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("Errore di caricamento del DB")
+            );
+        }
+        this->setComboBox();
     }
-    this->setComboBox();
 }
 
 void AdminInfo::on_toolButton_4_clicked() {     // Messaggi spuntati come "visualizzati"
@@ -268,49 +297,80 @@ void AdminInfo::on_toolButton_4_clicked() {     // Messaggi spuntati come "visua
 }
 
 void AdminInfo::on_toolButton_5_clicked() {     // Assegna il bonus (utente selezionato)
-    QString qstr = ui->comboBox_2->itemText(ui->comboBox_2->currentIndex());  // Elemento selezionato
-    //QString qstr = qv.toString();
-    string str = qstr.toUtf8().constData(); // "Username - #conto"
+    QMessageBox msgBox(
+                QMessageBox::Question,
+                trUtf8("Attenzione"),
+                trUtf8("Proseguire?"),
+                QMessageBox::Yes | QMessageBox::No);
 
-    string delimiter = " - ";
-    string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
+    msgBox.setButtonText(QMessageBox::Yes, trUtf8("Si"));
+    msgBox.setButtonText(QMessageBox::No, trUtf8("No"));
 
-    DataBase d;
-    if (d.load()) {
-        d.giveBonus(*d.getUser(user));    // Assegno il bonus all'utente passato
-        this->setComboBox();
+    if (msgBox.exec() == QMessageBox::Yes) {
+        QString qstr = ui->comboBox_2->itemText(ui->comboBox_2->currentIndex());  // Elemento selezionato
+        //QString qstr = qv.toString();
+        string str = qstr.toUtf8().constData(); // Stringa "username - #conto"
 
-        QMessageBox::information(
-            this,
-            tr("BankQ - Assengnazione bonus"),
-            tr("Bonus assegnato")
-        );
-    } else {
-        QMessageBox::warning(
-            this,
-            tr("BankQ - Errore"),
-            tr("Errore di caricamento del DB")
-        );
+        string delimiter = " - ";
+        string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
+
+        DataBase d;
+        if (d.load()) {
+            d.giveBonus(*d.getUser(user));    // Assegno il bonus all'utente passato
+            ui->comboBox_2->removeItem(ui->comboBox_2->currentIndex());
+            this->setComboBox_2();
+
+            QMessageBox::information(
+                this,
+                tr("BankQ - Assengnazione bonus"),
+                tr("Bonus assegnato")
+            );
+        } else {
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("Errore di caricamento del DB")
+            );
+        }
     }
 }
 
-void AdminInfo::on_toolButton_6_clicked() { // Assegna il bonus (a "tutti")
-    DataBase d;
-    if (d.load()) {
-        d.giveBonusToAll();    // Assegna il bonus agli utenti che non lo hanno ancora ricevuto
-        this->setComboBox();
+void AdminInfo::on_toolButton_6_clicked() {     // Assegna il bonus (a "tutti")
+    QMessageBox msgBox(
+                QMessageBox::Question,
+                trUtf8("Attenzione"),
+                trUtf8("Proseguire?"),
+                QMessageBox::Yes | QMessageBox::No);
 
-        QMessageBox::information(
-            this,
-            tr("BankQ - Assengnazione bonus"),
-            tr("Bonus assegnato")
-        );
-    } else {
-        QMessageBox::warning(
-            this,
-            tr("BankQ - Errore"),
-            tr("Errore di caricamento del DB")
-        );
+    msgBox.setButtonText(QMessageBox::Yes, trUtf8("Si"));
+    msgBox.setButtonText(QMessageBox::No, trUtf8("No"));
+
+    if (msgBox.exec() == QMessageBox::Yes) {
+        DataBase d;
+        if (d.load()) {
+            d.giveBonusToAll();    // Assegna il bonus agli utenti che non lo hanno ancora ricevuto
+            int size = ui->comboBox_2->count();     // Numero di elementi nella comboBox
+
+            while (0 <= size) {  // "Azzero" la comboBox
+                ui->comboBox_2->removeItem(size);
+                size--;
+                QString st =QString::number(size);   // DA RIMUOVERE
+                qDebug("QQQ-" + st.toLatin1() + "-QQQ");                              // DA RIMUOVERE
+            }
+
+            this->setComboBox_2();
+            QMessageBox::information(
+                this,
+                tr("BankQ - Assengnazione bonus"),
+                tr("Bonus assegnato")
+            );
+        } else {
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("Errore di caricamento del DB")
+            );
+        }
     }
 }
 

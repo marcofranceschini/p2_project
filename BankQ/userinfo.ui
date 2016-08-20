@@ -334,7 +334,7 @@
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
-     <string>Preleva</string>
+     <string>Richiedi Bonus</string>
     </attribute>
     <widget class="QLabel" name="label_14">
      <property name="geometry">
@@ -494,7 +494,7 @@
    </widget>
    <widget class="QWidget" name="tab_4">
     <attribute name="title">
-     <string>Upgrade</string>
+     <string>Invia Messaggio</string>
     </attribute>
     <widget class="QLabel" name="label_68">
      <property name="geometry">

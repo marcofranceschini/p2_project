@@ -81,8 +81,8 @@ bool MessagesDataBase::deleteMessages (const string& user) {
         for (int i = 0; i < vet.size(); ++i) {
             messages.remove(vet[i]);
         }
-        QString st =QString::number(this->countMessage(user));   // DA RIMUOVERE
-        qDebug("QQQ-" + st.toLatin1() + "-QQQ");                 // DA RIMUOVERE
+        /*QString st =QString::number(this->countMessage(user));   // DA RIMUOVERE
+        qDebug("QQQ-" + st.toLatin1() + "-QQQ");                 // DA RIMUOVERE*/
         return this->writeMessages();
     }
     return false;

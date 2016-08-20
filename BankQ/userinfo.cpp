@@ -126,6 +126,7 @@ void UserInfo::on_toolButton_3_clicked() {  // Richiesta bonus anticipato
         //ProUser* pro = dynamic_cast<ProUser*>(user);
         ui->toolButton_3->setEnabled(false);
         ui->label_17->setText("Bonus già richiesto");
+        ui->label_18->setEnabled(false);
 
         QMessageBox::information(
             this,
@@ -143,112 +144,123 @@ void UserInfo::on_toolButton_3_clicked() {  // Richiesta bonus anticipato
 
 
 void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
-    QString a = ui->lineEdit_2->text();     // Cifra da caricare
-    QString bi = ui->lineEdit_3->text();    // Numero di conto
-    QString c = ui->label_78->text();       // Username dell'utente loggato
+    QMessageBox msgBox(
+                QMessageBox::Question,
+                trUtf8("Attenzione"),
+                trUtf8("Proseguire?"),
+                QMessageBox::Yes | QMessageBox::No);
 
-    double cifra = a.toDouble();
-    int conto = bi.toInt();
-    string username = c.toUtf8().constData();
-    //bool flag = false;
+    msgBox.setButtonText(QMessageBox::Yes, trUtf8("Si"));
+    msgBox.setButtonText(QMessageBox::No, trUtf8("No"));
 
-    if (cifra > 0) {
-        DataBase d;
-        if (d.load()) {
-            User* m_app = d.getUser(username);
-            BasicUser* mittente = dynamic_cast<BasicUser*> (m_app); // Username dell'utente loggato
+    if (msgBox.exec() == QMessageBox::Yes) {
+        QString a = ui->lineEdit_2->text();     // Cifra da caricare
+        QString bi = ui->lineEdit_3->text();    // Numero di conto
+        QString c = ui->label_78->text();       // Username dell'utente loggato
 
-            QString st =QString::fromStdString(mittente->getName());    // DA RIMUOVERE
-            qDebug("MMM-" + st.toLatin1() + "-MMM");                    // DA RIMUOVERE
+        double cifra = a.toDouble();
+        int conto = bi.toInt();
+        string username = c.toUtf8().constData();
+        //bool flag = false;
 
-            if (mittente->getCountNumber() != conto) {      // Verifico che il conto da ricarica e quello dell'utente loggato siano diversi
-                if (0 <= mittente->getCount() - cifra) {    // Verifico che il conto abbia sufficiente credito
+        if (cifra > 0) {
+            DataBase d;
+            if (d.load()) {
+                User* m_app = d.getUser(username);
+                BasicUser* mittente = dynamic_cast<BasicUser*> (m_app); // Username dell'utente loggato
 
-                    User* r_app = d.getUserByCountNumber(conto);  // Username del "ricevente"
-                    BasicUser* ricevente = dynamic_cast<BasicUser*> (r_app);
+                QString st =QString::fromStdString(mittente->getName());    // DA RIMUOVERE
+                qDebug("MMM-" + st.toLatin1() + "-MMM");                    // DA RIMUOVERE
 
-                    QString st =QString::fromStdString(ricevente->getName());    // DA RIMUOVERE
-                    qDebug("RRR-" + st.toLatin1() + "-RRR");                    // DA RIMUOVERE
+                if (mittente->getCountNumber() != conto) {      // Verifico che il conto da ricarica e quello dell'utente loggato siano diversi
+                    if (0 <= mittente->getCount() - cifra) {    // Verifico che il conto abbia sufficiente credito
 
-                    // Aggiunto l'importo al conto dell'utente "ricevente"
-                    ricevente->setCount(ricevente->getCount() + cifra);
-                    QString qstr = "Ricevuta una ricarica di € " + QString::number(cifra);
-                    string str = qstr.toUtf8().constData();
-                    MessagesDataBase m;
-                    if (m.loadMessages())   {
-                        // Messaggio per la ricarica ricevuta
-                        m.addMessage(*new Message(ricevente->getUsername(), mittente->getUsername(), str));
+                        User* r_app = d.getUserByCountNumber(conto);  // Username del "ricevente"
+                        BasicUser* ricevente = dynamic_cast<BasicUser*> (r_app);
 
-                        // Messaggio per un'eventuale passaggio da Basic a Pro
-                        if (!d.verifyStillSame(*ricevente))   // Se l'utente è Basic allora può diventare Pro, altrimenti non accade "nulla"
-                            // Se l'utente passa a Pro invio un messaggio
-                            m.addMessage(*new Message(ricevente->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro"));
-                    } else {
-                        QMessageBox::warning(
-                            this,
-                            tr("BankQ - Errore"),
-                            tr("Errore di caricamento (messaggi)")
-                        );
-                    }
-                        // MANDO UN MESSAGGIO PER LA RICARICA RICEVUTA
+                        QString st =QString::fromStdString(ricevente->getName());    // DA RIMUOVERE
+                        qDebug("RRR-" + st.toLatin1() + "-RRR");                    // DA RIMUOVERE
+
+                        // Aggiunto l'importo al conto dell'utente "ricevente"
+                        ricevente->setCount(ricevente->getCount() + cifra);
+                        QString qstr = "Ricevuta una ricarica di € " + QString::number(cifra);
+                        string str = qstr.toUtf8().constData();
+                        MessagesDataBase m;
+                        if (m.loadMessages())   {
+                            // Messaggio per la ricarica ricevuta
+                            m.addMessage(*new Message(ricevente->getUsername(), mittente->getUsername(), str));
+
+                            // Messaggio per un'eventuale passaggio da Basic a Pro
+                            if (!d.verifyStillSame(*ricevente))   // Se l'utente è Basic allora può diventare Pro, altrimenti non accade "nulla"
+                                // Se l'utente passa a Pro invio un messaggio
+                                m.addMessage(*new Message(ricevente->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro"));
+                        } else {
+                            QMessageBox::warning(
+                                this,
+                                tr("BankQ - Errore"),
+                                tr("Errore di caricamento (messaggi)")
+                            );
+                        }
+                            // MANDO UN MESSAGGIO PER LA RICARICA RICEVUTA
 
 
-                     //ProUser* Pro = dynamic_cast<ProUser*> (user);
-                    // Tolgo l'importo dal conto dell'utente loggato
-                    mittente->setCount(mittente->getCount() - cifra);
+                         //ProUser* Pro = dynamic_cast<ProUser*> (user);
+                        // Tolgo l'importo dal conto dell'utente loggato
+                        mittente->setCount(mittente->getCount() - cifra);
 
-                    if (!d.verifyStillSame(*mittente)) {   // Se l'utente è Pro allora può diventare Basic, altrimenti non accade "nulla"
-                        /*BasicUser* app = new BasicUser(*s);
-                        user = app;
-                        delete app;*/
-                        //delete &userS;    // CAUSA CRASH
-                        ui->label_6->setText("Basic"); // Cambio il tipo di conto
+                        if (!d.verifyStillSame(*mittente)) {   // Se l'utente è Pro allora può diventare Basic, altrimenti non accade "nulla"
+                            /*BasicUser* app = new BasicUser(*s);
+                            user = app;
+                            delete app;*/
+                            //delete &userS;    // CAUSA CRASH
+                            ui->label_6->setText("Basic"); // Cambio il tipo di conto
+
+                            QMessageBox::information(
+                                this,
+                                tr("BankQ - Avviso"),
+                                tr("Con l'ultimo ricarica il tipo di conto è diventanto Basic")
+                            );
+                        }
+                        // Aggiorno la "grafica" del saldo
+                        ui->label_12->setText(QString::number(mittente->getCount()));   // Saldo info utente
+                        ui->label_22->setText(QString::number(mittente->getCount()));   // Saldo ricarica
+
+                        ui->lineEdit_2->setText("");    // Cifra da caricare
+                        ui->lineEdit_3->setText("");    // Numero di conto
 
                         QMessageBox::information(
                             this,
-                            tr("BankQ - Avviso"),
-                            tr("Con l'ultimo ricarica il tipo di conto è diventanto Basic")
+                            tr("BankQ - Ricarica"),
+                            tr("Ricarica avvenuta correttamenta")
+                        );
+                    } else {
+                        QMessageBox::warning(
+                            this,
+                            tr("BankQ - Prelievo"),
+                            tr("Credito insufficiente")
                         );
                     }
-                    // Aggiorno la "grafica" del saldo
-                    ui->label_12->setText(QString::number(mittente->getCount()));   // Saldo info utente
-                    ui->label_22->setText(QString::number(mittente->getCount()));   // Saldo ricarica
-
-                    ui->lineEdit_2->setText("");    // Cifra da caricare
-                    ui->lineEdit_3->setText("");    // Numero di conto
-
-                    QMessageBox::information(
-                        this,
-                        tr("BankQ - Ricarica"),
-                        tr("Ricarica avvenuta correttamenta")
-                    );
                 } else {
-                    QMessageBox::warning(
-                        this,
-                        tr("BankQ - Prelievo"),
-                        tr("Credito insufficiente")
-                    );
-                }
+                        QMessageBox::warning(
+                            this,
+                            tr("BankQ - Prelievo"),
+                            tr("Non è possibile inserire il proprio conto")
+                        );
+                    }
             } else {
-                    QMessageBox::warning(
-                        this,
-                        tr("BankQ - Prelievo"),
-                        tr("Non è possibile inserire il proprio conto")
-                    );
-                }
+                QMessageBox::warning(
+                    this,
+                    tr("BankQ - Errore"),
+                    tr("Errore di caricamento del DB")
+                );
+            }
         } else {
             QMessageBox::warning(
                 this,
-                tr("BankQ - Errore"),
-                tr("Errore di caricamento del DB")
+                tr("BankQ - Prelievo"),
+                tr("Importo errato")
             );
         }
-    } else {
-        QMessageBox::warning(
-            this,
-            tr("BankQ - Prelievo"),
-            tr("Importo errato")
-        );
     }
 }
 

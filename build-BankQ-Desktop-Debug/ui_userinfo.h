@@ -272,7 +272,7 @@ public:
         label_17->setText(QApplication::translate("UserInfo", "<html><head/><body><p>Richiedi il bonus anticipato*</p></body></html>", 0));
         label_18->setText(QApplication::translate("UserInfo", "<html><head/><body><p>*<span style=\" font-size:6pt;\">\303\210 prevista la detrazione della tassa</span></p></body></html>", 0));
         toolButton_3->setText(QApplication::translate("UserInfo", "Richiedi", 0));
-        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("UserInfo", "Preleva", 0));
+        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("UserInfo", "Richiedi Bonus", 0));
         toolButton_4->setText(QApplication::translate("UserInfo", "Carica", 0));
         label_20->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Cifra da caricare</span></p></body></html>", 0));
         label_21->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Saldo attuale</span></p></body></html>", 0));
@@ -283,7 +283,7 @@ public:
         label_68->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         toolButton_13->setText(QApplication::translate("UserInfo", "Invia", 0));
         label_19->setText(QApplication::translate("UserInfo", "Per opinioni, richieste o altro contattaci utilizzando la seguente casella", 0));
-        tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("UserInfo", "Upgrade", 0));
+        tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("UserInfo", "Invia Messaggio", 0));
         toolButton_5->setText(QApplication::translate("UserInfo", "Visualizzati", 0));
         label_25->setText(QString());
         label_80->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
