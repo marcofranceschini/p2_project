@@ -26,7 +26,7 @@
     <locale language="Italian" country="Italy"/>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -391,7 +391,7 @@
    </widget>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
-     <string>Carica</string>
+     <string>Ricarica</string>
     </attribute>
     <widget class="QToolButton" name="toolButton_4">
      <property name="geometry">
@@ -553,9 +553,9 @@
     <widget class="QTableView" name="tableView">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>40</x>
        <y>90</y>
-       <width>511</width>
+       <width>491</width>
        <height>171</height>
       </rect>
      </property>

@@ -16,7 +16,6 @@ UserInfo::~UserInfo() {
     delete ui;
 }
 
-
 void UserInfo::setUser (const User& cu) {
     User* ncu = const_cast<User*> (&cu);
     BasicUser* u = dynamic_cast<BasicUser*> (ncu);
@@ -51,7 +50,6 @@ void UserInfo::setUser (const User& cu) {
     this->setTable(cu, true);
 }
 
-
 void UserInfo::setTable (const User& u, const bool& f) {   // Riempie la tabella in caso vi siano messaggi per l'utente loggato
     MessagesDataBase* message = new MessagesDataBase();
     if (message->loadMessages()) {
@@ -72,13 +70,17 @@ void UserInfo::setTable (const User& u, const bool& f) {   // Riempie la tabella
             QString s = QString::number(mex);
             ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
 
-            if (f) {
+            if (f) {    // Appare solo se faccio l'accesso e no anche se elimino un messaggio
                 QMessageBox::information(
                     this,
                     tr("BankQ - Messagi"),
                     tr("Ci sono nuovi messaggi da leggere")
                 );
             }
+
+            ui->tableView->setColumnWidth(0, 70);  // Fitto la larghezza della colonna #0
+            ui->tableView->setColumnWidth(1, 405);  // Fitto la larghezza della colonna #1
+            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
 
             Container<Message> app;
             app = message->getMessageByUser(u.getUsername());
@@ -104,6 +106,14 @@ void UserInfo::setTable (const User& u, const bool& f) {   // Riempie la tabella
         } else {
             ui->label_25->setText("Non sono presenti nuovi messaggi da leggere");
             ui->toolButton_5->setEnabled(false);
+
+            QStandardItemModel *model = new QStandardItemModel (mex, 2, this);
+            QStringList columnName;
+            columnName.push_back("Mittente");
+            columnName.push_back("Messaggio");
+            model->setHorizontalHeaderLabels(columnName);
+            ui->tableView->verticalHeader()->setVisible(false);
+            ui->tableView->setModel(model);
         }
     } else {
         QMessageBox::warning(
@@ -113,7 +123,6 @@ void UserInfo::setTable (const User& u, const bool& f) {   // Riempie la tabella
         );
     }
 }
-
 
 void UserInfo::on_toolButton_3_clicked() {  // Richiesta bonus anticipato
 
@@ -142,88 +151,43 @@ void UserInfo::on_toolButton_3_clicked() {  // Richiesta bonus anticipato
     }
 }
 
-
 void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
+    // Creo il messaggio (ligua inglese)
     QMessageBox msgBox(
                 QMessageBox::Question,
                 trUtf8("Attenzione"),
                 trUtf8("Proseguire?"),
                 QMessageBox::Yes | QMessageBox::No);
 
+    // Cambio le risposte in italiano
     msgBox.setButtonText(QMessageBox::Yes, trUtf8("Si"));
     msgBox.setButtonText(QMessageBox::No, trUtf8("No"));
 
     if (msgBox.exec() == QMessageBox::Yes) {
         QString a = ui->lineEdit_2->text();     // Cifra da caricare
-        QString bi = ui->lineEdit_3->text();    // Numero di conto
+        QString b = ui->lineEdit_3->text();     // Numero di conto
         QString c = ui->label_78->text();       // Username dell'utente loggato
 
         double cifra = a.toDouble();
-        int conto = bi.toInt();
+        int conto = b.toInt();
         string username = c.toUtf8().constData();
         //bool flag = false;
 
         if (cifra > 0) {
             DataBase d;
             if (d.load()) {
-                User* m_app = d.getUser(username);
-                BasicUser* mittente = dynamic_cast<BasicUser*> (m_app); // Username dell'utente loggato
+                if (d.charge (username, cifra, conto)) {
 
-                QString st =QString::fromStdString(mittente->getName());    // DA RIMUOVERE
-                qDebug("MMM-" + st.toLatin1() + "-MMM");                    // DA RIMUOVERE
+                        QString sal = ui->label_12->text();           // Saldo
+                        int saldo = sal.toInt();
+                        saldo = saldo - cifra;
 
-                if (mittente->getCountNumber() != conto) {      // Verifico che il conto da ricarica e quello dell'utente loggato siano diversi
-                    if (0 <= mittente->getCount() - cifra) {    // Verifico che il conto abbia sufficiente credito
-
-                        User* r_app = d.getUserByCountNumber(conto);  // Username del "ricevente"
-                        BasicUser* ricevente = dynamic_cast<BasicUser*> (r_app);
-
-                        QString st =QString::fromStdString(ricevente->getName());    // DA RIMUOVERE
-                        qDebug("RRR-" + st.toLatin1() + "-RRR");                    // DA RIMUOVERE
-
-                        // Aggiunto l'importo al conto dell'utente "ricevente"
-                        ricevente->setCount(ricevente->getCount() + cifra);
-                        QString qstr = "Ricevuta una ricarica di € " + QString::number(cifra);
-                        string str = qstr.toUtf8().constData();
-                        MessagesDataBase m;
-                        if (m.loadMessages())   {
-                            // Messaggio per la ricarica ricevuta
-                            m.addMessage(*new Message(ricevente->getUsername(), mittente->getUsername(), str));
-
-                            // Messaggio per un'eventuale passaggio da Basic a Pro
-                            if (!d.verifyStillSame(*ricevente))   // Se l'utente è Basic allora può diventare Pro, altrimenti non accade "nulla"
-                                // Se l'utente passa a Pro invio un messaggio
-                                m.addMessage(*new Message(ricevente->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro"));
-                        } else {
-                            QMessageBox::warning(
-                                this,
-                                tr("BankQ - Errore"),
-                                tr("Errore di caricamento (messaggi)")
-                            );
-                        }
-                            // MANDO UN MESSAGGIO PER LA RICARICA RICEVUTA
-
-
-                         //ProUser* Pro = dynamic_cast<ProUser*> (user);
-                        // Tolgo l'importo dal conto dell'utente loggato
-                        mittente->setCount(mittente->getCount() - cifra);
-
-                        if (!d.verifyStillSame(*mittente)) {   // Se l'utente è Pro allora può diventare Basic, altrimenti non accade "nulla"
-                            /*BasicUser* app = new BasicUser(*s);
-                            user = app;
-                            delete app;*/
-                            //delete &userS;    // CAUSA CRASH
-                            ui->label_6->setText("Basic"); // Cambio il tipo di conto
-
-                            QMessageBox::information(
-                                this,
-                                tr("BankQ - Avviso"),
-                                tr("Con l'ultimo ricarica il tipo di conto è diventanto Basic")
-                            );
-                        }
                         // Aggiorno la "grafica" del saldo
-                        ui->label_12->setText(QString::number(mittente->getCount()));   // Saldo info utente
-                        ui->label_22->setText(QString::number(mittente->getCount()));   // Saldo ricarica
+                        ui->label_12->setText(QString::number(saldo));   // Saldo info utente
+                        ui->label_22->setText(QString::number(saldo));   // Saldo ricarica
+
+                        if (saldo < 100000)     // È un utente Silver
+                            ui->label_6->setText("Basic"); // Cambio il tipo di conto
 
                         ui->lineEdit_2->setText("");    // Cifra da caricare
                         ui->lineEdit_3->setText("");    // Numero di conto
@@ -233,18 +197,12 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                             tr("BankQ - Ricarica"),
                             tr("Ricarica avvenuta correttamenta")
                         );
-                    } else {
-                        QMessageBox::warning(
-                            this,
-                            tr("BankQ - Prelievo"),
-                            tr("Credito insufficiente")
-                        );
-                    }
+
                 } else {
                         QMessageBox::warning(
                             this,
                             tr("BankQ - Prelievo"),
-                            tr("Non è possibile inserire il proprio conto")
+                            tr("Errore")
                         );
                     }
             } else {
@@ -263,7 +221,6 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
         }
     }
 }
-
 
 void UserInfo::on_toolButton_13_clicked() {     // Invio messaggio all'amministratore
 
@@ -297,22 +254,7 @@ void UserInfo::on_toolButton_13_clicked() {     // Invio messaggio all'amministr
                 tr("Messaggio vuoto")
         );
     }
-    //qDebug()  << withdraw << QString("float %1").arg(f, 20, 'f', 20);
-    // Verifico se prelevo oltre il limite del conto
-    //if....
-    //Messaggio di errore
-    /*QMessageBox::warning(
-        this,
-        tr("BankQ - Errore"),
-        tr("Credito non sufficente")
-    );*/
-
-    // Modifico tassa e bonus
-
-    //Messaggio di avvenuto prelievo
-    // Verifico se l'utente scende ad utente Basic + messaggio
 }
-
 
 void UserInfo::on_toolButton_clicked() {        // Logout
     MainWindow* w = new MainWindow(); // Dichiaro una nuova MainWindow
@@ -320,44 +262,33 @@ void UserInfo::on_toolButton_clicked() {        // Logout
     this->close(); // Chiudo la finestra corrente
 }
 
-
 void UserInfo::on_toolButton_2_clicked() {      // Chiusura conto
     // DA FARE - notificare con un messaggio all'admin della chiusura
-    DataBase d;
     MessagesDataBase m;
 
-    if (d.load()) {
-        QString u = ui->label_78->text();
-        string username = u.toUtf8().constData();
-        //User* user = d.getUser(username);
-        //d.remove(*user);
-        if (m.loadMessages()) {
-            m.deleteMessages(username); // Elimino i messaggi dell'utente
+    QString u = ui->label_78->text();
+    string username = u.toUtf8().constData();
+    //User* user = d.getUser(username);
+    //d.remove(*user);
+    if (m.loadMessages()) {
+        m.deleteMessages(username); // Elimino i messaggi dell'utente
 
-            QMessageBox::information(
-                this,
-                tr("BankQ - Chiusura"),
-                tr("La sua richiesta è stata presa in carico, arrivederci")
-            );
-            this->on_toolButton_clicked();
-            m.addMessage(*new Message ("admin", username, "L'utente desidera chiudere il proprio conto"));
-        } else {
-            QMessageBox::warning(
-                this,
-                tr("BankQ - Errore"),
-                tr("Errore di caricamento (messaggi)")
-            );
-        }
+        QMessageBox::information(
+            this,
+            tr("BankQ - Chiusura"),
+            tr("La sua richiesta è stata presa in carico, arrivederci")
+        );
+        this->on_toolButton_clicked();
+        m.addMessage(*new Message ("admin", username, "L'utente desidera chiudere il proprio conto"));
     } else {
         QMessageBox::warning(
             this,
             tr("BankQ - Errore"),
-            tr("Errore di caricamento del DB")
+            tr("Errore di caricamento (messaggi)")
         );
     }
+
 }
-
-
 
 void UserInfo::on_toolButton_5_clicked() {  // Messaggi spuntati come "visualizzati"
     MessagesDataBase* mdb = new MessagesDataBase();
@@ -410,9 +341,6 @@ void UserInfo::on_tableView_clicked (const QModelIndex &index) {    // Elimino l
 
     QString c = ui->label_78->text();
     string username = c.toUtf8().constData();   // Username dell'utente loggato
-
-    QString st =QString::fromStdString(mex);   // DA RIMUOVERE
-    qDebug("QQQ-" + st.toLatin1() + "-QQQ");                              // DA RIMUOVERE
 
     MessagesDataBase m;
     if (m.loadMessages()) {

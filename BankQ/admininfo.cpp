@@ -141,13 +141,17 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
             QString s = QString::number(mex);
             ui->label_21->setText("Sono presenti " + s + " messaggi da leggere");
 
-            if (f) {
+            if (f) {    // Appare solo se faccio l'accesso e no anche se elimino un messaggio
                 QMessageBox::information(
                     this,
                     tr("BankQ - Messagi"),
                     tr("Ci sono nuovi messaggi da leggere")
                 );
             }
+
+            ui->tableView->setColumnWidth(0, 70);  // Fitto la larghezza della colonna #0
+            ui->tableView->setColumnWidth(1, 409);  // Fitto la larghezza della colonna #1
+            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
 
             //int num = 0;
             Container<Message> app;
@@ -172,6 +176,14 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
         } else {
             ui->label_21->setText("Non sono presenti nuovi messaggi da leggere");
             ui->toolButton_4->setEnabled(false);
+
+            QStandardItemModel *model = new QStandardItemModel (mex, 2, this);
+            QStringList columnName;
+            columnName.push_back("Mittente");
+            columnName.push_back("Messaggio");
+            model->setHorizontalHeaderLabels(columnName);
+            ui->tableView->verticalHeader()->setVisible(false);
+            ui->tableView->setModel(model);
         }
     } else {
         QMessageBox::warning(

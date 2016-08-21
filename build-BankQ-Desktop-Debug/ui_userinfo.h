@@ -221,7 +221,7 @@ public:
         tab_5->setObjectName(QStringLiteral("tab_5"));
         tableView = new QTableView(tab_5);
         tableView->setObjectName(QStringLiteral("tableView"));
-        tableView->setGeometry(QRect(30, 90, 511, 171));
+        tableView->setGeometry(QRect(40, 90, 491, 171));
         toolButton_5 = new QToolButton(tab_5);
         toolButton_5->setObjectName(QStringLiteral("toolButton_5"));
         toolButton_5->setGeometry(QRect(230, 280, 101, 22));
@@ -235,7 +235,7 @@ public:
 
         retranslateUi(UserInfo);
 
-        tabWidget->setCurrentIndex(2);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(UserInfo);
@@ -279,7 +279,7 @@ public:
         label_22->setText(QString());
         label_23->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         label_15->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Numero conto</span></p></body></html>", 0));
-        tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("UserInfo", "Carica", 0));
+        tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("UserInfo", "Ricarica", 0));
         label_68->setText(QApplication::translate("UserInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         toolButton_13->setText(QApplication::translate("UserInfo", "Invia", 0));
         label_19->setText(QApplication::translate("UserInfo", "Per opinioni, richieste o altro contattaci utilizzando la seguente casella", 0));

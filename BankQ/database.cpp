@@ -320,6 +320,71 @@ bool DataBase::write () {
 }
 
 
+bool DataBase::charge (const string& username, const int& cifra, const int& conto) {
+    User* m_app = this->getUser(username);
+    BasicUser* mittente = dynamic_cast<BasicUser*> (m_app); // Username dell'utente loggato
+    QWidget* p = new QWidget(); // Per visualizzare i messaggi
+
+    if (mittente->getCountNumber() != conto) {      // Verifico che il conto da ricarica e quello dell'utente loggato siano diversi
+        if (0 <= mittente->getCount() - cifra) {    // Verifico che il conto abbia sufficiente credito
+
+            User* r_app = this->getUserByCountNumber(conto);  // Username del "ricevente"
+            BasicUser* ricevente = dynamic_cast<BasicUser*> (r_app);
+
+            // Aggiunto l'importo al conto dell'utente "ricevente"
+            ricevente->setCount(ricevente->getCount() + cifra);
+
+            QString qstr = "Ricevuta una ricarica di € " + QString::number(cifra);
+            string str = qstr.toUtf8().constData();
+            MessagesDataBase m;
+
+            if (m.loadMessages())   {
+                // Messaggio per la ricarica ricevuta
+                m.addMessage(*new Message(ricevente->getUsername(), mittente->getUsername(), str));
+
+                // Messaggio per un'eventuale passaggio da Basic a Pro
+                if (!this->verifyStillSame(*ricevente))   // Se l'utente è Basic allora può diventare Pro, altrimenti non accade "nulla"
+                    // Se l'utente passa a Pro invio un messaggio
+                    m.addMessage(*new Message(ricevente->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro"));
+            } else {
+                QMessageBox::warning(
+                    p,
+                    QString::fromStdString("BankQ - Errore"),
+                    QString::fromStdString("Errore di caricamento (messaggi)")
+                );
+            }
+
+            // Tolgo l'importo dal conto dell'utente loggato
+            mittente->setCount(mittente->getCount() - cifra);
+
+            if (!this->verifyStillSame(*mittente)) {   // Se l'utente è Pro allora può diventare Basic, altrimenti non accade "nulla"
+                /*BasicUser* app = new BasicUser(*s);
+                user = app;
+                delete app;*/
+                //delete &userS;    // CAUSA CRASH
+
+                QMessageBox::information(
+                    p,
+                    QString::fromStdString("BankQ - Avviso"),
+                    QString::fromStdString("Con l'ultimo ricarica il tipo di conto è diventanto Basic")
+                );
+            }
+        } else {
+            QMessageBox::warning(
+                p,
+                QString::fromStdString("BankQ - Ricarica"),
+                QString::fromStdString("Credito insufficiente")
+            );
+        }
+    } else {
+        QMessageBox::warning(
+            p,
+            QString::fromStdString("BankQ - Ricarica"),
+            QString::fromStdString("Non è possibile inserire il proprio conto")
+        );
+    }
+}
+
 
 /*ProUser DataBase::getPro (const string& usr) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {

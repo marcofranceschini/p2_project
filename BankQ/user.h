@@ -17,12 +17,13 @@ protected:
     string address;
     int telephone;
     string code; // Codice fiscale - univoco
+    string username;
+    int pin;
     //string username;
     //int pin;
    // bool admin; // 0 se non è amministratore, 1 altrimenti --> NO USO IL DYANMIC CAST
 
-    string username;
-    int pin;
+
 public:
 
     /*User(string n, string s, string a, int t, string c) {

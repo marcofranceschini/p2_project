@@ -313,7 +313,7 @@ public:
         label_68->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         toolButton_3->setText(QApplication::translate("AdminInfo", "Rimuovi", 0));
         label_26->setText(QApplication::translate("AdminInfo", "Scegliere il conto da rimuovere", 0));
-        tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("AdminInfo", "Rimuovi Account", 0));
+        tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("AdminInfo", "Rimuovi Utente", 0));
         label_69->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         label_27->setText(QApplication::translate("AdminInfo", "Scegliere il conto a cui assegnare il bonus", 0));
         toolButton_5->setText(QApplication::translate("AdminInfo", "Assegna", 0));

@@ -517,7 +517,7 @@
    </widget>
    <widget class="QWidget" name="tab_4">
     <attribute name="title">
-     <string>Rimuovi Account</string>
+     <string>Rimuovi Utente</string>
     </attribute>
     <widget class="QLabel" name="label_68">
      <property name="geometry">

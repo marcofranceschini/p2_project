@@ -17,6 +17,8 @@ using namespace std;    // DA TOGLIERE
 #include "mainwindow.h"  // DA TOGLIERE
 #include <QMessageBox>  // DA TOGLIERE
 
+#include "userinfo.h"
+
 
 class DataBase {
 private:
@@ -61,6 +63,8 @@ public:
 
     bool write (); // Scrive nel DB relativo agli utenti Basic la lista di utenti Basic passata
 
+
+    bool charge (const string&, const int&, const int&);    // Ricarica il conto del destinatario e riduce quello del mittente
 
     //bool loadPro(); // Carico gli utenti Pro nel contenitore
 
