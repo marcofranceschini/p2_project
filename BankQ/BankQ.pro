@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     message.cpp \
     messagesdatabase.cpp \
     basicuser.cpp \
-    prouser.cpp
+    prouser.cpp \
+    adduser.cpp
 
 HEADERS  += mainwindow.h \
     user.h \
@@ -35,7 +36,8 @@ HEADERS  += mainwindow.h \
     message.h \
     messagesdatabase.h \
     basicuser.h \
-    prouser.h
+    prouser.h \
+    adduser.h
 
 FORMS    += mainwindow.ui \
     userinfo.ui \

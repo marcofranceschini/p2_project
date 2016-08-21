@@ -184,6 +184,10 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
             model->setHorizontalHeaderLabels(columnName);
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
+
+            ui->tableView->setColumnWidth(0, 70);  // Fitto la larghezza della colonna #0
+            ui->tableView->setColumnWidth(1, 409);  // Fitto la larghezza della colonna #1
+            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
         }
     } else {
         QMessageBox::warning(
@@ -387,43 +391,54 @@ void AdminInfo::on_toolButton_6_clicked() {     // Assegna il bonus (a "tutti")
 }
 
 void AdminInfo::on_tableView_clicked (const QModelIndex &index) {   // Elimino la riga selezionata della tabella
-    int riga = ui->tableView->selectionModel()->currentIndex().row();
-    QString qstr_u = ui->tableView->model()->data(ui->tableView->model()->index(riga, 0)).toString();
-    QString qstr_m = ui->tableView->model()->data(ui->tableView->model()->index(riga, 1)).toString();
+    QMessageBox msgBox(
+                QMessageBox::Question,
+                trUtf8("Attenzione"),
+                trUtf8("Eliminare il messaggio?"),
+                QMessageBox::Yes | QMessageBox::No);
 
-    string mit = qstr_u.toUtf8().constData();   // Username del mittente
-    string mex = qstr_m.toUtf8().constData();   // Testo del messaggio
+    msgBox.setButtonText(QMessageBox::Yes, trUtf8("Si"));
+    msgBox.setButtonText(QMessageBox::No, trUtf8("No"));
 
-    MessagesDataBase m;
-    if (m.loadMessages()) {
-        if (m.deleteOneMessage(*new Message("BankQ", mit, mex))) {
-            DataBase d;
-            if (d.load()) {
-                this->setTable("BankQ", false);
-                QMessageBox::information(
+    if (msgBox.exec() == QMessageBox::Yes) {
+        int riga = ui->tableView->selectionModel()->currentIndex().row();
+        QString qstr_u = ui->tableView->model()->data(ui->tableView->model()->index(riga, 0)).toString();
+        QString qstr_m = ui->tableView->model()->data(ui->tableView->model()->index(riga, 1)).toString();
+
+        string mit = qstr_u.toUtf8().constData();   // Username del mittente
+        string mex = qstr_m.toUtf8().constData();   // Testo del messaggio
+
+        MessagesDataBase m;
+        if (m.loadMessages()) {
+            if (m.deleteOneMessage(*new Message("BankQ", mit, mex))) {
+                DataBase d;
+                if (d.load()) {
+                    this->setTable("BankQ", false);
+                    QMessageBox::information(
+                            this,
+                            tr("BankQ - Rimozione"),
+                            tr("Messaggio rimosso")
+                        );
+                } else {
+                    QMessageBox::warning(
                         this,
-                        tr("BankQ - Rimozione"),
-                        tr("Messaggio rimosso")
+                        tr("BankQ - Errore"),
+                        tr("Errore di caricamento del DB")
                     );
+                }
             } else {
                 QMessageBox::warning(
                     this,
                     tr("BankQ - Errore"),
-                    tr("Errore di caricamento del DB")
+                    tr("Errore")
                 );
             }
         } else {
             QMessageBox::warning(
                 this,
                 tr("BankQ - Errore"),
-                tr("Errore")
+                tr("Errore di caricamento (messaggi)")
             );
         }
-    } else {
-        QMessageBox::warning(
-            this,
-            tr("BankQ - Errore"),
-            tr("Errore di caricamento (messaggi)")
-        );
     }
 }

@@ -114,6 +114,10 @@ void UserInfo::setTable (const User& u, const bool& f) {   // Riempie la tabella
             model->setHorizontalHeaderLabels(columnName);
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
+
+            ui->tableView->setColumnWidth(0, 70);  // Fitto la larghezza della colonna #0
+            ui->tableView->setColumnWidth(1, 405);  // Fitto la larghezza della colonna #1
+            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
         }
     } else {
         QMessageBox::warning(
@@ -331,47 +335,58 @@ void UserInfo::on_tableView_clicked (const QModelIndex &index) {    // Elimino l
     /*QItemSelectionModel *select = ui->tableView->selectionModel();
     select->selectedRows(); // return selected row(s)
     */
+    QMessageBox msgBox(
+                QMessageBox::Question,
+                trUtf8("Attenzione"),
+                trUtf8("Eliminare il messaggio?"),
+                QMessageBox::Yes | QMessageBox::No);
 
-    int riga = ui->tableView->selectionModel()->currentIndex().row();
-    QString qstr_u = ui->tableView->model()->data(ui->tableView->model()->index(riga, 0)).toString();
-    QString qstr_m = ui->tableView->model()->data(ui->tableView->model()->index(riga, 1)).toString();
+    msgBox.setButtonText(QMessageBox::Yes, trUtf8("Si"));
+    msgBox.setButtonText(QMessageBox::No, trUtf8("No"));
 
-    string mit = qstr_u.toUtf8().constData();   // Username del mittente
-    string mex = qstr_m.toUtf8().constData();   // Testo del messaggio
+    if (msgBox.exec() == QMessageBox::Yes) {
 
-    QString c = ui->label_78->text();
-    string username = c.toUtf8().constData();   // Username dell'utente loggato
+        int riga = ui->tableView->selectionModel()->currentIndex().row();
+        QString qstr_u = ui->tableView->model()->data(ui->tableView->model()->index(riga, 0)).toString();
+        QString qstr_m = ui->tableView->model()->data(ui->tableView->model()->index(riga, 1)).toString();
 
-    MessagesDataBase m;
-    if (m.loadMessages()) {
-        if (m.deleteOneMessage(*new Message(username, mit, mex))) {
-            DataBase d;
-            if (d.load()) {
-                this->setTable(*d.getUser(username), false);
-                QMessageBox::information(
+        string mit = qstr_u.toUtf8().constData();   // Username del mittente
+        string mex = qstr_m.toUtf8().constData();   // Testo del messaggio
+
+        QString c = ui->label_78->text();
+        string username = c.toUtf8().constData();   // Username dell'utente loggato
+
+        MessagesDataBase m;
+        if (m.loadMessages()) {
+            if (m.deleteOneMessage(*new Message(username, mit, mex))) {
+                DataBase d;
+                if (d.load()) {
+                    this->setTable(*d.getUser(username), false);
+                    QMessageBox::information(
+                            this,
+                            tr("BankQ - Rimozione"),
+                            tr("Messaggio rimosso")
+                        );
+                } else {
+                    QMessageBox::warning(
                         this,
-                        tr("BankQ - Rimozione"),
-                        tr("Messaggio rimosso")
+                        tr("BankQ - Errore"),
+                        tr("Errore di caricamento del DB")
                     );
+                }
             } else {
                 QMessageBox::warning(
                     this,
                     tr("BankQ - Errore"),
-                    tr("Errore di caricamento del DB")
+                    tr("Errore")
                 );
             }
         } else {
             QMessageBox::warning(
                 this,
                 tr("BankQ - Errore"),
-                tr("Errore")
+                tr("Errore di caricamento (messaggi)")
             );
         }
-    } else {
-        QMessageBox::warning(
-            this,
-            tr("BankQ - Errore"),
-            tr("Errore di caricamento (messaggi)")
-        );
     }
 }
