@@ -1,10 +1,16 @@
 #ifndef ADDUSER_H
 #define ADDUSER_H
 
-class AddUser
-{
+#include "database.h"
+#include "basicuser.h"
+
+class AddUser {
+private:
+    BasicUser user;
 public:
-    AddUser();
+    AddUser(BasicUser);
+
+    bool addUser () const;
 };
 
 #endif // ADDUSER_H

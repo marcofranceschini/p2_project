@@ -1,16 +1,16 @@
-#include "bronzeuser.h"
+#include "basicuser.h"
 
-BronzeUser::BronzeUser (string n, string s, string a, int t, string c, string u, int p, int nu, double co):User(n, s, a, t, c, u, p), countNumber(nu), count(co) {}
+BasicUser::BasicUser (string n, string s, string a, int t, string c, string u, int p, int nu, double co):User(n, s, a, t, c, u, p), countNumber(nu), count(co) {}
 
-BronzeUser::BronzeUser () {}
+BasicUser::BasicUser () {}
 
-BronzeUser::~BronzeUser () {}
+BasicUser::~BasicUser () {}
 
-BronzeUser* BronzeUser::clone () const {
-    return new BronzeUser (name, surname, address, telephone, code, username, pin, countNumber, count);
+BasicUser* BasicUser::clone () const {
+    return new BasicUser (name, surname, address, telephone, code, username, pin, countNumber, count);
 }
 
-BronzeUser::BronzeUser (const BronzeUser& u) {
+BasicUser::BasicUser (const BasicUser& u) {
     name = u.getName();
     surname = u.getSurname();
     address = u.getAddress();
@@ -22,23 +22,23 @@ BronzeUser::BronzeUser (const BronzeUser& u) {
     count = u.getCount();
 }
 
-double BronzeUser::getTotalTax () const {
+double BasicUser::getTax () const {
     return tax;
 }
 
-double BronzeUser::getTotalBonus () const {
+/*double BasicUser::getTotalBonus () const {
     return bonus;
-}
+}*/
 
-double BronzeUser::getCount () const {
+double BasicUser::getCount () const {
     return count;
 }
 
-void BronzeUser::setCount (double c) {
+void BasicUser::setCount (double c) {
     count = c;
 }
 
-/*void BronzeUser::decreaseCount (double c) {
+/*void BasicUser::decreaseCount (double c) {
 
     // Verifico se l'utente scende a bronze
     if (count - c < 100000) {
@@ -50,7 +50,7 @@ void BronzeUser::setCount (double c) {
     // riscrittura sul db
 }
 
-void BronzeUser::increaseCount (double c) {
+void BasicUser::increaseCount (double c) {
 
     // Verifico se l'utente sale a silver
     if (100000 <= count + c) {
@@ -59,21 +59,21 @@ void BronzeUser::increaseCount (double c) {
         count = count + c;
 }*/
 
-int BronzeUser::getCountNumber () const {
+int BasicUser::getCountNumber () const {
     return countNumber;
 }
 
-void BronzeUser::setCountNumber (int c) {
+void BasicUser::setCountNumber (int c) {
     countNumber = c;
 }
 
-bool BronzeUser::verifyLogin (const int& pass) const {
+bool BasicUser::verifyLogin (const int& pass) const {
     int p = const_cast<int&> (pass);
     if (pin==p) return true;
     return false;
 }
 
-/*BronzeUser* BronzeUser::operator= (const BronzeUser& u) {
+/*BasicUser* BasicUser::operator= (const BasicUser& u) {
     delete this;
     name = u.getName();
     surname = u.getSurname();
@@ -87,6 +87,6 @@ bool BronzeUser::verifyLogin (const int& pass) const {
 }*/
 
 
-double BronzeUser::tax = 1;
+double BasicUser::tax = 1.0;
 
-double BronzeUser::bonus = 1.5;
+//double BasicUser::bonus = 1.5;
