@@ -1,7 +1,6 @@
 #include "messagesdatabase.h"
 #include "database.h"
 
-#include "mainwindow.h" // DA RIMUOVERE
 
 MessagesDataBase::MessagesDataBase() {}
 
@@ -67,7 +66,7 @@ bool MessagesDataBase::deleteMessages (const string& user) {
 
     if (0 < this->countMessage(user)) {
         vector<int> vet(this->countMessage(user));
-        for (int i = 0; i < vet.size(); ++i) {
+        for (unsigned int i = 0; i < vet.size(); ++i) {
             vet[i] = 0;
         }
         int i = 0;
@@ -78,7 +77,7 @@ bool MessagesDataBase::deleteMessages (const string& user) {
                 ++i;
         }
 
-        for (int i = 0; i < vet.size(); ++i) {
+        for (unsigned int i = 0; i < vet.size(); ++i) {
             messages.remove(vet[i]);
         }
         /*QString st =QString::number(this->countMessage(user));   // DA RIMUOVERE

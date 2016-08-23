@@ -45,13 +45,13 @@ public:
 
     //bool loadBasic(); // Carico gli utenti Basic nel contenitore
 
-    bool verifyBasic (const string&) const; // Ritorna true se l'username passato appartiene ad un utente Basic
+    //bool verifyBasic (const string&) const; // Ritorna true se l'username passato appartiene ad un utente Basic
 
     User* getUser (const string&) const; // Ritorna l'oggetto User con username uguale a quello passato
 
     //bool verifyLoginBasic (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente Basic siano corretti
 
-    bool verifyNumberBasic (const int&) const;  // Verifica se il numero di conto passato appartiene ad un utente Basic
+    //bool verifyNumberBasic (const int&) const;  // Verifica se il numero di conto passato appartiene ad un utente Basic
 
     User* getUserByCountNumber (const int&) const; // Ritorna l'oggetto User con numero di conto uguale a quello passato
 
@@ -68,13 +68,13 @@ public:
 
     //bool loadPro(); // Carico gli utenti Pro nel contenitore
 
-    bool verifyPro (const string&) const; // Ritorna true se l'username passato appartiene ad un utente Pro
+   // bool verifyPro (const string&) const; // Ritorna true se l'username passato appartiene ad un utente Pro
 
     //ProUser getPro (const string&) const; // Ritorna l'oggetto ProUser con username uguale a quello passato
 
     //bool verifyLoginPro (const string&, const int&) const;    // Verifica i dati che i dati di accesso dell'utente Pro siano corretti
 
-    bool verifyNumberPro (const int&) const;  // Verifica se il numero di conto appartiene ad un utente Pro
+    /*?????*/bool verifyNumberPro (const int&) const;  // Verifica se il numero di conto appartiene ad un utente Pro
 
     //ProUser getProByCount (const int&) const; // Ritorna l'oggetto ProUser con numero di conto uguale a quello passato
 

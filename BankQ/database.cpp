@@ -2,7 +2,6 @@
 
 #include "QDebug"       // DA RIMUOVERE
 #include "qstring.h"    // DA RIMUOVERE
-#include "mainwindow.h" // DA RIMUOVERE
 
 #include "messagesdatabase.h"
 
@@ -164,7 +163,9 @@ bool DataBase::addUser (const BasicUser& u) {
     } else {
         user.push_back(new ProUser(*ncu));
     }
-    this->write();
+    if (this->write())
+        return true;
+    return false;
 }
 
 bool DataBase::verifyStillSame (const BasicUser& usr) {
@@ -176,36 +177,27 @@ bool DataBase::verifyStillSame (const BasicUser& usr) {
         else
             break;
     }
-    user.remove(cont); // Rimuove il "vecchio" utente dalla lista
     BasicUser* u = const_cast<BasicUser*> (&usr);
 
     if (100000 <= u->getCount() && !dynamic_cast<ProUser*> (u)) {
         // L'utente è Basic e deve diventare Pro
         ProUser *s = new ProUser (*u);
 
-        user.push_back(s->clone()); // Inserisce il "nuovo" utente Pro nella lista
+        user.replace(cont, s->clone());     // Inserisce il "nuovo" utente Pro al posto di quello vecchio
 
-    } else if (u->getCount() < 100000 && dynamic_cast<ProUser*> (u)) {
-        // L'utente è Pro e deve diventare Basic
-        ProUser* s = dynamic_cast<ProUser*> (u);
-        BasicUser* b = new BasicUser (*s);
-        user.push_back(b->clone());
-    } else {
-        // L'utente non ha cambiato "tipo", ma va comunque aggiornato il DB
-        /*int cont = 0;
-        for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-            BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
-            if (b && b->getUsername() != Basic.getUsername())
-                cont ++;
-            else
-                break;
-        }*/
-        //user.remove(cont); // Rimuove il "vecchio" utente Basic dalla lista degli utenti Basic
+    } else if (u->getCount() < 100000 && dynamic_cast<ProUser*> (u)) {  // L'utente è Pro e deve diventare Basic
+
+        //ProUser* s = dynamic_cast<ProUser*> (u);
+        BasicUser* b = new BasicUser (*u);
+        user.replace(cont, b->clone());     // Inserisce il "nuovo" utente Basic al posto di quello vecchio
+
+    } else {    // L'utente non ha cambiato "tipo", ma vanno comunque aggiornati DB e Container
+
         if (dynamic_cast<ProUser*> (u)) { // È un utente Pro
             ProUser* s = dynamic_cast<ProUser*> (u);
-            user.push_back(s->clone()); // Inserisce il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
+            user.replace(cont, s->clone());     // Inserisce il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
         } else { // È un utente Basic
-            user.push_back(u->clone());  // Inserisco il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
+            user.replace(cont, u->clone());     // Inserisco il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
         }
         //delete u; // ATTENZIONE
         this->write();
@@ -257,7 +249,9 @@ bool DataBase::remove (const User& u) {
         cont++;
     }
     user.remove(cont);
-    this->write();
+    if (this->write())
+        return true;
+    return false;
 }
 
 bool DataBase::write () {
@@ -352,6 +346,7 @@ bool DataBase::charge (const string& username, const int& cifra, const int& cont
                     QString::fromStdString("BankQ - Errore"),
                     QString::fromStdString("Errore di caricamento (messaggi)")
                 );
+                return false;
             }
 
             // Tolgo l'importo dal conto dell'utente loggato
@@ -369,6 +364,7 @@ bool DataBase::charge (const string& username, const int& cifra, const int& cont
                     QString::fromStdString("Con l'ultimo ricarica il tipo di conto è diventanto Basic")
                 );
             }
+            return true;
         } else {
             QMessageBox::warning(
                 p,
@@ -383,6 +379,7 @@ bool DataBase::charge (const string& username, const int& cifra, const int& cont
             QString::fromStdString("Non è possibile inserire il proprio conto")
         );
     }
+    return false;
 }
 
 
@@ -405,14 +402,14 @@ bool DataBase::charge (const string& username, const int& cifra, const int& cont
     return false;
 }*/
 
-bool DataBase::verifyNumberPro (const int& number) const {
+/*bool DataBase::verifyNumberPro (const int& number) const {
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         ProUser* s = dynamic_cast<ProUser*> (user[it]);
         if (s && s->getCountNumber() == number)
             return true;
     }
     return false;
-}
+}*/
 
 Container<BasicUser> DataBase::getUserNoAdmin () {
     Container<BasicUser> u;
@@ -441,11 +438,13 @@ bool DataBase::giveBonus(const User& cu) {
     u->setRequest(true);
     if (this->verifyStillSame(*u)) {    // verifyStillSame in questo caso riscrive soltanto l'utente nel DB
         MessagesDataBase m;
-        if (m.loadMessages())
+        if (m.loadMessages()) {
             m.addMessage(*new Message (cu.getUsername(), "BankQ", "Bonus ricevuto"));
-        else
+            return true;
+        } else
             qDebug("Errore nel caricamento del DB dei messaggi");
     }
+    return false;
 }
 
 bool DataBase::giveBonusToAll () {
