@@ -1,6 +1,6 @@
 #include "prouser.h"
 
-ProUser::ProUser (string n, string s, string a, int t, string c, string u, int p, int nu, double co, bool r):BasicUser(n, s, a, t, c, u, p, nu, co), request(r) {}
+ProUser::ProUser (string n, string s, string a, int t, string c, string u, int p, int nu, double co, bool r): BasicUser(n, s, a, t, c, u, p, nu, co), request(r) {}
 
 ProUser::ProUser () {}
 
@@ -10,8 +10,8 @@ ProUser* ProUser::clone () const {
     return new ProUser (name, surname, address, telephone, code, username, pin, countNumber, count, request);
 }
 
-ProUser::ProUser (const ProUser& s) {
-    name = s.getName();
+ProUser::ProUser (const ProUser& s): BasicUser(s.getName(), s.getSurname(), s.getAddress(), s.getTelephone(), s.getCode(), s.getUsername(), s.getPin(), s.getCountNumber(), s.getCount()), request(s.getRequest()) {
+    /*name = s.getName();
     surname = s.getSurname();
     address = s.getAddress();
     telephone = s.getTelephone();
@@ -20,7 +20,7 @@ ProUser::ProUser (const ProUser& s) {
     pin = s.getPin();
     countNumber = s.getCountNumber();
     count = s.getCount();
-    request = s.getRequest();
+    request = s.getRequest();*/
 }
 
 ProUser::ProUser (const BasicUser& b) {

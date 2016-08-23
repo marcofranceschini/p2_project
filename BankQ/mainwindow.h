@@ -1,12 +1,15 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "user.h"
+#include "database.h"
+#include "userinfo.h"       // Per la schermata degli utenti
+#include "admininfo.h"      // Per la schermata degli amministratori
+
 #include <QMainWindow>
+#include <QMessageBox>      // Per i messaggi di errore
 
 
-#include <QMessageBox>
-using namespace std;
-#include <string>
 
 namespace Ui {
 class MainWindow;
@@ -19,25 +22,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-
-
-
-
-    void boom() {   // DA TOGLIERE
-        QMessageBox::warning(
-            this,
-            tr("BOOM"),
-            tr("BOOM")
-        );
-    }
-
-
-
-
-
 private slots:
-    //void on_centralWidget_windowTitleChanged(const QString&);
-
     void on_toolButton_clicked();
 
 private:

@@ -2,10 +2,11 @@
 #define USERINFO_H
 
 #include <QDialog>
-
-#include "basicuser.h"
 #include "prouser.h"
+#include "database.h"
+#include "mainwindow.h"
 #include "messagesdatabase.h"
+#include "QStandardItemModel"
 
 namespace Ui {
 class UserInfo;
@@ -20,11 +21,9 @@ public:
 
     ~UserInfo();
 
-    void setUser (const User&);
+    void setUser (const User&);                 // Imposta l'utente (pro o basic) nella schermata di appartenenza
 
-    //void setSilver (SilverUser const&);
-
-    void setTable (const User&,  const bool&);
+    void setTable (const User&,  const bool&);  // Riempie la tabella con i messaggio per l'utente
 
 private slots:
     void on_toolButton_3_clicked();
@@ -43,8 +42,6 @@ private slots:
 
 private:
     Ui::UserInfo *ui;
-
-    //BasicUser user;
 };
 
 #endif // USERINFO_H

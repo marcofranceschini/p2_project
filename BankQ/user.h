@@ -3,46 +3,27 @@
 
 using namespace std;
 #include <string>
-#include "container.h"
-//#include <QDate>
-//#include <ctime> // Usato per birth
-
 
 class User {
-//private:
-protected:
-    string name;
-    string surname;
-    //Qdate birth;
-    string address;
-    int telephone;
-    string code; // Codice fiscale - univoco
-    string username;
-    int pin;
-    //string username;
-    //int pin;
-   // bool admin; // 0 se non è amministratore, 1 altrimenti --> NO USO IL DYANMIC CAST
 
+protected:
+    string name;        // Nome
+    string surname;     // Cognome
+    string address;     // Indirizzo
+    int telephone;      // Numero di telefono
+    string code;        // Codice fiscale
+    string username;    // Username (univoco)
+    int pin;            // PIN intero di 5 cifre
 
 public:
 
-    /*User(string n, string s, string a, int t, string c) {
-        name=n;
-        surname=s;
-        address=a;
-        telephone=t;
-        code=c;
-    }*/
     User (string, string, string, int, string, string, int);
 
     User ();
 
-    //User (User const&);
-
     virtual ~User ();
 
     virtual User* clone () const;
-
 
     // Metodi get
     string getName () const;
@@ -75,14 +56,6 @@ public:
 
     void setPin (const int&);
 
-
-
-    //virtual bool verifyLogin (const int&) const;
-
-    /*void setAdmin (int a) {
-        admin=a;
-    }*/
-
     /*bool verifyLogin (string usr, int pass) const {
         return (username == usr && pin == pass);
         if(username == usr && pin == pass)
@@ -110,4 +83,5 @@ public:
 
     }*/
 };
+
 #endif // USER_H

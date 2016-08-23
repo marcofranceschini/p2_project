@@ -4,15 +4,15 @@ Admin::Admin(string n, string s, string a, int t, string c, string u, int p, dou
 
 Admin::Admin () {}
 
-Admin::Admin (const Admin& a) {
-    name = a.getName();
+Admin::Admin (const Admin& a): User(a.getName(), a.getSurname(), a.getAddress(), a.getTelephone(), a.getCode(), a.getUsername(), a.getPin()), salary(a.getSalary()) {
+    /*name = a.getName();
     surname = a.getSurname();
     address = a.getAddress();
     telephone = a.getTelephone();
     code = a.getCode();
     username = a.getUsername();
     pin = a.getPin();
-    salary = a.getSalary();
+    salary = a.getSalary();*/
 }
 
 Admin::~Admin() {}

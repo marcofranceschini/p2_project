@@ -1,12 +1,7 @@
-using namespace std;
 #include "userinfo.h"
 #include "ui_userinfo.h"
-#include "mainwindow.h"
-#include "QMessageBox"
-#include "database.h"
-#include "basicuser.h"
-#include "prouser.h"
-#include "QStandardItemModel"
+
+
 
 UserInfo::UserInfo(QWidget *parent):QDialog(parent), ui(new Ui::UserInfo) {
     ui->setupUi(this);
@@ -50,14 +45,13 @@ void UserInfo::setUser (const User& cu) {
     this->setTable(cu, true);
 }
 
-void UserInfo::setTable (const User& u, const bool& f) {   // Riempie la tabella in caso vi siano messaggi per l'utente loggato
+void UserInfo::setTable (const User& u, const bool& f) {           // Riempie la tabella in caso vi siano messaggi per l'utente loggato
     MessagesDataBase* message = new MessagesDataBase();
     if (message->loadMessages()) {
         int mex;
         mex = message->countMessage(u.getUsername());
         if (0 < mex) {
 
-            // QStandardItemModel(int rows, int columns, QObject * parent = 0)
             QStandardItemModel *model = new QStandardItemModel (mex, 2, this);
             QStringList columnName;
             columnName.push_back("Mittente");
@@ -65,7 +59,7 @@ void UserInfo::setTable (const User& u, const bool& f) {   // Riempie la tabella
             model->setHorizontalHeaderLabels(columnName);
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
-            ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);  // Rende le celle non editabili
+            ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);                  // Rende le celle non editabili
 
             QString s = QString::number(mex);
             ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
@@ -78,24 +72,24 @@ void UserInfo::setTable (const User& u, const bool& f) {   // Riempie la tabella
                 );
             }
 
-            ui->tableView->setColumnWidth(0, 70);  // Fitto la larghezza della colonna #0
-            ui->tableView->setColumnWidth(1, 405);  // Fitto la larghezza della colonna #1
-            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
+            ui->tableView->setColumnWidth(0, 70);                                               // Fisso la larghezza della colonna #0
+            ui->tableView->setColumnWidth(1, 405);                                              // Fisso la larghezza della colonna #1
+            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);        // Rendo non ridimensionabile le colonna
 
             Container<Message> app;
             app = message->getMessageByUser(u.getUsername());
             Container<Message>::Iteratore it = app.begin();
             for (int row = 0; row < mex; ++row) {
                 for (int col = 0; col < 2; ++col) {
-                    QModelIndex index = model->index(row, col, QModelIndex());  // 0 for all data
+                    QModelIndex index = model->index(row, col, QModelIndex());
 
                     switch (col) {
                         case 0:
-                            model->setData(index, QString::fromStdString(app[it]->getSender()));    // Mostro il mittente
+                            model->setData(index, QString::fromStdString(app[it]->getSender()));// Visualizzo il mittente
                         break;
 
                         case 1:
-                            model->setData(index, QString::fromStdString(app[it]->getText()));  // Mostro il contenuto
+                            model->setData(index, QString::fromStdString(app[it]->getText()));  // Visualizzo il contenuto
                         break;
                     }
                 }
@@ -115,9 +109,9 @@ void UserInfo::setTable (const User& u, const bool& f) {   // Riempie la tabella
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
 
-            ui->tableView->setColumnWidth(0, 70);  // Fitto la larghezza della colonna #0
-            ui->tableView->setColumnWidth(1, 405);  // Fitto la larghezza della colonna #1
-            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
+            ui->tableView->setColumnWidth(0, 70);                                               // Fisso la larghezza della colonna #0
+            ui->tableView->setColumnWidth(1, 405);                                              // Fisso la larghezza della colonna #1
+            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);        // Rendo non ridimensionabile le colonna
         }
     } else {
         QMessageBox::warning(
@@ -168,9 +162,9 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
     msgBox.setButtonText(QMessageBox::No, trUtf8("No"));
 
     if (msgBox.exec() == QMessageBox::Yes) {
-        QString a = ui->lineEdit_2->text();     // Cifra da caricare
-        QString b = ui->lineEdit_3->text();     // Numero di conto
-        QString c = ui->label_78->text();       // Username dell'utente loggato
+        QString a = ui->lineEdit_2->text(); // Cifra da caricare
+        QString b = ui->lineEdit_3->text(); // Numero di conto
+        QString c = ui->label_78->text();   // Username dell'utente loggato
 
         double cifra = a.toDouble();
         int conto = b.toInt();
@@ -182,19 +176,19 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
             if (d.load()) {
                 if (d.charge (username, cifra, conto)) {
 
-                        QString sal = ui->label_12->text();           // Saldo
+                        QString sal = ui->label_12->text();             // Saldo
                         int saldo = sal.toInt();
                         saldo = saldo - cifra;
 
                         // Aggiorno la "grafica" del saldo
-                        ui->label_12->setText(QString::number(saldo));   // Saldo info utente
-                        ui->label_22->setText(QString::number(saldo));   // Saldo ricarica
+                        ui->label_12->setText(QString::number(saldo));  // Saldo info utente
+                        ui->label_22->setText(QString::number(saldo));  // Saldo ricarica
 
-                        if (saldo < 100000)     // È un utente Silver
-                            ui->label_6->setText("Basic"); // Cambio il tipo di conto
+                        if (saldo < 100000)                             // È un utente Silver
+                            ui->label_6->setText("Basic");              // Cambio il tipo di conto
 
-                        ui->lineEdit_2->setText("");    // Cifra da caricare
-                        ui->lineEdit_3->setText("");    // Numero di conto
+                        ui->lineEdit_2->setText("");                    // Cifra da caricare
+                        ui->lineEdit_3->setText("");                    // Numero di conto
 
                         QMessageBox::information(
                             this,
@@ -261,21 +255,19 @@ void UserInfo::on_toolButton_13_clicked() {     // Invio messaggio all'amministr
 }
 
 void UserInfo::on_toolButton_clicked() {        // Logout
-    MainWindow* w = new MainWindow(); // Dichiaro una nuova MainWindow
+    MainWindow* w = new MainWindow();           // Dichiaro una nuova MainWindow
     w->show();
-    this->close(); // Chiudo la finestra corrente
+    this->close();                              // Chiudo la finestra corrente
 }
 
 void UserInfo::on_toolButton_2_clicked() {      // Chiusura conto
-    // DA FARE - notificare con un messaggio all'admin della chiusura
-    MessagesDataBase m;
 
     QString u = ui->label_78->text();
     string username = u.toUtf8().constData();
-    //User* user = d.getUser(username);
-    //d.remove(*user);
+    MessagesDataBase m;
+
     if (m.loadMessages()) {
-        m.deleteMessages(username); // Elimino i messaggi dell'utente
+        m.deleteMessages(username);             // Elimino i messaggi dell'utente
 
         QMessageBox::information(
             this,
@@ -298,7 +290,7 @@ void UserInfo::on_toolButton_5_clicked() {  // Messaggi spuntati come "visualizz
     MessagesDataBase* mdb = new MessagesDataBase();
     if (mdb->loadMessages()) {
         DataBase d;
-        if (d.load()) {// QStandardItemModel(int rows, int columns, QObject * parent = 0)
+        if (d.load()) {
             QStandardItemModel *model = new QStandardItemModel (0, 2, this);
             QStringList columnName;
             columnName.push_back("Mittente");
@@ -332,9 +324,6 @@ void UserInfo::on_toolButton_5_clicked() {  // Messaggi spuntati come "visualizz
 
 void UserInfo::on_tableView_clicked (const QModelIndex &index) {    // Elimino la riga selezionata della tabella
 
-    /*QItemSelectionModel *select = ui->tableView->selectionModel();
-    select->selectedRows(); // return selected row(s)
-    */
     QMessageBox msgBox(
                 QMessageBox::Question,
                 trUtf8("Attenzione"),
@@ -346,7 +335,8 @@ void UserInfo::on_tableView_clicked (const QModelIndex &index) {    // Elimino l
 
     if (msgBox.exec() == QMessageBox::Yes) {
 
-        int riga = ui->tableView->selectionModel()->currentIndex().row();
+        //int riga = ui->tableView->selectionModel()->currentIndex().row();
+        int riga = index.row();
         QString qstr_u = ui->tableView->model()->data(ui->tableView->model()->index(riga, 0)).toString();
         QString qstr_m = ui->tableView->model()->data(ui->tableView->model()->index(riga, 1)).toString();
 

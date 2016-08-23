@@ -5,11 +5,11 @@
 
 class ProUser: public BasicUser {
 private:
-    static double bonus;   // Bonus annuo in percentuale
+    static double bonus;    // Bonus annuo in percentuale
 
-    static double proTax;
+    static double proTax;   // Tasse, ridotta, per gli utenti pro
 
-    bool request; // 0 = non ha ricevuto il bonus, 1 altrimenti
+    bool request;           // true = non ha ricevuto il bonus, false altrimenti
 
 public:
     ProUser (string, string, string, int, string, string, int, int, double, bool);
@@ -24,11 +24,6 @@ public:
 
     ProUser (const BasicUser&);
 
-
-    /*virtual float getTotalTax() const {
-        return ProUser::getTotalTax();
-    }L'utente silver non tasse aggiuntive, serve quinid il get?? */
-
     double getBonus () const;
 
     double getTax () const;
@@ -38,12 +33,6 @@ public:
     bool getRequest () const;
 
     void setRequest (bool r);
-
-    /*double getCount () const {
-        return count;
-    }*/
 };
-
-//double ProUser::extraBonus = 1.5;
 
 #endif // PROUSER_H

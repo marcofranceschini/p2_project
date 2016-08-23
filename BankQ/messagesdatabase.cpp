@@ -1,14 +1,10 @@
 #include "messagesdatabase.h"
-#include "database.h"
-
 
 MessagesDataBase::MessagesDataBase() {}
 
-bool MessagesDataBase::loadMessages () {
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/messages.xml");
+bool MessagesDataBase::loadMessages () {    // Carico i messaggi nel contenitore
 
-    //QString s =file->fileName();   // DA RIMUOVERE
-    //qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
+    file = new QFile("/home/mrc/Documents/p2_project/BankQ/messages.xml");
 
     if (file->exists()) {
         file->open(QIODevice::ReadOnly);
@@ -16,8 +12,6 @@ bool MessagesDataBase::loadMessages () {
         while (!xmlReader.atEnd()) {
             xmlReader.readNext();
             if (xmlReader.isStartElement()) {
-                   // string a = (xmlReader.name().toString()).toUtf8().constData();
-                   // cout<<a;
                 if (xmlReader.name().toString() == "message") {
                     Message m;
                     xmlReader.readNext();
@@ -41,19 +35,16 @@ bool MessagesDataBase::loadMessages () {
     return false;
 }
 
-int MessagesDataBase::countMessage (const string& u) {
+int MessagesDataBase::countMessage (const string& u) const {    // Ritorna il numero di messaggi per un utente
     int cont = 0;
     for (Container<Message>::Iteratore it = messages.begin(); it != messages.end(); ++it) {
         if (messages[it]->getRecipient() == u)
             cont++;
-            /*QString st =QString::fromStdString(messages[it]->getRecipient());   // DA RIMUOVERE
-            qDebug("QQQ-" + st.toLatin1() + "-QQQ");                              // DA RIMUOVERE
-            */
     }
     return cont;
 }
 
-Container<Message> MessagesDataBase::getMessageByUser (const string& user) {
+Container<Message> MessagesDataBase::getMessageByUser (const string& user) const {  // Ritorna i messaggi per l'utente passato
     Container<Message> app;
     for (Container<Message>::Iteratore it = messages.begin(); it != messages.end(); ++it) {
         if (messages[it]->getRecipient() == user)
@@ -62,7 +53,7 @@ Container<Message> MessagesDataBase::getMessageByUser (const string& user) {
     return app;
 }
 
-bool MessagesDataBase::deleteMessages (const string& user) {
+bool MessagesDataBase::deleteMessages (const string& user) {    // Elimina i messaggi per l'utente passato
 
     if (0 < this->countMessage(user)) {
         vector<int> vet(this->countMessage(user));
@@ -80,19 +71,18 @@ bool MessagesDataBase::deleteMessages (const string& user) {
         for (unsigned int i = 0; i < vet.size(); ++i) {
             messages.remove(vet[i]);
         }
-        /*QString st =QString::number(this->countMessage(user));   // DA RIMUOVERE
-        qDebug("QQQ-" + st.toLatin1() + "-QQQ");                 // DA RIMUOVERE*/
         return this->writeMessages();
     }
     return false;
 }
 
-bool MessagesDataBase::addMessage (const Message& m) {
+bool MessagesDataBase::addMessage (const Message& m) {  // Inserisce un nuovo messaggio nel Container di messaggi
     messages.push_back(const_cast<Message*>(&m));
     return this->writeMessages();
 }
 
-bool MessagesDataBase::writeMessages () {
+bool MessagesDataBase::writeMessages () {   // Scrive i messaggi nel DB
+
     file = new QFile("/home/mrc/Documents/p2_project/BankQ/messages.xml");
     file->open(QIODevice::WriteOnly);
     QXmlStreamWriter xmlWriter(file);
@@ -115,12 +105,10 @@ bool MessagesDataBase::writeMessages () {
     return true;
 }
 
-bool MessagesDataBase::deleteOneMessage (const Message& m) {
+bool MessagesDataBase::deleteOneMessage (const Message& m) {    // Elimina un messaggio passato
     int cont = 0;
     for (Container<Message>::Iteratore it = messages.begin(); it != messages.end(); ++it) {
-        if (messages[it]->getRecipient() == m.getRecipient() &&
-            messages[it]->getSender() == m.getSender() &&
-            messages[it]->getText() == m.getText()) {
+        if (*messages[it] == m) {
 
             messages.remove(cont);
             this->writeMessages();
@@ -131,12 +119,3 @@ bool MessagesDataBase::deleteOneMessage (const Message& m) {
     }
     return false;
 }
-
-
-/*bool MessagesDataBase::addBonus (const string& u) {
-    DataBase d;
-    if (d.load()) {
-        User* user = d.getUser(u);
-        ProUser* pro = dynamic_cast<ProUser*>(user);
-    }
-}*/

@@ -18,21 +18,19 @@ private:
 public:
     MessagesDataBase ();
 
-    bool loadMessages (); // Carico i messaggi nel contenitore
+    bool loadMessages ();                                       // Carico i messaggi nel contenitore
 
-    int countMessage (const string&); // Conta quanti messaggi ha un utente
+    int countMessage (const string&) const;                     // Ritorna il numero di messaggi per un utente
 
-    Container<Message> getMessageByUser (const string&); // Ritorna i messaggi per l'utente passato
+    Container<Message> getMessageByUser (const string&) const;  // Ritorna i messaggi per l'utente passato
 
-    bool deleteMessages (const string&); // Elimina i messaggi dell'utente passato
+    bool deleteMessages (const string&);                        // Elimina i messaggi per l'utente passato
 
-    bool addMessage (const Message&); // Inserisce un nuovo messaggio nel Container di messaggi
+    bool addMessage (const Message&);                           // Inserisce un nuovo messaggio nel Container di messaggi
 
-    bool writeMessages (); // Scrive i messaggi nel DB
+    bool writeMessages ();                                      // Scrive i messaggi nel DB
 
-    bool deleteOneMessage (const Message&); // Elimina un messaggio passato
-
-    //bool addBonus (const string&); // Crea un messaggio per la richiesta del bonus anticipato
+    bool deleteOneMessage (const Message&);                     // Elimina un messaggio passato
 };
 
 #endif // MESSAGESDATABASE_H

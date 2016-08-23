@@ -1,20 +1,9 @@
 #include "database.h"
 
-#include "QDebug"       // DA RIMUOVERE
-#include "qstring.h"    // DA RIMUOVERE
+DataBase::DataBase() {}
 
-#include "messagesdatabase.h"
-
-DataBase::DataBase() {
-    //file = new QFile("db.xml");
-    //loadDB();
-}
-
-bool DataBase::load () { // Carico gli amministratori nel contenitore
+bool DataBase::load () {    // Carica gli utenti nel contenitore
     file = new QFile("/home/mrc/Documents/p2_project/BankQ/users.xml");
-
-    //QString s =file->fileName();   // DA RIMUOVERE
-    //qDebug("AAA-" + s.toLatin1() + "-AAA");   // DA RIMUOVERE
 
     if (file->exists()) {
         file->open(QIODevice::ReadOnly);
@@ -22,14 +11,10 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
         while (!xmlReader.atEnd()) {
             xmlReader.readNext();
             if (xmlReader.isStartElement()) {
-                   // string a = (xmlReader.name().toString()).toUtf8().constData();
-                   // cout<<a;
                 if (xmlReader.name().toString() == "admin") {
-                    //MainWindow u;   // DA RIMUOVERE
-                    //u.boom();       // DA RIMUOVERE
                     Admin ad;
                     xmlReader.readNext();
-                    while (xmlReader.name().toString() != "admin") {
+                    while (xmlReader.name().toString() != "admin") {    // Creo un amministratore
                         if (xmlReader.name().toString() == "name")
                             ad.setName(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "surname")
@@ -37,19 +22,19 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
                         if (xmlReader.name().toString() == "address")
                             ad.setAddress(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "telephone")
-                            ad.setTelephone(xmlReader.readElementText().toInt()); // INT
+                            ad.setTelephone(xmlReader.readElementText().toInt());
                         if (xmlReader.name().toString() == "code")
                             ad.setCode(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "username")
                             ad.setUsername(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "pin")
-                            ad.setPin(xmlReader.readElementText().toInt()); // INT
+                            ad.setPin(xmlReader.readElementText().toInt());
                         if (xmlReader.name().toString() == "salary")
-                            ad.setSalary(xmlReader.readElementText().toDouble()); // DOUBLE
+                            ad.setSalary(xmlReader.readElementText().toDouble());
                         xmlReader.readNext();
                     }
                     user.push_back(new Admin(ad));
-                } else if (xmlReader.name().toString() == "basic") {
+                } else if (xmlReader.name().toString() == "basic") {    // Creo un utente basic
                     BasicUser uBasic;
                     xmlReader.readNext();
                     while (xmlReader.name().toString() != "basic") {
@@ -60,21 +45,21 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
                         if (xmlReader.name().toString() == "address")
                             uBasic.setAddress(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "telephone")
-                            uBasic.setTelephone(xmlReader.readElementText().toInt());  // INT
+                            uBasic.setTelephone(xmlReader.readElementText().toInt());
                         if (xmlReader.name().toString() == "code")
                             uBasic.setCode(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "username")
                             uBasic.setUsername(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "pin")
-                            uBasic.setPin(xmlReader.readElementText().toInt());    // INT
+                            uBasic.setPin(xmlReader.readElementText().toInt());
                         if(xmlReader.name().toString() == "count")
-                            uBasic.setCount(xmlReader.readElementText().toDouble());   // DOUBLE
+                            uBasic.setCount(xmlReader.readElementText().toDouble());
                         if(xmlReader.name().toString() == "countNumber")
                             uBasic.setCountNumber(xmlReader.readElementText().toInt());
                         xmlReader.readNext();
                     }
                     user.push_back(new BasicUser(uBasic));
-                } else if (xmlReader.name().toString() == "pro") {
+                } else if (xmlReader.name().toString() == "pro") {  // Creo un utente pro
                     ProUser uPro;
                     xmlReader.readNext();
                     while (xmlReader.name().toString() != "pro") {
@@ -85,15 +70,15 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
                         if (xmlReader.name().toString() == "address")
                             uPro.setAddress(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "telephone")
-                            uPro.setTelephone(xmlReader.readElementText().toInt()); // INT
+                            uPro.setTelephone(xmlReader.readElementText().toInt());
                         if (xmlReader.name().toString() == "code")
                             uPro.setCode(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "username")
                             uPro.setUsername(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "pin")
-                            uPro.setPin(xmlReader.readElementText().toInt()); // INT
+                            uPro.setPin(xmlReader.readElementText().toInt());
                         if(xmlReader.name().toString() == "count")
-                            uPro.setCount(xmlReader.readElementText().toDouble());    // DOUBLEE
+                            uPro.setCount(xmlReader.readElementText().toDouble());
                         if(xmlReader.name().toString() == "countNumber")
                             uPro.setCountNumber(xmlReader.readElementText().toInt());
                         if(xmlReader.name().toString() == "request")
@@ -105,10 +90,6 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
                 }
             }
         }
-        /*for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-            QString st =QString::fromStdString(user[it]->getName());    // DA RIMUOVERE
-            qDebug("CCC-" + st.toLatin1() + "-CCC");                    // DA RIMUOVERE
-        }*/
         file->close();
 
         if (xmlReader.hasError()) return false;
@@ -117,7 +98,7 @@ bool DataBase::load () { // Carico gli amministratori nel contenitore
     return false;
 }
 
-bool DataBase::verifyAdmin (const string& u) const {
+bool DataBase::verifyAdmin (const string& u) const {    // Ritorna true se l'username passato appartiene ad un amministratore
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         Admin* a = dynamic_cast<Admin*> (user[it]);
         if (a && a->getUsername() == u)
@@ -129,7 +110,7 @@ bool DataBase::verifyAdmin (const string& u) const {
 }
 
 
-bool DataBase::verifyExistingUsername (const string& u) const {
+bool DataBase::verifyExistingUsername (const string& u) const {     // Ritorna true se l'username passato esiste già (tra Basic e Pro)
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
         if (b && b->getUsername() == u)
@@ -138,7 +119,7 @@ bool DataBase::verifyExistingUsername (const string& u) const {
     return false;
 }
 
-bool DataBase::verifyExistingCountNumber (const int& c) const {
+bool DataBase::verifyExistingCountNumber (const int& c) const {     // Ritorna true se il #conto passato passato esiste già
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
         if (b && b->getCountNumber() == c)
@@ -148,7 +129,7 @@ bool DataBase::verifyExistingCountNumber (const int& c) const {
 
 }
 
-bool DataBase::verifyLogin (const string& usr, const int& pin) const {
+bool DataBase::verifyLogin (const string& usr, const int& pin) const {      // Verifica i dati che i dati di accesso dell'amministratore siano corretti
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         if (user[it]->getUsername() == usr && user[it]->getPin() == pin)
                 return true;
@@ -156,7 +137,7 @@ bool DataBase::verifyLogin (const string& usr, const int& pin) const {
     return false;
 }
 
-bool DataBase::addUser (const BasicUser& u) {
+bool DataBase::addUser (const BasicUser& u) {   // Inserisce un nuovo utente nel DB
     BasicUser* ncu = const_cast <BasicUser*> (&u);
     if (u.getCount() < 100000) {
         user.push_back(ncu);
@@ -168,7 +149,24 @@ bool DataBase::addUser (const BasicUser& u) {
     return false;
 }
 
-bool DataBase::verifyStillSame (const BasicUser& usr) {
+User* DataBase::getUser (const string& usr) const {     // Ritorna l'oggetto User con username uguale a quello passato
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        if (user[it]->getUsername() == usr)
+            return user[it]->clone();
+    }
+    return new User();  // RIMUOVERE?
+}
+
+User* DataBase::getUserByCountNumber (const int& conto) const {     // Ritorna l'oggetto User con numero di conto uguale a quello passato
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
+        if (b && b->getCountNumber() == conto)
+            return user[it]->clone();
+    }
+    return new User();  // RIMUOVERE?
+}
+
+bool DataBase::verifyStillSame (const BasicUser& usr) {     // Verifica se l'utente cambia tipo di account o meno
     int cont = 0;   // Per sapere in quale posizione del Container l'oggetto si trova
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
@@ -179,25 +177,23 @@ bool DataBase::verifyStillSame (const BasicUser& usr) {
     }
     BasicUser* u = const_cast<BasicUser*> (&usr);
 
-    if (100000 <= u->getCount() && !dynamic_cast<ProUser*> (u)) {
-        // L'utente è Basic e deve diventare Pro
-        ProUser *s = new ProUser (*u);
+    if (100000 <= u->getCount() && !dynamic_cast<ProUser*> (u)) {       // L'utente è Basic e deve diventare Pro
 
+        ProUser *s = new ProUser (*u);
         user.replace(cont, s->clone());     // Inserisce il "nuovo" utente Pro al posto di quello vecchio
 
     } else if (u->getCount() < 100000 && dynamic_cast<ProUser*> (u)) {  // L'utente è Pro e deve diventare Basic
 
-        //ProUser* s = dynamic_cast<ProUser*> (u);
         BasicUser* b = new BasicUser (*u);
         user.replace(cont, b->clone());     // Inserisce il "nuovo" utente Basic al posto di quello vecchio
 
     } else {    // L'utente non ha cambiato "tipo", ma vanno comunque aggiornati DB e Container
 
-        if (dynamic_cast<ProUser*> (u)) { // È un utente Pro
+        if (dynamic_cast<ProUser*> (u)) {   // È un utente Pro
             ProUser* s = dynamic_cast<ProUser*> (u);
-            user.replace(cont, s->clone());     // Inserisce il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
+            user.replace(cont, s->clone()); // Inserisce il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
         } else { // È un utente Basic
-            user.replace(cont, u->clone());     // Inserisco il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
+            user.replace(cont, u->clone()); // Inserisco il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
         }
         //delete u; // ATTENZIONE
         this->write();
@@ -207,42 +203,7 @@ bool DataBase::verifyStillSame (const BasicUser& usr) {
     return false;
 }
 
-User* DataBase::getUser (const string& usr) const {
-    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        if (user[it]->getUsername() == usr)
-            return user[it]->clone();
-    }
-}
-
-User* DataBase::getUserByCountNumber (const int& conto) const {
-    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
-        if (b && b->getCountNumber() == conto)
-            return user[it]->clone();
-    }
-}
-
-/*bool DataBase::fromBasicToPro (const BasicUser& Basic) {  // L'utente passa da Basic a Pro
-        //ProUser s = new ProUser (b.getName(), b.getSurname(), b.getAddress(), b.getTelephone(), b.getUsername(), b.getCode(), b.getPin(), b.getCountNumber(), b.getCount());
-        ProUser *s = new ProUser (Basic);
-
-        int cont = 0;
-        for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-            BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
-            if (b && b->getUsername() != Basic.getUsername())
-                cont ++;
-            else
-                break;
-        }
-        user.remove(cont); // Rimuove il "vecchio" utente Basic dalla lista degli utenti Basic
-        user.push_back(s); // Inserisce il "nuovo" utente Pro nella lista di appartenenza
-        if (this->write() && this->write())
-            return false;
-        else
-            return true;
-}*/
-
-bool DataBase::remove (const User& u) {
+bool DataBase::remove (const User& u) {     // Rimuove dal DB l'utente passato
     int cont = 0;
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         if (user[it]->getUsername() == u.getUsername()) break;
@@ -254,7 +215,7 @@ bool DataBase::remove (const User& u) {
     return false;
 }
 
-bool DataBase::write () {
+bool DataBase::write () {       // Scrive nel DB gli utenti presenti nel contenitore
     file = new QFile("/home/mrc/Documents/p2_project/BankQ/users.xml");
     file->open(QIODevice::WriteOnly);
     QXmlStreamWriter xmlWriter(file);
@@ -265,7 +226,7 @@ bool DataBase::write () {
 
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         ProUser* s = dynamic_cast<ProUser*> (user[it]);
-        if (s) {
+        if (s) {    // È un utente pro
             xmlWriter.writeStartElement("pro");
             xmlWriter.writeTextElement("name", QString::fromStdString(s->getName()));
             xmlWriter.writeTextElement("surname", QString::fromStdString(s->getSurname()));
@@ -279,7 +240,7 @@ bool DataBase::write () {
             xmlWriter.writeTextElement("request", QString::number(s->getRequest()));
         } else {
             BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
-            if (b) {
+            if (b) {    // È un utente basic
                 xmlWriter.writeStartElement("basic");
                 xmlWriter.writeTextElement("name", QString::fromStdString(b->getName()));
                 xmlWriter.writeTextElement("surname", QString::fromStdString(b->getSurname()));
@@ -290,7 +251,7 @@ bool DataBase::write () {
                 xmlWriter.writeTextElement("pin", QString::number(b->getPin()));
                 xmlWriter.writeTextElement("count", QString::number(b->getCount()));
                 xmlWriter.writeTextElement("countNumber", QString::number(b->getCountNumber()));
-            } else {
+            } else {    // È un amministratore
                 Admin* a = dynamic_cast<Admin*> (user[it]);
                 xmlWriter.writeStartElement("admin");
                 xmlWriter.writeTextElement("name", QString::fromStdString(a->getName()));
@@ -314,45 +275,43 @@ bool DataBase::write () {
 }
 
 
-bool DataBase::charge (const string& username, const int& cifra, const int& conto) {
+bool DataBase::charge (const string& username, const int& cifra, const int& conto) {    // Ricarica il conto del destinatario e riduce quello del mittente
     User* m_app = this->getUser(username);
-    BasicUser* mittente = dynamic_cast<BasicUser*> (m_app); // Username dell'utente loggato
-    QWidget* p = new QWidget(); // Per visualizzare i messaggi
+    BasicUser* mittente = dynamic_cast<BasicUser*> (m_app);     // Username dell'utente loggato
+    QWidget* p = new QWidget();                                 // Per visualizzare i messaggi
 
-    if (mittente->getCountNumber() != conto) {      // Verifico che il conto da ricarica e quello dell'utente loggato siano diversi
-        if (0 <= mittente->getCount() - cifra) {    // Verifico che il conto abbia sufficiente credito
+    if (mittente->getCountNumber() != conto) {                  // Verifico che il conto da ricarica e quello dell'utente loggato siano diversi
+        if (0 <= mittente->getCount() - cifra) {                // Verifico che il conto abbia sufficiente credito
 
-            User* r_app = this->getUserByCountNumber(conto);  // Username del "ricevente"
+            User* r_app = this->getUserByCountNumber(conto);    // Username del "ricevente"
             BasicUser* ricevente = dynamic_cast<BasicUser*> (r_app);
 
-            // Aggiunto l'importo al conto dell'utente "ricevente"
-            ricevente->setCount(ricevente->getCount() + cifra);
+
+            ricevente->setCount(ricevente->getCount() + cifra); // Aggiunto l'importo al conto dell'utente "ricevente"
 
             QString qstr = "Ricevuta una ricarica di € " + QString::number(cifra);
             string str = qstr.toUtf8().constData();
             MessagesDataBase m;
 
-            if (m.loadMessages())   {
-                // Messaggio per la ricarica ricevuta
+            if (m.loadMessages())   {                           // Messaggio per la ricarica ricevuta
+
                 m.addMessage(*new Message(ricevente->getUsername(), mittente->getUsername(), str));
 
-                // Messaggio per un'eventuale passaggio da Basic a Pro
-                if (!this->verifyStillSame(*ricevente))   // Se l'utente è Basic allora può diventare Pro, altrimenti non accade "nulla"
-                    // Se l'utente passa a Pro invio un messaggio
-                    m.addMessage(*new Message(ricevente->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro"));
+                if (!this->verifyStillSame(*ricevente))         // Se l'utente è Basic allora può diventare Pro, altrimenti non accade "nulla"
+
+                    m.addMessage(*new Message(ricevente->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro"));   // L'utente passa a Pro e lo segnalo
             } else {
                 QMessageBox::warning(
                     p,
                     QString::fromStdString("BankQ - Errore"),
-                    QString::fromStdString("Errore di caricamento (messaggi)")
+                    QString::fromStdString("Errore di caricamento del messaggi")
                 );
                 return false;
             }
 
-            // Tolgo l'importo dal conto dell'utente loggato
-            mittente->setCount(mittente->getCount() - cifra);
+            mittente->setCount(mittente->getCount() - cifra);   // Tolgo l'importo dal conto dell'utente loggato
 
-            if (!this->verifyStillSame(*mittente)) {   // Se l'utente è Pro allora può diventare Basic, altrimenti non accade "nulla"
+            if (!this->verifyStillSame(*mittente)) {            // Se l'utente è Pro allora può diventare Basic, altrimenti non accade "nulla"
                 /*BasicUser* app = new BasicUser(*s);
                 user = app;
                 delete app;*/
@@ -382,36 +341,7 @@ bool DataBase::charge (const string& username, const int& cifra, const int& cont
     return false;
 }
 
-
-/*ProUser DataBase::getPro (const string& usr) const {
-    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        ProUser* s = dynamic_cast<ProUser*> (user[it]);
-        if (s && s->getUsername() == usr)
-            return *s;
-    }
-}*/
-
-/*bool DataBase::verifyLoginPro (const string& usr, const int& pin) const {
-    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        ProUser* s = dynamic_cast<ProUser*> (user[it]);
-        if (s && s->getUsername() == usr && s->getPin() == pin)
-            return true;
-        else
-            return false;
-    }
-    return false;
-}*/
-
-/*bool DataBase::verifyNumberPro (const int& number) const {
-    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        ProUser* s = dynamic_cast<ProUser*> (user[it]);
-        if (s && s->getCountNumber() == number)
-            return true;
-    }
-    return false;
-}*/
-
-Container<BasicUser> DataBase::getUserNoAdmin () {
+Container<BasicUser> DataBase::getUserNoAdmin () const {    // Ritorna una lista con gli utenti nel DB ad eccezione degli amministraotri
     Container<BasicUser> u;
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         if (dynamic_cast<BasicUser*> (user[it]))
@@ -420,7 +350,7 @@ Container<BasicUser> DataBase::getUserNoAdmin () {
     return u;
 }
 
-Container<ProUser> DataBase::getUserNoRequest() {
+Container<ProUser> DataBase::getUserNoRequest() const {     // Ritorna una lista di utenti Pro senza richieste di bonus anticipato
     Container<ProUser> u;
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         ProUser* p = dynamic_cast<ProUser*> (user[it]);
@@ -430,10 +360,11 @@ Container<ProUser> DataBase::getUserNoRequest() {
     return u;
 }
 
-bool DataBase::giveBonus(const User& cu) {
+bool DataBase::giveBonus(const User& cu) {      // Assegna il bonus all'utente pro passato
+
     User* ncu = const_cast<User*> (&cu);
     ProUser* u = dynamic_cast<ProUser*> (ncu);
-    double c = u->getCount() + ((u->getCount())/100)*(u->getBonus() - u->getTax());
+    double c = u->getCount() + ((u->getCount())/100)*(u->getBonus() - u->getTax()); // Calcolo il nuovo saldo
     u->setCount(c);
     u->setRequest(true);
     if (this->verifyStillSame(*u)) {    // verifyStillSame in questo caso riscrive soltanto l'utente nel DB
@@ -447,7 +378,7 @@ bool DataBase::giveBonus(const User& cu) {
     return false;
 }
 
-bool DataBase::giveBonusToAll () {
+void DataBase::giveBonusToAll () {      // Assegna il bonus agli utenti pro che non lo hanno ancora ricevuto
     Container<ProUser> l = this->getUserNoRequest();
     for (Container<ProUser>::Iteratore it = l.begin(); it != l.end(); ++it) {
         this->giveBonus(*l[it]);

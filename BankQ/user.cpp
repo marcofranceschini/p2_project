@@ -1,9 +1,6 @@
 #include "user.h"
 
-User::User(string n, string s, string a, int t, string c, string u, int p): name(n), surname(s), address(a), telephone(t), code(c), username(u), pin(p) {
-
-   // User::User (string n, string s, string a, int t, string c, string u, int p): name(n), surname(s), address(a), telephone(t), code(c), username(u), pin(p) {}
-}
+User::User(string n, string s, string a, int t, string c, string u, int p): name(n), surname(s), address(a), telephone(t), code(c), username(u), pin(p) {}
 
 User::User () {}
 
@@ -12,6 +9,7 @@ User::~User() {}
 User* User::clone () const {
     return new User (name, surname, address, telephone, code, username, pin);
 }
+
 
 // Metodi get
 string User::getName () const {
@@ -42,9 +40,6 @@ int User::getPin () const {
     return pin;
 }
 
-/*int getAdmin () const {
-    return admin;
-}*/
 
 // Metodi set
 void User::setName (const string& n) {

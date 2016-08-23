@@ -1,9 +1,4 @@
 #include "admininfo.h"
-#include "ui_admininfo.h"
-#include "mainwindow.h"
-#include "database.h"
-#include "messagesdatabase.h"
-#include "QStandardItemModel"
 
 AdminInfo::AdminInfo(QWidget *parent):QDialog(parent), ui(new Ui::AdminInfo) {
     ui->setupUi(this);
@@ -14,26 +9,21 @@ AdminInfo::~AdminInfo() {
 }
 
 void AdminInfo::setAdmin (const User& cu) {
-    User* ncu = const_cast<User*> (&cu);
-    Admin* a = dynamic_cast<Admin*>(ncu);
-    //admin = *a;
 
     ui->label_5->setText(QString::fromStdString(cu.getName()));      // Nome amministratore
     ui->label_8->setText(QString::fromStdString(cu.getSurname()));   // Cognome amministratore
-    ui->label_7->setText("Amministratore");                             // Tipo account -> "amministratore" rimmarrà fisso
+    ui->label_7->setText("Amministratore");                          // Tipo account -> "amministratore" rimmarrà fisso
     ui->label_19->setText(QString::fromStdString(cu.getAddress()));  // Indirizzo amministratore
     ui->label_75->setText(QString::fromStdString(cu.getCode()));     // Codice fiscale amministratore
     ui->label_77->setText(QString::number(cu.getTelephone()));       // Numero di telefono amministratore
     ui->label_78->setText(QString::fromStdString(cu.getUsername())); // Username amministratore
 
-    //ui->label_21->setText("Ci sono 3 richieste di chiudere il conto"); // Username amministratore
-    this->setTable("BankQ", true);     // Riempie la tabella con i messaggi
-
-    this->setComboBox();    // Riempi la comboBox con gli utenti da eliminare
-    this->setComboBox_2();  // Riempi la comboBox con gli utenti a cui assegnare il bonus
+    this->setTable("BankQ", true);  // Riempie la tabella con i messaggi per l'utente
+    this->setComboBox();            // Riempi la comboBox con gli utenti da eliminare
+    this->setComboBox_2();          // Riempi la comboBox con gli utenti a cui assegnare il bonus
 }
 
-void AdminInfo::on_toolButton_2_clicked() {     // Inserisci nuovo utente
+void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
     string nom = (ui->lineEdit->text()).toUtf8().constData();     // Nome
     string cog = (ui->lineEdit_2->text()).toUtf8().constData();   // Cognome
     string ind = (ui->lineEdit_3->text()).toUtf8().constData();   // Indirizzo
@@ -51,7 +41,7 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisci nuovo utente
             int int_tel = atoi(tel.c_str());
             int int_sal = atoi(sal.c_str());
             double int_num = atoi(num.c_str());
-            if (5 == pin.length()) {
+            if (5 == pin.length()) {    // Verifico che il PIN abbia 5 cifre
                 if (nom != "" && cog != "" && ind != "" && cod != "" && usr != "") {
                     if (!d.verifyExistingUsername(usr) && !d.verifyExistingCountNumber(int_num)) {  // Controllo che username e #conto siano univoci
 
@@ -115,25 +105,13 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisci nuovo utente
             tr("Errore di caricamento del DB")
         );
     }
-
-    // In base al saldo diventa user bronzo o silver
-
-    // Verifico codice fiscale e username se già esistono
-    // Il PIN deve essere di 5 numeri
-    //Messaggio di errore
-    /*QMessageBox::warning(
-        this,
-        tr("BankQ - Errore"),
-        tr("Credito non sufficente")
-    );*/
-    //Messaggio di avvenuto prelievo
 }
 
 void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tabella in caso vi siano messaggi per l'utente loggato
     MessagesDataBase* message = new MessagesDataBase();
     if (message->loadMessages()) {
         int mex;
-        mex = message->countMessage("BankQ");
+        mex = message->countMessage(u);
         if (0 < mex) {
 
             // QStandardItemModel(int rows, int columns, QObject * parent = 0)
@@ -157,13 +135,13 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
                 );
             }
 
-            ui->tableView->setColumnWidth(0, 70);  // Fitto la larghezza della colonna #0
-            ui->tableView->setColumnWidth(1, 409);  // Fitto la larghezza della colonna #1
-            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
+            ui->tableView->setColumnWidth(0, 70);   // Fisso la larghezza della colonna #0
+            ui->tableView->setColumnWidth(1, 409);  // Fisso la larghezza della colonna #1
+            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonne
 
             //int num = 0;
             Container<Message> app;
-            app = message->getMessageByUser("BankQ");
+            app = message->getMessageByUser(u);
             Container<Message>::Iteratore it = app.begin();
             for (int row = 0; row < mex; ++row) {
                 for (int col = 0; col < 2; ++col) {
@@ -181,7 +159,7 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
                 }
                 it++;
             }
-        } else {
+        } else {    // Tabella senza messaggi
             ui->label_21->setText("Non sono presenti nuovi messaggi da leggere");
             ui->toolButton_4->setEnabled(false);
 
@@ -193,9 +171,9 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
 
-            ui->tableView->setColumnWidth(0, 70);  // Fitto la larghezza della colonna #0
-            ui->tableView->setColumnWidth(1, 409);  // Fitto la larghezza della colonna #1
-            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
+            ui->tableView->setColumnWidth(0, 70);   // Fisso la larghezza della colonna #0
+            ui->tableView->setColumnWidth(1, 409);  // Fisso la larghezza della colonna #1
+            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonne
         }
     } else {
         QMessageBox::warning(
@@ -258,14 +236,14 @@ void AdminInfo::on_toolButton_3_clicked() {     // Elimina un utente
     if (msgBox.exec() == QMessageBox::Yes) {
         QString qstr = ui->comboBox->itemText(ui->comboBox->currentIndex());  // Elemento selezionato
         //QString qstr = qv.toString();
-        string str = qstr.toUtf8().constData(); // "Username - #conto"
+        string str = qstr.toUtf8().constData();             // "Username - #conto"
 
         string delimiter = " - ";
         string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
 
         DataBase d;
         if (d.load()) {
-            d.remove(*d.getUser(user));    // Rimuovo l'utente dal DB
+            d.remove(*d.getUser(user));                     // Rimuovo l'utente dal DB
 
             QMessageBox::information(
                 this,
@@ -333,14 +311,14 @@ void AdminInfo::on_toolButton_5_clicked() {     // Assegna il bonus (utente sele
     if (msgBox.exec() == QMessageBox::Yes) {
         QString qstr = ui->comboBox_2->itemText(ui->comboBox_2->currentIndex());  // Elemento selezionato
         //QString qstr = qv.toString();
-        string str = qstr.toUtf8().constData(); // Stringa "username - #conto"
+        string str = qstr.toUtf8().constData();             // Stringa "username - #conto"
 
         string delimiter = " - ";
         string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
 
         DataBase d;
         if (d.load()) {
-            d.giveBonus(*d.getUser(user));    // Assegno il bonus all'utente passato
+            d.giveBonus(*d.getUser(user));                  // Assegno il bonus all'utente passato
             ui->comboBox_2->removeItem(ui->comboBox_2->currentIndex());
             this->setComboBox_2();
 
@@ -372,14 +350,12 @@ void AdminInfo::on_toolButton_6_clicked() {     // Assegna il bonus (a "tutti")
     if (msgBox.exec() == QMessageBox::Yes) {
         DataBase d;
         if (d.load()) {
-            d.giveBonusToAll();    // Assegna il bonus agli utenti che non lo hanno ancora ricevuto
-            int size = ui->comboBox_2->count();     // Numero di elementi nella comboBox
+            d.giveBonusToAll();                 // Assegna il bonus agli utenti che non lo hanno ancora ricevuto
+            int size = ui->comboBox_2->count(); // Numero di elementi nella comboBox
 
-            while (0 <= size) {  // "Azzero" la comboBox
+            while (0 <= size) {     // "Azzero" la comboBox
                 ui->comboBox_2->removeItem(size);
                 size--;
-                QString st =QString::number(size);   // DA RIMUOVERE
-                qDebug("QQQ-" + st.toLatin1() + "-QQQ");                              // DA RIMUOVERE
             }
 
             this->setComboBox_2();
@@ -409,7 +385,7 @@ void AdminInfo::on_tableView_clicked (const QModelIndex &index) {   // Elimino l
     msgBox.setButtonText(QMessageBox::No, trUtf8("No"));
 
     if (msgBox.exec() == QMessageBox::Yes) {
-        int riga = ui->tableView->selectionModel()->currentIndex().row();
+        int riga = index.row();
         QString qstr_u = ui->tableView->model()->data(ui->tableView->model()->index(riga, 0)).toString();
         QString qstr_m = ui->tableView->model()->data(ui->tableView->model()->index(riga, 1)).toString();
 

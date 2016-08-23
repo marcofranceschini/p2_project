@@ -3,6 +3,12 @@
 
 #include <QDialog>
 #include "admin.h"
+#include "ui_admininfo.h"
+
+#include "mainwindow.h"
+#include "database.h"
+#include "messagesdatabase.h"
+#include "QStandardItemModel"   // Per QTable
 
 namespace Ui {
     class AdminInfo;
