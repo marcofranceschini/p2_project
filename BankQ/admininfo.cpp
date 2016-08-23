@@ -51,46 +51,54 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisci nuovo utente
             int int_tel = atoi(tel.c_str());
             int int_sal = atoi(sal.c_str());
             double int_num = atoi(num.c_str());
-            if (nom != "" && cog != "" && ind != "" && cod != "" && usr != "") {
-                if (!d.verifyExistingUsername(usr) && !d.verifyExistingCountNumber(int_num)) {  // Controllo che username e #conto siano univoci
+            if (5 == pin.length()) {
+                if (nom != "" && cog != "" && ind != "" && cod != "" && usr != "") {
+                    if (!d.verifyExistingUsername(usr) && !d.verifyExistingCountNumber(int_num)) {  // Controllo che username e #conto siano univoci
 
-                    d.addUser(*new BasicUser(nom, cog, ind, int_tel, cod, usr, int_pin, int_num, int_sal));
+                        d.addUser(*new BasicUser(nom, cog, ind, int_tel, cod, usr, int_pin, int_num, int_sal));
 
-                    ui->lineEdit->setText("");    // Nome
-                    ui->lineEdit_2->setText("");  // Cognome
-                    ui->lineEdit_3->setText("");  // Indirizzo
-                    ui->lineEdit_4->setText("");  // Telefono
-                    ui->lineEdit_5->setText("");  // Codice fiscale
-                    ui->lineEdit_6->setText("");  // Username
-                    ui->lineEdit_7->setText("");  // PIN
-                    ui->lineEdit_8->setText("");  // Saldo
-                    ui->lineEdit_9->setText("");  // Numero conto
+                        ui->lineEdit->setText("");    // Nome
+                        ui->lineEdit_2->setText("");  // Cognome
+                        ui->lineEdit_3->setText("");  // Indirizzo
+                        ui->lineEdit_4->setText("");  // Telefono
+                        ui->lineEdit_5->setText("");  // Codice fiscale
+                        ui->lineEdit_6->setText("");  // Username
+                        ui->lineEdit_7->setText("");  // PIN
+                        ui->lineEdit_8->setText("");  // Saldo
+                        ui->lineEdit_9->setText("");  // Numero conto
 
-                    QMessageBox::information(
-                        this,
-                        tr("BankQ - Nuovo Utente"),
-                        tr("Aggiunta avvenuta correttamente")
-                    );
-                } else {
-                    if (d.verifyExistingUsername(usr)) {
-                        QMessageBox::warning(
+                        QMessageBox::information(
                             this,
-                            tr("BankQ - Errore"),
-                            tr("Username già esistente")
+                            tr("BankQ - Nuovo Utente"),
+                            tr("Aggiunta avvenuta correttamente")
                         );
                     } else {
-                        QMessageBox::warning(
-                            this,
-                            tr("BankQ - Errore"),
-                            tr("Numero di conto già esistente")
-                        );
+                        if (d.verifyExistingUsername(usr)) {
+                            QMessageBox::warning(
+                                this,
+                                tr("BankQ - Errore"),
+                                tr("Username già esistente")
+                            );
+                        } else {
+                            QMessageBox::warning(
+                                this,
+                                tr("BankQ - Errore"),
+                                tr("Numero di conto già esistente")
+                            );
+                        }
                     }
+                } else {
+                    QMessageBox::warning(
+                        this,
+                        tr("BankQ - Errore"),
+                        tr("Tutti i campi devono essere riempiti")
+                    );
                 }
             } else {
                 QMessageBox::warning(
                     this,
                     tr("BankQ - Errore"),
-                    tr("Tutti i campi devono essere riempiti")
+                    tr("Il PIN deve avere 5 cifre")
                 );
             }
         } else {
