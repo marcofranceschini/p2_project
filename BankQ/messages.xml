@@ -2,22 +2,17 @@
 <messages>
     <message>
         <recipient>prossi</recipient>
-        <sender>mverdi</sender>
-        <text>Ricevuta una ricarica di € 100000</text>
+        <sender>BankQ</sender>
+        <text>Bonus ricevuto</text>
     </message>
     <message>
-        <recipient>prossi</recipient>
+        <recipient>mfrances</recipient>
         <sender>BankQ</sender>
-        <text>Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro</text>
+        <text>Bonus ricevuto</text>
     </message>
     <message>
         <recipient>BankQ</recipient>
-        <sender>prossi</sender>
-        <text>L'utente desidera ricevere il bonus anticipato</text>
-    </message>
-    <message>
-        <recipient>prossi</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
+        <sender>mverdi</sender>
+        <text>L'utente desidera chiudere il proprio conto</text>
     </message>
 </messages>

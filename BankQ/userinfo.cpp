@@ -35,10 +35,10 @@ void UserInfo::setUser (const User& cu) {
             ui->label_18->setEnabled(false);
         }
     } else {
-        ui->label_9->setVisible(false);
-        ui->label_11->setVisible(false);
+        ui->label_9->setVisible(false);                                 // Nascondo il bonus
+        ui->label_11->setVisible(false);                                // Nascondo il bonus
         ui->label_6->setText("Basic");                                  // Tipo conto
-        ui->tabWidget->removeTab(1);
+        ui->tabWidget->removeTab(1);                                    // Rimuovo la tabella per richiedere il bonus
     }
     this->setTable(cu, true);
 }
@@ -71,7 +71,7 @@ void UserInfo::setTable (const User& u, const bool& f) {        // Riempie la ta
             }
 
             ui->tableView->setColumnWidth(0, 70);                                           // Fisso la larghezza della colonna #0
-            ui->tableView->setColumnWidth(1, 405);                                          // Fisso la larghezza della colonna #1
+            ui->tableView->setColumnWidth(1, 419);                                          // Fisso la larghezza della colonna #1
             ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
 
             Container<Message> app;
@@ -108,7 +108,7 @@ void UserInfo::setTable (const User& u, const bool& f) {        // Riempie la ta
             ui->tableView->setModel(model);
 
             ui->tableView->setColumnWidth(0, 70);                                               // Fisso la larghezza della colonna #0
-            ui->tableView->setColumnWidth(1, 405);                                              // Fisso la larghezza della colonna #1
+            ui->tableView->setColumnWidth(1, 419);                                              // Fisso la larghezza della colonna #1
             ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);        // Rendo non ridimensionabile le colonna
         }
     } else {
@@ -161,57 +161,78 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
 
     if (msgBox.exec() == QMessageBox::Yes) {
         QString a = ui->lineEdit_2->text(); // Cifra da caricare
-        QString b = ui->lineEdit_3->text(); // Numero di conto
+        QString b = ui->lineEdit_3->text(); // Numero di conto da ricaricare
         QString c = ui->label_78->text();   // Username dell'utente loggato
+        QString sal = ui->label_12->text(); // Saldo
+        QString nc = ui->label_24->text();  // Numero di conto dell'utente loggato
 
         double cifra = a.toDouble();
         int conto = b.toInt();
         string username = c.toUtf8().constData();
-        //bool flag = false;
+        int saldo = sal.toInt();
 
         if (cifra > 0) {
-            DataBase d;
-            if (d.load()) {
-                if (d.charge (username, cifra, conto)) {
+            if (0 <= saldo - cifra) {
+                if (nc != b) {                                              // Numero di conti diverso (loggato != ricevente)
+                    DataBase d;
+                    if (d.load()) {
+                        if (d.charge (username, cifra, conto)) {
+                                //saldo = saldo - cifra;
+                                // Aggiorno la "grafica" del saldo
+                                ui->label_12->setText(QString::number(saldo));  // Saldo info utente
+                                ui->label_22->setText(QString::number(saldo));  // Saldo ricarica
 
-                        QString sal = ui->label_12->text();             // Saldo
-                        int saldo = sal.toInt();
-                        saldo = saldo - cifra;
+                                if (100000 < saldo && (saldo - cifra)< 100000) {  // È passato da pro a basic
+                                    ui->tabWidget->removeTab(1);                // Rimuovo la tabella per richiedere il bonus
+                                    ui->label_6->setText("Basic");              // Cambio il tipo di conto
+                                    QMessageBox::information(
+                                        this,
+                                        tr("BankQ - Avviso"),
+                                        tr("Con l'ultimo ricarica il tipo di conto è diventanto Basic")
+                                    );
+                                }
 
-                        // Aggiorno la "grafica" del saldo
-                        ui->label_12->setText(QString::number(saldo));  // Saldo info utente
-                        ui->label_22->setText(QString::number(saldo));  // Saldo ricarica
+                                ui->lineEdit_2->setText("");                    // Cifra da caricare
+                                ui->lineEdit_3->setText("");                    // Numero di conto
 
-                        if (saldo < 100000)                             // È un utente Silver
-                            ui->label_6->setText("Basic");              // Cambio il tipo di conto
+                                QMessageBox::information(
+                                    this,
+                                    tr("BankQ - Ricarica"),
+                                    tr("Ricarica avvenuta correttamenta")
+                                );
 
-                        ui->lineEdit_2->setText("");                    // Cifra da caricare
-                        ui->lineEdit_3->setText("");                    // Numero di conto
-
-                        QMessageBox::information(
-                            this,
-                            tr("BankQ - Ricarica"),
-                            tr("Ricarica avvenuta correttamenta")
-                        );
-
-                } else {
+                        } else {
+                                QMessageBox::warning(
+                                    this,
+                                    tr("BankQ - Ricarica"),
+                                    tr("Errore")
+                                );
+                            }
+                    } else {
                         QMessageBox::warning(
                             this,
-                            tr("BankQ - Prelievo"),
-                            tr("Errore")
+                            tr("BankQ - Errore"),
+                            tr("Errore di caricamento del DB")
                         );
                     }
+                }else {
+                    QMessageBox::warning(
+                        this,
+                        tr("BankQ - Ricarica"),
+                        tr("Non è possibile inserire il proprio conto")
+                    );
+                }
             } else {
                 QMessageBox::warning(
                     this,
-                    tr("BankQ - Errore"),
-                    tr("Errore di caricamento del DB")
+                    tr("BankQ - Ricarica"),
+                    tr("Saldo insufficiente")
                 );
             }
         } else {
             QMessageBox::warning(
                 this,
-                tr("BankQ - Prelievo"),
+                tr("BankQ - Ricarica"),
                 tr("Importo errato")
             );
         }

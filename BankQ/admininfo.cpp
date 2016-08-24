@@ -245,6 +245,7 @@ void AdminInfo::on_toolButton_3_clicked() {     // Elimina un utente
         DataBase d;
         if (d.load()) {
             d.remove(*d.getUser(user));                     // Rimuovo l'utente dal DB
+            ui->comboBox->removeItem(ui->comboBox->currentIndex());
 
             QMessageBox::information(
                 this,
