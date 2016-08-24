@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_AdminInfo_t {
-    QByteArrayData data[10];
-    char stringdata[181];
+    QByteArrayData data[12];
+    char stringdata[229];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,13 +38,16 @@ QT_MOC_LITERAL(5, 81, 23),
 QT_MOC_LITERAL(6, 105, 23),
 QT_MOC_LITERAL(7, 129, 23),
 QT_MOC_LITERAL(8, 153, 20),
-QT_MOC_LITERAL(9, 174, 5)
+QT_MOC_LITERAL(9, 174, 5),
+QT_MOC_LITERAL(10, 180, 23),
+QT_MOC_LITERAL(11, 204, 23)
     },
     "AdminInfo\0on_toolButton_2_clicked\0\0"
     "on_toolButton_clicked\0on_toolButton_3_clicked\0"
     "on_toolButton_4_clicked\0on_toolButton_5_clicked\0"
     "on_toolButton_6_clicked\0on_tableView_clicked\0"
-    "index\0"
+    "index\0on_toolButton_7_clicked\0"
+    "on_toolButton_8_clicked\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -54,7 +57,7 @@ static const uint qt_meta_data_AdminInfo[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -62,13 +65,15 @@ static const uint qt_meta_data_AdminInfo[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   49,    2, 0x08,
-       3,    0,   50,    2, 0x08,
-       4,    0,   51,    2, 0x08,
-       5,    0,   52,    2, 0x08,
-       6,    0,   53,    2, 0x08,
-       7,    0,   54,    2, 0x08,
-       8,    1,   55,    2, 0x08,
+       1,    0,   59,    2, 0x08,
+       3,    0,   60,    2, 0x08,
+       4,    0,   61,    2, 0x08,
+       5,    0,   62,    2, 0x08,
+       6,    0,   63,    2, 0x08,
+       7,    0,   64,    2, 0x08,
+       8,    1,   65,    2, 0x08,
+      10,    0,   68,    2, 0x08,
+      11,    0,   69,    2, 0x08,
 
  // slots: parameters
     QMetaType::Void,
@@ -78,6 +83,8 @@ static const uint qt_meta_data_AdminInfo[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QModelIndex,    9,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -94,6 +101,7 @@ void AdminInfo::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         case 4: _t->on_toolButton_5_clicked(); break;
         case 5: _t->on_toolButton_6_clicked(); break;
         case 6: _t->on_tableView_clicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
+        case 7: _t->on_toolButton_7_clicked(); break;
         default: ;
         }
     }
@@ -124,13 +132,13 @@ int AdminInfo::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 9)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        _id -= 9;
     }
     return _id;
 }

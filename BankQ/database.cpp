@@ -1,9 +1,10 @@
 #include "database.h"
 
-DataBase::DataBase() {}
+DataBase::DataBase() {
+    file = new QFile("/home/mrc/Documents/p2_project/Database/users.xml");
+}
 
 bool DataBase::load () {    // Carica gli utenti nel contenitore
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/users.xml");
 
     if (file->exists()) {
         file->open(QIODevice::ReadOnly);
@@ -222,7 +223,6 @@ bool DataBase::remove (const User& u) {     // Rimuove dal DB l'utente passato
 }
 
 bool DataBase::write () {       // Scrive nel DB gli utenti presenti nel contenitore
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/users.xml");
 
     file->open(QIODevice::WriteOnly);
     QXmlStreamWriter xmlWriter(file);
@@ -285,7 +285,6 @@ bool DataBase::write () {       // Scrive nel DB gli utenti presenti nel conteni
 bool DataBase::charge (const string& username, const int& cifra, const int& conto) {    // Ricarica il conto del destinatario e riduce quello del mittente
     User* m_app = this->getUser(username);
     BasicUser* mittente = dynamic_cast<BasicUser*> (m_app);     // Username dell'utente loggato
-    QWidget* p = new QWidget();                                 // Per visualizzare i messaggi
 
     User* r_app = this->getUserByCountNumber(conto);            // Username del "ricevente"
     BasicUser* ricevente = dynamic_cast<BasicUser*> (r_app);
@@ -294,15 +293,15 @@ bool DataBase::charge (const string& username, const int& cifra, const int& cont
 
     QString qstr = "Ricevuta una ricarica di € " + QString::number(cifra);
     string str = qstr.toUtf8().constData();
-    MessagesDataBase m;
+    MessagesDataBase* m = new MessagesDataBase();
 
-    if (m.loadMessages())   {                           // Messaggio per la ricarica ricevuta
+    if (m->loadMessages())   {                           // Messaggio per la ricarica ricevuta
 
-        m.addMessage(*new Message(ricevente->getUsername(), mittente->getUsername(), str));
+        m->addMessage(*new Message(ricevente->getUsername(), mittente->getUsername(), str));
 
         if (!this->verifyStillSame(*ricevente))         // Se l'utente è Basic allora può diventare Pro, altrimenti non accade "nulla"
 
-            m.addMessage(*new Message(ricevente->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro"));   // L'utente passa a Pro e lo segnalo
+            m->addMessage(*new Message(ricevente->getUsername(),"BankQ", "Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro"));   // L'utente passa a Pro e lo segnalo
 
     } else {
         qDebug("Errore nel caricamento del DB messaggi");
@@ -345,14 +344,13 @@ bool DataBase::giveBonus(const User& cu) {      // Assegna il bonus all'utente p
     double c = u->getCount() + ((u->getCount())/100)*(u->getBonus() - u->getTax()); // Calcolo il nuovo saldo
     u->setCount(c);
     u->setRequest(true);
-    if (this->verifyStillSame(*u)) {    // verifyStillSame in questo caso riscrive soltanto l'utente nel DB
-        MessagesDataBase m;
-        if (m.loadMessages()) {
-            m.addMessage(*new Message (cu.getUsername(), "BankQ", "Bonus ricevuto"));
-            return true;
-        } else
-            qDebug("Errore nel caricamento del DB messaggi");
-    }
+    this->write();
+    MessagesDataBase* m = new MessagesDataBase();
+    if (m->loadMessages()) {
+        m->addMessage(*new Message (cu.getUsername(), "BankQ", "Bonus ricevuto"));
+        return true;
+    } else
+        qDebug("Errore nel caricamento del DB messaggi");
     return false;
 }
 
@@ -361,4 +359,13 @@ void DataBase::giveBonusToAll () {      // Assegna il bonus agli utenti pro che 
     for (Container<ProUser>::Iteratore it = l.begin(); it != l.end(); ++it) {
         this->giveBonus(*l[it]);
     }
+}
+
+void DataBase::giveUnlockAll () {       // "Sblocca" gli utenti (mette request "false" a tutti i pro)
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        ProUser* p = dynamic_cast<ProUser*> (user[it]);
+        if (p && p->getRequest())
+            p->setRequest(false);
+    }
+    this->write();
 }

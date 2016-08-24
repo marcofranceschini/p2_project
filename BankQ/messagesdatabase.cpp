@@ -1,10 +1,10 @@
 #include "messagesdatabase.h"
 
-MessagesDataBase::MessagesDataBase() {}
+MessagesDataBase::MessagesDataBase() {
+    file = new QFile("/home/mrc/Documents/p2_project/Database/messages.xml");
+}
 
 bool MessagesDataBase::loadMessages () {    // Carico i messaggi nel contenitore
-
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/messages.xml");
 
     if (file->exists()) {
         file->open(QIODevice::ReadOnly);
@@ -83,7 +83,6 @@ bool MessagesDataBase::addMessage (const Message& m) {  // Inserisce un nuovo me
 
 bool MessagesDataBase::writeMessages () {   // Scrive i messaggi nel DB
 
-    file = new QFile("/home/mrc/Documents/p2_project/BankQ/messages.xml");
     file->open(QIODevice::WriteOnly);
     QXmlStreamWriter xmlWriter(file);
     xmlWriter.setAutoFormatting(true);

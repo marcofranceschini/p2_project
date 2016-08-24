@@ -52,6 +52,8 @@ public:
     bool giveBonus (const User&);                       // Assegna il bonus all'utente pro passato
 
     void giveBonusToAll ();                             // Assegna il bonus agli utenti pro che non lo hanno ancora ricevuto
+
+    void giveUnlockAll ();                              // "Sblocca" gli utenti (mette request "false" a tutti i pro)
 };
 
 #endif // DATABASE_H

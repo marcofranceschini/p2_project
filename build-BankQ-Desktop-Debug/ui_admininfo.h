@@ -81,6 +81,7 @@ public:
     QComboBox *comboBox_2;
     QToolButton *toolButton_5;
     QToolButton *toolButton_6;
+    QToolButton *toolButton_7;
     QWidget *tab_3;
     QLabel *label_23;
     QLabel *label_21;
@@ -246,10 +247,13 @@ public:
         comboBox_2->setGeometry(QRect(290, 70, 191, 23));
         toolButton_5 = new QToolButton(tab_5);
         toolButton_5->setObjectName(QStringLiteral("toolButton_5"));
-        toolButton_5->setGeometry(QRect(170, 170, 91, 25));
+        toolButton_5->setGeometry(QRect(90, 170, 91, 25));
         toolButton_6 = new QToolButton(tab_5);
         toolButton_6->setObjectName(QStringLiteral("toolButton_6"));
-        toolButton_6->setGeometry(QRect(290, 170, 111, 25));
+        toolButton_6->setGeometry(QRect(230, 170, 111, 25));
+        toolButton_7 = new QToolButton(tab_5);
+        toolButton_7->setObjectName(QStringLiteral("toolButton_7"));
+        toolButton_7->setGeometry(QRect(390, 170, 91, 25));
         tabWidget->addTab(tab_5, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QStringLiteral("tab_3"));
@@ -269,7 +273,7 @@ public:
 
         retranslateUi(AdminInfo);
 
-        tabWidget->setCurrentIndex(3);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(AdminInfo);
@@ -318,6 +322,7 @@ public:
         label_27->setText(QApplication::translate("AdminInfo", "Scegliere il conto a cui assegnare il bonus", 0));
         toolButton_5->setText(QApplication::translate("AdminInfo", "Assegna", 0));
         toolButton_6->setText(QApplication::translate("AdminInfo", "Assegnalo a tutti", 0));
+        toolButton_7->setText(QApplication::translate("AdminInfo", "Sblocca tutti", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_5), QApplication::translate("AdminInfo", "Assegna Bonus", 0));
         label_23->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         label_21->setText(QString());

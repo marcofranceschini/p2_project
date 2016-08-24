@@ -180,7 +180,7 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
         QMessageBox::warning(
             this,
             tr("BankQ - Errore"),
-            tr("Errore di caricamento (messaggi)")
+            tr("Errore di caricamento del DB messaggi")
         );
     }
 }
@@ -293,7 +293,7 @@ void AdminInfo::on_toolButton_4_clicked() {     // Messaggi spuntati come "visua
         QMessageBox::warning(
             this,
             tr("BankQ - Errore"),
-            tr("Errore di caricamento (messaggi)")
+            tr("Errore di caricamento del DB messaggi")
         );
     }
 }
@@ -421,7 +421,7 @@ void AdminInfo::on_tableView_clicked (const QModelIndex &index) {   // Elimino l
             QMessageBox::warning(
                 this,
                 tr("BankQ - Errore"),
-                tr("Errore di caricamento (messaggi)")
+                tr("Errore di caricamento del DB messaggi")
             );
         }
     }

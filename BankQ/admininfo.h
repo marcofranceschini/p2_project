@@ -45,6 +45,10 @@ class AdminInfo : public QDialog {
 
         void on_tableView_clicked(const QModelIndex &index);
 
+        void on_toolButton_7_clicked();
+
+        void on_toolButton_8_clicked();
+
 private:
         Ui::AdminInfo *ui;
 
