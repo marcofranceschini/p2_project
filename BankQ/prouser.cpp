@@ -1,6 +1,6 @@
 #include "prouser.h"
 
-ProUser::ProUser (string n, string s, string a, int t, string c, string u, int p, int nu, double co, bool r): BasicUser(n, s, a, t, c, u, p, nu, co), request(r) {}
+ProUser::ProUser (string n, string s, string a, string t, string c, string u, int p, int nu, double co, bool r): BasicUser(n, s, a, t, c, u, p, nu, co), request(r) {}
 
 ProUser::ProUser () {}
 

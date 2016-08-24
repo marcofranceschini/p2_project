@@ -1,8 +1,6 @@
 #include "userinfo.h"
 #include "ui_userinfo.h"
 
-
-
 UserInfo::UserInfo(QWidget *parent):QDialog(parent), ui(new Ui::UserInfo) {
     ui->setupUi(this);
 }
@@ -15,22 +13,22 @@ void UserInfo::setUser (const User& cu) {
     User* ncu = const_cast<User*> (&cu);
     BasicUser* u = dynamic_cast<BasicUser*> (ncu);
 
-    ui->label_4->setText(QString::fromStdString(u->getName()));     // Nome
-    ui->label_5->setText(QString::fromStdString(u->getSurname()));  // Cognome
-    ui->label_75->setText(QString::fromStdString(u->getCode()));    // Codice fiscale
-    ui->label_77->setText(QString::number(u->getTelephone()));      // Numero di telefono
-    ui->label_78->setText(QString::fromStdString(u->getUsername()));// Username
-    ui->label_10->setText(QString::number(u->getTax()));            // Tasse anno
-    ui->label_10->setText(QString::number(u->getTax()));            // Tasse anno
-    ui->label_24->setText(QString::number(u->getCountNumber()));    // Numero conto
-    ui->label_12->setText(QString::number(u->getCount()));          // Saldo info utente
-    ui->label_22->setText(QString::number(u->getCount()));          // Saldo ricarica
+    ui->label_4->setText(QString::fromStdString(u->getName()));         // Nome
+    ui->label_5->setText(QString::fromStdString(u->getSurname()));      // Cognome
+    ui->label_75->setText(QString::fromStdString(u->getCode()));        // Codice fiscale
+    ui->label_77->setText(QString::fromStdString(u->getTelephone()));   // Numero di telefono
+    ui->label_78->setText(QString::fromStdString(u->getUsername()));    // Username
+    ui->label_10->setText(QString::number(u->getTax()));                // Tasse anno
+    ui->label_10->setText(QString::number(u->getTax()));                // Tasse anno
+    ui->label_24->setText(QString::number(u->getCountNumber()));        // Numero conto
+    ui->label_12->setText(QString::number(u->getCount()));              // Saldo info utente
+    ui->label_22->setText(QString::number(u->getCount()));              // Saldo ricarica
 
 
     if (dynamic_cast<ProUser*> (u)) {
         ProUser* p = dynamic_cast<ProUser*> (u);
-        ui->label_11->setText(QString::number(p->getBonus()));     // Bonus anno
-        ui->label_6->setText("Pro");                               // Tipo conto
+        ui->label_11->setText(QString::number(p->getBonus()));          // Bonus anno
+        ui->label_6->setText("Pro");                                    // Tipo conto
         if (p->getRequest()) {
             ui->toolButton_3->setEnabled(false);
             ui->label_17->setText("Bonus già ricevuto");
@@ -39,13 +37,13 @@ void UserInfo::setUser (const User& cu) {
     } else {
         ui->label_9->setVisible(false);
         ui->label_11->setVisible(false);
-        ui->label_6->setText("Basic");                             // Tipo conto
+        ui->label_6->setText("Basic");                                  // Tipo conto
         ui->tabWidget->removeTab(1);
     }
     this->setTable(cu, true);
 }
 
-void UserInfo::setTable (const User& u, const bool& f) {           // Riempie la tabella in caso vi siano messaggi per l'utente loggato
+void UserInfo::setTable (const User& u, const bool& f) {        // Riempie la tabella in caso vi siano messaggi per l'utente loggato
     MessagesDataBase* message = new MessagesDataBase();
     if (message->loadMessages()) {
         int mex;
@@ -59,7 +57,7 @@ void UserInfo::setTable (const User& u, const bool& f) {           // Riempie la
             model->setHorizontalHeaderLabels(columnName);
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
-            ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);                  // Rende le celle non editabili
+            ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);             // Rende le celle non editabili
 
             QString s = QString::number(mex);
             ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
@@ -72,9 +70,9 @@ void UserInfo::setTable (const User& u, const bool& f) {           // Riempie la
                 );
             }
 
-            ui->tableView->setColumnWidth(0, 70);                                               // Fisso la larghezza della colonna #0
-            ui->tableView->setColumnWidth(1, 405);                                              // Fisso la larghezza della colonna #1
-            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);        // Rendo non ridimensionabile le colonna
+            ui->tableView->setColumnWidth(0, 70);                                           // Fisso la larghezza della colonna #0
+            ui->tableView->setColumnWidth(1, 405);                                          // Fisso la larghezza della colonna #1
+            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
 
             Container<Message> app;
             app = message->getMessageByUser(u.getUsername());
@@ -261,27 +259,37 @@ void UserInfo::on_toolButton_clicked() {        // Logout
 }
 
 void UserInfo::on_toolButton_2_clicked() {      // Chiusura conto
+    QMessageBox msgBox(
+                QMessageBox::Question,
+                trUtf8("Attenzione"),
+                trUtf8("Eliminare il messaggio?"),
+                QMessageBox::Yes | QMessageBox::No);
 
-    QString u = ui->label_78->text();
-    string username = u.toUtf8().constData();
-    MessagesDataBase m;
+    msgBox.setButtonText(QMessageBox::Yes, trUtf8("Si"));
+    msgBox.setButtonText(QMessageBox::No, trUtf8("No"));
 
-    if (m.loadMessages()) {
-        m.deleteMessages(username);             // Elimino i messaggi dell'utente
+    if (msgBox.exec() == QMessageBox::Yes) {
+        QString u = ui->label_78->text();
+        string username = u.toUtf8().constData();
+        MessagesDataBase m;
 
-        QMessageBox::information(
-            this,
-            tr("BankQ - Chiusura"),
-            tr("La sua richiesta è stata presa in carico, arrivederci")
-        );
-        this->on_toolButton_clicked();
-        m.addMessage(*new Message ("admin", username, "L'utente desidera chiudere il proprio conto"));
-    } else {
-        QMessageBox::warning(
-            this,
-            tr("BankQ - Errore"),
-            tr("Errore di caricamento (messaggi)")
-        );
+        if (m.loadMessages()) {
+            m.deleteMessages(username);             // Elimino i messaggi dell'utente
+
+            QMessageBox::information(
+                this,
+                tr("BankQ - Chiusura"),
+                tr("La sua richiesta è stata presa in carico, arrivederci")
+            );
+            this->on_toolButton_clicked();
+            m.addMessage(*new Message ("BankQ", username, "L'utente desidera chiudere il proprio conto"));
+        } else {
+            QMessageBox::warning(
+                this,
+                tr("BankQ - Errore"),
+                tr("Errore di caricamento (messaggi)")
+            );
+        }
     }
 
 }

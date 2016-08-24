@@ -10,26 +10,27 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_toolButton_clicked() {
-    QString usr = ui->lineEdit->text();     // Username inserito
-    QString pass = ui->lineEdit_2->text();  // PIN inserito
+    QString usr = ui->lineEdit->text();             // Username inserito
+    QString pass = ui->lineEdit_2->text();          // PIN inserito
 
-    string pin = pass.toUtf8().constData(); // "cast" da QString a string
-    string user = usr.toUtf8().constData(); // "cast" da QString a string
+    string pin = pass.toUtf8().constData();         // "cast" da QString a string
+    string user = usr.toUtf8().constData();         // "cast" da QString a string
 
-    if (atoi(pin.c_str())) {                // Verifico che il PIN sia numerico
+    if (atoi(pin.c_str()) && 0 < user.length() && 5 == pass.length()) {   // Verifico che i dati siano coerenti
         int int_pin = atoi(pin.c_str());
         DataBase d;
-        if (d.load()) {                     // Entro sse è la funzione load non ha avuto problemi
+        if (d.load()) {                             // Entro sse è la funzione load non ha avuto problemi
+
             if (d.verifyLogin(user, int_pin)) {
-                this->close();              // Chiudo la finistra di login
-                if (d.verifyAdmin(user)) {  // Verifico se l'utente è amministratore
+                this->close();                      // Chiudo la finistra di login
+                if (d.verifyAdmin(user)) {          // Verifico se l'utente è amministratore
                     User* u = d.getUser(user);
 
                     AdminInfo newAdminWindow;
                     newAdminWindow.setAdmin(*u);
                     newAdminWindow.setModal(true);
                     newAdminWindow.exec();
-                } else {                    // Non è amministratore
+                } else {                            // Non è amministratore
                     UserInfo newUserWindow;
                     User* h = d.getUser(user);
 
@@ -55,7 +56,7 @@ void MainWindow::on_toolButton_clicked() {
         QMessageBox::warning(
             this,
             tr("BankQ - Errore"),
-            tr("PIN non numerico")
+            tr("Dati non validi")
         );
     }
 }

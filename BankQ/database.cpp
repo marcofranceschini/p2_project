@@ -8,6 +8,7 @@ bool DataBase::load () {    // Carica gli utenti nel contenitore
     if (file->exists()) {
         file->open(QIODevice::ReadOnly);
         QXmlStreamReader xmlReader(file);
+
         while (!xmlReader.atEnd()) {
             xmlReader.readNext();
             if (xmlReader.isStartElement()) {
@@ -22,7 +23,7 @@ bool DataBase::load () {    // Carica gli utenti nel contenitore
                         if (xmlReader.name().toString() == "address")
                             ad.setAddress(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "telephone")
-                            ad.setTelephone(xmlReader.readElementText().toInt());
+                            ad.setTelephone(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "code")
                             ad.setCode(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "username")
@@ -34,6 +35,7 @@ bool DataBase::load () {    // Carica gli utenti nel contenitore
                         xmlReader.readNext();
                     }
                     user.push_back(new Admin(ad));
+
                 } else if (xmlReader.name().toString() == "basic") {    // Creo un utente basic
                     BasicUser uBasic;
                     xmlReader.readNext();
@@ -45,7 +47,7 @@ bool DataBase::load () {    // Carica gli utenti nel contenitore
                         if (xmlReader.name().toString() == "address")
                             uBasic.setAddress(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "telephone")
-                            uBasic.setTelephone(xmlReader.readElementText().toInt());
+                            uBasic.setTelephone(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "code")
                             uBasic.setCode(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "username")
@@ -59,6 +61,7 @@ bool DataBase::load () {    // Carica gli utenti nel contenitore
                         xmlReader.readNext();
                     }
                     user.push_back(new BasicUser(uBasic));
+
                 } else if (xmlReader.name().toString() == "pro") {  // Creo un utente pro
                     ProUser uPro;
                     xmlReader.readNext();
@@ -70,7 +73,7 @@ bool DataBase::load () {    // Carica gli utenti nel contenitore
                         if (xmlReader.name().toString() == "address")
                             uPro.setAddress(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "telephone")
-                            uPro.setTelephone(xmlReader.readElementText().toInt());
+                            uPro.setTelephone(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "code")
                             uPro.setCode(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "username")
@@ -167,7 +170,7 @@ User* DataBase::getUserByCountNumber (const int& conto) const {     // Ritorna l
 }
 
 bool DataBase::verifyStillSame (const BasicUser& usr) {     // Verifica se l'utente cambia tipo di account o meno
-    int cont = 0;   // Per sapere in quale posizione del Container l'oggetto si trova
+    int cont = 0;                                           // Per sapere in quale posizione del Container l'oggetto si trova
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
         if (!b || (b && b->getUsername() != usr.getUsername()))
@@ -190,9 +193,12 @@ bool DataBase::verifyStillSame (const BasicUser& usr) {     // Verifica se l'ute
     } else {    // L'utente non ha cambiato "tipo", ma vanno comunque aggiornati DB e Container
 
         if (dynamic_cast<ProUser*> (u)) {   // È un utente Pro
+
             ProUser* s = dynamic_cast<ProUser*> (u);
             user.replace(cont, s->clone()); // Inserisce il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
-        } else { // È un utente Basic
+
+        } else {                            // È un utente Basic
+
             user.replace(cont, u->clone()); // Inserisco il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
         }
         //delete u; // ATTENZIONE
@@ -217,6 +223,7 @@ bool DataBase::remove (const User& u) {     // Rimuove dal DB l'utente passato
 
 bool DataBase::write () {       // Scrive nel DB gli utenti presenti nel contenitore
     file = new QFile("/home/mrc/Documents/p2_project/BankQ/users.xml");
+
     file->open(QIODevice::WriteOnly);
     QXmlStreamWriter xmlWriter(file);
     xmlWriter.setAutoFormatting(true);
@@ -231,7 +238,7 @@ bool DataBase::write () {       // Scrive nel DB gli utenti presenti nel conteni
             xmlWriter.writeTextElement("name", QString::fromStdString(s->getName()));
             xmlWriter.writeTextElement("surname", QString::fromStdString(s->getSurname()));
             xmlWriter.writeTextElement("address", QString::fromStdString(s->getAddress()));
-            xmlWriter.writeTextElement("telephone", QString::number(s->getTelephone()));
+            xmlWriter.writeTextElement("telephone", QString::fromStdString(s->getTelephone()));
             xmlWriter.writeTextElement("code", QString::fromStdString(s->getCode()));
             xmlWriter.writeTextElement("username", QString::fromStdString(s->getUsername()));
             xmlWriter.writeTextElement("pin", QString::number(s->getPin()));
@@ -245,7 +252,7 @@ bool DataBase::write () {       // Scrive nel DB gli utenti presenti nel conteni
                 xmlWriter.writeTextElement("name", QString::fromStdString(b->getName()));
                 xmlWriter.writeTextElement("surname", QString::fromStdString(b->getSurname()));
                 xmlWriter.writeTextElement("address", QString::fromStdString(b->getAddress()));
-                xmlWriter.writeTextElement("telephone", QString::number(b->getTelephone()));
+                xmlWriter.writeTextElement("telephone", QString::fromStdString(b->getTelephone()));
                 xmlWriter.writeTextElement("code", QString::fromStdString(b->getCode()));
                 xmlWriter.writeTextElement("username", QString::fromStdString(b->getUsername()));
                 xmlWriter.writeTextElement("pin", QString::number(b->getPin()));
@@ -257,7 +264,7 @@ bool DataBase::write () {       // Scrive nel DB gli utenti presenti nel conteni
                 xmlWriter.writeTextElement("name", QString::fromStdString(a->getName()));
                 xmlWriter.writeTextElement("surname", QString::fromStdString(a->getSurname()));
                 xmlWriter.writeTextElement("address", QString::fromStdString(a->getAddress()));
-                xmlWriter.writeTextElement("telephone", QString::number(a->getTelephone()));
+                xmlWriter.writeTextElement("telephone", QString::fromStdString(a->getTelephone()));
                 xmlWriter.writeTextElement("code", QString::fromStdString(a->getCode()));
                 xmlWriter.writeTextElement("username", QString::fromStdString(a->getUsername()));
                 xmlWriter.writeTextElement("pin", QString::number(a->getPin()));

@@ -7,7 +7,7 @@ class Admin: public User {
 private:
     double salary;
 public:
-    Admin (string, string, string, int, string, string, int, double);
+    Admin (string, string, string, string, string, string, int, double);
 
     Admin ();
 

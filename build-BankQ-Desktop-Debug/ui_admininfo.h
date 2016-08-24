@@ -246,10 +246,10 @@ public:
         comboBox_2->setGeometry(QRect(290, 70, 191, 23));
         toolButton_5 = new QToolButton(tab_5);
         toolButton_5->setObjectName(QStringLiteral("toolButton_5"));
-        toolButton_5->setGeometry(QRect(140, 170, 91, 25));
+        toolButton_5->setGeometry(QRect(170, 170, 91, 25));
         toolButton_6 = new QToolButton(tab_5);
         toolButton_6->setObjectName(QStringLiteral("toolButton_6"));
-        toolButton_6->setGeometry(QRect(260, 170, 111, 25));
+        toolButton_6->setGeometry(QRect(290, 170, 111, 25));
         tabWidget->addTab(tab_5, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QStringLiteral("tab_3"));
@@ -269,7 +269,7 @@ public:
 
         retranslateUi(AdminInfo);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(AdminInfo);

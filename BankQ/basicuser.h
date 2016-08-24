@@ -17,7 +17,7 @@ public:
     /*BasicUser(string n, string s, string a, int t, string cod, string u, int p, bool ad):
         User(n, s, a, t, cod, u, p, ad) {}*/
      // float surcharge; L'utente bronzo non ha tasse aggiuntive da pagare a differenza degli altri tipi di utente
-    BasicUser (string, string, string, int, string, string, int, int, double);
+    BasicUser (string, string, string, string, string, string, int, int, double);
 
     BasicUser ();
 

@@ -1,6 +1,6 @@
 #include "user.h"
 
-User::User(string n, string s, string a, int t, string c, string u, int p): name(n), surname(s), address(a), telephone(t), code(c), username(u), pin(p) {}
+User::User(string n, string s, string a, string t, string c, string u, int p): name(n), surname(s), address(a), telephone(t), code(c), username(u), pin(p) {}
 
 User::User () {}
 
@@ -24,7 +24,7 @@ string User::getAddress () const {
     return address;
 }
 
-int User::getTelephone () const {
+string User::getTelephone () const {
     return telephone;
 }
 
@@ -54,7 +54,7 @@ void User::setAddress (const string& a) {
     address=a;
 }
 
-void User::setTelephone (const int& t) {
+void User::setTelephone (const string& t) {
     telephone=t;
 }
 

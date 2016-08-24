@@ -15,7 +15,7 @@ void AdminInfo::setAdmin (const User& cu) {
     ui->label_7->setText("Amministratore");                          // Tipo account -> "amministratore" rimmarrà fisso
     ui->label_19->setText(QString::fromStdString(cu.getAddress()));  // Indirizzo amministratore
     ui->label_75->setText(QString::fromStdString(cu.getCode()));     // Codice fiscale amministratore
-    ui->label_77->setText(QString::number(cu.getTelephone()));       // Numero di telefono amministratore
+    ui->label_77->setText(QString::fromStdString(cu.getTelephone()));// Numero di telefono amministratore
     ui->label_78->setText(QString::fromStdString(cu.getUsername())); // Username amministratore
 
     this->setTable("BankQ", true);  // Riempie la tabella con i messaggi per l'utente
@@ -38,14 +38,13 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
     if (d.load()) {
         if (atoi(pin.c_str()) && atoi(tel.c_str()) && atoi(sal.c_str()) && atoi(num.c_str())) {    // Verifico che il PIN, telefono, saldo e #conto siano numerici
             int int_pin = atoi(pin.c_str());
-            int int_tel = atoi(tel.c_str());
             int int_sal = atoi(sal.c_str());
             double int_num = atoi(num.c_str());
             if (5 == pin.length()) {    // Verifico che il PIN abbia 5 cifre
                 if (nom != "" && cog != "" && ind != "" && cod != "" && usr != "") {
                     if (!d.verifyExistingUsername(usr) && !d.verifyExistingCountNumber(int_num)) {  // Controllo che username e #conto siano univoci
 
-                        d.addUser(*new BasicUser(nom, cog, ind, int_tel, cod, usr, int_pin, int_num, int_sal));
+                        d.addUser(*new BasicUser(nom, cog, ind, tel, cod, usr, int_pin, int_num, int_sal));
 
                         ui->lineEdit->setText("");    // Nome
                         ui->lineEdit_2->setText("");  // Cognome
@@ -62,6 +61,8 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
                             tr("BankQ - Nuovo Utente"),
                             tr("Aggiunta avvenuta correttamente")
                         );
+                        this->setComboBox();
+                        this->setComboBox_2();
                     } else {
                         if (d.verifyExistingUsername(usr)) {
                             QMessageBox::warning(
@@ -320,7 +321,7 @@ void AdminInfo::on_toolButton_5_clicked() {     // Assegna il bonus (utente sele
         if (d.load()) {
             d.giveBonus(*d.getUser(user));                  // Assegno il bonus all'utente passato
             ui->comboBox_2->removeItem(ui->comboBox_2->currentIndex());
-            this->setComboBox_2();
+            //this->setComboBox_2();
 
             QMessageBox::information(
                 this,

@@ -1,167 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages>
     <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
+        <recipient>prossi</recipient>
+        <sender>mverdi</sender>
+        <text>Ricevuta una ricarica di € 100000</text>
     </message>
     <message>
-        <recipient>areo</recipient>
+        <recipient>prossi</recipient>
         <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
+        <text>Grazie alla ricarica ricevuta il proprio conto è ora di tipo Pro</text>
     </message>
     <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
+        <recipient>BankQ</recipient>
+        <sender>prossi</sender>
+        <text>L'utente desidera ricevere il bonus anticipato</text>
     </message>
     <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>areo</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
-        <sender>BankQ</sender>
-        <text>Bonus ricevuto</text>
-    </message>
-    <message>
-        <recipient>pluto</recipient>
+        <recipient>prossi</recipient>
         <sender>BankQ</sender>
         <text>Bonus ricevuto</text>
     </message>

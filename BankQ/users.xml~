@@ -10,7 +10,7 @@
         <pin>12345</pin>
         <salary>10</salary>
     </admin>
-    <pro>
+    <basic>
         <name>Paolo</name>
         <surname>Rossi</surname>
         <address>Via Veridi</address>
@@ -18,10 +18,9 @@
         <code>BB222be2m</code>
         <username>prossi</username>
         <pin>1234</pin>
-        <count>104468</count>
+        <count>3434</count>
         <countNumber>222</countNumber>
-        <request>0</request>
-    </pro>
+    </basic>
     <pro>
         <name>Marco</name>
         <surname>France</surname>
@@ -41,8 +40,8 @@
         <telephone>0498653014</telephone>
         <code>344234fsdfsd</code>
         <username>mverdi</username>
-        <pin>12468</pin>
-        <count>400000</count>
+        <pin>12648</pin>
+        <count>500000</count>
         <countNumber>333</countNumber>
         <request>0</request>
     </pro>

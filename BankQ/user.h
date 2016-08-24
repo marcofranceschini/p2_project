@@ -10,14 +10,14 @@ protected:
     string name;        // Nome
     string surname;     // Cognome
     string address;     // Indirizzo
-    int telephone;      // Numero di telefono
+    string telephone;   // Numero di telefono (string perchè quando un numero inizia per 0 se è intero viene tolto)
     string code;        // Codice fiscale
     string username;    // Username (univoco)
     int pin;            // PIN intero di 5 cifre
 
 public:
 
-    User (string, string, string, int, string, string, int);
+    User (string, string, string, string, string, string, int);
 
     User ();
 
@@ -32,7 +32,7 @@ public:
 
     string getAddress () const;
 
-    int getTelephone () const;
+    string getTelephone () const;
 
     string getCode () const;
 
@@ -48,7 +48,7 @@ public:
 
     void setAddress (const string&);
 
-    void setTelephone (const int&);
+    void setTelephone (const string&);
 
     void setCode (const string&);
 
