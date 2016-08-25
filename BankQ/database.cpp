@@ -361,11 +361,23 @@ void DataBase::giveBonusToAll () {      // Assegna il bonus agli utenti pro che 
     }
 }
 
-void DataBase::giveUnlockAll () {       // "Sblocca" gli utenti (mette request "false" a tutti i pro)
+void DataBase::unlockAll () {       // "Sblocca" gli utenti (mette request "false" a tutti i pro)
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         ProUser* p = dynamic_cast<ProUser*> (user[it]);
         if (p && p->getRequest())
             p->setRequest(false);
     }
     this->write();
+}
+
+bool DataBase::replace (const User& old, const User& nuovo) {     // Rimpiazza nella lista il primo utente con il secondo
+    int cont = 0;
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        if (user[it]->getUsername() == old.getUsername())
+            break;
+        cont++;
+    }
+    user.replace(cont, nuovo);  // Sostituisco nel contenitore
+    return this->write();
+
 }

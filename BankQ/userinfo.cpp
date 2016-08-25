@@ -115,7 +115,7 @@ void UserInfo::setTable (const User& u, const bool& f) {        // Riempie la ta
         QMessageBox::warning(
             this,
             tr("BankQ - Errore"),
-            tr("Errore di caricamento (messaggi)")
+            tr("Errore di caricamento del DB messaggi")
         );
     }
 }
@@ -261,7 +261,7 @@ void UserInfo::on_toolButton_13_clicked() {     // Invio messaggio all'amministr
             QMessageBox::warning(
                 this,
                 tr("BankQ - Errore"),
-                tr("Errore di caricamento (messaggi)")
+                tr("Errore di caricamento del DB messaggi")
             );
         }
     } else {
@@ -308,7 +308,7 @@ void UserInfo::on_toolButton_2_clicked() {      // Chiusura conto
             QMessageBox::warning(
                 this,
                 tr("BankQ - Errore"),
-                tr("Errore di caricamento (messaggi)")
+                tr("Errore di caricamento del DB messaggi")
             );
         }
     }
@@ -331,9 +331,8 @@ void UserInfo::on_toolButton_5_clicked() {  // Messaggi spuntati come "visualizz
 
             QString c = ui->label_78->text();
             string username = c.toUtf8().constData();
-            User* user = d->getUser(username);
 
-            mdb->deleteMessages(user->getUsername());
+            mdb->deleteMessages(username);
             ui->toolButton_5->setEnabled(false);
         } else {
             QMessageBox::warning(
@@ -346,7 +345,7 @@ void UserInfo::on_toolButton_5_clicked() {  // Messaggi spuntati come "visualizz
         QMessageBox::warning(
             this,
             tr("BankQ - Errore"),
-            tr("Errore di caricamento (messaggi)")
+            tr("Errore di caricamento del DB messaggi")
         );
     }
 }
@@ -364,7 +363,6 @@ void UserInfo::on_tableView_clicked (const QModelIndex &index) {    // Elimino l
 
     if (msgBox.exec() == QMessageBox::Yes) {
 
-        //int riga = ui->tableView->selectionModel()->currentIndex().row();
         int riga = index.row();
         QString qstr_u = ui->tableView->model()->data(ui->tableView->model()->index(riga, 0)).toString();
         QString qstr_m = ui->tableView->model()->data(ui->tableView->model()->index(riga, 1)).toString();
@@ -404,7 +402,7 @@ void UserInfo::on_tableView_clicked (const QModelIndex &index) {    // Elimino l
             QMessageBox::warning(
                 this,
                 tr("BankQ - Errore"),
-                tr("Errore di caricamento (messaggi)")
+                tr("Errore di caricamento del DB messaggio")
             );
         }
     }

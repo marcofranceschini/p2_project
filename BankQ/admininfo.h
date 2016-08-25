@@ -30,6 +30,8 @@ class AdminInfo : public QDialog {
 
         void setComboBox_2 ();
 
+        void setComboBox_5 ();
+
     private slots:
         void on_toolButton_2_clicked();
 
@@ -46,6 +48,12 @@ class AdminInfo : public QDialog {
         void on_tableView_clicked(const QModelIndex &index);
 
         void on_toolButton_7_clicked();
+
+        void on_comboBox_5_activated(const QString &arg1);
+
+        void on_comboBox_5_currentIndexChanged(const QString &arg1);
+
+        void on_comboBox_5_currentIndexChanged(int index);
 
         void on_toolButton_8_clicked();
 

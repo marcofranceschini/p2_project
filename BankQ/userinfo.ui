@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>574</width>
-    <height>362</height>
+    <width>610</width>
+    <height>370</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>900</width>
-     <height>700</height>
+     <width>610</width>
+     <height>370</height>
     </rect>
    </property>
    <property name="locale">
@@ -36,7 +36,7 @@
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>40</y>
+       <y>60</y>
        <width>67</width>
        <height>17</height>
       </rect>
@@ -49,7 +49,7 @@
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>80</y>
+       <y>100</y>
        <width>71</width>
        <height>17</height>
       </rect>
@@ -62,7 +62,7 @@
      <property name="geometry">
       <rect>
        <x>320</x>
-       <y>160</y>
+       <y>180</y>
        <width>67</width>
        <height>17</height>
       </rect>
@@ -75,7 +75,7 @@
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>40</y>
+       <y>60</y>
        <width>111</width>
        <height>17</height>
       </rect>
@@ -88,7 +88,7 @@
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>80</y>
+       <y>100</y>
        <width>101</width>
        <height>17</height>
       </rect>
@@ -101,7 +101,7 @@
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>120</y>
+       <y>140</y>
        <width>111</width>
        <height>17</height>
       </rect>
@@ -140,7 +140,7 @@
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>120</y>
+       <y>140</y>
        <width>91</width>
        <height>17</height>
       </rect>
@@ -153,7 +153,7 @@
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>160</y>
+       <y>180</y>
        <width>101</width>
        <height>17</height>
       </rect>
@@ -166,7 +166,7 @@
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>200</y>
+       <y>220</y>
        <width>111</width>
        <height>17</height>
       </rect>
@@ -179,7 +179,7 @@
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>160</y>
+       <y>180</y>
        <width>131</width>
        <height>17</height>
       </rect>
@@ -192,7 +192,7 @@
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>200</y>
+       <y>220</y>
        <width>131</width>
        <height>17</height>
       </rect>
@@ -205,7 +205,7 @@
      <property name="geometry">
       <rect>
        <x>440</x>
-       <y>160</y>
+       <y>180</y>
        <width>111</width>
        <height>17</height>
       </rect>
@@ -214,24 +214,11 @@
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_13">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;BankQ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_74">
      <property name="geometry">
       <rect>
        <x>320</x>
-       <y>40</y>
+       <y>60</y>
        <width>91</width>
        <height>17</height>
       </rect>
@@ -244,7 +231,7 @@
      <property name="geometry">
       <rect>
        <x>440</x>
-       <y>40</y>
+       <y>60</y>
        <width>121</width>
        <height>17</height>
       </rect>
@@ -257,7 +244,7 @@
      <property name="geometry">
       <rect>
        <x>320</x>
-       <y>80</y>
+       <y>100</y>
        <width>81</width>
        <height>17</height>
       </rect>
@@ -270,7 +257,7 @@
      <property name="geometry">
       <rect>
        <x>440</x>
-       <y>80</y>
+       <y>100</y>
        <width>111</width>
        <height>17</height>
       </rect>
@@ -283,7 +270,7 @@
      <property name="geometry">
       <rect>
        <x>440</x>
-       <y>120</y>
+       <y>140</y>
        <width>111</width>
        <height>17</height>
       </rect>
@@ -296,7 +283,7 @@
      <property name="geometry">
       <rect>
        <x>320</x>
-       <y>120</y>
+       <y>140</y>
        <width>81</width>
        <height>17</height>
       </rect>
@@ -309,7 +296,7 @@
      <property name="geometry">
       <rect>
        <x>320</x>
-       <y>200</y>
+       <y>220</y>
        <width>67</width>
        <height>17</height>
       </rect>
@@ -322,7 +309,7 @@
      <property name="geometry">
       <rect>
        <x>440</x>
-       <y>200</y>
+       <y>220</y>
        <width>111</width>
        <height>17</height>
       </rect>
@@ -331,24 +318,48 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_72">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>121</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;BankQ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <zorder>label</zorder>
+    <zorder>label_2</zorder>
+    <zorder>label_3</zorder>
+    <zorder>label_4</zorder>
+    <zorder>label_5</zorder>
+    <zorder>label_6</zorder>
+    <zorder>toolButton</zorder>
+    <zorder>toolButton_2</zorder>
+    <zorder>label_7</zorder>
+    <zorder>label_8</zorder>
+    <zorder>label_9</zorder>
+    <zorder>label_10</zorder>
+    <zorder>label_11</zorder>
+    <zorder>label_12</zorder>
+    <zorder>label_74</zorder>
+    <zorder>label_75</zorder>
+    <zorder>label_76</zorder>
+    <zorder>label_77</zorder>
+    <zorder>label_78</zorder>
+    <zorder>label_79</zorder>
+    <zorder>label_16</zorder>
+    <zorder>label_24</zorder>
+    <zorder>label_72</zorder>
+    <zorder>label_72</zorder>
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
      <string>Richiedi Bonus</string>
     </attribute>
-    <widget class="QLabel" name="label_14">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;BankQ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_17">
      <property name="geometry">
       <rect>
@@ -386,6 +397,19 @@
      </property>
      <property name="text">
       <string>Richiedi</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_69">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>121</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;BankQ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </widget>
@@ -455,19 +479,6 @@
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_23">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;BankQ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
     <widget class="QLineEdit" name="lineEdit_3">
      <property name="geometry">
       <rect>
@@ -491,24 +502,24 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Numero conto&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_70">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>121</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;BankQ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_4">
     <attribute name="title">
      <string>Invia Messaggio</string>
     </attribute>
-    <widget class="QLabel" name="label_68">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;BankQ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
     <widget class="QToolButton" name="toolButton_13">
      <property name="geometry">
       <rect>
@@ -536,13 +547,26 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>50</y>
+       <y>60</y>
        <width>441</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
       <string>Per opinioni, richieste o altro contattaci utilizzando la seguente casella</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_68">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>121</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;BankQ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </widget>
@@ -554,7 +578,7 @@
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>90</y>
+       <y>100</y>
        <width>491</width>
        <height>171</height>
       </rect>
@@ -564,7 +588,7 @@
      <property name="geometry">
       <rect>
        <x>230</x>
-       <y>280</y>
+       <y>290</y>
        <width>101</width>
        <height>22</height>
       </rect>
@@ -576,8 +600,8 @@
     <widget class="QLabel" name="label_25">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>60</y>
+       <x>40</x>
+       <y>70</y>
        <width>441</width>
        <height>16</height>
       </rect>
@@ -586,17 +610,17 @@
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_80">
+    <widget class="QLabel" name="label_71">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>71</width>
-       <height>21</height>
+       <width>121</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;BankQ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;BankQ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </widget>

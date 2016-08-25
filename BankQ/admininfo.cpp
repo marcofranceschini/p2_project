@@ -21,6 +21,9 @@ void AdminInfo::setAdmin (const User& cu) {
     this->setTable("BankQ", true);  // Riempie la tabella con i messaggi per l'utente
     this->setComboBox();            // Riempi la comboBox con gli utenti da eliminare
     this->setComboBox_2();          // Riempi la comboBox con gli utenti a cui assegnare il bonus
+    this->setComboBox_5();          // Riempi la comboBox con gli utenti che possono essere modificati
+
+    ui->lineEdit_35->setReadOnly(true); // Nella modifica non è possibile cambiare il saldo
 }
 
 void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
@@ -95,7 +98,7 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
         } else {
             QMessageBox::warning(
                 this,
-                tr("BankQ - Errore"),
+                tr("1- BankQ - Errore"),
                 tr("PIN, telefono, saldo e numero di conto devono essere numerici")
             );
         }
@@ -180,7 +183,7 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
         QMessageBox::warning(
             this,
             tr("BankQ - Errore"),
-            tr("Errore di caricamento (messaggi)")
+            tr("Errore di caricamento del DB messaggi")
         );
     }
 }
@@ -198,7 +201,6 @@ void AdminInfo::setComboBox () {    // Riempie la comboBox
             ui->toolButton_3->setEnabled(false);
         }
     }
-
 }
 
 void AdminInfo::setComboBox_2 () {    // Riempie la comboBox_2
@@ -215,7 +217,21 @@ void AdminInfo::setComboBox_2 () {    // Riempie la comboBox_2
             ui->toolButton_6->setEnabled(false);
         }
     }
+}
 
+void AdminInfo::setComboBox_5 () {    // Riempie la comboBox_5
+    DataBase* d = new DataBase();
+    if (d->load()) {
+        Container<BasicUser> l = d->getUserNoAdmin();
+        if (0 < l.getSize()) {
+            for (Container<BasicUser>::Iteratore it = l.begin(); it != l.end(); ++it) {
+                ui->comboBox_5->addItem(QString::fromStdString(l[it]->getUsername()) + " - " + QString::number(l[it]->getCountNumber()));
+            }
+        } else {    // Non ho utenti da modificare
+            ui->comboBox->addItem("Nessun utente");
+            //ui->toolButton_22->setEnabled(false);
+        }
+    }
 }
 
 void AdminInfo::on_toolButton_clicked () {   // Logout
@@ -293,7 +309,7 @@ void AdminInfo::on_toolButton_4_clicked() {     // Messaggi spuntati come "visua
         QMessageBox::warning(
             this,
             tr("BankQ - Errore"),
-            tr("Errore di caricamento (messaggi)")
+            tr("Errore di caricamento del DB messaggi")
         );
     }
 }
@@ -421,7 +437,7 @@ void AdminInfo::on_tableView_clicked (const QModelIndex &index) {   // Elimino l
             QMessageBox::warning(
                 this,
                 tr("BankQ - Errore"),
-                tr("Errore di caricamento (messaggi)")
+                tr("Errore di caricamento del DB messaggi")
             );
         }
     }
@@ -440,7 +456,7 @@ void AdminInfo::on_toolButton_7_clicked() { // "Sblocca" tutti gli utenti, così
     if (msgBox.exec() == QMessageBox::Yes) {
         DataBase* d = new DataBase();
         if (d->load()) {
-            d->giveUnlockAll();                 // Assegna il bonus agli utenti che non lo hanno ancora ricevuto
+            d->unlockAll();                 // Assegna il bonus agli utenti che non lo hanno ancora ricevuto
             int size = ui->comboBox_2->count(); // Numero di elementi nella comboBox
 
             while (0 <= size) {     // "Azzero" la comboBox
@@ -463,5 +479,181 @@ void AdminInfo::on_toolButton_7_clicked() { // "Sblocca" tutti gli utenti, così
                 tr("Errore di caricamento del DB")
             );
         }
+    }
+}
+
+/*void AdminInfo::on_toolButton_22_clicked() {    // Modifica un utente
+
+}*/
+
+void AdminInfo::on_comboBox_5_activated(const QString &arg1) {      // "Click" sulla combo box per la modifica
+    string str = arg1.toUtf8().constData();             // Stringa "username - #conto"
+
+    string delimiter = " - ";
+    string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
+    QMessageBox::warning(
+        this,
+        tr("BankQ - Errore"),
+        tr("Errore di caricamentewqo del DB")
+    );
+
+    DataBase* d = new DataBase();
+    if (d->load()) {
+        User* u = d->getUser(user);
+        BasicUser* b = dynamic_cast<BasicUser*> (u);   // "u" sicuramente sarà un utente e non un amministratore
+
+        ui->lineEdit_28->setText(QString::fromStdString(b->getName()));     // Nome
+        ui->lineEdit_29->setText(QString::fromStdString(b->getSurname()));  // Cognome
+        ui->lineEdit_30->setText(QString::fromStdString(b->getAddress()));  // Indirizzo
+        ui->lineEdit_31->setText(QString::fromStdString(b->getTelephone()));// Telefono
+        ui->lineEdit_32->setText(QString::fromStdString(b->getCode()));     // Codice fiscale
+        ui->lineEdit_33->setText(QString::fromStdString(b->getUsername())); // Username
+        ui->lineEdit_34->setText(QString::number(b->getPin()));             // PIN
+        ui->lineEdit_35->setText(QString::number(b->getCount()));           // Saldo
+        ui->lineEdit_36->setText(QString::number(b->getCountNumber()));     // Numero di conto
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento del DB")
+        );
+    }
+
+}
+
+
+void AdminInfo::on_comboBox_5_currentIndexChanged(int index) {
+
+    QString qstr = ui->comboBox_5->itemText(ui->comboBox_5->currentIndex());     // Elemento selezionato
+    string str = qstr.toUtf8().constData();             // Stringa "username - #conto"
+
+    string delimiter = " - ";
+    string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
+
+    DataBase* d = new DataBase();
+    if (d->load()) {
+
+        User* u = d->getUser(user);
+        if (dynamic_cast<BasicUser*> (u)) {   // "u" sicuramente sarà un utente e non un amministratore
+
+            BasicUser* b = dynamic_cast<BasicUser*> (u);
+
+            ui->lineEdit_28->setText(QString::fromStdString(b->getName()));     // Nome
+            ui->lineEdit_29->setText(QString::fromStdString(b->getSurname()));  // Cognome
+            ui->lineEdit_30->setText(QString::fromStdString(b->getAddress()));  // Indirizzo
+            ui->lineEdit_31->setText(QString::fromStdString(b->getTelephone()));// Telefono
+            ui->lineEdit_32->setText(QString::fromStdString(b->getCode()));     // Codice fiscale
+            ui->lineEdit_33->setText(QString::fromStdString(b->getUsername())); // Username
+            ui->lineEdit_34->setText(QString::number(b->getPin()));             // PIN
+            ui->lineEdit_35->setText(QString::number(b->getCount()));           // Saldo
+            ui->lineEdit_36->setText(QString::number(b->getCountNumber()));     // Numero di conto
+        }
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento del DB")
+        );
+    }
+}
+
+void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
+    QString qstr = ui->comboBox_5->itemText(ui->comboBox_5->currentIndex());     // Elemento selezionato
+    string str = qstr.toUtf8().constData();             // Stringa "username - #conto"
+
+    string delimiter = " - ";
+    string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
+
+    DataBase* d = new DataBase();
+    if (d->load()) {
+        string nom = (ui->lineEdit_28->text()).toUtf8().constData();   // Nome
+        string cog = (ui->lineEdit_29->text()).toUtf8().constData();   // Cognome
+        string ind = (ui->lineEdit_30->text()).toUtf8().constData();   // Indirizzo
+        string tel = (ui->lineEdit_31->text()).toUtf8().constData();   // Telefono
+        string cod = (ui->lineEdit_32->text()).toUtf8().constData();   // Codice fiscale
+        string usr = (ui->lineEdit_33->text()).toUtf8().constData();   // Username
+        string pin = (ui->lineEdit_34->text()).toUtf8().constData();   // PIN
+        string sal = (ui->lineEdit_35->text()).toUtf8().constData();   // Saldo
+        string num = (ui->lineEdit_36->text()).toUtf8().constData();   // Numero conto
+
+        if (atoi(pin.c_str()) && atoi(tel.c_str()) && atoi(num.c_str())) {    // Verifico che il PIN, telefono, saldo e #conto siano numerici
+            int int_pin = atoi(pin.c_str());
+            int int_sal = atoi(sal.c_str());
+            double int_num = atoi(num.c_str());
+            if (5 == pin.length()) {    // Verifico che il PIN abbia 5 cifre
+                if (nom != "" && cog != "" && ind != "" && cod != "" && usr != "") {
+                    if (!d->verifyExistingUsername(usr) && !d->verifyExistingCountNumber(int_num)) {  // Controllo che username e #conto siano univoci
+
+                        User* u = d->getUser(user);  // Per verificare se ha già richiesto il bonus
+                        ProUser* p;
+                        BasicUser* b;
+                        bool flag = false;
+                        if (int_sal < 100000) {
+                            b = new BasicUser(nom, cog, ind, tel, cod, usr, int_pin, int_num, int_sal);
+                            flag = d->replace(*u, *b);
+                        } else {
+                            ProUser* old = dynamic_cast<ProUser*> (u);
+                            p = new ProUser(nom, cog, ind, tel, cod, usr, int_pin, int_num, int_sal, old->getRequest());
+                            flag = d->replace(*u, *p);
+                        }
+                        if (flag) {   // Sostituisco il vecchio utente con quello nuovo
+                            ui->lineEdit_28->setText("");   // Nome
+                            ui->lineEdit_29->setText("");   // Cognome
+                            ui->lineEdit_30->setText("");   // Indirizzo
+                            ui->lineEdit_31->setText("");   // Telefono
+                            ui->lineEdit_32->setText("");   // Codice fiscale
+                            ui->lineEdit_33->setText("");   // Username
+                            ui->lineEdit_34->setText("");   // PIN
+                            ui->lineEdit_35->setText("");   // Saldo
+                            ui->lineEdit_36->setText("");   // Numero di conto
+                        } else {
+                            QMessageBox::warning(
+                                this,
+                                tr("BankQ - Modifica"),
+                                tr("Errore di caricamento del DB")
+                            );
+                        }
+                    } else {
+                        if (d->verifyExistingUsername(usr)) {
+                            QMessageBox::warning(
+                                this,
+                                tr("BankQ - Errore"),
+                                tr("Username già esistente")
+                            );
+                        } else {
+                            QMessageBox::warning(
+                                this,
+                                tr("BankQ - Errore"),
+                                tr("Numero di conto già esistente")
+                            );
+                        }
+                    }
+                } else {
+                    QMessageBox::warning(
+                        this,
+                        tr("BankQ - Errore"),
+                        tr("Tutti i campi devono essere riempiti")
+                    );
+                }
+            } else {
+                QMessageBox::warning(
+                    this,
+                    tr("BankQ - Errore"),
+                    tr("Il PIN deve avere 5 cifre")
+                );
+            }
+        } else {
+            QMessageBox::warning(
+                this,
+                tr("2- BankQ - Errore"),
+                tr("PIN, telefono, saldo e numero di conto devono essere numerici")
+            );
+        }
+    } else {
+        QMessageBox::warning(
+            this,
+            tr("BankQ - Errore"),
+            tr("Errore di caricamento del DB")
+        );
     }
 }
