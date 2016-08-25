@@ -12,7 +12,7 @@ private:
     bool request;           // true = non ha ricevuto il bonus, false altrimenti
 
 public:
-    ProUser (string, string, string, string, string, string, int, int, double, bool);
+    ProUser (string, string, string, string, string, string, string, int, double, bool);
 
     ProUser ();
 

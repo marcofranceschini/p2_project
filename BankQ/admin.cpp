@@ -1,6 +1,6 @@
 #include "admin.h"
 
-Admin::Admin(string n, string s, string a, string t, string c, string u, int p, double sal):User(n, s, a, t, c, u, p), salary(sal) {}
+Admin::Admin(string n, string s, string a, string t, string c, string u, string p, double sal):User(n, s, a, t, c, u, p), salary(sal) {}
 
 Admin::Admin () {}
 

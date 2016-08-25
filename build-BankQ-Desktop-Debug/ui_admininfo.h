@@ -309,7 +309,7 @@ public:
         lineEdit_36->setGeometry(QRect(430, 210, 113, 27));
         toolButton_8 = new QToolButton(tab_6);
         toolButton_8->setObjectName(QStringLiteral("toolButton_8"));
-        toolButton_8->setGeometry(QRect(330, 260, 101, 22));
+        toolButton_8->setGeometry(QRect(330, 260, 81, 22));
         tabWidget->addTab(tab_6, QString());
         tab_4 = new QWidget();
         tab_4->setObjectName(QStringLiteral("tab_4"));
@@ -365,7 +365,7 @@ public:
 
         retranslateUi(AdminInfo);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(AdminInfo);

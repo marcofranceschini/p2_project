@@ -1,6 +1,6 @@
 #include "prouser.h"
 
-ProUser::ProUser (string n, string s, string a, string t, string c, string u, int p, int nu, double co, bool r): BasicUser(n, s, a, t, c, u, p, nu, co), request(r) {}
+ProUser::ProUser (string n, string s, string a, string t, string c, string u, string p, int nu, double co, bool r): BasicUser(n, s, a, t, c, u, p, nu, co), request(r) {}
 
 ProUser::ProUser () {}
 
@@ -44,11 +44,11 @@ double ProUser::getTax () const {
     return proTax;
 }
 
-bool ProUser::verifyLogin (const int& pass) const {
+/*bool ProUser::verifyLogin (const int& pass) const {
     int p = const_cast<int&> (pass);
     if (pin==p) return true;
     return false;
-}
+}*/
 
 bool ProUser::getRequest () const {
     return request;

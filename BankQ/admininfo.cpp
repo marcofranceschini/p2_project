@@ -47,7 +47,7 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
                 if (nom != "" && cog != "" && ind != "" && cod != "" && usr != "") {
                     if (!d->verifyExistingUsername(usr) && !d->verifyExistingCountNumber(int_num)) {  // Controllo che username e #conto siano univoci
 
-                        d->addUser(*new BasicUser(nom, cog, ind, tel, cod, usr, int_pin, int_num, int_sal));
+                        d->addUser(*new BasicUser(nom, cog, ind, tel, cod, usr, pin, int_num, int_sal));
 
                         ui->lineEdit->setText("");    // Nome
                         ui->lineEdit_2->setText("");  // Cognome
@@ -486,7 +486,7 @@ void AdminInfo::on_toolButton_7_clicked() { // "Sblocca" tutti gli utenti, così
 
 }*/
 
-void AdminInfo::on_comboBox_5_activated(const QString &arg1) {      // "Click" sulla combo box per la modifica
+/*void AdminInfo::on_comboBox_5_activated(const QString &arg1) {      // "Click" sulla combo box per la modifica
     string str = arg1.toUtf8().constData();             // Stringa "username - #conto"
 
     string delimiter = " - ";
@@ -519,7 +519,7 @@ void AdminInfo::on_comboBox_5_activated(const QString &arg1) {      // "Click" s
         );
     }
 
-}
+}*/
 
 
 void AdminInfo::on_comboBox_5_currentIndexChanged(int index) {
@@ -544,7 +544,7 @@ void AdminInfo::on_comboBox_5_currentIndexChanged(int index) {
             ui->lineEdit_31->setText(QString::fromStdString(b->getTelephone()));// Telefono
             ui->lineEdit_32->setText(QString::fromStdString(b->getCode()));     // Codice fiscale
             ui->lineEdit_33->setText(QString::fromStdString(b->getUsername())); // Username
-            ui->lineEdit_34->setText(QString::number(b->getPin()));             // PIN
+            ui->lineEdit_34->setText(QString::fromStdString(b->getPin()));             // PIN
             ui->lineEdit_35->setText(QString::number(b->getCount()));           // Saldo
             ui->lineEdit_36->setText(QString::number(b->getCountNumber()));     // Numero di conto
         }
@@ -563,7 +563,11 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
 
     string delimiter = " - ";
     string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
-
+    QMessageBox::warning(
+        this,
+        tr("BankQ - Modifica"),
+        tr("rr")
+    );
     DataBase* d = new DataBase();
     if (d->load()) {
         string nom = (ui->lineEdit_28->text()).toUtf8().constData();   // Nome
@@ -582,21 +586,25 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
             double int_num = atoi(num.c_str());
             if (5 == pin.length()) {    // Verifico che il PIN abbia 5 cifre
                 if (nom != "" && cog != "" && ind != "" && cod != "" && usr != "") {
-                    if (!d->verifyExistingUsername(usr) && !d->verifyExistingCountNumber(int_num)) {  // Controllo che username e #conto siano univoci
+                    User* u = d->getUser(user);  // Per verificare se ha già richiesto il bonus, il numero di conto
+                    BasicUser* b_old = dynamic_cast<BasicUser*> (u);
+                    if (!d->verifyExistingUsernameException(user, usr) && !d->verifyExistingCountNumberException(b_old->getCountNumber(), int_num)) {  // Controllo che username e #conto siano univoci
 
-                        User* u = d->getUser(user);  // Per verificare se ha già richiesto il bonus
-                        ProUser* p;
-                        BasicUser* b;
                         bool flag = false;
                         if (int_sal < 100000) {
-                            b = new BasicUser(nom, cog, ind, tel, cod, usr, int_pin, int_num, int_sal);
+                            BasicUser* b = new BasicUser(nom, cog, ind, tel, cod, usr, pin, int_num, int_sal);
                             flag = d->replace(*u, *b);
                         } else {
                             ProUser* old = dynamic_cast<ProUser*> (u);
-                            p = new ProUser(nom, cog, ind, tel, cod, usr, int_pin, int_num, int_sal, old->getRequest());
+                            ProUser* p = new ProUser(nom, cog, ind, tel, cod, usr, pin, int_num, int_sal, old->getRequest());
                             flag = d->replace(*u, *p);
                         }
                         if (flag) {   // Sostituisco il vecchio utente con quello nuovo
+                            QMessageBox::warning(
+                                this,
+                                tr("BankQ - Modifica"),
+                                tr("Utente modificato correttamente")
+                            );
                             ui->lineEdit_28->setText("");   // Nome
                             ui->lineEdit_29->setText("");   // Cognome
                             ui->lineEdit_30->setText("");   // Indirizzo
@@ -609,7 +617,7 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
                         } else {
                             QMessageBox::warning(
                                 this,
-                                tr("BankQ - Modifica"),
+                                tr("BankQ - Errore"),
                                 tr("Errore di caricamento del DB")
                             );
                         }

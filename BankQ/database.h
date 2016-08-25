@@ -21,41 +21,45 @@ private:
 public:
     DataBase();
 
-    bool load ();                                       // Carica gli utenti nel contenitore
+    bool load ();                                               // Carica gli utenti nel contenitore
 
-    bool verifyAdmin (const string&) const;             // Ritorna true se l'username passato appartiene ad un amministratore
+    bool verifyAdmin (const string&) const;                     // Ritorna true se l'username passato appartiene ad un amministratore
 
-    bool verifyExistingUsername (const string&) const;  // Ritorna true se l'username passato esiste già (tra Basic e Pro)
+    bool verifyExistingUsername (const string&) const;          // Ritorna true se l'username passato esiste già (tra Basic e Pro)
 
-    bool verifyExistingCountNumber (const int&) const;  // Ritorna true se il #conto passato passato esiste già
+    bool verifyExistingUsernameException (const string&, const string&) const; // Ritorna true se l'username passato esiste già (tra Basic e Pro) tranne se è uguale a quello passato
 
-    bool verifyLogin (const string&, const int&) const; // Verifica i dati che i dati di accesso dell'amministratore siano corretti
+    bool verifyExistingCountNumber (const int&) const;          // Ritorna true se il #conto passato passato esiste già
 
-    bool addUser (const BasicUser&);                    // Inserisce un nuovo utente nel DB
+    bool verifyExistingCountNumberException (const int&, const int&) const;    // Ritorna true se il #conto passato passato esiste già (se è diverso da quello "vecchio")
 
-    User* getUser (const string&) const;                // Ritorna l'oggetto User con username uguale a quello passato
+    bool verifyLogin (const string&, const string&) const;      // Verifica i dati che i dati di accesso dell'amministratore siano corretti
 
-    User* getUserByCountNumber (const int&) const;      // Ritorna l'oggetto User con numero di conto uguale a quello passato
+    bool addUser (const BasicUser&);                            // Inserisce un nuovo utente nel DB
 
-    bool verifyStillSame (const BasicUser&);            // Verifica se l'utente cambia tipo di account o meno
+    User* getUser (const string&) const;                        // Ritorna l'oggetto User con username uguale a quello passato
 
-    bool remove (const User&);                          // Rimuove dal DB l'utente passato
+    User* getUserByCountNumber (const int&) const;              // Ritorna l'oggetto User con numero di conto uguale a quello passato
 
-    bool write ();                                      // Scrive nel DB gli utenti presenti nel contenitore
+    bool verifyStillSame (const BasicUser&);                    // Verifica se l'utente cambia tipo di account o meno
 
-    bool charge (const string&, const int&, const int&);// Ricarica il conto del destinatario e riduce quello del mittente
+    bool remove (const User&);                                  // Rimuove dal DB l'utente passato
 
-    Container<BasicUser> getUserNoAdmin () const;       // Ritorna una lista con gli utenti nel DB ad eccezione degli amministraotri
+    bool write ();                                              // Scrive nel DB gli utenti presenti nel contenitore
 
-    Container<ProUser> getUserNoRequest () const;       // Ritorna una lista di utenti Pro senza richieste di bonus anticipato
+    bool charge (const string&, const int&, const int&);        // Ricarica il conto del destinatario e riduce quello del mittente
 
-    bool giveBonus (const User&);                       // Assegna il bonus all'utente pro passato
+    Container<BasicUser> getUserNoAdmin () const;               // Ritorna una lista con gli utenti nel DB ad eccezione degli amministraotri
 
-    void giveBonusToAll ();                             // Assegna il bonus agli utenti pro che non lo hanno ancora ricevuto
+    Container<ProUser> getUserNoRequest () const;               // Ritorna una lista di utenti Pro senza richieste di bonus anticipato
 
-    void unlockAll ();                                  // "Sblocca" gli utenti (mette request "false" a tutti i pro)
+    bool giveBonus (const User&);                               // Assegna il bonus all'utente pro passato
 
-    bool replace (const User&, const User&);          // Rimpiazza nella lista il primo utente (username) con il secondo
+    void giveBonusToAll ();                                     // Assegna il bonus agli utenti pro che non lo hanno ancora ricevuto
+
+    void unlockAll ();                                          // "Sblocca" gli utenti (mette request "false" a tutti i pro)
+
+    bool replace (const User&, const User&);                    // Rimpiazza nella lista il primo utente (username) con il secondo
 };
 
 #endif // DATABASE_H

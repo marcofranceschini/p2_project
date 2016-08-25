@@ -17,11 +17,10 @@ void MainWindow::on_toolButton_clicked() {
     string user = usr.toUtf8().constData();         // "cast" da QString a string
 
     if (atoi(pin.c_str()) && 0 < user.length() && 5 == pass.length()) {   // Verifico che i dati siano coerenti
-        int int_pin = atoi(pin.c_str());
         DataBase* d = new DataBase();
         if (d->load()) {                             // Entro sse è la funzione load non ha avuto problemi
 
-            if (d->verifyLogin(user, int_pin)) {
+            if (d->verifyLogin(user, pin)) {
                 this->close();                      // Chiudo la finistra di login
                 if (d->verifyAdmin(user)) {          // Verifico se l'utente è amministratore
                     User* u = d->getUser(user);

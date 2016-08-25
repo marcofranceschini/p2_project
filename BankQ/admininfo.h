@@ -49,10 +49,6 @@ class AdminInfo : public QDialog {
 
         void on_toolButton_7_clicked();
 
-        void on_comboBox_5_activated(const QString &arg1);
-
-        void on_comboBox_5_currentIndexChanged(const QString &arg1);
-
         void on_comboBox_5_currentIndexChanged(int index);
 
         void on_toolButton_8_clicked();

@@ -30,7 +30,7 @@ bool DataBase::load () {    // Carica gli utenti nel contenitore
                         if (xmlReader.name().toString() == "username")
                             ad.setUsername(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "pin")
-                            ad.setPin(xmlReader.readElementText().toInt());
+                            ad.setPin(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "salary")
                             ad.setSalary(xmlReader.readElementText().toDouble());
                         xmlReader.readNext();
@@ -54,7 +54,7 @@ bool DataBase::load () {    // Carica gli utenti nel contenitore
                         if (xmlReader.name().toString() == "username")
                             uBasic.setUsername(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "pin")
-                            uBasic.setPin(xmlReader.readElementText().toInt());
+                            uBasic.setPin(xmlReader.readElementText().toStdString());
                         if(xmlReader.name().toString() == "count")
                             uBasic.setCount(xmlReader.readElementText().toDouble());
                         if(xmlReader.name().toString() == "countNumber")
@@ -80,7 +80,7 @@ bool DataBase::load () {    // Carica gli utenti nel contenitore
                         if (xmlReader.name().toString() == "username")
                             uPro.setUsername(xmlReader.readElementText().toStdString());
                         if (xmlReader.name().toString() == "pin")
-                            uPro.setPin(xmlReader.readElementText().toInt());
+                            uPro.setPin(xmlReader.readElementText().toStdString());
                         if(xmlReader.name().toString() == "count")
                             uPro.setCount(xmlReader.readElementText().toDouble());
                         if(xmlReader.name().toString() == "countNumber")
@@ -123,6 +123,15 @@ bool DataBase::verifyExistingUsername (const string& u) const {     // Ritorna t
     return false;
 }
 
+bool DataBase::verifyExistingUsernameException (const string& old, const string& nuovo) const { // Ritorna true se l'username passato esiste già (tra Basic e Pro) tranne se è uguale a quello passato
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
+        if (b && b->getUsername() == nuovo && b->getUsername() != old)
+                return true;
+    }
+    return false;
+}
+
 bool DataBase::verifyExistingCountNumber (const int& c) const {     // Ritorna true se il #conto passato passato esiste già
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
@@ -130,10 +139,18 @@ bool DataBase::verifyExistingCountNumber (const int& c) const {     // Ritorna t
                 return true;
     }
     return false;
-
 }
 
-bool DataBase::verifyLogin (const string& usr, const int& pin) const {      // Verifica i dati che i dati di accesso dell'amministratore siano corretti
+bool DataBase::verifyExistingCountNumberException (const int& old, const int& nuovo) const {   // Ritorna true se il #conto passato passato esiste già (se è diverso da quello "vecchio")
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
+        if (b && b->getCountNumber() == nuovo && b->getCountNumber() != old)
+                return true;
+    }
+    return false;
+}
+
+bool DataBase::verifyLogin (const string& usr, const string& pin) const {      // Verifica i dati che i dati di accesso dell'amministratore siano corretti
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         if (user[it]->getUsername() == usr && user[it]->getPin() == pin)
                 return true;
@@ -241,7 +258,7 @@ bool DataBase::write () {       // Scrive nel DB gli utenti presenti nel conteni
             xmlWriter.writeTextElement("telephone", QString::fromStdString(s->getTelephone()));
             xmlWriter.writeTextElement("code", QString::fromStdString(s->getCode()));
             xmlWriter.writeTextElement("username", QString::fromStdString(s->getUsername()));
-            xmlWriter.writeTextElement("pin", QString::number(s->getPin()));
+            xmlWriter.writeTextElement("pin", QString::fromStdString(s->getPin()));
             xmlWriter.writeTextElement("count", QString::number(s->getCount()));
             xmlWriter.writeTextElement("countNumber", QString::number(s->getCountNumber()));
             xmlWriter.writeTextElement("request", QString::number(s->getRequest()));
@@ -255,7 +272,7 @@ bool DataBase::write () {       // Scrive nel DB gli utenti presenti nel conteni
                 xmlWriter.writeTextElement("telephone", QString::fromStdString(b->getTelephone()));
                 xmlWriter.writeTextElement("code", QString::fromStdString(b->getCode()));
                 xmlWriter.writeTextElement("username", QString::fromStdString(b->getUsername()));
-                xmlWriter.writeTextElement("pin", QString::number(b->getPin()));
+                xmlWriter.writeTextElement("pin", QString::fromStdString(b->getPin()));
                 xmlWriter.writeTextElement("count", QString::number(b->getCount()));
                 xmlWriter.writeTextElement("countNumber", QString::number(b->getCountNumber()));
             } else {    // È un amministratore
@@ -267,7 +284,7 @@ bool DataBase::write () {       // Scrive nel DB gli utenti presenti nel conteni
                 xmlWriter.writeTextElement("telephone", QString::fromStdString(a->getTelephone()));
                 xmlWriter.writeTextElement("code", QString::fromStdString(a->getCode()));
                 xmlWriter.writeTextElement("username", QString::fromStdString(a->getUsername()));
-                xmlWriter.writeTextElement("pin", QString::number(a->getPin()));
+                xmlWriter.writeTextElement("pin", QString::fromStdString(a->getPin()));
                 xmlWriter.writeTextElement("salary", QString::number(a->getSalary()));
             }
         }

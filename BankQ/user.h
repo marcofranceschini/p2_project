@@ -13,11 +13,11 @@ protected:
     string telephone;   // Numero di telefono (string perchè quando un numero inizia per 0 se è intero viene tolto)
     string code;        // Codice fiscale
     string username;    // Username (univoco)
-    int pin;            // PIN intero di 5 cifre
+    string pin;         // PIN intero di 5 cifre (string - vedi telefono)
 
 public:
 
-    User (string, string, string, string, string, string, int);
+    User (string, string, string, string, string, string, string);
 
     User ();
 
@@ -38,7 +38,7 @@ public:
 
     string getUsername () const;
 
-    int getPin () const;
+    string getPin () const;
 
 
     // Metodi set
@@ -54,7 +54,7 @@ public:
 
     void setUsername (const string&);
 
-    void setPin (const int&);
+    void setPin (const string&);
 
     /*bool verifyLogin (string usr, int pass) const {
         return (username == usr && pin == pass);

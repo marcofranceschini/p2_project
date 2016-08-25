@@ -1,6 +1,6 @@
 #include "basicuser.h"
 
-BasicUser::BasicUser (string n, string s, string a, string t, string c, string u, int p, int nu, double co): User(n, s, a, t, c, u, p), countNumber(nu), count(co) {}
+BasicUser::BasicUser (string n, string s, string a, string t, string c, string u, string p, int nu, double co): User(n, s, a, t, c, u, p), countNumber(nu), count(co) {}
 
 BasicUser::BasicUser () {}
 
@@ -42,10 +42,10 @@ void BasicUser::setCountNumber (int c) {
     countNumber = c;
 }
 
-bool BasicUser::verifyLogin (const int& pass) const {
+/*bool BasicUser::verifyLogin (const string& pass) const {
     int p = const_cast<int&> (pass);
     if (pin==p) return true;
     return false;
-}
+}*/
 
 double BasicUser::tax = 1.0;
