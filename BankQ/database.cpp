@@ -1,7 +1,7 @@
 #include "database.h"
 
 DataBase::DataBase() {
-    file = new QFile("/home/mrc/Documents/p2_project/Database/users.xml");
+    file = new QFile("../Database/users.xml");
 }
 
 bool DataBase::load () {    // Carica gli utenti nel contenitore

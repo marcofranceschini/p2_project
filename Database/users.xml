@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+    <admin>
+        <name>Pippo</name>
+        <surname>MaNonTroppo</surname>
+        <address>Via Prova</address>
+        <telephone>111111</telephone>
+        <code>AA111ad1l</code>
+        <username>admin</username>
+        <pin>12345</pin>
+        <salary>10000</salary>
+    </admin>
+    <pro>
+        <name>Paolo</name>
+        <surname>Rossi</surname>
+        <address>Via Veridi</address>
+        <telephone>3432457210</telephone>
+        <code>BB222be2m</code>
+        <username>prossi</username>
+        <pin>01234</pin>
+        <count>105513</count>
+        <countNumber>222</countNumber>
+        <request>0</request>
+    </pro>
+    <pro>
+        <name>Marco</name>
+        <surname>France</surname>
+        <address>Via Prova</address>
+        <telephone>0491234567</telephone>
+        <code>AA111ad1l</code>
+        <username>mfrances</username>
+        <pin>54321</pin>
+        <count>101050</count>
+        <countNumber>111</countNumber>
+        <request>0</request>
+    </pro>
+</users>

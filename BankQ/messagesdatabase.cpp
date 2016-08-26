@@ -1,7 +1,7 @@
 #include "messagesdatabase.h"
 
 MessagesDataBase::MessagesDataBase() {
-    file = new QFile("/home/mrc/Documents/p2_project/Database/messages.xml");
+    file = new QFile("../Database/messages.xml");
 }
 
 bool MessagesDataBase::loadMessages () {    // Carico i messaggi nel contenitore
