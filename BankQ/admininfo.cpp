@@ -40,7 +40,6 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
     DataBase* d = new DataBase();
     if (d->load()) {
         if (atoi(pin.c_str()) && atoi(tel.c_str()) && atoi(sal.c_str()) && atoi(num.c_str())) {    // Verifico che il PIN, telefono, saldo e #conto siano numerici
-            int int_pin = atoi(pin.c_str());
             int int_sal = atoi(sal.c_str());
             double int_num = atoi(num.c_str());
             if (5 == pin.length()) {    // Verifico che il PIN abbia 5 cifre
@@ -522,7 +521,7 @@ void AdminInfo::on_toolButton_7_clicked() { // "Sblocca" tutti gli utenti, così
 }*/
 
 
-void AdminInfo::on_comboBox_5_currentIndexChanged(int index) {
+void AdminInfo::on_comboBox_5_currentIndexChanged (int index) {
 
     QString qstr = ui->comboBox_5->itemText(ui->comboBox_5->currentIndex());     // Elemento selezionato
     string str = qstr.toUtf8().constData();             // Stringa "username - #conto"
@@ -581,7 +580,6 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
         string num = (ui->lineEdit_36->text()).toUtf8().constData();   // Numero conto
 
         if (atoi(pin.c_str()) && atoi(tel.c_str()) && atoi(num.c_str())) {    // Verifico che il PIN, telefono, saldo e #conto siano numerici
-            int int_pin = atoi(pin.c_str());
             int int_sal = atoi(sal.c_str());
             double int_num = atoi(num.c_str());
             if (5 == pin.length()) {    // Verifico che il PIN abbia 5 cifre
