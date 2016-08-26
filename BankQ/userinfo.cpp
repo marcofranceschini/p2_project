@@ -179,8 +179,8 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                         if (d->charge (username, cifra, conto)) {
                                 //saldo = saldo - cifra;
                                 // Aggiorno la "grafica" del saldo
-                                ui->label_12->setText(QString::number(saldo));  // Saldo info utente
-                                ui->label_22->setText(QString::number(saldo));  // Saldo ricarica
+                                ui->label_12->setText(QString::number(saldo-cifra));  // Saldo info utente
+                                ui->label_22->setText(QString::number(saldo-cifra));  // Saldo ricarica
 
                                 if (100000 < saldo && (saldo - cifra)< 100000) {  // È passato da pro a basic
                                     ui->tabWidget->removeTab(1);                // Rimuovo la tabella per richiedere il bonus

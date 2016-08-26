@@ -58,13 +58,20 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
                         ui->lineEdit_8->setText("");  // Saldo
                         ui->lineEdit_9->setText("");  // Numero conto
 
+                        this->empty_ComboBox();         // Svuoto la combo box
+                        this->setComboBox();            // Aggiorno la combo box (per rimuovere) con l'utente aggiunto
+
+                        this->empty_ComboBox_2();       // Svuoto la combo box
+                        this->setComboBox_2();          // Aggiorno la combo box (per assegnare il bonus) con l'utente aggiunto
+
+                        this->empty_ComboBox_5();       // Svuoto la combo box
+                        this->setComboBox_5();          // Aggirono la combo box (per modificare) con l'utente aggiunto
+
                         QMessageBox::information(
                             this,
                             tr("BankQ - Nuovo Utente"),
                             tr("Aggiunta avvenuta correttamente")
                         );
-                        this->setComboBox();
-                        this->setComboBox_2();
                     } else {
                         if (d->verifyExistingUsername(usr)) {
                             QMessageBox::warning(
@@ -202,6 +209,15 @@ void AdminInfo::setComboBox () {    // Riempie la comboBox
     }
 }
 
+void AdminInfo::empty_ComboBox () {     // Svuota la combo box
+    int size = ui->comboBox->count();   // Numero di elementi nella comboBox
+
+    while (0 <= size) {                 // "Azzero" la comboBox
+        ui->comboBox->removeItem(size);
+        size--;
+    }
+}
+
 void AdminInfo::setComboBox_2 () {    // Riempie la comboBox_2
     DataBase* d = new DataBase();
     if (d->load()) {
@@ -215,6 +231,15 @@ void AdminInfo::setComboBox_2 () {    // Riempie la comboBox_2
             ui->toolButton_5->setEnabled(false);
             ui->toolButton_6->setEnabled(false);
         }
+    }
+}
+
+void AdminInfo::empty_ComboBox_2 () {       // Svuota la combo box
+    int size = ui->comboBox_2->count();     // Numero di elementi nella comboBox
+
+    while (0 <= size) {                     // "Azzero" la comboBox
+        ui->comboBox_2->removeItem(size);
+        size--;
     }
 }
 
@@ -233,10 +258,19 @@ void AdminInfo::setComboBox_5 () {    // Riempie la comboBox_5
     }
 }
 
-void AdminInfo::on_toolButton_clicked () {   // Logout
-    MainWindow* w = new MainWindow();   // Creo una nuova MainWindow
+void AdminInfo::empty_ComboBox_5 () {       // Svuota la combo box 5
+    int size = ui->comboBox_5->count();     // Numero di elementi nella comboBox
+
+    while (0 <= size) {                     // "Azzero" la comboBox
+        ui->comboBox_5->removeItem(size);
+        size--;
+    }
+}
+
+void AdminInfo::on_toolButton_clicked () {  // Logout
+    MainWindow* w = new MainWindow();       // Creo una nuova MainWindow
     w->show();
-    this->close();  // Chiudo la finestra corrente
+    this->close();                          // Chiudo la finestra corrente
 }
 
 void AdminInfo::on_toolButton_3_clicked() {     // Elimina un utente
@@ -252,15 +286,22 @@ void AdminInfo::on_toolButton_3_clicked() {     // Elimina un utente
     if (msgBox.exec() == QMessageBox::Yes) {
         QString qstr = ui->comboBox->itemText(ui->comboBox->currentIndex());  // Elemento selezionato
         //QString qstr = qv.toString();
-        string str = qstr.toUtf8().constData();             // "Username - #conto"
+        string str = qstr.toUtf8().constData();                     // "Username - #conto"
 
         string delimiter = " - ";
-        string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
+        string user = str.substr(0, str.find(delimiter));           // Ottengo solo lo username
 
         DataBase* d = new DataBase();
         if (d->load()) {
-            d->remove(*d->getUser(user));                     // Rimuovo l'utente dal DB
-            ui->comboBox->removeItem(ui->comboBox->currentIndex());
+            d->remove(*d->getUser(user));                           // Rimuovo l'utente dal DB
+
+            ui->comboBox->removeItem(ui->comboBox->currentIndex()); // Rimuove l'utente dalla combo box
+
+            this->empty_ComboBox_2();       // Svuoto la combo box
+            this->setComboBox_2();          // Aggiorno la combo box (per assegnare il bonus) senza l'utente rimosso
+
+            this->empty_ComboBox_5();       // Svuoto la combo box
+            this->setComboBox_5();          // Aggirono la combo box (per modificare) senza l'utente rimosso
 
             QMessageBox::information(
                 this,
@@ -366,14 +407,10 @@ void AdminInfo::on_toolButton_6_clicked() {     // Assegna il bonus (a "tutti")
         DataBase* d = new DataBase();
         if (d->load()) {
             d->giveBonusToAll();                 // Assegna il bonus agli utenti che non lo hanno ancora ricevuto
-            int size = ui->comboBox_2->count(); // Numero di elementi nella comboBox
 
-            while (0 <= size) {     // "Azzero" la comboBox
-                ui->comboBox_2->removeItem(size);
-                size--;
-            }
+            this->empty_ComboBox_2();           // Svuoto la combo box
+            this->setComboBox_2();              // Inserisco gli utenti che non hanno già ricevuto il bonus
 
-            this->setComboBox_2();
             QMessageBox::information(
                 this,
                 tr("BankQ - Assengnazione bonus"),
@@ -456,12 +493,9 @@ void AdminInfo::on_toolButton_7_clicked() { // "Sblocca" tutti gli utenti, così
         DataBase* d = new DataBase();
         if (d->load()) {
             d->unlockAll();                 // Assegna il bonus agli utenti che non lo hanno ancora ricevuto
-            int size = ui->comboBox_2->count(); // Numero di elementi nella comboBox
 
-            while (0 <= size) {     // "Azzero" la comboBox
-                ui->comboBox_2->removeItem(size);
-                size--;
-            }
+            this->empty_ComboBox_2();           // Svuoto la combo box
+            this->setComboBox_2();              // Inserisco gli utenti che non hanno già ricevuto il bonus
 
             this->setComboBox_2();
             ui->toolButton_5->setEnabled(true);
@@ -543,7 +577,7 @@ void AdminInfo::on_comboBox_5_currentIndexChanged (int index) {
             ui->lineEdit_31->setText(QString::fromStdString(b->getTelephone()));// Telefono
             ui->lineEdit_32->setText(QString::fromStdString(b->getCode()));     // Codice fiscale
             ui->lineEdit_33->setText(QString::fromStdString(b->getUsername())); // Username
-            ui->lineEdit_34->setText(QString::fromStdString(b->getPin()));             // PIN
+            ui->lineEdit_34->setText(QString::fromStdString(b->getPin()));      // PIN
             ui->lineEdit_35->setText(QString::number(b->getCount()));           // Saldo
             ui->lineEdit_36->setText(QString::number(b->getCountNumber()));     // Numero di conto
         }
@@ -603,6 +637,15 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
                                 tr("BankQ - Modifica"),
                                 tr("Utente modificato correttamente")
                             );
+                            this->empty_ComboBox();         // Svuoto la combo box
+                            this->setComboBox();            // Aggiorno la combo box (per rimuovere) con l'utente modificato
+
+                            this->empty_ComboBox_2();       // Svuoto la combo box
+                            this->setComboBox_2();          // Aggiorno la combo box (per assegnare il bonus) con l'utente modificato
+
+                            this->empty_ComboBox_5();       // Svuoto la combo box
+                            this->setComboBox_5();          // Aggirono la combo box (per modificare) con l'utente modificato
+
                             ui->lineEdit_28->setText("");   // Nome
                             ui->lineEdit_29->setText("");   // Cognome
                             ui->lineEdit_30->setText("");   // Indirizzo

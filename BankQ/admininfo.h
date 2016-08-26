@@ -28,9 +28,15 @@ class AdminInfo : public QDialog {
 
         void setComboBox ();
 
+        void empty_ComboBox ();
+
         void setComboBox_2 ();
 
+        void empty_ComboBox_2 ();
+
         void setComboBox_5 ();
+
+        void empty_ComboBox_5 ();
 
     private slots:
         void on_toolButton_2_clicked();
