@@ -128,7 +128,7 @@ void UserInfo::on_toolButton_3_clicked() {  // Richiesta bonus anticipato
     MessagesDataBase* m = new MessagesDataBase();
     if (m->loadMessages()) {
         m->addMessage(*new Message ("BankQ", username, "L'utente desidera ricevere il bonus anticipato"));
-        //ProUser* pro = dynamic_cast<ProUser*>(user);
+
         ui->toolButton_3->setEnabled(false);
         ui->label_17->setText("Bonus già richiesto");
         ui->label_18->setEnabled(false);
@@ -177,8 +177,6 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                     DataBase* d = new DataBase();
                     if (d->load()) {
                         if (d->charge (username, cifra, conto)) {
-                                //saldo = saldo - cifra;
-                                // Aggiorno la "grafica" del saldo
                                 ui->label_12->setText(QString::number(saldo-cifra));  // Saldo info utente
                                 ui->label_22->setText(QString::number(saldo-cifra));  // Saldo ricarica
 

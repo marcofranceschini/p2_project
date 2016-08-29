@@ -55,33 +55,6 @@ public:
     void setUsername (const string&);
 
     void setPin (const string&);
-
-    /*bool verifyLogin (string usr, int pass) const {
-        return (username == usr && pin == pass);
-        if(username == usr && pin == pass)
-            //return true; // Dati del login verificati
-            //if(dynamic_cast<Admin*>(utenti[it])) // Verifico che l'utente sia un amministratore
-              //  admin = true;
-            return true;
-        else
-            return false;
-
-
-        string vet = new string[2];
-        bool flag = false;
-        for (int i=0; utenti.size() && !flag; ++i) {
-            if(utenti[i].getUsername() == usr && utenti[i].getUsername() == pass) {
-                flag = true;
-                vet[0] = usr;
-                if(dynamic_cast<Admin>(utenti[i])) // Verifico se l'utente è un amministratore
-                    vet[1] = "1";
-                else
-                    vet[1] = "0";
-            }
-        }
-        return vet;
-
-    }*/
 };
 
 #endif // USER_H

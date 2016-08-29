@@ -15,18 +15,11 @@ public:
 
     ~Admin ();
 
-    /*Admin* operator= (const Admin& a) {
-        return new Admin(a);
-    }*/
-
-
     double getSalary () const;
 
     void setSalary (double);
 
     Admin* clone () const;
-
-    //bool verifyLogin (const int&) const;
 };
 
 #endif // ADMIN_H

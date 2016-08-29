@@ -175,7 +175,7 @@ User* DataBase::getUser (const string& usr) const {     // Ritorna l'oggetto Use
         if (user[it]->getUsername() == usr)
             return user[it]->clone();
     }
-    return new User();  // RIMUOVERE?
+    return new User();
 }
 
 User* DataBase::getUserByCountNumber (const int& conto) const {     // Ritorna l'oggetto User con numero di conto uguale a quello passato
@@ -184,7 +184,7 @@ User* DataBase::getUserByCountNumber (const int& conto) const {     // Ritorna l
         if (b && b->getCountNumber() == conto)
             return user[it]->clone();
     }
-    return new User();  // RIMUOVERE?
+    return new User();
 }
 
 bool DataBase::verifyStillSame (const BasicUser& usr) {     // Verifica se l'utente cambia tipo di account o meno

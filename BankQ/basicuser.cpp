@@ -10,17 +10,7 @@ BasicUser* BasicUser::clone () const {
     return new BasicUser (name, surname, address, telephone, code, username, pin, countNumber, count);
 }
 
-BasicUser::BasicUser (const BasicUser& u): User(u.getName(), u.getSurname(), u.getAddress(), u.getTelephone(), u.getCode(), u.getUsername(), u.getPin()), countNumber(u.getCountNumber()), count(u.getCount()) {
-    /*name = u.getName();
-    surname = u.getSurname();
-    address = u.getAddress();
-    telephone = u.getTelephone();
-    code = u.getCode();
-    username = u.getUsername();
-    pin = u.getPin();
-    countNumber = u.getCountNumber();
-    count = u.getCount();*/
-}
+BasicUser::BasicUser (const BasicUser& u): User(u.getName(), u.getSurname(), u.getAddress(), u.getTelephone(), u.getCode(), u.getUsername(), u.getPin()), countNumber(u.getCountNumber()), count(u.getCount()) {}
 
 double BasicUser::getTax () const {
     return tax;
@@ -41,11 +31,5 @@ int BasicUser::getCountNumber () const {
 void BasicUser::setCountNumber (int c) {
     countNumber = c;
 }
-
-/*bool BasicUser::verifyLogin (const string& pass) const {
-    int p = const_cast<int&> (pass);
-    if (pin==p) return true;
-    return false;
-}*/
 
 double BasicUser::tax = 1.0;

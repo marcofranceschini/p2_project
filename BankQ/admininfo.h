@@ -61,8 +61,6 @@ class AdminInfo : public QDialog {
 
 private:
         Ui::AdminInfo *ui;
-
-        //Admin admin;
 };
 
 #endif // ADMININFO_H

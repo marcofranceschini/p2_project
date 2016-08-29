@@ -143,16 +143,6 @@ public:
         } else return 0;
     }
 
-    /*void add(const T& t) {
-        if (head == 0) {
-            head = SmartPointer(new Nodo(&(const_cast<T&>(t))));
-            tail = head;
-        } else {
-            tail->next = SmartPointer(new Nodo(&(const_cast<T&>(t))));
-            tail = tail->next;
-        }
-    }*/
-
     void push_back(T* t) {
         if (head == 0) {
             head = SmartPointer(new Nodo(t));
@@ -172,9 +162,6 @@ public:
                 push_back(p->value);
                 p = p->next;
             }
-            // Devo rimuovere il nodo in questione
-            //SmartPointer q = p;
-            //delete &q;
             p = p->next;
             while (p != 0) {
                 push_back(p->value);

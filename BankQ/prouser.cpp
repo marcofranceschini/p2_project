@@ -10,18 +10,7 @@ ProUser* ProUser::clone () const {
     return new ProUser (name, surname, address, telephone, code, username, pin, countNumber, count, request);
 }
 
-ProUser::ProUser (const ProUser& s): BasicUser(s.getName(), s.getSurname(), s.getAddress(), s.getTelephone(), s.getCode(), s.getUsername(), s.getPin(), s.getCountNumber(), s.getCount()), request(s.getRequest()) {
-    /*name = s.getName();
-    surname = s.getSurname();
-    address = s.getAddress();
-    telephone = s.getTelephone();
-    code = s.getCode();
-    username = s.getUsername();
-    pin = s.getPin();
-    countNumber = s.getCountNumber();
-    count = s.getCount();
-    request = s.getRequest();*/
-}
+ProUser::ProUser (const ProUser& s): BasicUser(s.getName(), s.getSurname(), s.getAddress(), s.getTelephone(), s.getCode(), s.getUsername(), s.getPin(), s.getCountNumber(), s.getCount()), request(s.getRequest()) {}
 
 ProUser::ProUser (const BasicUser& b) {
     name = b.getName();
@@ -43,12 +32,6 @@ double ProUser::getBonus () const {
 double ProUser::getTax () const {
     return proTax;
 }
-
-/*bool ProUser::verifyLogin (const int& pass) const {
-    int p = const_cast<int&> (pass);
-    if (pin==p) return true;
-    return false;
-}*/
 
 bool ProUser::getRequest () const {
     return request;
