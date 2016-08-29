@@ -56,7 +56,7 @@ bool DataBase::load () {    // Carica gli utenti nel contenitore
                         if (xmlReader.name().toString() == "pin")
                             uBasic.setPin(xmlReader.readElementText().toStdString());
                         if(xmlReader.name().toString() == "count")
-                            uBasic.setCount(xmlReader.readElementText().toDouble());
+                            uBasic.setCount(xmlReader.readElementText().toInt());
                         if(xmlReader.name().toString() == "countNumber")
                             uBasic.setCountNumber(xmlReader.readElementText().toInt());
                         xmlReader.readNext();
@@ -82,7 +82,7 @@ bool DataBase::load () {    // Carica gli utenti nel contenitore
                         if (xmlReader.name().toString() == "pin")
                             uPro.setPin(xmlReader.readElementText().toStdString());
                         if(xmlReader.name().toString() == "count")
-                            uPro.setCount(xmlReader.readElementText().toDouble());
+                            uPro.setCount(xmlReader.readElementText().toInt());
                         if(xmlReader.name().toString() == "countNumber")
                             uPro.setCountNumber(xmlReader.readElementText().toInt());
                         if(xmlReader.name().toString() == "request")
@@ -374,18 +374,25 @@ bool DataBase::verifyRequest () const {       // Verifica se ci sono utenti pro 
 
 bool DataBase::giveBonus(const User& cu) {      // Assegna il bonus all'utente pro passato
 
-    User* ncu = const_cast<User*> (&cu);
-    ProUser* u = dynamic_cast<ProUser*> (ncu);
-    double c = u->getCount() + ((u->getCount())/100)*(u->getBonus() - u->getTax()); // Calcolo il nuovo saldo
-    u->setCount(c);
-    u->setRequest(true);
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        ProUser* p = dynamic_cast<ProUser*> (user[it]);
+        if (p && p->getUsername() == cu.getUsername()) {
+            int c = p->getCount() + ((p->getCount())/100)*(p->getBonus() - p->getTax()); // Calcolo il nuovo saldo
+            p->setCount(c);
+            p->setRequest(true);
+            this->replace(*user[it], *p);
+            break;
+        }
+    }
     this->write();
+
     MessagesDataBase* m = new MessagesDataBase();
     if (m->loadMessages()) {
         m->addMessage(*new Message (cu.getUsername(), "BankQ", "Bonus ricevuto"));
         return true;
     } else
         qDebug("Errore nel caricamento del DB messaggi");
+
     return false;
 }
 
@@ -397,10 +404,15 @@ void DataBase::giveBonusToAll () {      // Assegna il bonus agli utenti pro che 
 }
 
 void DataBase::unlockAll () {       // "Sblocca" gli utenti (mette request "false" a tutti i pro)
+    Container<User> app;
+
     for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
         ProUser* p = dynamic_cast<ProUser*> (user[it]);
-        if (p && p->getRequest())
+        if (p && p->getRequest()) {
             p->setRequest(false);
+            app.push_back(p);
+            this->replace(*user[it], *p);
+        }
     }
     this->write();
 }
@@ -414,5 +426,4 @@ bool DataBase::replace (const User& old, const User& nuovo) {     // Rimpiazza n
     }
     user.replace(cont, nuovo);  // Sostituisco nel contenitore
     return this->write();
-
 }

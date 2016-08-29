@@ -41,7 +41,7 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
     if (d->load()) {
         if (atoi(pin.c_str()) && atoi(tel.c_str()) && atoi(sal.c_str()) && atoi(num.c_str())) {    // Verifico che il PIN, telefono, saldo e #conto siano numerici
             int int_sal = atoi(sal.c_str());
-            double int_num = atoi(num.c_str());
+            int int_num = atoi(num.c_str());
             if (5 == pin.length()) {    // Verifico che il PIN abbia 5 cifre
                 if (nom != "" && cog != "" && ind != "" && cod != "" && usr != "") {
                     if (!d->verifyExistingUsername(usr) && !d->verifyExistingCountNumber(int_num)) {  // Controllo che username e #conto siano univoci
@@ -65,7 +65,7 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
                         this->setComboBox_2();        // Aggiorno la combo box (per assegnare il bonus) con l'utente aggiunto
 
                         this->empty_ComboBox_5();     // Svuoto la combo box
-                        this->setComboBox_5();        // Aggirono la combo box (per modificare) con l'utente aggiunto
+                        this->setComboBox_5();        // Aggiorno la combo box (per modificare) con l'utente aggiunto
 
                         QMessageBox::information(
                             this,
@@ -221,18 +221,24 @@ void AdminInfo::setComboBox_2 () {    // Riempie la comboBox_2
     DataBase* d = new DataBase();
     if (d->load()) {
         Container<BasicUser> u = d->getUserNoAdmin();
-        if (0 < u.getSize() || d->verifyPro()) {      // Se ho utenti o utenti pro nel DB
+
+        if (0 < u.getSize() || d->verifyPro()) {    // Se ho utenti o utenti pro nel DB
             Container<ProUser> r = d->getUserNoRequest();
-            if (0 < r.getSize()) {  // Se non ho utenti pro
+
+            if (0 < r.getSize()) {                  // Se non ho utenti pro
+
                 for (Container<ProUser>::Iteratore it = r.begin(); it != r.end(); ++it) {
                     ui->comboBox_2->addItem(QString::fromStdString(r[it]->getUsername()) + " - " + QString::number(r[it]->getCountNumber()));
                 }
+
                 ui->toolButton_5->setEnabled(true);
                 ui->toolButton_6->setEnabled(true);
+
                 if (d->verifyRequest()) // Se ho utenti pro che hanno già ricevuto il bonus
                     ui->toolButton_7->setEnabled(true);
                 else
                     ui->toolButton_7->setEnabled(false);
+
             } else {    // Non ho utenti a cui assegnare il bonus
                 ui->comboBox_2->addItem("Nessun utente");
                 ui->toolButton_5->setEnabled(false);
@@ -426,7 +432,15 @@ void AdminInfo::on_toolButton_5_clicked() {     // Assegna il bonus (utente sele
         if (d->load()) {
             d->giveBonus(*d->getUser(user));                // Assegno il bonus all'utente passato
 
+            QMessageBox::information(
+                this,
+                tr("BankQ - Assengnazione bonus"),
+                tr("AAA-"+(QString::fromStdString(user)).toLatin1()+"-AAA")
+            );
+
             ui->comboBox_2->removeItem(ui->comboBox_2->currentIndex()); // Rimuovo l'utente dalla combo box
+
+            ui->toolButton_7->setEnabled(true);
 
             QMessageBox::information(
                 this,
@@ -624,7 +638,7 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
 
         if (atoi(pin.c_str()) && atoi(tel.c_str()) && atoi(num.c_str())) {    // Verifico che il PIN, telefono, saldo e #conto siano numerici
             int int_sal = atoi(sal.c_str());
-            double int_num = atoi(num.c_str());
+            int int_num = atoi(num.c_str());
             if (5 == pin.length()) {    // Verifico che il PIN abbia 5 cifre
                 if (nom != "" && cog != "" && ind != "" && cod != "" && usr != "") {
                     User* u = d->getUser(user);  // Per verificare se ha già richiesto il bonus, il numero di conto
@@ -653,7 +667,7 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
                             this->setComboBox_2();          // Aggiorno la combo box (per assegnare il bonus) con l'utente modificato
 
                             this->empty_ComboBox_5();       // Svuoto la combo box
-                            this->setComboBox_5();          // Aggirono la combo box (per modificare) con l'utente modificato
+                            this->setComboBox_5();          // Aggiorno la combo box (per modificare) con l'utente modificato
 
                             ui->lineEdit_28->setText("");   // Nome
                             ui->lineEdit_29->setText("");   // Cognome

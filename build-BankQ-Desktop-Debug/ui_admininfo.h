@@ -309,7 +309,7 @@ public:
         lineEdit_36->setGeometry(QRect(430, 210, 113, 27));
         toolButton_8 = new QToolButton(tab_6);
         toolButton_8->setObjectName(QStringLiteral("toolButton_8"));
-        toolButton_8->setGeometry(QRect(330, 260, 81, 22));
+        toolButton_8->setGeometry(QRect(260, 300, 81, 22));
         tabWidget->addTab(tab_6, QString());
         tab_4 = new QWidget();
         tab_4->setObjectName(QStringLiteral("tab_4"));
@@ -318,7 +318,7 @@ public:
         label_68->setGeometry(QRect(10, 10, 121, 41));
         toolButton_3 = new QToolButton(tab_4);
         toolButton_3->setObjectName(QStringLiteral("toolButton_3"));
-        toolButton_3->setGeometry(QRect(220, 190, 91, 25));
+        toolButton_3->setGeometry(QRect(260, 190, 91, 25));
         label_26 = new QLabel(tab_4);
         label_26->setObjectName(QStringLiteral("label_26"));
         label_26->setGeometry(QRect(30, 70, 191, 16));
@@ -336,13 +336,13 @@ public:
         comboBox_2->setGeometry(QRect(290, 70, 191, 23));
         toolButton_5 = new QToolButton(tab_5);
         toolButton_5->setObjectName(QStringLiteral("toolButton_5"));
-        toolButton_5->setGeometry(QRect(90, 170, 91, 25));
+        toolButton_5->setGeometry(QRect(120, 190, 91, 25));
         toolButton_6 = new QToolButton(tab_5);
         toolButton_6->setObjectName(QStringLiteral("toolButton_6"));
-        toolButton_6->setGeometry(QRect(230, 170, 111, 25));
+        toolButton_6->setGeometry(QRect(260, 190, 111, 25));
         toolButton_7 = new QToolButton(tab_5);
         toolButton_7->setObjectName(QStringLiteral("toolButton_7"));
-        toolButton_7->setGeometry(QRect(390, 170, 91, 25));
+        toolButton_7->setGeometry(QRect(410, 190, 91, 25));
         label_87 = new QLabel(tab_5);
         label_87->setObjectName(QStringLiteral("label_87"));
         label_87->setGeometry(QRect(10, 10, 121, 41));
@@ -365,7 +365,7 @@ public:
 
         retranslateUi(AdminInfo);
 
-        tabWidget->setCurrentIndex(4);
+        tabWidget->setCurrentIndex(5);
 
 
         QMetaObject::connectSlotsByName(AdminInfo);

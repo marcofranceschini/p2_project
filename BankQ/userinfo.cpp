@@ -62,7 +62,7 @@ void UserInfo::setTable (const User& u, const bool& f) {        // Riempie la ta
             QString s = QString::number(mex);
             ui->label_25->setText("Sono presenti " + s + " messaggi da leggere");
 
-            if (f) {    // Appare solo se faccio l'accesso e no anche se elimino un messaggio
+            if (f) {    // Appare solo se faccio l'accesso e non anche se elimino un messaggio
                 QMessageBox::information(
                     this,
                     tr("BankQ - Messagi"),
@@ -70,8 +70,8 @@ void UserInfo::setTable (const User& u, const bool& f) {        // Riempie la ta
                 );
             }
 
-            ui->tableView->setColumnWidth(0, 70);                                           // Fisso la larghezza della colonna #0
-            ui->tableView->setColumnWidth(1, 419);                                          // Fisso la larghezza della colonna #1
+            ui->tableView->setColumnWidth(0, 74);                                           // Fisso la larghezza della colonna #0
+            ui->tableView->setColumnWidth(1, 425);                                          // Fisso la larghezza della colonna #1
             ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
 
             Container<Message> app;
@@ -166,7 +166,7 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
         QString sal = ui->label_12->text(); // Saldo
         QString nc = ui->label_24->text();  // Numero di conto dell'utente loggato
 
-        double cifra = a.toDouble();
+        int cifra = a.toInt();
         int conto = b.toInt();
         string username = c.toUtf8().constData();
         int saldo = sal.toInt();
@@ -176,36 +176,44 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                 if (nc != b) {                                              // Numero di conti diverso (loggato != ricevente)
                     DataBase* d = new DataBase();
                     if (d->load()) {
-                        if (d->charge (username, cifra, conto)) {
-                                ui->label_12->setText(QString::number(saldo-cifra));  // Saldo info utente
-                                ui->label_22->setText(QString::number(saldo-cifra));  // Saldo ricarica
+                        if (d->verifyExistingCountNumber(conto)) {
+                            if (d->charge (username, cifra, conto)) {
+                                    ui->label_12->setText(QString::number(saldo-cifra));  // Saldo info utente
+                                    ui->label_22->setText(QString::number(saldo-cifra));  // Saldo ricarica
 
-                                if (100000 < saldo && (saldo - cifra)< 100000) {  // È passato da pro a basic
-                                    ui->tabWidget->removeTab(1);                // Rimuovo la tabella per richiedere il bonus
-                                    ui->label_6->setText("Basic");              // Cambio il tipo di conto
+                                    if (100000 < saldo && (saldo - cifra)< 100000) {// È passato da pro a basic
+                                        ui->tabWidget->removeTab(1);                // Rimuovo la tabella per richiedere il bonus
+                                        ui->label_6->setText("Basic");              // Cambio il tipo di conto
+                                        QMessageBox::information(
+                                            this,
+                                            tr("BankQ - Avviso"),
+                                            tr("Con l'ultimo ricarica il tipo di conto è diventanto Basic")
+                                        );
+                                    }
+
+                                    ui->lineEdit_2->setText("");                    // Cifra da caricare
+                                    ui->lineEdit_3->setText("");                    // Numero di conto
+
                                     QMessageBox::information(
                                         this,
-                                        tr("BankQ - Avviso"),
-                                        tr("Con l'ultimo ricarica il tipo di conto è diventanto Basic")
+                                        tr("BankQ - Ricarica"),
+                                        tr("Ricarica avvenuta correttamenta")
+                                    );
+
+                            } else {
+                                    QMessageBox::warning(
+                                        this,
+                                        tr("BankQ - Ricarica"),
+                                        tr("Errore")
                                     );
                                 }
-
-                                ui->lineEdit_2->setText("");                    // Cifra da caricare
-                                ui->lineEdit_3->setText("");                    // Numero di conto
-
-                                QMessageBox::information(
-                                    this,
-                                    tr("BankQ - Ricarica"),
-                                    tr("Ricarica avvenuta correttamenta")
-                                );
-
                         } else {
-                                QMessageBox::warning(
-                                    this,
-                                    tr("BankQ - Ricarica"),
-                                    tr("Errore")
-                                );
-                            }
+                            QMessageBox::warning(
+                                this,
+                                tr("BankQ - Errore"),
+                                tr("Conto inesistente")
+                            );
+                        }
                     } else {
                         QMessageBox::warning(
                             this,
@@ -381,7 +389,7 @@ void UserInfo::on_tableView_clicked (const QModelIndex &index) {    // Elimino l
                             this,
                             tr("BankQ - Rimozione"),
                             tr("Messaggio rimosso")
-                        );
+                    );
                 } else {
                     QMessageBox::warning(
                         this,

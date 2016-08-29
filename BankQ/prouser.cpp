@@ -1,6 +1,6 @@
 #include "prouser.h"
 
-ProUser::ProUser (string n, string s, string a, string t, string c, string u, string p, int nu, double co, bool r): BasicUser(n, s, a, t, c, u, p, nu, co), request(r) {}
+ProUser::ProUser (string n, string s, string a, string t, string c, string u, string p, int nu, int co, bool r): BasicUser(n, s, a, t, c, u, p, nu, co), request(r) {}
 
 ProUser::ProUser () {}
 
@@ -25,11 +25,11 @@ ProUser::ProUser (const BasicUser& b) {
     request = false;
 }
 
-double ProUser::getBonus () const {
+int ProUser::getBonus () const {
     return bonus;
 }
 
-double ProUser::getTax () const {
+int ProUser::getTax () const {
     return proTax;
 }
 
@@ -41,6 +41,6 @@ void ProUser::setRequest (bool r) {
     request = r;
 }
 
-double ProUser::bonus = 1.5;
+int ProUser::bonus = 2;
 
-double ProUser::proTax = 0.5;
+int ProUser::proTax = 1;

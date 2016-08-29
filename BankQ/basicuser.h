@@ -5,14 +5,14 @@
 
 class BasicUser: public User {
 protected:
-    static double tax;  // Tasse
+    static int tax;  // Tasse
 
     int countNumber;    // Numero di conto
 
-    double count;       // Conto corrente
+    int count;          // Conto corrente
 
 public:
-    BasicUser (string, string, string, string, string, string, string, int, double);
+    BasicUser (string, string, string, string, string, string, string, int, int);
 
     BasicUser ();
 
@@ -22,11 +22,11 @@ public:
 
     BasicUser (const BasicUser&);
 
-    virtual double getTax () const;
+    virtual int getTax () const;
 
-    virtual double getCount () const;
+    virtual int getCount () const;
 
-    virtual void setCount (double);
+    virtual void setCount (int);
 
     virtual int getCountNumber () const;
 

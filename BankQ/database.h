@@ -3,7 +3,6 @@
 
 #include "admin.h"
 #include "prouser.h"
-#include "userinfo.h"   // Per visualizzare i messaggi pop-up
 #include "container.h"
 #include "messagesdatabase.h"
 

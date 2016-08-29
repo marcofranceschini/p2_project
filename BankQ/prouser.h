@@ -5,14 +5,14 @@
 
 class ProUser: public BasicUser {
 private:
-    static double bonus;    // Bonus annuo in percentuale
+    static int bonus;    // Bonus annuo in percentuale
 
-    static double proTax;   // Tasse, ridotta, per gli utenti pro
+    static int proTax;   // Tasse, ridotta, per gli utenti pro
 
-    bool request;           // true = non ha ricevuto il bonus, false altrimenti
+    bool request;        // true = non ha ricevuto il bonus, false altrimenti
 
 public:
-    ProUser (string, string, string, string, string, string, string, int, double, bool);
+    ProUser (string, string, string, string, string, string, string, int, int, bool);
 
     ProUser ();
 
@@ -24,9 +24,9 @@ public:
 
     ProUser (const BasicUser&);
 
-    double getBonus () const;
+    int getBonus () const;
 
-    double getTax () const;
+    int getTax () const;
 
     bool verifyLogin (const int&) const;
 
