@@ -188,36 +188,29 @@ User* DataBase::getUserByCountNumber (const int& conto) const {     // Ritorna l
 }
 
 bool DataBase::verifyStillSame (const BasicUser& usr) {     // Verifica se l'utente cambia tipo di account o meno
-    int cont = 0;                                           // Per sapere in quale posizione del Container l'oggetto si trova
-    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
-        BasicUser* b = dynamic_cast<BasicUser*> (user[it]);
-        if (!b || (b && b->getUsername() != usr.getUsername()))
-            cont ++;
-        else
-            break;
-    }
+
     BasicUser* u = const_cast<BasicUser*> (&usr);
 
     if (100000 <= u->getCount() && !dynamic_cast<ProUser*> (u)) {       // L'utente è Basic e deve diventare Pro
 
         ProUser *s = new ProUser (*u);
-        user.replace(cont, s->clone());     // Inserisce il "nuovo" utente Pro al posto di quello vecchio
+        this->replace(*u, *s);     // Inserisce il "nuovo" utente Pro al posto di quello vecchio
 
     } else if (u->getCount() < 100000 && dynamic_cast<ProUser*> (u)) {  // L'utente è Pro e deve diventare Basic
 
         BasicUser* b = new BasicUser (*u);
-        user.replace(cont, b->clone());     // Inserisce il "nuovo" utente Basic al posto di quello vecchio
+        this->replace(*u, *b);     // Inserisce il "nuovo" utente Basic al posto di quello vecchio
 
     } else {    // L'utente non ha cambiato "tipo", ma vanno comunque aggiornati DB e Container
 
         if (dynamic_cast<ProUser*> (u)) {   // È un utente Pro
 
             ProUser* s = dynamic_cast<ProUser*> (u);
-            user.replace(cont, s->clone()); // Inserisce il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
+            this->replace(*u, *s); // Inserisce il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
 
         } else {                            // È un utente Basic
 
-            user.replace(cont, u->clone()); // Inserisco il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
+            this->replace(*u, *u); // Inserisco il "nuovo" utente Basic (con conto aggiornato) nella lista di appartenenza
         }
         //delete u; // ATTENZIONE
         this->write();
