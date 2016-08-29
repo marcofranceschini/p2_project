@@ -53,6 +53,10 @@ public:
 
     Container<ProUser> getUserNoRequest () const;               // Ritorna una lista di utenti Pro senza richieste di bonus anticipato
 
+    bool verifyPro () const;                                    // Verifica se ci sono utenti pro nel contenitore
+
+    bool verifyRequest () const;                                // Verifica se ci sono utenti pro che hanno chiesto il bonus
+
     bool giveBonus (const User&);                               // Assegna il bonus all'utente pro passato
 
     void giveBonusToAll ();                                     // Assegna il bonus agli utenti pro che non lo hanno ancora ricevuto

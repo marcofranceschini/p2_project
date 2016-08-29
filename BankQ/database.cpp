@@ -354,6 +354,24 @@ Container<ProUser> DataBase::getUserNoRequest() const {     // Ritorna una lista
     return u;
 }
 
+bool DataBase::verifyPro () const {        // Verifica se ci sono utenti pro nel contenitore
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        ProUser* p = dynamic_cast<ProUser*> (user[it]);
+        if (p)
+            return true;
+    }
+    return false;
+}
+
+bool DataBase::verifyRequest () const {       // Verifica se ci sono utenti pro che hanno chiesto il bonus
+    for (Container<User>::Iteratore it = user.begin(); it != user.end(); ++it) {
+        ProUser* p = dynamic_cast<ProUser*> (user[it]);
+        if (p && p->getRequest())
+            return true;
+    }
+    return false;
+}
+
 bool DataBase::giveBonus(const User& cu) {      // Assegna il bonus all'utente pro passato
 
     User* ncu = const_cast<User*> (&cu);

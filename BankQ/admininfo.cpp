@@ -200,6 +200,7 @@ void AdminInfo::setComboBox () {    // Riempie la comboBox
             for (Container<BasicUser>::Iteratore it = l.begin(); it != l.end(); ++it) {
                 ui->comboBox->addItem(QString::fromStdString(l[it]->getUsername()) + " - " + QString::number(l[it]->getCountNumber()));
             }
+            ui->toolButton_3->setEnabled(true);
         } else {    // Non ho utenti da eliminare
             ui->comboBox->addItem("Nessun utente");
             ui->toolButton_3->setEnabled(false);
@@ -219,15 +220,29 @@ void AdminInfo::empty_ComboBox () {     // Svuota la combo box
 void AdminInfo::setComboBox_2 () {    // Riempie la comboBox_2
     DataBase* d = new DataBase();
     if (d->load()) {
-        Container<ProUser> r = d->getUserNoRequest();
-        if (0 < r.getSize()) {
-            for (Container<ProUser>::Iteratore it = r.begin(); it != r.end(); ++it) {
-                ui->comboBox_2->addItem(QString::fromStdString(r[it]->getUsername()) + " - " + QString::number(r[it]->getCountNumber()));
+        Container<BasicUser> u = d->getUserNoAdmin();
+        if (0 < u.getSize() || d->verifyPro()) {      // Se ho utenti o utenti pro nel DB
+            Container<ProUser> r = d->getUserNoRequest();
+            if (0 < r.getSize()) {  // Se non ho utenti pro
+                for (Container<ProUser>::Iteratore it = r.begin(); it != r.end(); ++it) {
+                    ui->comboBox_2->addItem(QString::fromStdString(r[it]->getUsername()) + " - " + QString::number(r[it]->getCountNumber()));
+                }
+                ui->toolButton_5->setEnabled(true);
+                ui->toolButton_6->setEnabled(true);
+                if (d->verifyRequest()) // Se ho utenti pro che hanno già ricevuto il bonus
+                    ui->toolButton_7->setEnabled(true);
+                else
+                    ui->toolButton_7->setEnabled(false);
+            } else {    // Non ho utenti a cui assegnare il bonus
+                ui->comboBox_2->addItem("Nessun utente");
+                ui->toolButton_5->setEnabled(false);
+                ui->toolButton_6->setEnabled(false);
             }
-        } else {    // Non ho utenti a cui assegnare il bonus
+        } else {
             ui->comboBox_2->addItem("Nessun utente");
             ui->toolButton_5->setEnabled(false);
             ui->toolButton_6->setEnabled(false);
+            ui->toolButton_7->setEnabled(false);
         }
     }
 }
@@ -249,9 +264,42 @@ void AdminInfo::setComboBox_5 () {    // Riempie la comboBox_5
             for (Container<BasicUser>::Iteratore it = l.begin(); it != l.end(); ++it) {
                 ui->comboBox_5->addItem(QString::fromStdString(l[it]->getUsername()) + " - " + QString::number(l[it]->getCountNumber()));
             }
+            ui->toolButton_8->setEnabled(true);
+
+            ui->lineEdit_28->setEnabled(true);   // Nome
+            ui->lineEdit_29->setEnabled(true);   // Cognome
+            ui->lineEdit_30->setEnabled(true);   // Indirizzo
+            ui->lineEdit_31->setEnabled(true);   // Telefono
+            ui->lineEdit_32->setEnabled(true);   // Codice fiscale
+            ui->lineEdit_33->setEnabled(true);   // Username
+            ui->lineEdit_34->setEnabled(true);   // PIN
+            ui->lineEdit_35->setEnabled(true);   // Saldo
+            ui->lineEdit_36->setEnabled(true);   // Numero di conto
+
         } else {    // Non ho utenti da modificare
-            ui->comboBox->addItem("Nessun utente");
+
+            ui->comboBox_5->addItem("Nessun utente");
             ui->toolButton_8->setEnabled(false);
+
+            ui->lineEdit_28->setText("");   // Nome
+            ui->lineEdit_29->setText("");   // Cognome
+            ui->lineEdit_30->setText("");   // Indirizzo
+            ui->lineEdit_31->setText("");   // Telefono
+            ui->lineEdit_32->setText("");   // Codice fiscale
+            ui->lineEdit_33->setText("");   // Username
+            ui->lineEdit_34->setText("");   // PIN
+            ui->lineEdit_35->setText("");   // Saldo
+            ui->lineEdit_36->setText("");   // Numero di conto
+
+            ui->lineEdit_28->setEnabled(false);   // Nome
+            ui->lineEdit_29->setEnabled(false);   // Cognome
+            ui->lineEdit_30->setEnabled(false);   // Indirizzo
+            ui->lineEdit_31->setEnabled(false);   // Telefono
+            ui->lineEdit_32->setEnabled(false);   // Codice fiscale
+            ui->lineEdit_33->setEnabled(false);   // Username
+            ui->lineEdit_34->setEnabled(false);   // PIN
+            ui->lineEdit_35->setEnabled(false);   // Saldo
+            ui->lineEdit_36->setEnabled(false);   // Numero di conto
         }
     }
 }
@@ -271,7 +319,7 @@ void AdminInfo::on_toolButton_clicked () {  // Logout
     this->close();                          // Chiudo la finestra corrente
 }
 
-void AdminInfo::on_toolButton_3_clicked() {     // Elimina un utente
+void AdminInfo::on_toolButton_3_clicked() { // Elimina un utente
     QMessageBox msgBox(
                 QMessageBox::Question,
                 trUtf8("Attenzione"),
@@ -294,11 +342,18 @@ void AdminInfo::on_toolButton_3_clicked() {     // Elimina un utente
 
             ui->comboBox->removeItem(ui->comboBox->currentIndex()); // Rimuove l'utente dalla combo box
 
+            if(ui->comboBox->count() == 0) {// La combo box è vuota
+
+                this->setComboBox();        // Per scrivere il messaggio "nessun utente"
+                this->setComboBox_2();      // Così disattiva il pulsante per sbloccare il bonus
+                this->setComboBox_5();      // Così azzerra le text edit
+            }
+
             this->empty_ComboBox_2();       // Svuoto la combo box
             this->setComboBox_2();          // Aggiorno la combo box (per assegnare il bonus) senza l'utente rimosso
 
             this->empty_ComboBox_5();       // Svuoto la combo box
-            this->setComboBox_5();          // Aggirono la combo box (per modificare) senza l'utente rimosso
+            this->setComboBox_5();          // Aggiorno la combo box (per modificare) senza l'utente rimosso
 
             QMessageBox::information(
                 this,
@@ -487,12 +542,11 @@ void AdminInfo::on_toolButton_7_clicked() { // "Sblocca" tutti gli utenti, così
     if (msgBox.exec() == QMessageBox::Yes) {
         DataBase* d = new DataBase();
         if (d->load()) {
-            d->unlockAll();                 // Assegna il bonus agli utenti che non lo hanno ancora ricevuto
+            d->unlockAll();                 // Setta a false la request degli utenti che hanno ricevuto il bonus
 
             this->empty_ComboBox_2();       // Svuoto la combo box
             this->setComboBox_2();          // Inserisco gli utenti che non hanno già ricevuto il bonus
 
-            this->setComboBox_2();
             ui->toolButton_5->setEnabled(true);
             ui->toolButton_6->setEnabled(true);
             QMessageBox::information(
