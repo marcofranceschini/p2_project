@@ -42,8 +42,11 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
         if (atoi(pin.c_str()) && atoi(tel.c_str()) && atoi(sal.c_str()) && atoi(num.c_str())) {    // Verifico che il PIN, telefono, saldo e #conto siano numerici
             int int_sal = atoi(sal.c_str());
             int int_num = atoi(num.c_str());
+
             if (5 == pin.length()) {    // Verifico che il PIN abbia 5 cifre
+
                 if (nom != "" && cog != "" && ind != "" && cod != "" && usr != "") {
+
                     if (!d->verifyExistingUsername(usr) && !d->verifyExistingCountNumber(int_num)) {  // Controllo che username e #conto siano univoci
 
                         d->addUser(*new BasicUser(nom, cog, ind, tel, cod, usr, pin, int_num, int_sal));
@@ -104,7 +107,7 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
         } else {
             QMessageBox::warning(
                 this,
-                tr("1- BankQ - Errore"),
+                tr("BankQ - Errore"),
                 tr("PIN, telefono, saldo e numero di conto devono essere numerici")
             );
         }
@@ -128,6 +131,7 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
             QStringList columnName;
             columnName.push_back("Mittente");
             columnName.push_back("Messaggio");
+
             model->setHorizontalHeaderLabels(columnName);
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
@@ -136,7 +140,7 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
             QString s = QString::number(mex);
             ui->label_21->setText("Sono presenti " + s + " messaggi da leggere");
 
-            if (f) {    // Appare solo se faccio l'accesso e no anche se elimino un messaggio
+            if (f) {    // Appare solo se faccio l'accesso e non anche se elimino un messaggio
                 QMessageBox::information(
                     this,
                     tr("BankQ - Messagi"),
@@ -153,11 +157,11 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
             Container<Message>::Iteratore it = app.begin();
             for (int row = 0; row < mex; ++row) {
                 for (int col = 0; col < 2; ++col) {
-                    QModelIndex index = model->index(row, col, QModelIndex());  // 0 for all data
+                    QModelIndex index = model->index(row, col, QModelIndex());
 
                     switch (col) {
                         case 0:
-                            model->setData(index, QString::fromStdString(app[it]->getSender()));    // Mostro il mittente
+                            model->setData(index, QString::fromStdString(app[it]->getSender())); // Mostro il mittente
                         break;
 
                         case 1:
@@ -175,6 +179,7 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
             QStringList columnName;
             columnName.push_back("Mittente");
             columnName.push_back("Messaggio");
+
             model->setHorizontalHeaderLabels(columnName);
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
@@ -197,10 +202,12 @@ void AdminInfo::setComboBox () {    // Riempie la comboBox
     if (d->load()) {
         Container<BasicUser> l = d->getUserNoAdmin();
         if (0 < l.getSize()) {
+
             for (Container<BasicUser>::Iteratore it = l.begin(); it != l.end(); ++it) {
                 ui->comboBox->addItem(QString::fromStdString(l[it]->getUsername()) + " - " + QString::number(l[it]->getCountNumber()));
             }
             ui->toolButton_3->setEnabled(true);
+
         } else {    // Non ho utenti da eliminare
             ui->comboBox->addItem("Nessun utente");
             ui->toolButton_3->setEnabled(false);

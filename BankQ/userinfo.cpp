@@ -54,6 +54,7 @@ void UserInfo::setTable (const User& u, const bool& f) {        // Riempie la ta
             QStringList columnName;
             columnName.push_back("Mittente");
             columnName.push_back("Messaggio");
+
             model->setHorizontalHeaderLabels(columnName);
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
@@ -103,6 +104,7 @@ void UserInfo::setTable (const User& u, const bool& f) {        // Riempie la ta
             QStringList columnName;
             columnName.push_back("Mittente");
             columnName.push_back("Messaggio");
+
             model->setHorizontalHeaderLabels(columnName);
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
@@ -187,7 +189,7 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                                         QMessageBox::information(
                                             this,
                                             tr("BankQ - Avviso"),
-                                            tr("Con l'ultimo ricarica il tipo di conto è diventanto Basic")
+                                            tr("Con l'ultima ricarica il tipo di conto è diventanto Basic")
                                         );
                                     }
 
@@ -306,7 +308,7 @@ void UserInfo::on_toolButton_2_clicked() {      // Chiusura conto
             QMessageBox::information(
                 this,
                 tr("BankQ - Chiusura"),
-                tr("La sua richiesta è stata presa in carico, arrivederci")
+                tr("La sua richiesta è stata presa in carico.\nIl suo conto verrà eliminato al più presto, arrivederci")
             );
             this->on_toolButton_clicked();
             m->addMessage(*new Message ("BankQ", username, "L'utente desidera chiudere il proprio conto"));
@@ -330,6 +332,7 @@ void UserInfo::on_toolButton_5_clicked() {  // Messaggi spuntati come "visualizz
             QStringList columnName;
             columnName.push_back("Mittente");
             columnName.push_back("Messaggio");
+
             model->setHorizontalHeaderLabels(columnName);
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
@@ -381,8 +384,10 @@ void UserInfo::on_tableView_clicked (const QModelIndex &index) {    // Elimino l
 
         MessagesDataBase* m = new MessagesDataBase();
         if (m->loadMessages()) {
+
             if (m->deleteOneMessage(*new Message(username, mit, mex))) {
                 DataBase* d = new DataBase();
+
                 if (d->load()) {
                     this->setTable(*d->getUser(username), false);
                     QMessageBox::information(
