@@ -18,6 +18,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QToolButton>
@@ -70,6 +71,7 @@ public:
     QLineEdit *lineEdit_9;
     QLabel *label_25;
     QLabel *label_73;
+    QPushButton *pushButton;
     QWidget *tab_6;
     QLabel *label_72;
     QComboBox *comboBox_5;
@@ -93,6 +95,7 @@ public:
     QLabel *label_115;
     QLineEdit *lineEdit_36;
     QToolButton *toolButton_8;
+    QPushButton *pushButton_2;
     QWidget *tab_4;
     QLabel *label_68;
     QToolButton *toolButton_3;
@@ -183,64 +186,67 @@ public:
         tab_2->setObjectName(QStringLiteral("tab_2"));
         label_9 = new QLabel(tab_2);
         label_9->setObjectName(QStringLiteral("label_9"));
-        label_9->setGeometry(QRect(70, 60, 67, 17));
+        label_9->setGeometry(QRect(70, 70, 67, 17));
         label_10 = new QLabel(tab_2);
         label_10->setObjectName(QStringLiteral("label_10"));
-        label_10->setGeometry(QRect(70, 100, 67, 17));
+        label_10->setGeometry(QRect(70, 120, 67, 17));
         label_11 = new QLabel(tab_2);
         label_11->setObjectName(QStringLiteral("label_11"));
-        label_11->setGeometry(QRect(70, 150, 81, 17));
+        label_11->setGeometry(QRect(70, 170, 81, 17));
         label_15 = new QLabel(tab_2);
         label_15->setObjectName(QStringLiteral("label_15"));
-        label_15->setGeometry(QRect(70, 250, 81, 17));
+        label_15->setGeometry(QRect(70, 270, 81, 17));
         label_16 = new QLabel(tab_2);
         label_16->setObjectName(QStringLiteral("label_16"));
-        label_16->setGeometry(QRect(330, 60, 71, 17));
+        label_16->setGeometry(QRect(330, 70, 71, 17));
         label_17 = new QLabel(tab_2);
         label_17->setObjectName(QStringLiteral("label_17"));
-        label_17->setGeometry(QRect(330, 100, 71, 17));
+        label_17->setGeometry(QRect(330, 120, 71, 17));
         lineEdit = new QLineEdit(tab_2);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setGeometry(QRect(170, 50, 113, 27));
+        lineEdit->setGeometry(QRect(170, 60, 113, 27));
         lineEdit_2 = new QLineEdit(tab_2);
         lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
-        lineEdit_2->setGeometry(QRect(170, 100, 113, 27));
+        lineEdit_2->setGeometry(QRect(170, 110, 113, 27));
         lineEdit_3 = new QLineEdit(tab_2);
         lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
-        lineEdit_3->setGeometry(QRect(170, 150, 113, 27));
+        lineEdit_3->setGeometry(QRect(170, 160, 113, 27));
         lineEdit_4 = new QLineEdit(tab_2);
         lineEdit_4->setObjectName(QStringLiteral("lineEdit_4"));
-        lineEdit_4->setGeometry(QRect(170, 200, 113, 27));
+        lineEdit_4->setGeometry(QRect(170, 210, 113, 27));
         lineEdit_5 = new QLineEdit(tab_2);
         lineEdit_5->setObjectName(QStringLiteral("lineEdit_5"));
-        lineEdit_5->setGeometry(QRect(170, 250, 113, 27));
+        lineEdit_5->setGeometry(QRect(170, 260, 113, 27));
         lineEdit_6 = new QLineEdit(tab_2);
         lineEdit_6->setObjectName(QStringLiteral("lineEdit_6"));
-        lineEdit_6->setGeometry(QRect(420, 50, 113, 27));
+        lineEdit_6->setGeometry(QRect(430, 60, 113, 27));
         toolButton_2 = new QToolButton(tab_2);
         toolButton_2->setObjectName(QStringLiteral("toolButton_2"));
         toolButton_2->setGeometry(QRect(260, 300, 81, 25));
         lineEdit_7 = new QLineEdit(tab_2);
         lineEdit_7->setObjectName(QStringLiteral("lineEdit_7"));
-        lineEdit_7->setGeometry(QRect(420, 100, 113, 27));
+        lineEdit_7->setGeometry(QRect(430, 110, 113, 27));
         label_20 = new QLabel(tab_2);
         label_20->setObjectName(QStringLiteral("label_20"));
-        label_20->setGeometry(QRect(70, 200, 81, 17));
+        label_20->setGeometry(QRect(70, 220, 81, 17));
         label_24 = new QLabel(tab_2);
         label_24->setObjectName(QStringLiteral("label_24"));
-        label_24->setGeometry(QRect(330, 150, 67, 17));
+        label_24->setGeometry(QRect(330, 170, 67, 17));
         lineEdit_8 = new QLineEdit(tab_2);
         lineEdit_8->setObjectName(QStringLiteral("lineEdit_8"));
-        lineEdit_8->setGeometry(QRect(420, 150, 113, 27));
+        lineEdit_8->setGeometry(QRect(430, 160, 113, 27));
         lineEdit_9 = new QLineEdit(tab_2);
         lineEdit_9->setObjectName(QStringLiteral("lineEdit_9"));
-        lineEdit_9->setGeometry(QRect(420, 200, 113, 27));
+        lineEdit_9->setGeometry(QRect(430, 210, 113, 27));
         label_25 = new QLabel(tab_2);
         label_25->setObjectName(QStringLiteral("label_25"));
-        label_25->setGeometry(QRect(330, 210, 67, 17));
+        label_25->setGeometry(QRect(330, 220, 67, 17));
         label_73 = new QLabel(tab_2);
         label_73->setObjectName(QStringLiteral("label_73"));
         label_73->setGeometry(QRect(10, 10, 121, 41));
+        pushButton = new QPushButton(tab_2);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(570, 310, 31, 23));
         tabWidget->addTab(tab_2, QString());
         tab_6 = new QWidget();
         tab_6->setObjectName(QStringLiteral("tab_6"));
@@ -309,7 +315,10 @@ public:
         lineEdit_36->setGeometry(QRect(430, 210, 113, 27));
         toolButton_8 = new QToolButton(tab_6);
         toolButton_8->setObjectName(QStringLiteral("toolButton_8"));
-        toolButton_8->setGeometry(QRect(260, 300, 81, 22));
+        toolButton_8->setGeometry(QRect(260, 300, 81, 21));
+        pushButton_2 = new QPushButton(tab_6);
+        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        pushButton_2->setGeometry(QRect(570, 310, 31, 23));
         tabWidget->addTab(tab_6, QString());
         tab_4 = new QWidget();
         tab_4->setObjectName(QStringLiteral("tab_4"));
@@ -365,7 +374,7 @@ public:
 
         retranslateUi(AdminInfo);
 
-        tabWidget->setCurrentIndex(5);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(AdminInfo);
@@ -405,6 +414,7 @@ public:
         label_24->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Saldo</span></p></body></html>", 0));
         label_25->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-weight:600;\"># conto</span></p></body></html>", 0));
         label_73->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-size:20pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
+        pushButton->setText(QApplication::translate("AdminInfo", "Info", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("AdminInfo", "Aggiungi Utente", 0));
         label_72->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-size:20pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         label_53->setText(QApplication::translate("AdminInfo", "Seleziona l'utente da modificare", 0));
@@ -418,6 +428,7 @@ public:
         label_114->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-weight:600;\">Cognome</span></p></body></html>", 0));
         label_115->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-weight:600;\"># conto</span></p></body></html>", 0));
         toolButton_8->setText(QApplication::translate("AdminInfo", "Modifica", 0));
+        pushButton_2->setText(QApplication::translate("AdminInfo", "Info", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_6), QApplication::translate("AdminInfo", "Modifica Utente", 0));
         label_68->setText(QApplication::translate("AdminInfo", "<html><head/><body><p><span style=\" font-size:20pt; font-weight:600;\">BankQ</span></p></body></html>", 0));
         toolButton_3->setText(QApplication::translate("AdminInfo", "Rimuovi", 0));

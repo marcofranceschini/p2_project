@@ -382,16 +382,18 @@ void AdminInfo::on_toolButton_4_clicked() {     // Messaggi spuntati come "visua
     if (mdb->loadMessages()) {
         DataBase* d = new DataBase();
         if (d->load()) {
+
             QStandardItemModel *model = new QStandardItemModel (0, 2, this);
             QStringList columnName;
+
             columnName.push_back("Mittente");
             columnName.push_back("Messaggio");
+
             model->setHorizontalHeaderLabels(columnName);
+
             ui->tableView->verticalHeader()->setVisible(false);
             ui->tableView->setModel(model);
             ui->label_21->setText("Non sono presenti messaggi da leggere");
-
-            QString c = ui->label_78->text();
 
             mdb->deleteMessages("BankQ");
             ui->toolButton_4->setEnabled(false);
@@ -431,12 +433,6 @@ void AdminInfo::on_toolButton_5_clicked() {     // Assegna il bonus (utente sele
         DataBase* d = new DataBase();
         if (d->load()) {
             d->giveBonus(*d->getUser(user));                // Assegno il bonus all'utente passato
-
-            QMessageBox::information(
-                this,
-                tr("BankQ - Assengnazione bonus"),
-                tr("AAA-"+(QString::fromStdString(user)).toLatin1()+"-AAA")
-            );
 
             ui->comboBox_2->removeItem(ui->comboBox_2->currentIndex()); // Rimuovo l'utente dalla combo box
 
@@ -510,8 +506,10 @@ void AdminInfo::on_tableView_clicked (const QModelIndex &index) {   // Elimino l
 
         MessagesDataBase* m = new MessagesDataBase();
         if (m->loadMessages()) {
+
             if (m->deleteOneMessage(*new Message("BankQ", mit, mex))) {
                 DataBase* d = new DataBase();
+
                 if (d->load()) {
                     this->setTable("BankQ", false);
                     QMessageBox::information(
@@ -619,11 +617,7 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
     string str = qstr.toUtf8().constData();             // Stringa "username - #conto"
     string delimiter = " - ";
     string user = str.substr(0, str.find(delimiter));   // Ottengo solo lo username
-    QMessageBox::warning(
-        this,
-        tr("BankQ - Modifica"),
-        tr("rr")
-    );
+
     DataBase* d = new DataBase();
     if (d->load()) {
         string nom = (ui->lineEdit_28->text()).toUtf8().constData();   // Nome
@@ -641,19 +635,24 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
             int int_num = atoi(num.c_str());
             if (5 == pin.length()) {    // Verifico che il PIN abbia 5 cifre
                 if (nom != "" && cog != "" && ind != "" && cod != "" && usr != "") {
+
                     User* u = d->getUser(user);  // Per verificare se ha già richiesto il bonus, il numero di conto
                     BasicUser* b_old = dynamic_cast<BasicUser*> (u);
+
                     if (!d->verifyExistingUsernameException(user, usr) && !d->verifyExistingCountNumberException(b_old->getCountNumber(), int_num)) {  // Controllo che username e #conto siano univoci
 
                         bool flag = false;
                         if (int_sal < 100000) {
                             BasicUser* b = new BasicUser(nom, cog, ind, tel, cod, usr, pin, int_num, int_sal);
                             flag = d->replace(*u, *b);
+
                         } else {
+
                             ProUser* old = dynamic_cast<ProUser*> (u);
                             ProUser* p = new ProUser(nom, cog, ind, tel, cod, usr, pin, int_num, int_sal, old->getRequest());
                             flag = d->replace(*u, *p);
                         }
+
                         if (flag) {   // Sostituisco il vecchio utente con quello nuovo
                             QMessageBox::warning(
                                 this,
@@ -717,7 +716,7 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
         } else {
             QMessageBox::warning(
                 this,
-                tr("2- BankQ - Errore"),
+                tr("BankQ - Errore"),
                 tr("PIN, telefono, saldo e numero di conto devono essere numerici")
             );
         }
@@ -728,4 +727,16 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
             tr("Errore di caricamento del DB")
         );
     }
+}
+
+void AdminInfo::on_pushButton_clicked() {   // Info dell'inserimento
+    QMessageBox::information(
+        this,
+        tr("BankQ - Info"),
+        tr("PIN, telefono, saldo e numero di conto devono essere numerici.\nUsername e numero di conto devono essere univoci in tutto il sistema.\nIl PIN deve avere esattamente 5 cifre.")
+    );
+}
+
+void AdminInfo::on_pushButton_2_clicked() { // Info della modifica
+    this->on_pushButton_clicked();
 }
