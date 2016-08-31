@@ -31,7 +31,7 @@ void UserInfo::setUser (const User& cu) {
         ui->label_6->setText("Pro");                                    // Tipo conto
         if (p->getRequest()) {
             ui->toolButton_3->setEnabled(false);
-            ui->label_17->setText("Bonus già ricevuto");
+            ui->label_17->setText("Bonus gia' ricevuto");
             ui->label_18->setEnabled(false);
         }
     } else {
@@ -73,7 +73,7 @@ void UserInfo::setTable (const User& u, const bool& f) {        // Riempie la ta
 
             ui->tableView->setColumnWidth(0, 74);                                           // Fisso la larghezza della colonna #0
             ui->tableView->setColumnWidth(1, 425);                                          // Fisso la larghezza della colonna #1
-            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
+            //ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonna
 
             Container<Message> app;
             app = message->getMessageByUser(u.getUsername());
@@ -111,7 +111,7 @@ void UserInfo::setTable (const User& u, const bool& f) {        // Riempie la ta
 
             ui->tableView->setColumnWidth(0, 70);                                               // Fisso la larghezza della colonna #0
             ui->tableView->setColumnWidth(1, 419);                                              // Fisso la larghezza della colonna #1
-            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);        // Rendo non ridimensionabile le colonna
+            //ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);      // Rendo non ridimensionabile le colonna
         }
     } else {
         QMessageBox::warning(
@@ -132,13 +132,13 @@ void UserInfo::on_toolButton_3_clicked() {  // Richiesta bonus anticipato
         m->addMessage(*new Message ("BankQ", username, "L'utente desidera ricevere il bonus anticipato"));
 
         ui->toolButton_3->setEnabled(false);
-        ui->label_17->setText("Bonus già richiesto");
+        ui->label_17->setText("Bonus gia' richiesto");
         ui->label_18->setEnabled(false);
 
         QMessageBox::information(
             this,
             tr("BankQ - Chiusura"),
-            tr("La sua richiesta è stata presa in carico")
+                    tr("La sua richiesta e' stata presa in carico")
         );
     } else {
         QMessageBox::warning(
@@ -189,7 +189,7 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                                         QMessageBox::information(
                                             this,
                                             tr("BankQ - Avviso"),
-                                            tr("Con l'ultima ricarica il tipo di conto è diventanto Basic")
+                                                    tr("Con l'ultima ricarica il tipo di conto e' diventanto Basic")
                                         );
                                     }
 
@@ -227,7 +227,7 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                     QMessageBox::warning(
                         this,
                         tr("BankQ - Ricarica"),
-                        tr("Non è possibile inserire il proprio conto")
+                        tr("Non e' possibile inserire il proprio conto")
                     );
                 }
             } else {
@@ -308,7 +308,7 @@ void UserInfo::on_toolButton_2_clicked() {      // Chiusura conto
             QMessageBox::information(
                 this,
                 tr("BankQ - Chiusura"),
-                tr("La sua richiesta è stata presa in carico.\nIl suo conto verrà eliminato al più presto, arrivederci")
+                        tr("La sua richiesta e' stata presa in carico.\nIl suo conto verra' eliminato al piu' presto, arrivederci")
             );
             this->on_toolButton_clicked();
             m->addMessage(*new Message ("BankQ", username, "L'utente desidera chiudere il proprio conto"));

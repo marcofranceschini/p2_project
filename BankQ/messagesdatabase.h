@@ -31,6 +31,8 @@ public:
     bool writeMessages ();                                      // Scrive i messaggi nel DB
 
     bool deleteOneMessage (const Message&);                     // Elimina un messaggio passato
+
+    bool replace (const string&, const string&);                // Aggiorna i messaggi con il nuovo username (in caso di modifica)
 };
 
 #endif // MESSAGESDATABASE_H

@@ -13,16 +13,6 @@ void MainWindow::on_toolButton_clicked() {
     QString usr = ui->lineEdit->text();             // Username inserito
     QString pass = ui->lineEdit_2->text();          // PIN inserito
 
-
-    QString s = "1000000";
-    float d = s.toFloat();
-    s = QString::number(d);
-    QMessageBox::warning(
-        this,
-        tr("BankQ - Errore"),
-        tr("AAA"+s.toLatin1()+"AAA")
-    );
-
     string pin = pass.toUtf8().constData();         // "cast" da QString a string
     string user = usr.toUtf8().constData();         // "cast" da QString a string
 

@@ -118,3 +118,16 @@ bool MessagesDataBase::deleteOneMessage (const Message& m) {    // Elimina un me
     }
     return false;
 }
+
+bool MessagesDataBase::replace (const string& old, const string& nuovo) {   // Aggiorna i messaggi con il nuovo username (in caso di modifica)
+    int cont = 0;
+    for (Container<Message>::Iteratore it = messages.begin(); it != messages.end(); ++it) {
+        if (messages[it]->getRecipient() == old)
+            messages.replace(cont, new Message(nuovo, messages[it]->getSender(), messages[it]->getText()));
+
+        if (messages[it]->getSender() == old)
+            messages.replace(cont, new Message(messages[it]->getRecipient(), nuovo, messages[it]->getText()));
+        cont++;
+    }
+    return this->writeMessages();
+}

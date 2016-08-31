@@ -80,13 +80,13 @@ void AdminInfo::on_toolButton_2_clicked() {     // Inserisce un nuovo utente
                             QMessageBox::warning(
                                 this,
                                 tr("BankQ - Errore"),
-                                tr("Username già esistente")
+                                tr("Username gia' esistente")
                             );
                         } else {
                             QMessageBox::warning(
                                 this,
                                 tr("BankQ - Errore"),
-                                tr("Numero di conto già esistente")
+                                tr("Numero di conto gia' esistente")
                             );
                         }
                     }
@@ -150,7 +150,7 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
 
             ui->tableView->setColumnWidth(0, 70);   // Fisso la larghezza della colonna #0
             ui->tableView->setColumnWidth(1, 409);  // Fisso la larghezza della colonna #1
-            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonne
+            //ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonne
 
             Container<Message> app;
             app = message->getMessageByUser(u);
@@ -186,7 +186,7 @@ void AdminInfo::setTable (const string& u,  const bool& f) {   // Riempie la tab
 
             ui->tableView->setColumnWidth(0, 70);   // Fisso la larghezza della colonna #0
             ui->tableView->setColumnWidth(1, 409);  // Fisso la larghezza della colonna #1
-            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonne
+            //ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);    // Rendo non ridimensionabile le colonne
         }
     } else {
         QMessageBox::warning(
@@ -640,6 +640,7 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
         if (atoi(pin.c_str()) && atoi(tel.c_str()) && atoi(num.c_str())) {    // Verifico che il PIN, telefono, saldo e #conto siano numerici
             int int_sal = atoi(sal.c_str());
             int int_num = atoi(num.c_str());
+
             if (5 == pin.length()) {    // Verifico che il PIN abbia 5 cifre
                 if (nom != "" && cog != "" && ind != "" && cod != "" && usr != "") {
 
@@ -657,10 +658,10 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
 
                             ProUser* old = dynamic_cast<ProUser*> (u);
                             ProUser* p = new ProUser(nom, cog, ind, tel, cod, usr, pin, int_num, int_sal, old->getRequest());
-                            flag = d->replace(*u, *p);
+                            flag = d->replace(*u, *p);      // Sostituisco il vecchio utente con quello nuovo
                         }
 
-                        if (flag) {   // Sostituisco il vecchio utente con quello nuovo
+                        if (flag) {
                             QMessageBox::warning(
                                 this,
                                 tr("BankQ - Modifica"),
@@ -696,13 +697,13 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
                             QMessageBox::warning(
                                 this,
                                 tr("BankQ - Errore"),
-                                tr("Username già esistente")
+                                tr("Username gia' esistente")
                             );
                         } else {
                             QMessageBox::warning(
                                 this,
                                 tr("BankQ - Errore"),
-                                tr("Numero di conto già esistente")
+                                tr("Numero di conto gia' esistente")
                             );
                         }
                     }

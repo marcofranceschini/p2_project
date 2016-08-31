@@ -301,7 +301,7 @@ bool DataBase::charge (const string& username, const int& cifra, const int& cont
 
     ricevente->setCount(ricevente->getCount() + cifra);         // Aggiunto l'importo al conto dell'utente "ricevente"
 
-    QString qstr = "Ricevuta una ricarica di € " + QString::number(cifra);
+    QString qstr = "Ricevuta una ricarica di EURO " + QString::number(cifra);
     string str = qstr.toUtf8().constData();
     MessagesDataBase* m = new MessagesDataBase();
 
@@ -417,6 +417,11 @@ bool DataBase::replace (const User& old, const User& nuovo) {     // Rimpiazza n
             break;
         cont++;
     }
+
+    MessagesDataBase dm;
+    if (dm.loadMessages())
+        dm.replace (old.getUsername(), nuovo.getUsername()); // Aggiorna i messaggi con il nuovo username
+
     user.replace(cont, nuovo);  // Sostituisco nel contenitore
     return this->write();
 }
