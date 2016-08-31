@@ -291,7 +291,7 @@ void UserInfo::on_toolButton_2_clicked() {      // Chiusura conto
     QMessageBox msgBox(
                 QMessageBox::Question,
                 trUtf8("Attenzione"),
-                trUtf8("Eliminare il messaggio?"),
+                trUtf8("Chiudere il conto?"),
                 QMessageBox::Yes | QMessageBox::No);
 
     msgBox.setButtonText(QMessageBox::Yes, trUtf8("Si"));

@@ -477,6 +477,7 @@ void AdminInfo::on_toolButton_6_clicked() {     // Assegna il bonus (a "tutti")
 
             this->empty_ComboBox_2();           // Svuoto la combo box
             this->setComboBox_2();              // Inserisco gli utenti che non hanno già ricevuto il bonus
+            ui->toolButton_7->setEnabled(true);
 
             QMessageBox::information(
                 this,
@@ -675,6 +676,8 @@ void AdminInfo::on_toolButton_8_clicked() {     // Modifica un utente
 
                             this->empty_ComboBox_5();       // Svuoto la combo box
                             this->setComboBox_5();          // Aggiorno la combo box (per modificare) con l'utente modificato
+
+                            this->setTable("BankQ", false); // Aggiorno la tabella con il nuovo username
 
                             ui->lineEdit_28->setText("");   // Nome
                             ui->lineEdit_29->setText("");   // Cognome

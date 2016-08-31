@@ -5,4 +5,9 @@
         <sender>mfrances</sender>
         <text>L'utente desidera ricevere il bonus anticipato</text>
     </message>
+    <message>
+        <recipient>BankQ</recipient>
+        <sender>mfrances</sender>
+        <text>L'utente desidera ricevere il bonus anticipato</text>
+    </message>
 </messages>

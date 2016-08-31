@@ -10,6 +10,7 @@
         <pin>12345</pin>
         <salary>10000</salary>
     </admin>
+
     <basic>
         <name>Paolo</name>
         <surname>Rossi</surname>
@@ -20,6 +21,7 @@
         <pin>01234</pin>
         <count>3000</count>
         <countNumber>222</countNumber>
+        <request>0</request>
     </basic>
     <pro>
         <name>Marco</name>

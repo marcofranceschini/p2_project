@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'userinfo.ui'
 **
-** Created: Wed Aug 31 11:00:06 2016
+** Created: Wed Aug 31 15:07:48 2016
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -236,7 +236,7 @@ public:
 
         retranslateUi(UserInfo);
 
-        tabWidget->setCurrentIndex(4);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(UserInfo);
