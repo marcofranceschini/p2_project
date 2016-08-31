@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'admininfo.ui'
 **
-** Created: Wed Aug 31 15:07:48 2016
+** Created: Wed Aug 31 16:27:57 2016
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -122,7 +122,7 @@ public:
         AdminInfo->resize(610, 370);
         tabWidget = new QTabWidget(AdminInfo);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
-        tabWidget->setGeometry(QRect(0, 0, 610, 370));
+        tabWidget->setGeometry(QRect(0, 0, 620, 370));
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
         label = new QLabel(tab);
