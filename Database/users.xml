@@ -18,10 +18,10 @@
         <code>BB222be2m</code>
         <username>prossi</username>
         <pin>01234</pin>
-        <count>3000</count>
+        <count>14156</count>
         <countNumber>222</countNumber>
     </basic>
-    <pro>
+    <basic>
         <name>Marco</name>
         <surname>France</surname>
         <address>Via Ciccio 22</address>
@@ -29,8 +29,7 @@
         <code>AA111ad1l</code>
         <username>mfrances</username>
         <pin>54321</pin>
-        <count>100000</count>
+        <count>99957</count>
         <countNumber>111</countNumber>
-        <request>0</request>
-    </pro>
+    </basic>
 </users>

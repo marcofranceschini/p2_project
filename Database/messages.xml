@@ -5,4 +5,39 @@
         <sender>mfrances</sender>
         <text>L'utente desidera ricevere il bonus anticipato</text>
     </message>
+    <message>
+        <recipient>prossi</recipient>
+        <sender>mfrances</sender>
+        <text>Ricevuta una ricarica di EURO 1</text>
+    </message>
+    <message>
+        <recipient>BankQ</recipient>
+        <sender>mfrances</sender>
+        <text>L'utente desidera ricevere il bonus anticipato</text>
+    </message>
+    <message>
+        <recipient>prossi</recipient>
+        <sender>mfrances</sender>
+        <text>Ricevuta una ricarica di EURO 11111</text>
+    </message>
+    <message>
+        <recipient>prossi</recipient>
+        <sender>mfrances</sender>
+        <text>Ricevuta una ricarica di EURO 1</text>
+    </message>
+    <message>
+        <recipient>prossi</recipient>
+        <sender>mfrances</sender>
+        <text>Ricevuta una ricarica di EURO 41</text>
+    </message>
+    <message>
+        <recipient>prossi</recipient>
+        <sender>mfrances</sender>
+        <text>Ricevuta una ricarica di EURO 1</text>
+    </message>
+    <message>
+        <recipient>prossi</recipient>
+        <sender>mfrances</sender>
+        <text>Ricevuta una ricarica di EURO 1</text>
+    </message>
 </messages>

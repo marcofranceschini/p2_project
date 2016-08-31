@@ -183,7 +183,7 @@ void UserInfo::on_toolButton_4_clicked() {  // Ricarica un altro utente
                                     ui->label_12->setText(QString::number(saldo-cifra));  // Saldo info utente
                                     ui->label_22->setText(QString::number(saldo-cifra));  // Saldo ricarica
 
-                                    if (100000 < saldo && (saldo - cifra)< 100000) {// È passato da pro a basic
+                                    if (100000 <= saldo && (saldo - cifra)< 100000) {// È passato da pro a basic
                                         ui->tabWidget->removeTab(1);                // Rimuovo la tabella per richiedere il bonus
                                         ui->label_6->setText("Basic");              // Cambio il tipo di conto
                                         QMessageBox::information(
