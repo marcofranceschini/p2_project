@@ -9,9 +9,9 @@ con Freedom.
 
 **Vincoli Obbligatori**
 I vincoli obbligatori per il progetto Freedom sono i seguenti:
-    1. Definizione ed utilizzo di una gerarchia G di tipi di altezza ≥ 1 e larghezza ≥ 1.
-    2. Definizione di un opportuno contenitore C, con relativi iteratori, che permetta inserimenti, rimozioni, modifiche.
-    3. Utilizzo del contenitore C per memorizzare oggetti polimorfi della gerarchia G.
+    1. Definizione ed utilizzo di una gerarchia G di tipi di altezza ≥ 1 e larghezza ≥ 1
+    2. Definizione di un opportuno contenitore C, con relativi iteratori, che permetta inserimenti, rimozioni, modifiche
+    3. Utilizzo del contenitore C per memorizzare oggetti polimorfi della gerarchia G
     4. Il front-end dell’applicazione deve essere una GUI sviluppata nel framework Qt.
 
 
