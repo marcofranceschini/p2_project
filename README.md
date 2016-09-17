@@ -1,6 +1,4 @@
-Freedom
-Progetto di Programmazione ad Oggetti, a.a. 2015/2016
-prof. Francesco Ranzato
+                                 Freedom - Progetto di Programmazione ad Oggetti, a.a. 2015/2016 - prof. Francesco Ranzato
 
 1
 Scopo
